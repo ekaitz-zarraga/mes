@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
  *
  * This file is part of GNU Mes.
  *
@@ -20,9 +21,17 @@
 
 #include <linux/syscall.h>
 #include <arch/syscall.h>
+#include <signal.h>
+#include <unistd.h>
 
 int
 fork ()
 {
+#if defined (SYS_fork)
   return _sys_call (SYS_fork);
+#elif defined (SYS_clone)
+  return _sys_call4 (SYS_clone, SIGCHLD, 0, NULL, 0);
+#else
+#error No usable clone syscall found
+#endif
 }

@@ -1,6 +1,5 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
  *
  * This file is part of GNU Mes.
@@ -18,21 +17,30 @@
  * You should have received a copy of the GNU General Public License
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef __MES_LINUX_RISCV64_KERNEL_STAT_H
+#define __MES_LINUX_RISCV64_KERNEL_STAT_H 1
 
-#include <linux/syscall.h>
-#include <arch/syscall.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-
-int
-lstat (char const *file_name, struct stat *statbuf)
+// *INDENT-OFF*
+struct stat
 {
-#if defined (SYS_lstat)
-  return _sys_call2 (SYS_lstat, (long) file_name, (long) statbuf);
-#elif defined (SYS_newfstatat)
-  return _sys_call4 (SYS_newfstatat, AT_FDCWD, (long) file_name, (long) statbuf, 0);
-#else
-#error No usable stat syscall
-#endif
-  return 0;
-}
+  unsigned long  st_dev;
+  unsigned long  st_ino;
+  unsigned int   st_mode;
+  unsigned int   st_nlink;
+  unsigned int   st_uid;
+  unsigned int   st_gid;
+  unsigned long  st_rdev;
+  long           st_size;
+  unsigned long  st_blksize;
+  unsigned long  st_blocks;
+  time_t         st_atime;
+  unsigned long  st_atime_usec;
+  time_t         st_mtime;
+  unsigned long  st_mtime_usec;
+  time_t         st_ctime;
+  unsigned long  st_ctime_usec;
+  unsigned long  __foo0;
+  unsigned long  __foo1;
+};
+
+#endif // __MES_LINUX_RISCV64_KERNEL_STAT_H

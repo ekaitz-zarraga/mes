@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
  *
  * This file is part of GNU Mes.
  *
@@ -21,9 +22,16 @@
 #include <linux/syscall.h>
 #include <arch/syscall.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 int
 pipe (int filedes[2])
 {
+#if defined (SYS_pipe)
   return _sys_call1 (SYS_pipe, (long) filedes);
+#elif defined (SYS_pipe2)
+  return _sys_call2 (SYS_pipe2, (long) filedes, 0);
+#else
+#error No usable pipe syscall found
+#endif
 }

@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
  *
  * This file is part of GNU Mes.
  *
@@ -20,9 +21,16 @@
 
 #include <linux/syscall.h>
 #include <arch/syscall.h>
+#include <fcntl.h>
 
 int
 rmdir (char const *file_name)
 {
+#if defined (SYS_rmdir)
   return _sys_call1 (SYS_rmdir, (long) file_name);
+#elif defined (SYS_unlinkat)
+  return _sys_call3 (SYS_unlinkat, AT_FDCWD, (long) file_name, AT_REMOVEDIR);
+#else
+#error No usable rmdir syscall
+#endif
 }
