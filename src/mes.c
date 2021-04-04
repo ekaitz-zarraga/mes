@@ -64,7 +64,7 @@ mes_environment (int argc, char **argv)
   arch = "x86_64";
 #elif __riscv_xlen == 32
   arch = "riscv32";
-  #elif __riscv_xlen == 64
+#elif __riscv_xlen == 64
   arch = "riscv64";
 #else
 #error arch not supported
