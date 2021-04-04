@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
  *
  * This file is part of GNU Mes.
  *
@@ -20,10 +21,17 @@
 
 #include <linux/syscall.h>
 #include <arch/syscall.h>
+#include <fcntl.h>
 #include <unistd.h>
 
 int
 symlink (char const *old_name, char const *new_name)
 {
+#if defined (SYS_symlink)
   return _sys_call2 (SYS_symlink, (long) old_name, (long) new_name);
+#elif defined (SYS_symlinkat)
+  return _sys_call3 (SYS_symlinkat, (long) old_name, AT_FDCWD, (long) new_name);
+#else
+#error No usable symlink syscall
+#endif
 }

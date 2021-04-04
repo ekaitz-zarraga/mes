@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
  *
  * This file is part of GNU Mes.
  *
@@ -25,5 +26,11 @@
 int
 getdents (int filedes, char *buffer, size_t nbytes)
 {
+#if defined (SYS_getdents)
   return _sys_call3 (SYS_getdents, (int) filedes, (long) buffer, (long) nbytes);
+#elif defined (SYS_getdents64)
+  return _sys_call3 (SYS_getdents64, (int) filedes, (long) buffer, (long) nbytes);
+#else
+#error No usable getdents syscall
+#endif
 }
