@@ -1,6 +1,7 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
+;;; Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -752,6 +753,7 @@
     (r0->r1 . ,x86_64:r0->r1)
     (r0->r1-mem . ,x86_64:r0->r1-mem)
     (r0-and-r1 . ,x86_64:r0-and-r1)
+    (r0-cmp-r1 . ,x86_64:r0-r1)
     (r0-mem->r1-mem . ,x86_64:r0-mem->r1-mem)
     (r0-or-r1 . ,x86_64:r0-or-r1)
     (r0-r1 . ,x86_64:r0-r1)
