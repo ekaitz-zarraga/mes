@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2018,2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -24,7 +24,7 @@ if test -z "$config_sh"; then
 fi
 set -u
 
-TESTS="
+boot_tests="
 
 scaffold/boot/00-zero.scm
 scaffold/boot/01-true.scm
@@ -117,7 +117,9 @@ scaffold/boot/memory.scm
 scaffold/boot/numbers.scm
 "
 
-XFAIL_TESTS=
+recheck=true
+TESTS=${TESTS-$boot_tests}
+XFAIL_TESTS=${XFAIL_TESTS-}
 
 test_ext=.scm
 log_compiler="${SHELL} ${srcdest}build-aux/test-boot.sh"
