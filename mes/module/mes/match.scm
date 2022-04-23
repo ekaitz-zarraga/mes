@@ -845,22 +845,22 @@
 ;;     ((_ ((var value) ...) . body)
 ;;      (match-let/helper letrec () () ((var value) ...) . body))))
 
-;; (define-syntax match-let/helper
-;;   (syntax-rules ()
-;;     ((_ let ((var expr) ...) () () . body)
-;;      (let ((var expr) ...) . body))
-;;     ((_ let ((var expr) ...) ((pat tmp) ...) () . body)
-;;      (let ((var expr) ...)
-;;        (match-let* ((pat tmp) ...)
-;;          . body)))
-;;     ((_ let (v ...) (p ...) (((a . b) expr) . rest) . body)
-;;      (match-let/helper
-;;       let (v ... (tmp expr)) (p ... ((a . b) tmp)) rest . body))
-;;     ((_ let (v ...) (p ...) ((#(a ...) expr) . rest) . body)
-;;      (match-let/helper
-;;       let (v ... (tmp expr)) (p ... (#(a ...) tmp)) rest . body))
-;;     ((_ let (v ...) (p ...) ((a expr) . rest) . body)
-;;      (match-let/helper let (v ... (a expr)) (p ...) rest . body))))
+(define-syntax match-let/helper
+  (syntax-rules ()
+    ((_ %let ((var expr) ...) () () . body)
+     (%let ((var expr) ...) . body))
+    ((_ %let ((var expr) ...) ((pat tmp) ...) () . body)
+     (%let ((var expr) ...)
+       (match-let* ((pat tmp) ...)
+         . body)))
+    ((_ %let (v ...) (p ...) (((a . b) expr) . rest) . body)
+     (match-let/helper
+      %let (v ... (tmp expr)) (p ... ((a . b) tmp)) rest . body))
+    ((_ %let (v ...) (p ...) ((#(a ...) expr) . rest) . body)
+     (match-let/helper
+      %let (v ... (tmp expr)) (p ... (#(a ...) tmp)) rest . body))
+    ((_ %let (v ...) (p ...) ((a expr) . rest) . body)
+     (match-let/helper %let (v ... (a expr)) (p ...) rest . body))))
 
 (define-syntax match-named-let
   (syntax-rules ()
