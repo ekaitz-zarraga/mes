@@ -3,6 +3,7 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright (c) 1993-2004 by Richard Kelsey and Jonathan Rees.
 ;;; Copyright © 2016 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2021 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -139,6 +140,10 @@
                    (and (pair? ,%temp)
                         ,@(process-match `(car ,%temp) (car pattern))
                         ,@(process-match `(cdr ,%temp) (cdr pattern))))))
+              ((vector? pattern)
+               `((and (vector? ,input)
+                      ,@(process-match `(vector->list ,input)
+                                       (vector->list pattern)))))
               ((or (null? pattern) (boolean? pattern) (char? pattern))
                `((eq? ,input ',pattern)))
               (else
@@ -173,6 +178,10 @@
               ((pair? pattern)
                (append (process-pattern (car pattern) `(car ,path) mapit)
                        (process-pattern (cdr pattern) `(cdr ,path) mapit)))
+              ((vector? pattern)
+               (process-pattern (vector->list pattern)
+                                `(vector->list ,path)
+                                mapit))
               (else '())))
 
       ;; Generate code to compose the output expression according to template
@@ -205,6 +214,9 @@
               ((pair? template)
                `(cons ,(process-template (car template) rank env)
                       ,(process-template (cdr template) rank env)))
+              ((vector? template)
+               `(list->vector
+                 ,(process-template (vector->list template) rank env)))
               (else `(quote ,template))))
 
       ;; Return an association list of (var . rank)
@@ -219,6 +231,8 @@
               ((pair? pattern)
                (meta-variables (car pattern) rank
                                (meta-variables (cdr pattern) rank vars)))
+              ((vector? pattern)
+               (meta-variables (vector->list pattern) rank vars))
               (else vars)))
 
       ;; Return a list of meta-variables of given higher rank
@@ -240,6 +254,8 @@
                                     rank env
                                     (free-meta-variables (cdr template)
                                                          rank env free)))
+              ((vector? template)
+               (free-meta-variables (vector->list template) rank env free))
               (else free)))
 
       c                                 ;ignored
