@@ -32,7 +32,12 @@
 #endif
 
 #ifndef EOF
-#define EOF -1
+// FIXME M2_Planet chokes on -1, even inside #if ! __M2__
+#if __arm__ || __i386__
+#define EOF 0xffffffff
+#else
+#define EOF 0xffffffffffffffff
+#endif
 #endif
 
 #ifndef NULL
@@ -142,7 +147,11 @@ typedef long sigval_t;
 #ifndef __MES_SIZE_T
 #define __MES_SIZE_T
 #undef size_t
+#if __M2__
+typedef unsigned size_t;
+#else
 typedef unsigned long size_t;
+#endif
 #endif
 #endif
 

@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2020,2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2020,2021,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2022 Gabriel Wicki <gabriel@erlikon.ch>
  *
  * This file is part of GNU Mes.
@@ -31,8 +31,11 @@
 
 int g_dump_filedes;
 
+#if __M2__
+#define M2_CELL_SIZE 12
+#else
 #define M2_CELL_SIZE 1U
-// CONSTANT M2_CELL_SIZE 12
+#endif
 
 char *
 cell_bytes (struct scm *x)
@@ -41,16 +44,20 @@ cell_bytes (struct scm *x)
   return p + (2 * sizeof (long));
 }
 
+#if __M2__
+#define U10 10
+#define U100 100
+#else
 #define U10 10U
-// CONSTANT U10 10
 #define U100 100U
-// CONSTANT U100 100
+#endif
+
 void
 gc_init ()
 {
 #if SYSTEM_LIBC
   ARENA_SIZE = 100000000;       /* 2.3GiB */
-#elif ! __M2_PLANET__
+#elif ! __M2__
   ARENA_SIZE = 300000;          /* 32b: 3MiB, 64b: 6 MiB */
 #else
   ARENA_SIZE = 20000000;

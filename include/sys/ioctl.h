@@ -28,8 +28,13 @@
 
 #define TCGETS 0x5401
 #define TCGETA 0x5405
+#if __M2__
+int ioctl (int fd, unsigned request, long data);
+int ioctl3 (int fd, unsigned request, long data);
+#else
 int ioctl (int fd, unsigned long request, ...);
 int ioctl3 (int fd, unsigned long request, long data);
+#endif
 
 #endif // ! SYSTEM_LIBC
 

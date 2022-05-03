@@ -1,6 +1,6 @@
 /*
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -22,8 +22,11 @@
 #include <string.h>
 #include <stdlib.h>
 
-// CONSTANT M2_PTR_SIZE 4
+#if __M2__
+#define M2_PTR_SIZE 4
+#else
 #define M2_PTR_SIZE 1
+#endif
 
 char *
 getenv (char const *s)

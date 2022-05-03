@@ -25,35 +25,42 @@ stage0_cpu=${stage0_cpu:-x86}
 mkdir -p m2
 
 M2-Planet                                       \
-    --bootstrap-mode                            \
     --debug                                     \
     --architecture ${stage0_cpu}                \
-    -f include/m2/lib.h                         \
+    -D __linux__=1                              \
+    -f include/mes/config.h                     \
+    -f include/mes/lib-mini.h                   \
+    -f include/mes/lib.h                        \
     -f lib/linux/${mes_cpu}-mes-m2/crt1.c       \
     -f lib/linux/${mes_cpu}-mes-m2/_exit.c      \
     -f lib/linux/${mes_cpu}-mes-m2/_write.c     \
     -f lib/mes/globals.c                        \
     -f lib/m2/cast.c                            \
-    -f lib/m2/exit.c                            \
+    -f lib/stdlib/exit.c                        \
     -f lib/mes/write.c                          \
-    -f lib/linux/${mes_cpu}-mes-m2/syscall.c    \
     -f include/linux/${mes_cpu}/syscall.h       \
+    -f lib/linux/${mes_cpu}-mes-m2/syscall.c    \
     -f lib/stub/__raise.c                       \
     -f lib/linux/brk.c                          \
-    -f lib/m2/malloc.c                          \
+    -f lib/linux/malloc.c                       \
     -f lib/string/memset.c                      \
-    -f lib/m2/read.c                            \
+    -f lib/linux/read.c                         \
     -f lib/mes/fdgetc.c                         \
     -f lib/stdio/getchar.c                      \
     -f lib/stdio/putchar.c                      \
-    -f lib/m2/open.c                            \
-    -f lib/m2/mes_open.c                        \
+    -f lib/stub/__buffered_read.c               \
+    -f lib/linux/_open3.c                       \
+    -f lib/linux/open.c                         \
+    -f lib/mes/mes_open.c                       \
     -f lib/string/strlen.c                      \
     -f lib/mes/eputs.c                          \
     -f lib/mes/fdputc.c                         \
     -f lib/mes/eputc.c                          \
                                                 \
+    -f include/time.h                           \
+    -f include/sys/time.h                       \
     -f include/m2/types.h                       \
+    -f include/sys/types.h                      \
     -f include/mes/mes.h                        \
     -f include/mes/builtins.h                   \
     -f include/mes/constants.h                  \
@@ -84,17 +91,19 @@ M2-Planet                                       \
     -f lib/linux/access.c                       \
     -f include/linux/m2/kernel-stat.h           \
     -f include/sys/stat.h                       \
-    -f lib/m2/chmod.c                           \
+    -f lib/linux/chmod.c                        \
     -f lib/linux/ioctl3.c                       \
+    -f include/sys/ioctl.h                      \
     -f lib/m2/isatty.c                          \
     -f lib/linux/fork.c                         \
     -f lib/m2/execve.c                          \
     -f lib/m2/execv.c                           \
-    -f lib/m2/waitpid.c                         \
+    -f lib/linux/waitpid.c                      \
     -f lib/linux/gettimeofday.c                 \
-    -f lib/m2/clock_gettime.c                   \
+    -f lib/linux/clock_gettime.c                \
     -f lib/m2/time.c                            \
     -f lib/linux/_getcwd.c                      \
+    -f include/limits.h                         \
     -f lib/m2/getcwd.c                          \
     -f lib/linux/dup.c                          \
     -f lib/linux/dup2.c                         \
@@ -105,6 +114,7 @@ M2-Planet                                       \
     -f src/core.c                               \
     -f src/display.c                            \
     -f src/eval-apply.c                         \
+    -f include/fcntl.h                          \
     -f src/gc.c                                 \
     -f src/hash.c                               \
     -f src/lib.c                                \
@@ -112,6 +122,7 @@ M2-Planet                                       \
     -f src/math.c                               \
     -f src/mes.c                                \
     -f src/module.c                             \
+    -f include/signal.h                         \
     -f src/posix.c                              \
     -f src/reader.c                             \
     -f src/stack.c                              \

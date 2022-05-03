@@ -44,7 +44,7 @@ M2-Planet                                       \
     -f lib/mes/fdgetc.c                         \
     -f lib/stdio/getchar.c                      \
     -f lib/stdio/putchar.c                      \
-    -f lib/m2/open.c                            \
+    -f lib/linux/open.c                         \
     -f include/sys/types.h                      \
     -f include/stdio.h                          \
     -f scaffold/read.c                          \

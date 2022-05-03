@@ -176,5 +176,6 @@ long seconds_and_nanoseconds_to_long (long s, long ns);
 #include "mes/builtins.h"
 #include "mes/constants.h"
 #include "mes/symbols.h"
+#include "mes/lib-system.h"
 
 #endif /* __MES_MES_H */

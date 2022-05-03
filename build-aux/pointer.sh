@@ -48,7 +48,6 @@ sed -ri                                                         \
     include/mes/mes.h                                           \
     include/mes/symbols.h                                       \
     include/mes/builtins.h                                      \
-    include/m2/lib.h                                            \
     src/builtins.c                                              \
     src/cc.c                                                    \
     src/core.c                                                  \
