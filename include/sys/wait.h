@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -20,6 +20,8 @@
 #ifndef __MES_SYS_WAIT_H
 #define __MES_SYS_WAIT_H 1
 
+#include <sys/resource.h>
+
 #if SYSTEM_LIBC
 #undef __MES_SYS_WAIT_H
 #include_next <sys/wait.h>
@@ -35,6 +37,8 @@ typedef int pid_t;
 
 pid_t waitpid (pid_t pid, int *status_ptr, int options);
 pid_t wait (int *status_ptr);
+pid_t wait4 (pid_t pid, int *wstatus, int options,
+             struct rusage *rusage);
 
 #endif // ! SYSTEM_LIBC
 

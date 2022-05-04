@@ -263,6 +263,8 @@ $CC -g -D HAVE_CONFIG_H=1                               \
     lib/linux/_read.c                                   \
     lib/linux/time.c                                    \
     lib/linux/unlink.c                                  \
+    include/sys/resource.h                              \
+    lib/linux/wait4.c                                   \
     lib/linux/waitpid.c                                 \
     lib/linux/$mes_cpu-mes-$compiler/syscall.c          \
                                                         \
