@@ -53,6 +53,15 @@ struct scm
   };
 };
 
+/* M2-Planet does not support pointer arithmetic.  Explicitly compensate
+   for that by multiplying with M2_CELL_SIZE when using cell
+   pointers. */
+#if __M2__
+#define M2_CELL_SIZE 12
+#else
+#define M2_CELL_SIZE 1
+#endif
+
 /* mes */
 extern char *g_datadir;
 extern int g_debug;

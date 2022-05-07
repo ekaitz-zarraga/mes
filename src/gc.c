@@ -31,12 +31,6 @@
 
 int g_dump_filedes;
 
-#if __M2__
-#define M2_CELL_SIZE 12
-#else
-#define M2_CELL_SIZE 1U
-#endif
-
 char *
 cell_bytes (struct scm *x)
 {

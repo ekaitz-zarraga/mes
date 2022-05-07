@@ -23,12 +23,6 @@
 
 #include <string.h>
 
-#if __M2__
-#define M2_CELL_SIZE 12
-#else
-#define M2_CELL_SIZE 1
-#endif
-
 struct scm *
 init_symbol (struct scm *x, long type, char const *name)
 {
