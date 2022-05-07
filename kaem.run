@@ -27,6 +27,7 @@ mkdir -p m2
 M2-Planet                                       \
     --debug                                     \
     --architecture ${stage0_cpu}                \
+    -D __${mes_cpu}__=1                         \
     -D __linux__=1                              \
     -f include/mes/config.h                     \
     -f include/mes/lib-mini.h                   \
