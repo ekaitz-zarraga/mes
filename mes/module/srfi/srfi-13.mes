@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -85,26 +86,30 @@
     (list->string (filter p (string->list s)))))
 
 (define (string-index s pred . rest)
-  (let* ((start (and (pair? rest) (car rest)))
-         (end (and start (pair? (cdr rest)) (cadr rest)))
-         (pred (if (char? pred) (lambda (c) (eq? c pred)) pred)))
-    (if start (error "string-index: not supported: start=" start))
-    (if end (error "string-index: not supported: end=" end))
+  (let* ((start (if (pair? rest) (car rest) 0))
+         (rest  (if (pair? rest) (cdr rest) '()))
+         (end   (if (pair? rest) (car rest) (string-length s)))
+         (pred  (if (char? pred) (lambda (c) (eq? c pred)) pred)))
     (let loop ((lst (string->list s)) (i 0))
-      (if (null? lst) #f
-          (if (pred (car lst)) i
-              (loop (cdr lst) (1+ i)))))))
+      (cond
+       ((>= i end) #f)
+       ((null? lst) #f)
+       ((< i start) (loop (cdr lst) (1+ i)))
+       ((pred (car lst)) i)
+       (else (loop (cdr lst) (1+ i)))))))
 
 (define (string-rindex s pred . rest)
-  (let* ((start (and (pair? rest) (car rest)))
-         (end (and start (pair? (cdr rest)) (cadr rest)))
-         (pred (if (char? pred) (lambda (c) (eq? c pred)) pred)))
-    (if start (error "string-rindex: not supported: start=" start))
-    (if end (error "string-rindex: not supported: end=" end))
+  (let* ((start (if (pair? rest) (car rest) 0))
+         (rest  (if (pair? rest) (cdr rest) '()))
+         (end   (if (pair? rest) (car rest) (string-length s)))
+         (pred  (if (char? pred) (lambda (c) (eq? c pred)) pred)))
     (let loop ((lst (reverse (string->list s))) (i (1- (string-length s))))
-      (if (null? lst) #f
-          (if (pred (car lst)) i
-              (loop (cdr lst) (1- i)))))))
+      (cond
+       ((< i start) #f)
+       ((null? lst) #f)
+       ((>= i end) (loop (cdr lst) (1- i)))
+       ((pred (car lst)) i)
+       (else (loop (cdr lst) (1- i)))))))
 
 (define reverse-list->string (compose list->string reverse))
 

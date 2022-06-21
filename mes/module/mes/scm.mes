@@ -257,19 +257,27 @@
     (list->string (if (not end) lst
                       (list-head lst (- end start))))))
 
-(define (string-prefix? prefix string)
-  (let ((length (string-length string))
-        (prefix-length (string-length prefix)))
-  (and
-   (>= length prefix-length)
-   (equal? (substring string 0 prefix-length) prefix))))
+(define (string-prefix? prefix string . rest)
+  (let* ((start (if (pair? rest) (car rest) 0))
+         (rest  (if (pair? rest) (cdr rest) '()))
+         (end   (if (pair? rest) (car rest) (string-length prefix)))
+         (length (string-length string))
+         (prefix-length (- end start)))
+    (and
+     (>= length prefix-length)
+     (equal? (substring string 0 prefix-length)
+             (substring prefix start end)))))
 
-(define (string-suffix? suffix string)
-  (let ((length (string-length string))
-        (suffix-length (string-length suffix)))
+(define (string-suffix? suffix string . rest)
+  (let* ((start (if (pair? rest) (car rest) 0))
+         (rest  (if (pair? rest) (cdr rest) '()))
+         (end   (if (pair? rest) (car rest) (string-length suffix)))
+         (length (string-length string))
+         (suffix-length (- end start)))
     (and
      (>= length suffix-length)
-     (equal? (substring string (- length suffix-length)) suffix))))
+     (equal? (substring string (- length suffix-length))
+             (substring suffix start end)))))
 
 (define (string->number s . rest)
   (if (string-prefix? "#x" s) (string->number (string-drop s 2) 16)
