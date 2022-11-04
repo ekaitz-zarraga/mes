@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -18,21 +18,16 @@
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <linux/syscall.h>
-#include <arch/syscall.h>
 #include <mes/lib.h>
-#include <fcntl.h>
+#include <stdlib.h>
+#include <string.h>
 
-int
-_open3 (char const *file_name, int flags, int mask)
+void
+__buffered_read_init (int filedes)
 {
-  long long_file_name = cast_charp_to_long (file_name);
-  int r = _sys_call3 (SYS_open, long_file_name, flags, mask);
-  __ungetc_init ();
-  if (r > 2)
-    {
-      __ungetc_clear (r);
-      __buffered_read_clear (r);
-    }
-  return r;
+}
+
+size_t
+__buffered_read_clear (int filedes)
+{
 }
