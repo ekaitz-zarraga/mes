@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2021,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2021 Danny Milosavljevic <dannym@scratchpost.org>
  *
  * This file is part of GNU Mes.
@@ -31,9 +31,11 @@ malloc (size_t size)
 {
   if (!__brk)
     __brk = cast_long_to_charp (brk (0));
+#if !__M2__
   /* align what we give back. */
   __brk = (char*) (((uintptr_t) __brk
                     + sizeof (max_align_t) - 1) & -sizeof (max_align_t));
+#endif
   if (brk (__brk + size) == -1)
     return 0;
   char *p = __brk;

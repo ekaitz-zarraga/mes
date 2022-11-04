@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -66,14 +66,22 @@ typedef unsigned gid_t;
 #ifndef __MES_INO_T
 #define __MES_INO_T
 #undef ino_t
+#if __M2__
+typedef unsigned ino_t;
+#else
 typedef unsigned long ino_t;
+#endif
 #endif
 
 #if __SIZEOF_LONG_LONG__ == 8
 #ifndef __MES_INO64_T
 #define __MES_INO64_T
 #undef ino64_t
+#if __M2__
+typedef unsigned ino64_t;
+#else
 typedef unsigned long long ino64_t;
+#endif
 #endif
 #endif // __SIZEOF_LONG_LONG__ == 8
 
@@ -83,7 +91,11 @@ typedef unsigned long long ino64_t;
 #undef intptr_t
 typedef long intptr_t;
 #undef uintptr_t
+#if __M2__
+typedef unsigned uintptr_t;
+#else
 typedef unsigned long uintptr_t;
+#endif
 #endif
 
 #ifndef __MES_OFF_T
@@ -96,7 +108,11 @@ typedef long off_t;
 #ifndef __MES_OFF64_T
 #define __MES_OFF64_T
 #undef off64_t
+#if __M2__
+typedef unsigned off64_t;
+#else
 typedef unsigned long long off64_t;
+#endif
 #endif
 #endif // __SIZEOF_LONG_LONG__ == 8
 
