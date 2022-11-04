@@ -74,7 +74,7 @@ libc_mini_SOURCES="$libc_mini_shared_SOURCES"
 
 if test $mes_libc = mes; then
     libc_mini_SOURCES="$libc_mini_SOURCES
-lib/mes/mini-write.c
+lib/mes/write.c
 "
 fi
 

@@ -79,7 +79,7 @@ M2_SOURCES =					\
  lib/mes/globals.c	                        \
  lib/m2/cast.c					\
  lib/m2/exit.c					\
- lib/mes/mini-write.c				\
+ lib/mes/write.c				\
  lib/linux/x86-mes-m2/syscall.c			\
  lib/stub/__raise.c				\
  lib/linux/brk.c				\

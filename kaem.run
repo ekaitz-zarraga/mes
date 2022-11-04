@@ -35,7 +35,7 @@ M2-Planet                                       \
     -f lib/mes/globals.c                        \
     -f lib/m2/cast.c                            \
     -f lib/m2/exit.c                            \
-    -f lib/mes/mini-write.c                     \
+    -f lib/mes/write.c                          \
     -f lib/linux/${mes_cpu}-mes-m2/syscall.c    \
     -f include/linux/${mes_cpu}/syscall.h       \
     -f lib/stub/__raise.c                       \
