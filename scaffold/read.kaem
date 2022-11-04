@@ -24,28 +24,29 @@ mes_cpu=${mes_cpu:-x86}
 stage0_cpu=${stage0_cpu:-x86}
 
 M2-Planet                                       \
-    --bootstrap-mode                            \
     --debug                                     \
     --architecture ${stage0_cpu}                \
-    -f include/m2/lib.h                         \
     -f lib/linux/${mes_cpu}-mes-m2/crt1.c       \
-    -f lib/linux/${mes_cpu}-mes-m2/_exit.c      \
+    -f include/mes/lib-mini.h                   \
     -f lib/linux/${mes_cpu}-mes-m2/_write.c     \
-    -f lib/linux/${mes_cpu}-mes-m2/syscall.c    \
+    -f lib/linux/${mes_cpu}-mes-m2/_exit.c      \
     -f include/linux/${mes_cpu}/syscall.h       \
+    -f lib/linux/${mes_cpu}-mes-m2/syscall.c    \
     -f lib/m2/cast.c                            \
+    -f include/mes/lib.h                        \
     -f lib/string/strlen.c                      \
     -f lib/mes/write.c                          \
     -f lib/mes/eputs.c                          \
     -f lib/linux/brk.c                          \
-    -f lib/m2/malloc.c                          \
+    -f lib/linux/malloc.c                       \
     -f lib/string/memset.c                      \
-    -f lib/m2/read.c                            \
+    -f lib/linux/read.c                         \
     -f lib/mes/fdgetc.c                         \
     -f lib/stdio/getchar.c                      \
     -f lib/stdio/putchar.c                      \
     -f lib/m2/open.c                            \
-    -f lib/m2/mes_open.c                        \
+    -f include/sys/types.h                      \
+    -f include/stdio.h                          \
     -f scaffold/read.c                          \
     -o scaffold/read.M1
 

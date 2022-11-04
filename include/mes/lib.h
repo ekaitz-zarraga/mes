@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -23,6 +23,9 @@
 
 #include <mes/lib-mini.h>
 
+#define __FILEDES_MAX 512
+extern char *__brk;
+
 char *cast_intp_to_charp (int const *i);
 char *cast_long_to_charp (long i);
 long cast_charp_to_long (char const *);
@@ -34,14 +37,11 @@ void __ungetc_init ();
 void __ungetc_clear (int filedes);
 void __ungetc_set (int filedes, int c);
 int __ungetc_p (int filedes);
-double abtod (char const **p, int base);
 long abtol (char const **p, int base);
-char *dtoab (double number, int base, int signed_p);
 char *itoa (int number);
 char *ltoa (long number);
 char *ltoab (long x, int base);
 char *ntoab (long number, unsigned base, int signed_p);
-char *ultoa (unsigned long number);
 char *utoa (unsigned number);
 int eputc (int c);
 int fdgetc (int fd);
@@ -61,10 +61,12 @@ char *search_path (char const *file_name);
 ssize_t _read (int fd, void *buffer, size_t size);
 void assert_msg (int check, char *msg);
 
-extern char *__brk;
-extern void (*__call_at_exit) (void);
-
-#define __FILEDES_MAX 512
+long __mesabi_imod (long a, long b);
+long __mesabi_idiv (long a, long b);
+void *__memcpy (void *dest, void const *src, size_t n);
+void *__memmove (void *dest, void const *src, size_t n);
+void *__memset (void *s, int c, size_t n);
+int __raise (int signal);
 
 #if !SYSTEM_LIBC
 void __assert_fail (char const *s, char const *file, unsigned line,
@@ -75,16 +77,15 @@ void _exit (int code);
 long brk (void *addr);
 #endif // !SYSTEM_LIBC
 
-long __mesabi_imod (long a, long b);
-long __mesabi_idiv (long a, long b);
+#if !__M2__
+extern void (*__call_at_exit) (void);
+double abtod (char const **p, int base);
+char *dtoab (double number, int base, int signed_p);
+char *ultoa (unsigned long number);
 unsigned long __mesabi_umod (unsigned long a, unsigned long b);
 unsigned long __mesabi_udiv (unsigned long a, unsigned long b);
 unsigned long __mesabi_uldiv (unsigned long a, unsigned long b,
                               unsigned long *remainder);
-
-void *__memcpy (void *dest, void const *src, size_t n);
-void *__memmove (void *dest, void const *src, size_t n);
-void *__memset (void *s, int c, size_t n);
-int __raise (int signal);
+#endif
 
 #endif //__MES_LIB_H

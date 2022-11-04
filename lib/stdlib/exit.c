@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -20,12 +20,16 @@
 
 #include <mes/lib.h>
 
+#if !__M2__
 void (*__call_at_exit) (void);
+#endif
 
 void
 exit (int code)
 {
+#if !__M2__
   if (__call_at_exit)
     (*__call_at_exit) ();
+#endif
   _exit (code);
 }

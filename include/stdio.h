@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -65,29 +65,32 @@ int ferror (FILE * stream);
 int fflush (FILE * stream);
 int fgetc (FILE * stream);
 char *fgets (char *s, int size, FILE * stream);
-int fprintf (FILE * stream, char const *format, ...);
 int fpurge (FILE * stream);
 int fputc (int c, FILE * stream);
 int fputs (char const *s, FILE * stream);
-int fscanf (FILE * stream, char const *template, ...);
 int fseek (FILE * stream, long offset, int whence);
 int getc (FILE * stream);
 int getchar (void);
 char *getlogin (void);
-int printf (char const *format, ...);
 int putc (int c, FILE * stream);
 int putchar (int c);
 int puts (char const *s);
 int remove (char const *file_name);
 int setvbuf (FILE * stream, char *buf, int mode, size_t size);
-int snprintf (char *str, size_t size, char const *format, ...);
-int sprintf (char *str, char const *format, ...);
-int sscanf (char const *str, char const *format, ...);
 int ungetc (int c, FILE * stream);
 long ftell (FILE * stream);
 size_t fread (void *ptr, size_t size, size_t count, FILE * stream);
 size_t freadahead (FILE * fp);
 size_t fwrite (void const *ptr, size_t size, size_t count, FILE * stream);
+
+#if !__M2__
+int fprintf (FILE * stream, char const *format, ...);
+int fscanf (FILE * stream, char const *template, ...);
+int printf (char const *format, ...);
+int snprintf (char *str, size_t size, char const *format, ...);
+int sprintf (char *str, char const *format, ...);
+int sscanf (char const *str, char const *format, ...);
+#endif // !__M2__
 
 #endif // ! SYSTEM_LIBC
 
