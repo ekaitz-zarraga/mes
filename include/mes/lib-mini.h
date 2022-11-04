@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -25,17 +25,14 @@
 #include <mes/config.h>
 #endif
 
-// CONSTANT STDIN 0
 #ifndef STDIN
 #define STDIN 0
 #endif
 
-// CONSTANT STDOUT 1
 #ifndef STDOUT
 #define STDOUT 1
 #endif
 
-// CONSTANT STDERR 2
 #ifndef STDERR
 #define STDERR 2
 #endif
@@ -63,7 +60,11 @@ int oputs (char const *s);
 #ifndef __MES_SIZE_T
 #define __MES_SIZE_T
 #undef size_t
+#if __M2__
+typedef unsigned size_t;
+#else
 typedef unsigned long size_t;
+#endif
 #endif
 #endif
 #endif
