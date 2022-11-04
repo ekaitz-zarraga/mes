@@ -32,7 +32,7 @@ M2-Planet                                       \
     -f lib/linux/${mes_cpu}-mes-m2/_exit.c      \
     -f lib/linux/${mes_cpu}-mes-m2/_write.c     \
     -f lib/string/strlen.c                      \
-    -f lib/mes/mini-write.c                     \
+    -f lib/mes/write.c                          \
     -f lib/mes/eputs.c                          \
     -f lib/string/strcmp.c                      \
     -f scaffold/argv.c                          \

@@ -35,7 +35,7 @@ M2-Planet                                       \
     -f include/linux/${mes_cpu}/syscall.h       \
     -f lib/m2/cast.c                            \
     -f lib/string/strlen.c                      \
-    -f lib/mes/mini-write.c                     \
+    -f lib/mes/write.c                          \
     -f lib/mes/eputs.c                          \
     -f lib/linux/brk.c                          \
     -f lib/m2/malloc.c                          \
