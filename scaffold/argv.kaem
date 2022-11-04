@@ -24,10 +24,9 @@ mes_cpu=${mes_cpu:-x86}
 stage0_cpu=${stage0_cpu:-x86}
 
 M2-Planet                                       \
-    --bootstrap-mode                            \
     --debug                                     \
     --architecture ${stage0_cpu}                \
-    -f include/m2/lib.h                         \
+    -f include/mes/lib-mini.h                   \
     -f lib/linux/${mes_cpu}-mes-m2/crt1.c       \
     -f lib/linux/${mes_cpu}-mes-m2/_exit.c      \
     -f lib/linux/${mes_cpu}-mes-m2/_write.c     \
