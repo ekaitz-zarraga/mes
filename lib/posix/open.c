@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -29,6 +29,13 @@ _open2 (char const *file_name, int flags)
   return _open3 (file_name, flags, mask);
 }
 
+#if __M2__
+int
+open (char const *file_name, int flags, int mask)
+{
+  return _open3 (file_name, flags, mask);
+}
+#else // !__M2__
 int
 open (char const *file_name, int flags, ...)
 {
@@ -44,3 +51,4 @@ open (char const *file_name, int flags, ...)
   else
     return _open2 (file_name, flags);
 }
+#endif // !__M2__
