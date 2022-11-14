@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2021,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -137,14 +137,8 @@ extern struct scm *cell_type_broken_heart;
 extern struct scm *cell_symbol_program;
 extern struct scm *cell_symbol_test;
 
-// CONSTANT SYMBOL_MAX 114
 #define SYMBOL_MAX 114
-
-// CONSTANT CELL_UNSPECIFIED 7
 #define CELL_UNSPECIFIED 7
-
-// CONSTANT CELL_SYMBOL_RECORD_TYPE 82
 #define CELL_SYMBOL_RECORD_TYPE 82
-
 
 #endif /* __MES_SYMBOLS_H */

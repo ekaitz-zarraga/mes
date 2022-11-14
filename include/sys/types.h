@@ -20,6 +20,8 @@
 #ifndef __MES_SYS_TYPES_H
 #define __MES_SYS_TYPES_H 1
 
+#include <mes/lib-cc.h>
+
 #if SYSTEM_LIBC
 #undef __MES_SYS_TYPES_H
 #include_next <sys/types.h>
@@ -29,10 +31,6 @@
 
 #ifndef __MESCCLIB__
 #define __MESCCLIB__ 15
-#endif
-
-#ifndef EOF
-#define EOF -1
 #endif
 
 #ifndef NULL
@@ -142,7 +140,11 @@ typedef long sigval_t;
 #ifndef __MES_SIZE_T
 #define __MES_SIZE_T
 #undef size_t
+#if __M2__
+typedef unsigned size_t;
+#else
 typedef unsigned long size_t;
+#endif
 #endif
 #endif
 

@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -27,8 +27,8 @@
 
 #ifndef __MES_TIME_T
 #define __MES_TIME_T 1
-typedef long int clockid_t;
-typedef long int time_t;
+typedef long clockid_t;
+typedef long time_t;
 #endif
 
 struct tm

@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -17,20 +17,13 @@
  * You should have received a copy of the GNU General Public License
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef __MES_LIB_CC_H
+#define __MES_LIB_CC_H
 
-#include <mes/lib.h>
-#include <string.h>
+#define EOF -1
 
-char *__brk = 0;
+#if __TINYC__ || SYSTEM_LIBC
+#define __raise(x) -1
+#endif
 
-void *
-malloc (size_t size)
-{
-  if (!__brk)
-    __brk = cast_long_to_charp (brk (0));
-  if (brk (__brk + size) == -1)
-    return 0;
-  char *p = __brk;
-  __brk = __brk + size;
-  return p;
-}
+#endif //__MES_LIB_CC_H

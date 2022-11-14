@@ -31,12 +31,6 @@ struct ldiv_t
   long rem;
 };
 
-int __raise (int);
-
-#if __TINYC__ || SYSTEM_LIBC
-#define __raise(x) -1
-#endif
-
 void
 __mesabi_div0 (void)
 {

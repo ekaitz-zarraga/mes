@@ -22,6 +22,7 @@
 #define __MES_LIB_H
 
 #include <mes/lib-mini.h>
+#include <mes/lib-cc.h>
 
 #define __FILEDES_MAX 512
 extern char *__brk;
@@ -66,7 +67,6 @@ long __mesabi_idiv (long a, long b);
 void *__memcpy (void *dest, void const *src, size_t n);
 void *__memmove (void *dest, void const *src, size_t n);
 void *__memset (void *s, int c, size_t n);
-int __raise (int signal);
 
 #if !SYSTEM_LIBC
 void __assert_fail (char const *s, char const *file, unsigned line,
@@ -75,6 +75,9 @@ ssize_t __buffered_read (int filedes, void *buffer, size_t size);
 size_t __buffered_read_clear (int filedes);
 void _exit (int code);
 long brk (void *addr);
+#ifndef __raise
+int __raise (int signal);
+#endif
 #endif // !SYSTEM_LIBC
 
 #if !__M2__

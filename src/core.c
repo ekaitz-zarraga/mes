@@ -148,7 +148,7 @@ length (struct scm *x)
 struct scm *
 error (struct scm *key, struct scm *x)
 {
-#if !__MESC_MES__ && !__M2_PLANET__
+#if !__MESC_MES__ && !__M2__
   struct scm *throw = module_ref (R0, cell_symbol_throw);
   if (throw != cell_undefined)
     return apply (throw, cons (key, cons (x, cell_nil)), R0);
