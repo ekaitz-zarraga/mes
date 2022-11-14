@@ -33,7 +33,7 @@ M2_PLANET_FUBAR = i386
 
 #M2_PLANET_ARCH = amd64
 #M2_PLANET_FUBAR = amd64
-M2_PLANET_FLAGS = --bootstrap-mode --debug --architecture $(M2_PLANET_ARCH)
+M2_PLANET_FLAGS = --debug --architecture $(M2_PLANET_ARCH)
 
 CFLAGS:=					\
   $(CFLAGS)					\
@@ -76,22 +76,26 @@ M2_SOURCES =					\
  lib/linux/x86-mes-m2/crt1.c			\
  lib/linux/x86-mes-m2/_exit.c			\
  lib/linux/x86-mes-m2/_write.c			\
- lib/mes/globals.c	                        \
+ lib/mes/globals.c				\
  lib/m2/cast.c					\
- lib/m2/exit.c					\
- lib/mes/write.c				\
+ lib/stdlib/exit.c				\
+ lib/stub/__buffered_read.c			\
  lib/linux/x86-mes-m2/syscall.c			\
  lib/stub/__raise.c				\
  lib/linux/brk.c				\
- lib/m2/malloc.c				\
+ lib/linux/malloc.c				\
  lib/string/memset.c				\
-						\
- lib/m2/read.c					\
+ lib/linux/read.c				\
  lib/mes/fdgetc.c				\
+ lib/linux/lseek.c				\
+ lib/posix/write.c				\
+						\
  lib/stdio/getchar.c				\
  lib/stdio/putchar.c				\
- lib/m2/open.c					\
- lib/m2/mes_open.c				\
+ lib/stub/__buffered_read.c			\
+ lib/linux/_open3.c				\
+ lib/linux/open.c				\
+ lib/mes/mes_open.c				\
  lib/string/strlen.c				\
  lib/mes/eputs.c				\
  lib/mes/fdputc.c				\
@@ -120,15 +124,15 @@ M2_SOURCES =					\
  lib/mes/fdungetc.c				\
  lib/posix/setenv.c				\
  lib/linux/access.c				\
- lib/m2/chmod.c					\
+ lib/linux/chmod.c				\
  lib/linux/ioctl3.c  				\
  lib/m2/isatty.c				\
  lib/linux/fork.c				\
  lib/m2/execve.c				\
  lib/m2/execv.c					\
- lib/m2/waitpid.c				\
+ lib/linux/waitpid.c				\
  lib/linux/gettimeofday.c			\
- lib/m2/clock_gettime.c				\
+ lib/linux/clock_gettime.c			\
  lib/m2/time.c					\
  lib/linux/_getcwd.c				\
  lib/m2/getcwd.c				\
@@ -138,12 +142,6 @@ M2_SOURCES =					\
  lib/string/memcmp.c				\
  lib/linux/unlink.c				\
  src/m2.c
-
-M2_TODO =					\
- lib/m2/file_print.c				\
- lib/mes/ntoab.c				\
- lib/mes/fdgetc.c				\
- lib/mes/fdungetc.c
 
 INCLUDES =					\
  include/mes/builtins.h				\
@@ -189,8 +187,18 @@ bin/gc-gcc: simple.make $(GCC_SOURCES) $(TEST_GC_SOURCES) $(INCLUDES) | bin
 	$(CC) $(CFLAGS) -D GC_TEST=1 -o $@ $(GCC_SOURCES) $(TEST_GC_SOURCES)
 
 M2_PLANET_INCLUDES =				\
- include/m2/lib.h				\
+ include/mes/config.h				\
+ include/mes/lib-mini.h				\
+ include/mes/lib.h				\
  include/linux/x86/syscall.h			\
+ include/time.h					\
+ include/sys/time.h				\
+ include/sys/types.h				\
+ include/stdio.h				\
+ include/limits.h				\
+ include/sys/stat.h				\
+ include/fcntl.h				\
+ include/signal.h				\
  include/mes/mes.h				\
  include/mes/builtins.h				\
  include/mes/constants.h			\

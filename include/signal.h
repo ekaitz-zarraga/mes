@@ -29,9 +29,12 @@
 
 #define _SIGSET_NITEMS (_NSIG / (8 * sizeof(unsigned long)))
 
-typedef struct {
+#if !__M2__
+typedef struct
+{
   unsigned long items[_SIGSET_NITEMS];
 } sigset_t;
+#endif
 typedef long stack_t;
 
 #include <sys/types.h>
@@ -91,6 +94,7 @@ typedef long stack_t;
 #define SA_NOMASK  SA_NODEFER
 #define SA_ONESHOT SA_RESETHAND
 
+#if !__M2__ // lacks short, casts
 typedef struct siginfo_t
 {
   int          si_signo;
@@ -120,7 +124,7 @@ typedef struct siginfo_t
 } siginfo_t;
 // *INDENT-ON*
 
-#if __MESC__
+#if __M2__ || __MESC__
 typedef long sighandler_t;
 #else
 typedef void (*sighandler_t) (int);
@@ -255,6 +259,7 @@ int sigemptyset (sigset_t * set);
 #endif
 int sigprocmask (int how, sigset_t const *set, sigset_t * oldset);
 
+#endif // !__M2__
 #endif //! SYSTEM_LIBC
 
 #endif // __MES_SIGNAL_H

@@ -23,7 +23,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if __M2_PLANET__ || (!(__MESC__ && __arm__) && !(__TINYC__ && __arm__ && BOOTSTRAP))
+#if __MESC__ && __arm__
+#define __MESC__and__arm__
+#endif
+
+#if __TINYC__ && __arm__ && BOOTSTRAP
+#define __TINYC__and__arm__and__BOOTSTRAP
+#endif
+
+#define __not__MESC__arm__and__not__TINYC__arm__BOOTSTRAP !defined (__MESC__and__arm__) && !defined (__TINYC__and__arm__and__BOOTSTRAP)
+
+// FIXME: M2-Planet 1.10.0 crashes on this...
+// #if __M2__ || (!defined (__MESC__and__arm__) && !defined (__TINYC__and__arm__and__BOOTSTRAP))
+#if __M2__ || __not__MESC__arm__and__not__TINYC__arm__BOOTSTRAP
 size_t
 __mesabi_uldiv (size_t a, size_t b, size_t *remainder)
 {

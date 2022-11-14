@@ -23,14 +23,10 @@
 
 #include <string.h>
 
-// char const *MES_VERSION = "0.24.2";
-
-#if __M2_PLANET__
+#if __M2__
 #define M2_CELL_SIZE 12
-// CONSTANT M2_CELL_SIZE 12
 #else
 #define M2_CELL_SIZE 1
-// CONSTANT M2_CELL_SIZE 12
 #endif
 
 struct scm *
