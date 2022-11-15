@@ -215,6 +215,7 @@ lib/linux/malloc.c
 lib/linux/_read.c
 lib/linux/time.c
 lib/linux/unlink.c
+lib/linux/wait4.c
 lib/linux/waitpid.c
 lib/linux/$mes_cpu-mes-$compiler/syscall.c
 lib/linux/getpid.c
