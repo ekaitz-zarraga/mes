@@ -17,6 +17,11 @@
  * You should have received a copy of the GNU General Public License
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
+/* Commentary:
+ *   See https://github.com/torvalds/linux/blob/v4.19/arch/x86/entry/syscalls/syscall_32.tbl
+ *
+ * Code:
+ */
 #ifndef __MES_LINUX_X86_SYSCALL_H
 #define __MES_LINUX_X86_SYSCALL_H 1
 
