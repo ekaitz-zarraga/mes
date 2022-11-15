@@ -67,8 +67,9 @@
                (base32
                 "0z2ni2qn2np1walcaqlxz8sinzb78d4hiq9glddzf26wxc226hs4"))))
     (build-system gnu-build-system)
-    (supported-systems
-     '("aarch64-linux" "armhf-linux" "i686-linux" "x86_64-linux"))
+    (supported-systems '("i686-linux" "x86_64-linux"
+                         "armhf-linux" "aarch64-linux"
+                         "riscv32-linux" "riscv64-linux"))
     (native-inputs (list which))
     (arguments
      `(#:make-flags (list (string-append "PREFIX=" (assoc-ref %outputs "out"))
