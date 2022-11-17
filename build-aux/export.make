@@ -1,5 +1,5 @@
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2018,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -43,6 +43,7 @@ export moduledir
 export sysconfdir
 
 export bootstrap
+export cc_cpu
 export compiler
 export courageous
 export mes_system

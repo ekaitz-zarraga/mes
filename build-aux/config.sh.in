@@ -97,6 +97,7 @@ export CC
 export DIFF
 export SHELL
 export V
+export cc_cpu
 export colors
 export compiler
 export courageous
