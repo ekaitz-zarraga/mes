@@ -41,7 +41,7 @@
    for that by multiplying with M2_PTR_SIZE when using (char)
    pointers. */
 #if __M2__
-#define M2_PTR_SIZE 4
+#define M2_PTR_SIZE sizeof (void*)
 #else
 #define M2_PTR_SIZE 1
 #endif

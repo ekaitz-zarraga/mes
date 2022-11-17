@@ -18,16 +18,20 @@
 
 case "$mes_cpu" in
     arm)
+        cc_cpu=arm
         stage0_cpu=armv7l
         ;;
     x86_64)
+        cc_cpu=x86_64
         stage0_cpu=amd64
         ;;
     x86)
+        cc_cpu=i386
         stage0_cpu=x86
         ;;
     *)
         stage0_cpu=$mes_cpu
+        cc_cpu=$mes_cpu
         ;;
 esac
 

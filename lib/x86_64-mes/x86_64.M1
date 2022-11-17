@@ -28,6 +28,7 @@ DEFINE add____$i32,%rdi 4881c7
 DEFINE add____$i32,(%rax) 8100
 DEFINE add____$i32,0x32(%rbp) 8185
 DEFINE add____$i8,%rax 4883c0
+DEFINE add____$i8,%rbp 4883c5
 DEFINE add____$i8,%rdi 4883c7
 DEFINE add____$i8,%rsp 4883c4
 DEFINE add____$i8,(%rax) 8300
@@ -115,6 +116,7 @@ DEFINE mov____%rbp,%rsp 4889ec
 DEFINE mov____%rbp,0x8(%rbp) 48896d
 DEFINE mov____%rdi,%r8 4989f8
 DEFINE mov____%rdi,%rax 4889f8
+DEFINE mov____%rdi,%rbp 4889fd
 DEFINE mov____%rdi,%rcx 4889f9
 DEFINE mov____%rdi,%rdi 4889ff
 DEFINE mov____%rdi,0x32 48893c25

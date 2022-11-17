@@ -19,6 +19,7 @@
 # Usage:
 # kaem --verbose --strict
 
+cc_cpu=i386
 mes_cpu=x86
 stage0_cpu=x86
 kaem --verbose --strict

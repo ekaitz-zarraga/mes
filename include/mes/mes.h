@@ -57,7 +57,7 @@ struct scm
    for that by multiplying with M2_CELL_SIZE when using cell
    pointers. */
 #if __M2__
-#define M2_CELL_SIZE 12
+#define M2_CELL_SIZE sizeof (struct scm)
 #else
 #define M2_CELL_SIZE 1
 #endif

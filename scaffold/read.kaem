@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright © 2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2019,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -20,12 +20,15 @@
 # kaem --verbose --strict --file scaffold/read.kaem
 # scaffold/read-m2
 
+cc_cpu=${cc_cpu:-i386}
 mes_cpu=${mes_cpu:-x86}
 stage0_cpu=${stage0_cpu:-x86}
 
 M2-Planet                                       \
     --debug                                     \
     --architecture ${stage0_cpu}                \
+    -D __${cc_cpu}__=1                          \
+    -D __linux__=1                              \
     -f lib/linux/${mes_cpu}-mes-m2/crt1.c       \
     -f include/mes/lib-mini.h                   \
     -f lib/linux/${mes_cpu}-mes-m2/_write.c     \
