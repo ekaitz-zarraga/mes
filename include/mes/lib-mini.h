@@ -37,6 +37,15 @@
 #define STDERR 2
 #endif
 
+/* M2-Planet does not support pointer arithmetic.  Explicitly compensate
+   for that by multiplying with M2_PTR_SIZE when using (char)
+   pointers. */
+#if __M2__
+#define M2_PTR_SIZE 4
+#else
+#define M2_PTR_SIZE 1
+#endif
+
 extern char **environ;
 extern int __stdin;
 extern int __stdout;
