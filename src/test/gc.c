@@ -24,12 +24,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if __M2__
-#define M2_CELL_SIZE 12
-#else
-#define M2_CELL_SIZE 1
-#endif
-
 int g_debug;
 
 void

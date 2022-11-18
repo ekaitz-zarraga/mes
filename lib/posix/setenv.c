@@ -22,12 +22,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#if __M2__
-#define M2_PTR_SIZE 4
-#else
-#define M2_PTR_SIZE 1
-#endif
-
 int
 setenv (char const *s, char const *v, int overwrite_p)
 {
