@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -26,7 +26,8 @@
 trap 'test -f .log && cat .log' EXIT
 
 mkdir -p $mes_cpu-mes
-compile lib/$mes_kernel/$mes_cpu-mes-$compiler/crt1.c
+cp ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/crt1.c .
+compile crt1.c
 cp crt1.o $mes_cpu-mes
 if test -e crt1.s; then
     cp crt1.s $mes_cpu-mes

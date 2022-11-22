@@ -1,7 +1,7 @@
 #! @SHELL@
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -54,16 +54,18 @@ AM_CPPFLAGS="-D HAVE_CONFIG_H=1 -I ${srcdest}include -I ../include -I include"
 AM_CFLAGS="-L ${srcdest}lib"
 
 mkdir -p $mes_cpu-mes
-$CC -c $AM_CPPFLAGS $CPPFLAGS $AM_CFLAGS $CFLAGS ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/crt1.c
+cp ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/crt1.c .
+$CC -c $AM_CPPFLAGS $CPPFLAGS $AM_CFLAGS $CFLAGS crt1.c
 cp crt1.o $mes_cpu-mes
 cp crt1.s $mes_cpu-mes
 
 objects=
 for c in $libc_mini_SOURCES; do
-    o=$(basename $c .c).o
+    b=$(echo $c | sed -re s,^[.]+/,, -e s,/,-,g -e s,[.]c$,,)
+    o=$b.o
     if test ! -e $o -o ${srcdest}$c -nt $o; then
         echo "  CC       $c"
-        $CC -c $AM_CPPFLAGS $CPPFLAGS $AM_CFLAGS $CFLAGS ${srcdest}$c
+        $CC -c $AM_CPPFLAGS $CPPFLAGS $AM_CFLAGS $CFLAGS -o $o ${srcdest}$c
     fi
     objects="$objects $o"
 done
@@ -72,10 +74,11 @@ $AR crD $mes_cpu-mes/libc-mini.a $objects
 
 objects=
 for c in $libmescc_SOURCES; do
-    o=$(basename $c .c).o
+    b=$(echo $c | sed -re s,^[.]+/,, -e s,/,-,g -e s,[.]c$,,)
+    o=$b.o
     if test ! -e $o -o ${srcdest}$c -nt $o; then
         echo "  CC       $c"
-        $CC -c $AM_CPPFLAGS $CPPFLAGS $AM_CFLAGS $CFLAGS ${srcdest}$c
+        $CC -c $AM_CPPFLAGS $CPPFLAGS $AM_CFLAGS $CFLAGS -o $o ${srcdest}$c
     fi
     objects="$objects $o"
 done
@@ -84,10 +87,11 @@ $AR crD $mes_cpu-mes/libmescc.a $objects
 
 objects=
 for c in $libc_SOURCES; do
-    o=$(basename $c .c).o
+    b=$(echo $c | sed -re s,^[.]+/,, -e s,/,-,g -e s,[.]c$,,)
+    o=$b.o
     if test ! -e $o -o ${srcdest}$c -nt $o; then
         echo "  CC       $c"
-        $CC -c $AM_CPPFLAGS $CPPFLAGS $AM_CFLAGS $CFLAGS ${srcdest}$c
+        $CC -c $AM_CPPFLAGS $CPPFLAGS $AM_CFLAGS $CFLAGS -o $o ${srcdest}$c
     fi
     objects="$objects $o"
 done
@@ -96,10 +100,11 @@ $AR crD $mes_cpu-mes/libc.a $objects
 
 objects=
 for c in $libc_tcc_SOURCES; do
-    o=$(basename $c .c).o
+    b=$(echo $c | sed -re s,^[.]+/,, -e s,/,-,g -e s,[.]c$,,)
+    o=$b.o
     if test ! -e $o -o ${srcdest}$c -nt $o; then
         echo "  CC       $c"
-        $CC -c $AM_CPPFLAGS $CPPFLAGS $AM_CFLAGS $CFLAGS ${srcdest}$c
+        $CC -c $AM_CPPFLAGS $CPPFLAGS $AM_CFLAGS $CFLAGS -o $o ${srcdest}$c
     fi
     objects="$objects $o"
 done
@@ -113,10 +118,11 @@ AM_CFLAGS="-L ${srcdest}lib"
 
 objects=
 for c in $mes_SOURCES; do
-    o=$(basename $c .c).o
+    b=$(echo $c | sed -re s,^[.]+/,, -e s,/,-,g -e s,[.]c$,,)
+    o=$b.o
     if test ! -e $o -o ${srcdest}$c -nt $o; then
         echo "  CC       $c"
-        $CC -c $AM_CPPFLAGS $CPPFLAGS $AM_CFLAGS $CFLAGS ${srcdest}$c
+        $CC -c $AM_CPPFLAGS $CPPFLAGS $AM_CFLAGS $CFLAGS -o $o ${srcdest}$c
     fi
     objects="$objects $o"
 done
