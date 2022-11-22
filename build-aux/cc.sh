@@ -1,5 +1,5 @@
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -18,8 +18,12 @@
 
 objects=
 compile () {
-    c=${srcdest}$1
-    b=$(basename $c .c)
+    if test $(dirname $1) = "."; then
+        c=$1
+    else
+        c=${srcdest}$1
+    fi
+    b=$(echo $c | sed -re s,^[.]+/,, -e s,/,-,g -e s,[.]c$,,)
     o=$b.o
     objects="$objects $o"
     if test ! -e $o -o $c -nt $o; then
@@ -34,7 +38,7 @@ archive () {
     sources="$@"
     objects=
     for c in $sources; do
-        b=$(basename $c .c)
+        b=$(echo $c | sed -re s,^[.]+/,, -e s,/,-,g -e s,[.]c$,,)
         o=$b.o
         compile $c
     done
