@@ -216,3 +216,9 @@ make_hash_table (struct scm *x)              /*:((arity . n)) */
     }
   return make_hash_table_ (size);
 }
+
+struct scm *
+hash_buckets (struct scm *table)
+{
+  return struct_ref_ (table, 4);
+}

@@ -1,6 +1,6 @@
 #! /bin/sh
 # -*-scheme-*-
-MES_ARENA=10000
+MES_ARENA=20000
 MES_MAX_ARENA=$MES_ARENA
 export MES_ARENA
 export MES_MAX_ARENA
