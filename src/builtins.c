@@ -180,7 +180,7 @@ mes_builtins (struct scm *a)            /*:((internal)) */
   a = init_builtin (builtin_type, "hashq-set!", 3, &hashq_set_x, a);
   a = init_builtin (builtin_type, "hash-set!", 3, &hash_set_x, a);
   a = init_builtin (builtin_type, "hash-table-printer", 1, &hash_table_printer, a);
-  a = init_builtin (builtin_type, "make-hash-table", 1, &make_hash_table, a);
+  a = init_builtin (builtin_type, "make-hash-table", -1, &make_hash_table, a);
   /* src/lib.c */
   a = init_builtin (builtin_type, "core:type", 1, &type_, a);
   a = init_builtin (builtin_type, "core:car", 1, &car_, a);
