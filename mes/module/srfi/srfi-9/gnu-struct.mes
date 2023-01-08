@@ -28,7 +28,7 @@
 (define-macro (set-field o getters value)
   `(let ((getter ,(car getters)))
      (let* ((type (struct-vtable ,o))
-            (name (record-type ,o))
+            (name (record-type-name ,o))
             (set (getter ,o #t)))
        (define (field->value field)
          (if (eq? set field) ,value

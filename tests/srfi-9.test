@@ -39,6 +39,32 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
 (pass-if "first dummy" #t)
 (pass-if-not "second dummy" #f)
 
+(define <zero> (make-record-type '<zero> '(one two)))
+(pass-if "make-record-type" (record-type? <zero>))
+
+(define make-zero (record-constructor <zero> '(one two)))
+(pass-if "record-constructor" (procedure? make-zero))
+
+(define zero (make-zero 1 2))
+(pass-if "record?" (record? zero))
+
+(define zero? (record-predicate <zero>))
+(pass-if "record-predicate" (procedure? zero?))
+(pass-if "zero?" (zero? zero))
+
+(define zero-one (record-accessor <zero> 'one))
+(pass-if-eq "zero-one" 1 (zero-one zero))
+
+(define zero-two-set! (record-modifier <zero> 'two))
+(pass-if-eq "zero-one-set!" 42 (begin (zero-two-set! zero 42)
+                                      ((record-accessor <zero> 'two) zero)))
+
+(pass-if-eq "record-type-descriptor" <zero> (record-type-descriptor zero))
+
+(pass-if-eq "record-type-name" '<zero> (record-type-name <zero>))
+
+(pass-if-equal "record-type-fields" '(one two) (record-type-fields <zero>))
+
 (define-record-type lexical-token
   (make-lexical-token category source value)
   lexical-token?
@@ -46,7 +72,7 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
   (source   lexical-token-source)
   (value    lexical-token-value))
 
-(pass-if "record"
+(pass-if "define-record-type"
   (lexical-token? (make-lexical-token 'x 'y 'z)))
 
 (pass-if-equal "set-field" "baar"

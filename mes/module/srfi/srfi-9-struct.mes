@@ -35,13 +35,16 @@
     (make-struct '<record-type> (cons type (list fields)) printer)))
 
 (define (record-type? o)
-  (eq? (struct-vtable o) '<record-type>))
+  (eq? (record-type-descriptor o) '<record-type>))
 
 (define (struct-vtable o)
-  (struct-ref o 0))
+  (record-type-descriptor o))
 
-(define (record-type o)
+(define (record-type-name o)
   (struct-ref o 2))
+
+(define (record-type-descriptor o)
+  (struct-ref o 0))
 
 (define (record-type-fields o)
   (struct-ref o 3))
@@ -49,7 +52,7 @@
 (define (record-predicate type)
   (lambda (o)
     (and (record? o)
-         (eq? (record-type o) (record-type type)))))
+         (eq? (record-type-descriptor o) type))))
 
 (define (record? o)
   (and (struct? o)
@@ -57,7 +60,7 @@
 
 (define (record-constructor type . field-names)
   (let* ((fields (record-type-fields type))
-         (name (record-type type))
+         (name (record-type-name type))
          (field-names (if (null? field-names) fields
                           (car field-names))))
     (lambda (. o)
@@ -68,7 +71,7 @@
 (define record-printer *unspecified*)   ; TODO
 (define (record-printer o)
   (display "#<")
-  (display (record-type o))
+  (display (record-type-name o))
   (let* ((vtable (struct-vtable o))
          (fields (record-type-fields vtable)))
     (for-each (lambda (field)
@@ -94,14 +97,14 @@
 (define (record-accessor type field)
   (let ((i (record-field-index type field)))
     (lambda (o . field?)
-      (if (not (eq? (record-type o) (record-type type))) (error "record accessor: record expected" type o)
+      (if (not (eq? (record-type-descriptor o) type)) (error "record accessor: record expected" type field o)
           (if (pair? field?) field
               (struct-ref o i))))))
 
 (define (record-modifier type field)
   (let ((i (record-field-index type field)))
     (lambda (o v)
-      (if (not (eq? (record-type o) (record-type type))) (error "record modifier: record expected" type o)
+      (if (not (eq? (record-type-descriptor o) type)) (error "record modifier: record expected" type field o)
           (struct-set! o i v)))))
 
 (define (record-field-index type field)
