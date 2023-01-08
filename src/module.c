@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -93,7 +93,7 @@ module_variable (struct scm *module, struct scm *name)
     {
       module = M0;
       struct scm *globals = struct_ref_ (module, 5);
-      x = hashq_get_handle (globals, name, cell_f);
+      x = hashq_get_handle (globals, name);
     }
   return x;
 }

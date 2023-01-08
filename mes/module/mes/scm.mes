@@ -1,7 +1,7 @@
 ;;; -*-scheme-*-
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2019,2022 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -192,6 +192,15 @@
   (if (null? rest) proc
       (lambda args
         (proc (apply (apply compose rest) args)))))
+
+
+;; Hash
+
+(define (hashq-ref table key . rest)
+  (core:hashq-ref table key (and (pair? rest) (car rest))))
+
+(define (hash-ref table key . rest)
+  (core:hash-ref table key (and (pair? rest) (car rest))))
 
 
 ;; Vector

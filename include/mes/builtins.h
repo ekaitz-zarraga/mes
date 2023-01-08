@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -64,9 +64,9 @@ struct scm *gc ();
 /* src/hash.c */
 struct scm *hashq (struct scm *x, struct scm *size);
 struct scm *hash (struct scm *x, struct scm *size);
-struct scm *hashq_get_handle (struct scm *table, struct scm *key, struct scm *dflt);
-struct scm *hashq_ref (struct scm *table, struct scm *key, struct scm *dflt);
-struct scm *hash_ref (struct scm *table, struct scm *key, struct scm *dflt);
+struct scm *hashq_get_handle (struct scm *table, struct scm *key);
+struct scm *hashq_ref_ (struct scm *table, struct scm *key, struct scm *dflt);
+struct scm *hash_ref_ (struct scm *table, struct scm *key, struct scm *dflt);
 struct scm *hashq_set_x (struct scm *table, struct scm *key, struct scm *value);
 struct scm *hash_set_x (struct scm *table, struct scm *key, struct scm *value);
 struct scm *hash_table_printer (struct scm *table);

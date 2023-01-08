@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -158,7 +158,7 @@ struct scm *
 macro_get_handle (struct scm *name)     /*:((internal)) */
 {
   if (name->type == TSYMBOL)
-    return hashq_get_handle (g_macros, name, cell_nil);
+    return hashq_get_handle (g_macros, name);
   return cell_f;
 }
 
