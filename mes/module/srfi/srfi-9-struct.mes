@@ -43,7 +43,7 @@
 (define (record-type o)
   (struct-ref o 2))
 
-(define (record-field-names o)
+(define (record-type-fields o)
   (struct-ref o 3))
 
 (define (record-predicate type)
@@ -56,7 +56,7 @@
        (record-type? (struct-vtable o))))
 
 (define (record-constructor type . field-names)
-  (let* ((fields (record-field-names type))
+  (let* ((fields (record-type-fields type))
          (name (record-type type))
          (field-names (if (null? field-names) fields
                           (car field-names))))
@@ -70,7 +70,7 @@
   (display "#<")
   (display (record-type o))
   (let* ((vtable (struct-vtable o))
-         (fields (record-field-names vtable)))
+         (fields (record-type-fields vtable)))
     (for-each (lambda (field)
                 (display " ")
                 (display field)
@@ -105,7 +105,7 @@
           (struct-set! o i v)))))
 
 (define (record-field-index type field)
-  (+ 3 (or (lst-index (record-field-names type) field)
+  (+ 3 (or (lst-index (record-type-fields type) field)
            (error "no such field" type field))))
 
 (define (lst-index lst o)

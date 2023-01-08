@@ -45,7 +45,7 @@
 (define (record-type o)
   (vector-ref o 1))
 
-(define (record-field-names o)
+(define (record-type-fields o)
   (vector-ref o 2))
 
 (define (record-predicate type)
@@ -56,7 +56,7 @@
          (eq? (record-type o) type))))
 
 (define (record-constructor type . field-names)
-  (let* ((fields (record-field-names type))
+  (let* ((fields (record-type-fields type))
          (field-names (if (null? field-names) fields
                           (car field-names))))
     (lambda (. o)
@@ -90,7 +90,7 @@
           (vector-set! o i v)))))
 
 (define (record-field-index type field)
-  (1+ (or (lst-index (record-field-names type) field)
+  (1+ (or (lst-index (record-type-fields type) field)
           (error "no such field" type field))))
 
 (define (lst-index lst o)
