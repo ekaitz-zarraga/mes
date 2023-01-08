@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -172,4 +172,32 @@ struct scm *
 integer_to_char (struct scm *x)
 {
   return make_char (x->value);
+}
+
+void
+assert_num (long pos, struct scm *x)
+{
+  if (x->type != TNUMBER)
+    error (cell_symbol_wrong_type_arg,
+           cons (cell_type_number, cons (make_number (pos), x)));
+}
+
+void
+assert_struct (long pos, struct scm *x)
+{
+  if (x->type != TSTRUCT)
+    error (cell_symbol_wrong_type_arg,
+           cons (cell_type_struct, cons (make_number (pos), x)));
+}
+
+void
+assert_range (int assert, long i)
+{
+  if (assert == 0)
+    {
+      eputs ("value out of range: ");
+      eputs (ltoa (i));
+      eputs (": ");
+      assert_msg (assert, "value out of range");
+    }
 }

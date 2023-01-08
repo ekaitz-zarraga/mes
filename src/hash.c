@@ -211,7 +211,7 @@ make_hash_table (struct scm *x)              /*:((arity . n)) */
   if (x->type == TPAIR)
     {
       x = x->car;
-      assert_msg (x->type == TNUMBER, "x->type == TNUMBER");
+      assert_number ("make-hash-table size", x);
       size = x->value;
     }
   return make_hash_table_ (size);

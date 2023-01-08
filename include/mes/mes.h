@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2020,2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2020,2021,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -161,6 +161,9 @@ struct scm *struct_set_x_ (struct scm *x, long i, struct scm *e);
 struct scm *vector_ref_ (struct scm *x, long i);
 struct scm *vector_set_x_ (struct scm *x, long i, struct scm *e);
 FUNCTION builtin_function (struct scm *builtin);
+void assert_num (long pos, struct scm *x);
+void assert_range (int assert, long x);
+void assert_struct (long pos, struct scm *x);
 char *cell_bytes (struct scm *x);
 int peekchar ();
 int readchar ();

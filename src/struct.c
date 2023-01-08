@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018,2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -57,8 +57,8 @@ struct_length (struct scm *x)
 struct scm *
 struct_ref_ (struct scm *x, long i)
 {
-  assert_msg (x->type == TSTRUCT, "x->type == TSTRUCT");
-  assert_msg (i < x->length, "i < x->length");
+  assert_struct (1, x);
+  assert_range (i < x->length, i);
   struct scm *e = cell_ref (x->structure, i);
   if (e->type == TREF)
     e = e->ref;
