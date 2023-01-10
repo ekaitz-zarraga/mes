@@ -216,6 +216,9 @@
                                            alist)
                                       acc))))))))
 
+(define (hash-fold proc init table)
+  (fold proc init (hash-map->list cons table)))
+
 
 ;; Vector
 (define (vector . rest) (list->vector rest))
