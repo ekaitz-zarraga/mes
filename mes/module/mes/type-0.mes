@@ -1,7 +1,7 @@
 ;;; -*-scheme-*-
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2022 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -46,7 +46,7 @@
         (cons <cell:broken-heart> (quote <cell:broken-heart>))))
 
 (define (cell:type-name x)
-  (cond ((assq (core:type x) cell:type-alist) => cdr)))
+  (assq-ref cell:type-alist (core:type x)))
 
 (define (bytes? x)
   (eq? (core:type x) <cell:bytes>))
