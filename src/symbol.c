@@ -205,6 +205,10 @@ init_symbols ()                  /*:((internal)) */
   a = acons (cell_type_vector, make_number (TVECTOR), a);
   a = acons (cell_type_broken_heart, make_number (TBROKEN_HEART), a);
 
+  /* types */
+  a = acons (cstring_to_symbol ("hash-table-type"), scm_hash_table_type, a);
+
+  /* the closure */
   a = acons (cell_closure, a, a);
 
   return a;

@@ -87,4 +87,7 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
     (and (eq? (hash-ref t 42) 'b)
          (eq? (hash-ref t 21) 'a))))
 
+(pass-if "hash-table?"
+  (hash-table? (make-hash-table)))
+
 (result 'report)

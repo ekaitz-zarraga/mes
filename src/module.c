@@ -39,8 +39,8 @@ make_initial_module (struct scm *a)     /*:((internal)) */
   struct scm *module_type = make_module_type ();
   a = acons (cell_symbol_module, module_type, a);
 
-  struct scm *hashq_type = make_hashq_type ();
-  a = acons (cell_symbol_hashq_table, hashq_type, a);
+  struct scm *hash_table_type = scm_hash_table_type;
+  a = acons (cell_symbol_hashq_table, hash_table_type, a);
 
   struct scm *name = cons (cstring_to_symbol ("boot"), cell_nil);
   struct scm *globals = make_hash_table_ (0);
