@@ -46,13 +46,9 @@ hashq_ (struct scm *x, long size)
 int
 hash_ (struct scm *x, long size)
 {
-  if (x->type != TSTRING)
-    {
-      eputs ("hash_ failed, not a string:");
-      display_error_ (x);
-      assert_msg (0, "0");
-    }
-  return hash_cstring (cell_bytes (x->string), size);
+  if (x->type == TSTRING)
+    return hash_cstring (cell_bytes (x->string), size);
+  return 0;
 }
 
 struct scm *

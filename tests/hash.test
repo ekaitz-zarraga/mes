@@ -80,4 +80,11 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
            (= (assoc-ref a "second") 2)
            (= (assoc-ref a "third") 3)))))
 
+(pass-if "integer keys"
+  (let ((t (make-hash-table)))
+    (hash-set! t 21 'a)
+    (hash-set! t 42 'b)
+    (and (eq? (hash-ref t 42) 'b)
+         (eq? (hash-ref t 21) 'a))))
+
 (result 'report)
