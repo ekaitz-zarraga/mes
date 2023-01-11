@@ -73,6 +73,7 @@ struct scm *hash_table_printer (struct scm *table);
 struct scm *make_hash_table (struct scm *x);
 struct scm *hash_buckets (struct scm *table);
 struct scm *hash_table_p (struct scm *x);
+struct scm *hash_clear_x (struct scm *table);
 /* src/lib.c */
 struct scm *type_ (struct scm *x);
 struct scm *car_ (struct scm *x);
