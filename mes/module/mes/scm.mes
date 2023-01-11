@@ -219,6 +219,11 @@
 (define (hash-fold proc init table)
   (fold proc init (hash-map->list cons table)))
 
+(define (hash-for-each proc table)
+  (hash-map->list proc table)
+  ;;(hash-fold (lambda (key value x) (proc key value)) #f table)
+  *unspecified*)
+
 
 ;; Vector
 (define (vector . rest) (list->vector rest))
