@@ -98,4 +98,13 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
     (not (or (hashq-ref t 'k1)
              (hashq-ref t 'k2)))))
 
+(pass-if "hashq-create-handle!"
+  (let ((t (make-hash-table)))
+    (hashq-set! t 'k1 'v1)
+    (let ((h1 (hashq-get-handle t 'k1))
+          (h2 (hashq-create-handle! t 'k2 'v2)))
+      (hashq-create-handle! t 'k1 #f)
+      (and (eq? h1 (hashq-get-handle t 'k1))
+           (eq? h2 (hashq-get-handle t 'k2))))))
+
 (result 'report)
