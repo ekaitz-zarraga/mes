@@ -86,7 +86,6 @@ extern struct scm *cell_symbol_portable_macro_expand;
 extern struct scm *cell_symbol_sc_expander_alist;
 extern struct scm *cell_symbol_call_with_values;
 extern struct scm *cell_symbol_call_with_current_continuation;
-extern struct scm *cell_symbol_boot_module;
 extern struct scm *cell_symbol_current_module;
 extern struct scm *cell_symbol_primitive_load;
 extern struct scm *cell_symbol_car;
@@ -139,6 +138,7 @@ extern struct scm *cell_symbol_test;
 
 #define SYMBOL_MAX 114
 #define CELL_UNSPECIFIED 7
-#define CELL_SYMBOL_RECORD_TYPE 82
+
+#define CELL_SYMBOL_RECORD_TYPE 81
 
 #endif /* __MES_SYMBOLS_H */

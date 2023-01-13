@@ -105,6 +105,7 @@ struct scm *make_module_type ();
 struct scm *module_printer (struct scm *module);
 struct scm *module_variable (struct scm *module, struct scm *name);
 struct scm *module_define_x (struct scm *module, struct scm *name, struct scm *value);
+struct scm *initial_module ();
 /* src/posix.c */
 struct scm *abort_ ();
 struct scm *exit_ (struct scm *x);

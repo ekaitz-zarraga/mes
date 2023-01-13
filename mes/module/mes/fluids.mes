@@ -28,7 +28,7 @@
   ((lambda (fluid)
      `(begin
         (module-define!
-         (boot-module)
+         (initial-module)
         ',fluid
         ((lambda (v)
            (lambda ( . rest)

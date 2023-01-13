@@ -67,6 +67,12 @@ make_initial_module (struct scm *a)     /*:((internal)) */
 }
 
 struct scm *
+initial_module ()
+{
+  return M0;
+}
+
+struct scm *
 module_printer (struct scm *module)
 {
   fdputs ("#<", __stdout);

@@ -70,7 +70,7 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
       'begin
       (list
        'module-define!
-       (list 'boot-module)
+       (list 'initial-module)
        (list 'quote fluid)
        (list
         (lambda (v)
