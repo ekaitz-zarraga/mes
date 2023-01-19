@@ -1,5 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -17,6 +18,7 @@
 ;;; along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (srfi srfi-14)
+  #:use-module (srfi srfi-1)
   #:re-export (char-set
                char-set?
                char-set=
@@ -32,4 +34,85 @@
                char-whitespace?
                char-set-copy
                char-upcase
-               char-downcase))
+               char-downcase)
+  #:export (char-set:ascii
+            char-set:letter+digit
+            char-set:letter
+            char-set:blank
+            char-set:punctuation
+            char-set:symbol
+            char-set:graphic
+            char-set-complement!
+            char-set-union
+            char-set-intersection
+            char-set-difference))
+
+(define char-set:ascii (apply char-set (map integer->char (iota 128))))
+
+(define char-set:letter+digit
+  (apply char-set
+         (append (map (lambda (x)
+                        (integer->char (+ x (char->integer #\0))))
+                      (iota 10))
+                 (map (lambda (x)
+                        (integer->char (+ x (char->integer #\A))))
+                      (iota 26))
+                 (map (lambda (x)
+                        (integer->char (+ x (char->integer #\a))))
+                      (iota 26)))))
+
+(define char-set:letter
+  (apply char-set
+         (append (map (lambda (x)
+                        (integer->char (+ x (char->integer #\A))))
+                      (iota 26))
+                 (map (lambda (x)
+                        (integer->char (+ x (char->integer #\a))))
+                      (iota 26)))))
+
+(define char-set:blank
+  (char-set #\tab #\space))
+
+(define char-set:punctuation
+  (string->char-set "!\"#%&'()*,-./:;?@[\\]_{}"))
+
+(define char-set:symbol
+  (string->char-set "$+<=>^`|~"))
+
+(define char-set-complement! char-set-complement)
+
+(define (char-set-union . char-sets)
+  (apply char-set
+         (apply lset-union
+                char=?
+                (map (lambda (cs)
+                       (unless (char-set? cs)
+                         (error "char-set-union: not a char-set: " cs))
+                       (cdr cs))
+                     char-sets))))
+
+(define (char-set-intersection . char-sets)
+  (apply char-set
+         (apply lset-intersection
+                char=?
+                (map (lambda (cs)
+                       (unless (char-set? cs)
+                         (error "char-set-intersection: not a char-set: " cs))
+                       (cdr cs))
+                     char-sets))))
+
+(define (char-set-difference . char-sets)
+  (apply char-set
+         (apply lset-difference
+                char=?
+                (map (lambda (cs)
+                       (unless (char-set? cs)
+                         (error "char-set-difference: not a char-set: " cs))
+                       (cdr cs))
+                     char-sets))))
+
+(define char-set:graphic
+  (char-set-union char-set:letter
+                  char-set:digit
+                  char-set:punctuation
+                  char-set:symbol))
