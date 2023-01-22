@@ -34,7 +34,7 @@ struct scm
     char *bytes;
     long length;
     struct scm *ref;
-    struct scm *variable;
+    struct scm *binding;
     struct scm *macro;
     long port;
   };

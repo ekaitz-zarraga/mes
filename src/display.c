@@ -136,10 +136,10 @@ display_helper (struct scm *x, int cont, char *sep, int fd, int write_p)
       display_helper (x->cdr, cont, "", fd, 0);
       fdputs (">", fd);
     }
-  else if (t == TVARIABLE)
+  else if (t == TBINDING)
     {
-      fdputs ("#<variable ", fd);
-      display_helper (x->variable->car, cont, "", fd, 0);
+      fdputs ("#<binding ", fd);
+      display_helper (x->binding->car, cont, "", fd, 0);
       fdputs (">", fd);
     }
   else if (t == TNUMBER)

@@ -131,7 +131,7 @@ extern struct scm *cell_type_string;
 extern struct scm *cell_type_struct;
 extern struct scm *cell_type_symbol;
 extern struct scm *cell_type_values;
-extern struct scm *cell_type_variable;
+extern struct scm *cell_type_binding;
 extern struct scm *cell_type_vector;
 extern struct scm *cell_type_broken_heart;
 extern struct scm *cell_symbol_program;

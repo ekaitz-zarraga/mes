@@ -39,7 +39,7 @@
 #define TSTRUCT           12
 #define TSYMBOL           13
 #define TVALUES           14
-#define TVARIABLE         15
+#define TBINDING          15
 #define TVECTOR           16
 #define TBROKEN_HEART     17
 

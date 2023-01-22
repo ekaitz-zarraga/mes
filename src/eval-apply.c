@@ -124,8 +124,8 @@ struct scm *
 set_env_x (struct scm *x, struct scm *e, struct scm *a)
 {
   struct scm *p;
-  if (x->type == TVARIABLE)
-    p = x->variable;
+  if (x->type == TBINDING)
+    p = x->binding;
   else
     p = assert_defined (x, module_variable (a, x));
   if (p->type != TPAIR)
@@ -149,9 +149,9 @@ make_closure_ (struct scm *args, struct scm *body, struct scm *a)       /*:((int
 }
 
 struct scm *
-make_variable_ (struct scm *var)        /*:((internal)) */
+make_binding_ (struct scm *handle)      /*:((internal)) */
 {
-  return make_cell (TVARIABLE, var, 0);
+  return make_cell (TBINDING, handle, 0);
 }
 
 struct scm *
@@ -277,7 +277,7 @@ expand_variable_ (struct scm *x, struct scm *formals, int top_p)        /*:((int
             {
               v = module_variable (R0, a);
               if (v != cell_f)
-                x->car = make_variable_ (v);
+                x->car = make_binding_ (v);
             }
         }
       x = x->cdr;
@@ -706,9 +706,9 @@ eval:
       R1 = assert_defined (R1, module_ref (R0, R1));
       goto vm_return;
     }
-  else if (t == TVARIABLE)
+  else if (t == TBINDING)
     {
-      x = R1->variable;
+      x = R1->binding;
       R1 = x->cdr;
       goto vm_return;
     }

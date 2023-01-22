@@ -389,7 +389,7 @@ gc_cellcpy (struct scm *dest, struct scm *src, size_t n)
       if (t == TMACRO
           || t == TPAIR
           || t == TREF
-          || t == TVARIABLE)
+          || t == TBINDING)
         dest->car_value = a - dist;
       else
         dest->car_value = a;
@@ -547,7 +547,7 @@ gc_loop (struct scm *scan)
       if (t == TMACRO
           || t == TPAIR
           || t == TREF
-          || t == TVARIABLE)
+          || t == TBINDING)
         /* *INDENT-ON* */
         {
           car = gc_copy (scan->car);
@@ -799,7 +799,7 @@ gc_dump_arena (struct scm *cells, long size)
               if (t == TMACRO
                   || t == TPAIR
                   || t == TREF
-                  || t == TVARIABLE)
+                  || t == TBINDING)
                 {
                   dumps (ltoa ((cells->car - dist) / M2_CELL_SIZE));
                   /* dumps ("["); dumps (ltoa (a)); dumps ("]"); */

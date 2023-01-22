@@ -157,7 +157,7 @@ init_symbols_ ()                  /*:((internal)) */
   cell_type_struct = init_symbol (g_symbol, TSYMBOL, "<cell:struct>");
   cell_type_symbol = init_symbol (g_symbol, TSYMBOL, "<cell:symbol>");
   cell_type_values = init_symbol (g_symbol, TSYMBOL, "<cell:values>");
-  cell_type_variable = init_symbol (g_symbol, TSYMBOL, "<cell:variable>");
+  cell_type_binding = init_symbol (g_symbol, TSYMBOL, "<cell:binding>");
   cell_type_vector = init_symbol (g_symbol, TSYMBOL, "<cell:vector>");
   cell_type_broken_heart = init_symbol (g_symbol, TSYMBOL, "<cell:broken-heart>");
 
@@ -201,7 +201,7 @@ init_symbols ()                  /*:((internal)) */
   a = acons (cell_type_struct, make_number (TSTRUCT), a);
   a = acons (cell_type_symbol, make_number (TSYMBOL), a);
   a = acons (cell_type_values, make_number (TVALUES), a);
-  a = acons (cell_type_variable, make_number (TVARIABLE), a);
+  a = acons (cell_type_binding, make_number (TBINDING), a);
   a = acons (cell_type_vector, make_number (TVECTOR), a);
   a = acons (cell_type_broken_heart, make_number (TBROKEN_HEART), a);
 

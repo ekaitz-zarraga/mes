@@ -41,7 +41,7 @@
         (cons <cell:struct> (quote <cell:struct>))
         (cons <cell:symbol> (quote <cell:symbol>))
         (cons <cell:values> (quote <cell:values>))
-        (cons <cell:variable> (quote <cell:variable>))
+        (cons <cell:binding> (quote <cell:binding>))
         (cons <cell:vector> (quote <cell:vector>))
         (cons <cell:broken-heart> (quote <cell:broken-heart>))))
 
@@ -101,8 +101,8 @@
 (define (values? x)
   (eq? (core:type x) <cell:values>))
 
-(define (variable? x)
-  (eq? (core:type x) <cell:variable>))
+(define (binding? x)
+  (eq? (core:type x) <cell:binding>))
 
 (define (variable-global? x)
   (core:cdr x))
