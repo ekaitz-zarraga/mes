@@ -62,6 +62,7 @@ LIBMES_SOURCES =				\
  src/stack.c					\
  src/struct.c					\
  src/symbol.c					\
+ src/variable.c					\
  src/vector.c
 
 MES_SOURCES =					\

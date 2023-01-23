@@ -44,6 +44,7 @@ tests/cwv.test
 tests/math.test
 tests/vector.test
 tests/hash.test
+tests/variable.test
 tests/srfi-1.test
 tests/srfi-9.test
 tests/srfi-13.test

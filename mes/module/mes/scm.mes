@@ -225,6 +225,15 @@
   *unspecified*)
 
 
+;; Variable
+(define (make-undefined-variable)
+  (make-variable *undefined*))
+
+;; This should be 'variable-defined?', but this is Guile's name.
+(define (variable-bound? var)
+  (not (eq? (variable-ref var) *undefined*)))
+
+
 ;; Vector
 (define (vector . rest) (list->vector rest))
 

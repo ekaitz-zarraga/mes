@@ -139,6 +139,7 @@ init_symbols_ ()                  /*:((internal)) */
   cell_symbol_arch = init_symbol (g_symbol, TSYMBOL, "%arch");
   cell_symbol_pmatch_car = init_symbol (g_symbol, TSYMBOL, "pmatch-car");
   cell_symbol_pmatch_cdr = init_symbol (g_symbol, TSYMBOL, "pmatch-cdr");
+  cell_symbol_variable = init_symbol (g_symbol, TSYMBOL, "<variable>");
 
   cell_type_bytes = init_symbol (g_symbol, TSYMBOL, "<cell:bytes>");
   cell_type_char = init_symbol (g_symbol, TSYMBOL, "<cell:char>");

@@ -461,6 +461,7 @@ gc_flip ()
   g_macros = g_macros - dist;
   g_ports = g_ports - dist;
   scm_hash_table_type = scm_hash_table_type - dist;
+  scm_variable_type = scm_variable_type - dist;
   M0 = M0 - dist;
 
   long i;
@@ -633,6 +634,7 @@ gc_ ()
   g_macros = gc_copy (g_macros);
   g_ports = gc_copy (g_ports);
   scm_hash_table_type = gc_copy (scm_hash_table_type);
+  scm_variable_type = gc_copy (scm_variable_type);
   M0 = gc_copy (M0);
 
   long i;

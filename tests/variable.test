@@ -1,0 +1,56 @@
+#! /bin/sh
+# -*-scheme-*-
+exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests variable)' -s "$0" "$@"
+!#
+
+;;; -*-scheme-*-
+
+;;; GNU Mes --- Maxwell Equations of Software
+;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+;;;
+;;; This file is part of GNU Mes.
+;;;
+;;; GNU Mes is free software; you can redistribute it and/or modify it
+;;; under the terms of the GNU General Public License as published by
+;;; the Free Software Foundation; either version 3 of the License, or (at
+;;; your option) any later version.
+;;;
+;;; GNU Mes is distributed in the hope that it will be useful, but
+;;; WITHOUT ANY WARRANTY; without even the implied warranty of
+;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;; GNU General Public License for more details.
+;;;
+;;; You should have received a copy of the GNU General Public License
+;;; along with GNU Mes.  If not, see <https://www.gnu.org/licenses/>.
+
+(define-module (tests variable)
+  #:use-module (mes test))
+
+(cond-expand
+ (mes
+  (mes-use-module (mes test)))
+ (else))
+
+(pass-if "make-variable and variable-ref"
+  (let* ((x (cons 'foo '()))
+         (v (make-variable x)))
+    (eq? x (variable-ref v))))
+
+(pass-if "variable-set!"
+  (let ((v (make-variable 'foo)))
+    (variable-set! v 'bar)
+    (eq? 'bar (variable-ref v))))
+
+(pass-if "make-undefined-variable and variable-bound?"
+  (let ((bound (make-variable #t))
+        (unbound (make-undefined-variable)))
+    (and (variable-bound? bound)
+         (not (variable-bound? unbound)))))
+
+(pass-if "bind an unbound variable"
+  (let ((v (make-undefined-variable)))
+    (and (not (variable-bound? v))
+         (begin (variable-set! v #t)
+                (variable-bound? v)))))
+
+(result 'report)

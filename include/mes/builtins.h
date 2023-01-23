@@ -174,6 +174,12 @@ struct scm *make_struct (struct scm *type, struct scm *fields, struct scm *print
 struct scm *struct_length (struct scm *x);
 struct scm *struct_ref (struct scm *x, struct scm *i);
 struct scm *struct_set_x (struct scm *x, struct scm *i, struct scm *e);
+/* src/variable.c */
+struct scm *make_variable (struct scm *var);
+struct scm *variable_p (struct scm *x);
+struct scm *variable_ref (struct scm *var);
+struct scm *variable_set_x (struct scm *var, struct scm *value);
+struct scm *variable_printer (struct scm *var);
 /* src/vector.c */
 struct scm *make_vector (struct scm *x);
 struct scm *vector_length (struct scm *x);
