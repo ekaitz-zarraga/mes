@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -148,7 +149,7 @@ length (struct scm *x)
 struct scm *
 error (struct scm *key, struct scm *x)
 {
-  struct scm *throw = module_ref (R0, cell_symbol_throw);
+  struct scm *throw = lookup_value (cell_symbol_throw);
   if (throw != cell_undefined)
     return apply (throw, cons (key, cons (x, cell_nil)), R0);
 

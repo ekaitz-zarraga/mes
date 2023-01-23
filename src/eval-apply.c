@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © Timothy Sample 2022 <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -127,7 +128,7 @@ set_env_x (struct scm *x, struct scm *e, struct scm *a)
   if (x->type == TBINDING)
     p = x->binding;
   else
-    p = assert_defined (x, module_variable (a, x));
+    p = assert_defined (x, lookup_handle (x));
   if (p->type != TPAIR)
     error (cell_symbol_not_a_pair, cons (p, x));
   return set_cdr_x (p, e);
@@ -191,6 +192,26 @@ push_cc (struct scm *p1, struct scm *p2, struct scm *a, struct scm *c)  /*:((int
   R0 = a;
   R3 = x;
   return cell_unspecified;
+}
+
+struct scm *
+lookup_handle (struct scm *name)
+{
+  struct scm *handle = assq (name, R0);
+  if (handle == cell_f)
+    {
+      handle = module_variable (M0, name);
+    }
+  return handle;
+}
+
+struct scm *
+lookup_value (struct scm *name)
+{
+  struct scm *handle = lookup_handle (name);
+  if (handle != cell_f)
+    return handle->cdr;
+  return cell_undefined;
 }
 
 struct scm *
@@ -275,7 +296,7 @@ expand_variable_ (struct scm *x, struct scm *formals, int top_p)        /*:((int
                    && a != cell_symbol_primitive_load
                    && formal_p (x->car, formals) == 0)
             {
-              v = module_variable (R0, a);
+              v = lookup_handle (a);
               if (v != cell_f)
                 x->car = make_binding_ (v);
             }
@@ -630,7 +651,7 @@ eval:
                       }
                     else
                       {
-                        entry = module_variable (R0, name);
+                        entry = lookup_handle (name);
                         if (entry == cell_f)
                           module_define_x (M0, name, cell_f);
                       }
@@ -667,7 +688,7 @@ eval:
                   }
                 else if (global_p != 0)
                   {
-                    entry = module_variable (R0, name);
+                    entry = lookup_handle (name);
                     set_cdr_x (entry, R1);
                   }
                 else
@@ -676,7 +697,7 @@ eval:
                     aa = cons (entry, cell_nil);
                     set_cdr_x (aa, cdr (R0));
                     set_cdr_x (R0, aa);
-                    cl = module_variable (R0, cell_closure);
+                    cl = lookup_handle (cell_closure);
                     set_cdr_x (cl, aa);
                   }
                 R1 = cell_unspecified;
@@ -703,7 +724,7 @@ eval:
         goto vm_return;
       if (R1 == cell_symbol_call_with_current_continuation)
         goto vm_return;
-      R1 = assert_defined (R1, module_ref (R0, R1));
+      R1 = assert_defined (R1, lookup_value (R1));
       goto vm_return;
     }
   else if (t == TBINDING)
@@ -777,13 +798,13 @@ macro_expand:
           macro = macro_get_handle (cell_symbol_portable_macro_expand);
           if (macro != cell_f)
             {
-              expanders = module_ref (R0, cell_symbol_sc_expander_alist);
+              expanders = lookup_value (cell_symbol_sc_expander_alist);
               if (expanders != cell_undefined)
                 {
                   macro = assq (R1->car, expanders);
                   if (macro != cell_f)
                     {
-                      sc_expand = module_ref (R0, cell_symbol_macro_expand);
+                      sc_expand = lookup_value (cell_symbol_macro_expand);
                       R2 = R1;
                       if (sc_expand != cell_undefined && sc_expand != cell_f)
                         {

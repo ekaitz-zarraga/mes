@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2020,2021,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -139,6 +140,8 @@ struct scm *cell_ref (struct scm *cell, long index);
 struct scm *fdisplay_ (struct scm *, int, int);
 struct scm *init_symbols ();
 struct scm *init_time (struct scm *a);
+struct scm *lookup_handle (struct scm *name);
+struct scm *lookup_value (struct scm *name);
 struct scm *make_builtin_type ();
 struct scm *make_bytes (char const *s, size_t length);
 struct scm *make_cell (long type, struct scm *car, struct scm *cdr);

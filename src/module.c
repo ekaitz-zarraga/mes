@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -86,25 +87,9 @@ module_printer (struct scm *module)
 struct scm *
 module_variable (struct scm *module, struct scm *name)
 {
-  /*struct scm *locals = struct_ref_ (module, 3);*/
-  struct scm *locals = module;
-  struct scm *x = assq (name, locals);
-  if (x == cell_f)
-    {
-      module = M0;
-      struct scm *globals = struct_ref_ (module, 5);
-      x = hashq_get_handle (globals, name);
-    }
-  return x;
-}
-
-struct scm *
-module_ref (struct scm *module, struct scm *name)
-{
-  struct scm *x = module_variable (module, name);
-  if (x == cell_f)
-    return cell_undefined;
-  return x->cdr;
+  module = M0;
+  struct scm *globals = struct_ref_ (module, 5);
+  return hashq_get_handle (globals, name);
 }
 
 struct scm *
