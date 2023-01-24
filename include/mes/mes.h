@@ -51,6 +51,7 @@ struct scm
     long value;
     FUNCTION function;
     struct scm *vector;
+    long lexical_p; /* for bindings */
   };
 };
 
@@ -141,7 +142,7 @@ struct scm *cell_ref (struct scm *cell, long index);
 struct scm *fdisplay_ (struct scm *, int, int);
 struct scm *init_symbols ();
 struct scm *init_time (struct scm *a);
-struct scm *lookup_handle (struct scm *name);
+struct scm *lookup_binding (struct scm *name);
 struct scm *lookup_value (struct scm *name);
 struct scm *make_builtin_type ();
 struct scm *make_bytes (char const *s, size_t length);
@@ -163,6 +164,7 @@ struct scm *make_variable_type ();
 struct scm *make_vector_ (long k, struct scm *e);
 struct scm *mes_builtins (struct scm *a);
 struct scm *push_cc (struct scm *p1, struct scm *p2, struct scm *a, struct scm *c);
+struct scm *set_x (struct scm *x, struct scm *e);
 struct scm *struct_ref_ (struct scm *x, long i);
 struct scm *struct_set_x_ (struct scm *x, long i, struct scm *e);
 struct scm *vector_ref_ (struct scm *x, long i);

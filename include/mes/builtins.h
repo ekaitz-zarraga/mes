@@ -53,7 +53,6 @@ struct scm *write_port_ (struct scm *x, struct scm *p);
 struct scm *pairlis (struct scm *x, struct scm *y, struct scm *a);
 struct scm *set_car_x (struct scm *x, struct scm *e);
 struct scm *set_cdr_x (struct scm *x, struct scm *e);
-struct scm *set_env_x (struct scm *x, struct scm *e, struct scm *a);
 struct scm *add_formals (struct scm *formals, struct scm *x);
 struct scm *eval_apply ();
 /* src/gc.c */

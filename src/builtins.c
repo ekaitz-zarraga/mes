@@ -163,7 +163,6 @@ mes_builtins (struct scm *a)            /*:((internal)) */
   a = init_builtin (builtin_type, "pairlis", 3, &pairlis, a);
   a = init_builtin (builtin_type, "set-car!", 2, &set_car_x, a);
   a = init_builtin (builtin_type, "set-cdr!", 2, &set_cdr_x, a);
-  a = init_builtin (builtin_type, "set-env!", 3, &set_env_x, a);
   a = init_builtin (builtin_type, "add-formals", 2, &add_formals, a);
   a = init_builtin (builtin_type, "eval-apply", 0, &eval_apply, a);
   /* src/gc.c */

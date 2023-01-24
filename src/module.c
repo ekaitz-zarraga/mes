@@ -107,5 +107,6 @@ module_define_x (struct scm *module, struct scm *name, struct scm *value)
 {
   module = M0;
   struct scm *globals = struct_ref_ (module, 5);
-  return hashq_set_x (globals, name, value);
+  struct scm *var = make_variable (value);
+  return hashq_set_x (globals, name, var);
 }

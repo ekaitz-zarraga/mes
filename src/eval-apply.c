@@ -122,16 +122,24 @@ set_cdr_x (struct scm *x, struct scm *e)
 }
 
 struct scm *
-set_env_x (struct scm *x, struct scm *e, struct scm *a)
+set_x (struct scm *x, struct scm *e)
 {
-  struct scm *p;
+  struct scm *binding;
+
   if (x->type == TBINDING)
-    p = x->binding;
+    binding = x;
   else
-    p = assert_defined (x, lookup_handle (x));
-  if (p->type != TPAIR)
-    error (cell_symbol_not_a_pair, cons (p, x));
-  return set_cdr_x (p, e);
+    binding = lookup_binding (x);
+
+  if (binding == cell_f)
+    return error (cell_symbol_unbound_variable, x);
+
+  if (binding->lexical_p != 0)
+    set_cdr_x (binding->binding, e);
+  else
+    variable_set_x (binding->binding->cdr, e);
+
+  return cell_unspecified;
 }
 
 struct scm *
@@ -150,9 +158,11 @@ make_closure_ (struct scm *args, struct scm *body, struct scm *a)       /*:((int
 }
 
 struct scm *
-make_binding_ (struct scm *handle)      /*:((internal)) */
+make_binding_ (struct scm *handle, long lexical_p)      /*:((internal)) */
 {
-  return make_cell (TBINDING, handle, 0);
+  struct scm *binding = make_cell (TBINDING, handle, 0);
+  binding->lexical_p = lexical_p;
+  return binding;
 }
 
 struct scm *
@@ -195,22 +205,30 @@ push_cc (struct scm *p1, struct scm *p2, struct scm *a, struct scm *c)  /*:((int
 }
 
 struct scm *
-lookup_handle (struct scm *name)
+lookup_binding (struct scm *name)
 {
   struct scm *handle = assq (name, R0);
-  if (handle == cell_f)
-    {
-      handle = module_variable (M0, name);
-    }
-  return handle;
+  if (handle != cell_f)
+    return make_binding_ (handle, 1);
+
+  handle = module_variable (M0, name);
+  if (handle != cell_f)
+    return make_binding_ (handle, 0);
+
+  return cell_f;
 }
 
 struct scm *
 lookup_value (struct scm *name)
 {
-  struct scm *handle = lookup_handle (name);
-  if (handle != cell_f)
-    return handle->cdr;
+  struct scm *binding = lookup_binding (name);
+  if (binding != cell_f)
+    {
+      if (binding->lexical_p != 0)
+        return binding->binding->cdr;
+      else
+        return variable_ref (binding->binding->cdr);
+    }
   return cell_undefined;
 }
 
@@ -295,9 +313,9 @@ expand_variable_ (struct scm *x, struct scm *formals, int top_p)        /*:((int
                    && a != cell_symbol_primitive_load
                    && formal_p (x->car, formals) == 0)
             {
-              v = lookup_handle (a);
+              v = lookup_binding (a);
               if (v != cell_f)
-                x->car = make_binding_ (v);
+                x->car = v;
             }
         }
       x = x->cdr;
@@ -607,7 +625,7 @@ eval:
           push_cc (R1->cdr->cdr->car, R1, R0, cell_vm_eval_set_x);
           goto eval;
         eval_set_x:
-          R1 = set_env_x (R2->cdr->car, R1, R0);
+          R1 = set_x (R2->cdr->car, R1);
           goto vm_return;
         }
       else if (c == cell_vm_macro_expand)
@@ -645,7 +663,7 @@ eval:
                       }
                     else
                       {
-                        entry = lookup_handle (name);
+                        entry = lookup_binding (name);
                         if (entry == cell_f)
                           module_define_x (M0, name, cell_f);
                       }
@@ -682,8 +700,7 @@ eval:
                   }
                 else if (global_p != 0)
                   {
-                    entry = lookup_handle (name);
-                    set_cdr_x (entry, R1);
+                    set_x (name, R1);
                   }
                 else
                   {
@@ -691,8 +708,7 @@ eval:
                     aa = cons (entry, cell_nil);
                     set_cdr_x (aa, cdr (R0));
                     set_cdr_x (R0, aa);
-                    cl = lookup_handle (cell_closure);
-                    set_cdr_x (cl, aa);
+                    set_x (cell_closure, aa);
                   }
                 R1 = cell_unspecified;
                 goto vm_return;
@@ -721,8 +737,10 @@ eval:
     }
   else if (t == TBINDING)
     {
-      x = R1->binding;
-      R1 = x->cdr;
+      if (R1->lexical_p != 0)
+        R1 = R1->binding->cdr;
+      else
+        R1 = variable_ref (R1->binding->cdr);
       goto vm_return;
     }
   else if (t == TBROKEN_HEART)
