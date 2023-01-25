@@ -921,7 +921,10 @@ begin_expand:
               push_cc (input, R2, R0, cell_vm_return);
               x = read_input_file_env (R0);
               if (g_debug > 5)
-                module_printer (M0);
+                {
+                  eputs ("initial module obarray\n");
+                  hash_table_printer (M0);
+                }
               gc_pop_frame ();
               input = R1;
               R1 = x;

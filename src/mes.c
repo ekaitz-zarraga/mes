@@ -2,6 +2,7 @@
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2020,2021,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
+ * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -196,10 +197,14 @@ main (int argc, char **argv)
   a = mes_builtins (a);
   a = init_time (a);
   M0 = make_initial_module (a);
+  R0 = cell_nil;
   g_macros = make_hash_table_ (0);
 
   if (g_debug > 5)
-    module_printer (M0);
+    {
+      eputs ("initial module obarray\n");
+      hash_table_printer (M0);
+    }
 
   struct scm *program = read_boot ();
   R0 = acons (cell_symbol_program, program, R0);
@@ -223,7 +228,10 @@ main (int argc, char **argv)
   if (g_debug != 0)
     {
       if (g_debug > 5)
-        module_printer (M0);
+        {
+          eputs ("initial module obarray\n");
+          hash_table_printer (M0);
+        }
 
       if (g_debug < 3)
         gc_stats_ ("\ngc run");

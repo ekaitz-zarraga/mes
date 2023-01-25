@@ -210,8 +210,6 @@ mes_builtins (struct scm *a)            /*:((internal)) */
   a = init_builtin (builtin_type, "logxor", -1, &logxor, a);
   a = init_builtin (builtin_type, "ash", 2, &ash, a);
   /* src/module.c */
-  a = init_builtin (builtin_type, "make-module-type", 0, &make_module_type, a);
-  a = init_builtin (builtin_type, "module-printer", 1, &module_printer, a);
   a = init_builtin (builtin_type, "module-variable", 2, &module_variable, a);
   a = init_builtin (builtin_type, "module-define!", 3, &module_define_x, a);
   a = init_builtin (builtin_type, "initial-module", 0, &initial_module, a);

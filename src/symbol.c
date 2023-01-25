@@ -126,7 +126,6 @@ init_symbols_ ()                  /*:((internal)) */
   cell_symbol_builtin = init_symbol (g_symbol, TSYMBOL, "<builtin>");
   cell_symbol_frame = init_symbol (g_symbol, TSYMBOL, "<frame>");
   cell_symbol_hashq_table = init_symbol (g_symbol, TSYMBOL, "<hashq-table>");
-  cell_symbol_module = init_symbol (g_symbol, TSYMBOL, "<module>");
   cell_symbol_procedure = init_symbol (g_symbol, TSYMBOL, "procedure");
   cell_symbol_record_type = init_symbol (g_symbol, TSYMBOL, "<record-type>");
   cell_symbol_size = init_symbol (g_symbol, TSYMBOL, "size");

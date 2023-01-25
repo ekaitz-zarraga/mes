@@ -101,7 +101,6 @@ extern struct scm *cell_symbol_buckets;
 extern struct scm *cell_symbol_builtin;
 extern struct scm *cell_symbol_frame;
 extern struct scm *cell_symbol_hashq_table;
-extern struct scm *cell_symbol_module;
 extern struct scm *cell_symbol_procedure;
 extern struct scm *cell_symbol_record_type;
 extern struct scm *cell_symbol_size;
@@ -137,10 +136,10 @@ extern struct scm *cell_type_broken_heart;
 extern struct scm *cell_symbol_program;
 extern struct scm *cell_symbol_test;
 
-#define SYMBOL_MAX 115
+#define SYMBOL_MAX 114
 
 #define CELL_UNSPECIFIED 7
 
-#define CELL_SYMBOL_RECORD_TYPE 81
+#define CELL_SYMBOL_RECORD_TYPE 80
 
 #endif /* __MES_SYMBOLS_H */
