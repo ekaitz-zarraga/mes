@@ -103,6 +103,7 @@ struct scm *ash (struct scm *n, struct scm *count);
 struct scm *module_variable (struct scm *module, struct scm *name);
 struct scm *module_define_x (struct scm *module, struct scm *name, struct scm *value);
 struct scm *initial_module ();
+struct scm *current_module ();
 /* src/posix.c */
 struct scm *abort_ ();
 struct scm *exit_ (struct scm *x);

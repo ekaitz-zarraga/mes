@@ -463,6 +463,7 @@ gc_flip ()
   scm_hash_table_type = scm_hash_table_type - dist;
   scm_variable_type = scm_variable_type - dist;
   M0 = M0 - dist;
+  M1 = M1 - dist;
 
   long i;
   for (i = g_stack; i < STACK_SIZE; i = i + 1)
@@ -636,6 +637,7 @@ gc_ ()
   scm_hash_table_type = gc_copy (scm_hash_table_type);
   scm_variable_type = gc_copy (scm_variable_type);
   M0 = gc_copy (M0);
+  M1 = gc_copy (M1);
 
   long i;
   for (i = g_stack; i < STACK_SIZE; i = i + 1)
@@ -744,6 +746,7 @@ gc_dump_state ()
   gc_dump_register ("R2", R2);
   gc_dump_register ("R3", R3);
   gc_dump_register ("M0", M0);
+  gc_dump_register ("M1", M1);
   gc_dump_register ("g_symbols", g_symbols);
   gc_dump_register ("g_symbol_max", g_symbol_max);
   gc_dump_register ("g_macros", g_macros);

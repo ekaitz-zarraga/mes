@@ -197,6 +197,7 @@ main (int argc, char **argv)
   a = mes_builtins (a);
   a = init_time (a);
   M0 = make_initial_module (a);
+  M1 = cell_f;
   R0 = cell_nil;
   g_macros = make_hash_table_ (0);
 

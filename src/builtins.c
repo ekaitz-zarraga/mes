@@ -213,6 +213,7 @@ mes_builtins (struct scm *a)            /*:((internal)) */
   a = init_builtin (builtin_type, "module-variable", 2, &module_variable, a);
   a = init_builtin (builtin_type, "module-define!", 3, &module_define_x, a);
   a = init_builtin (builtin_type, "initial-module", 0, &initial_module, a);
+  a = init_builtin (builtin_type, "current-module", 0, &current_module, a);
   /* src/posix.c */
   a = init_builtin (builtin_type, "abort", 0, &abort_, a);
   a = init_builtin (builtin_type, "exit", 1, &exit_, a);

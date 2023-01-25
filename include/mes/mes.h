@@ -81,8 +81,10 @@ extern struct scm *R1;
 extern struct scm *R2;
 /* continuation */
 extern struct scm *R3;
-/* current-module */
+/* initial module obarray */
 extern struct scm *M0;
+/* current module */
+extern struct scm *M1;
 /* macro */
 extern struct scm *g_macros;
 extern struct scm *g_ports;

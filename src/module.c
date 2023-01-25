@@ -43,6 +43,12 @@ initial_module ()
 }
 
 struct scm *
+current_module ()
+{
+  return M1;
+}
+
+struct scm *
 module_variable (struct scm *module, struct scm *name)
 {
   module = M0;
