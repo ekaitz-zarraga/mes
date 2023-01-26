@@ -22,7 +22,7 @@
 (define-module (srfi srfi-26)
   :export (cut cute))
 
-(cond-expand-provide (current-module) '(srfi-26))
+(cond-expand-provide (current-environment) '(srfi-26))
 
 (define-macro (cut slot . slots)
   (let loop ((slots	(cons slot slots))

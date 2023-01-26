@@ -18,7 +18,7 @@
 
 (define (cons* . rest)
   (if (null? (cdr rest)) (car rest)
-      (cons (car rest) (core:apply cons* (cdr rest) (current-module)))))
+      (cons (car rest) (core:apply cons* (cdr rest) (current-environment)))))
 
 (define (caar x) (car (car x)))
 (define (cadr x) (car (cdr x)))

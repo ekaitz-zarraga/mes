@@ -20,7 +20,7 @@
 (define mes %version)
 
 (define (defined? x)
-  (module-variable (current-module) x))
+  (module-variable (current-environment) x))
 
 (define (cond-expand-expander clauses)
   (if (defined? (car (car clauses)))
@@ -62,10 +62,10 @@
 
 (define (cons* . rest)
   (if (null? (cdr rest)) (car rest)
-      (cons (car rest) (core:apply cons* (cdr rest) (current-module)))))
+      (cons (car rest) (core:apply cons* (cdr rest) (current-environment)))))
 
 (define (apply f h . t)
-  (if (null? t) (core:apply f h (current-module))
+  (if (null? t) (core:apply f h (current-environment))
       (apply f (apply cons* (cons h t)))))
 
 (define (append . rest)
@@ -146,10 +146,10 @@
 
 (define (cons* . rest)
   (if (null? (cdr rest)) (car rest)
-      (cons (car rest) (core:apply cons* (cdr rest) (current-module)))))
+      (cons (car rest) (core:apply cons* (cdr rest) (current-environment)))))
 
 (define (apply f h . t)
-  (if (null? t) (core:apply f h (current-module))
+  (if (null? t) (core:apply f h (current-environment))
       (apply f (apply cons* (cons h t)))))
 
 (define (append . rest)

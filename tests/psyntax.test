@@ -114,10 +114,10 @@ MES_ARENA=${MES_ARENA-10000000} exec ${MES-bin/mes} --no-auto-compile -L ${0%/*}
            (exp '(swap foo bar))
            (foo "foo")
            (bar "bar")
-           (s (eval sc (current-module)))
+           (s (eval sc (current-environment)))
            (d (syntax-object->datum s))
            (e (core:macro-expand d)))
-      (eval e (current-module))
+      (eval e (current-environment))
       (list foo bar)))))
 
 (pass-if-equal "define-syntax swap! [syntax-case]"

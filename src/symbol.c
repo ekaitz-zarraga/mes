@@ -110,7 +110,7 @@ init_symbols_ ()                  /*:((internal)) */
   cell_symbol_sc_expander_alist = init_symbol (g_symbol, TSYMBOL, "*sc-expander-alist*");
   cell_symbol_call_with_values = init_symbol (g_symbol, TSYMBOL, "call-with-values");
   cell_symbol_call_with_current_continuation = init_symbol (g_symbol, TSYMBOL, "call-with-current-continuation");
-  cell_symbol_current_module = init_symbol (g_symbol, TSYMBOL, "current-module");
+  cell_symbol_current_environment = init_symbol (g_symbol, TSYMBOL, "current-environment");
   cell_symbol_primitive_load = init_symbol (g_symbol, TSYMBOL, "primitive-load");
   cell_symbol_car = init_symbol (g_symbol, TSYMBOL, "car");
   cell_symbol_cdr = init_symbol (g_symbol, TSYMBOL, "cdr");
@@ -179,7 +179,7 @@ init_symbols ()                  /*:((internal)) */
 
   struct scm *a = cell_nil;
   a = acons (cell_symbol_call_with_values, cell_symbol_call_with_values, a);
-  a = acons (cell_symbol_current_module, cell_symbol_current_module, a);
+  a = acons (cell_symbol_current_environment, cell_symbol_current_environment, a);
 
   a = acons (cell_symbol_mes_version, make_string0 (MES_VERSION), a);
   a = acons (cell_symbol_mes_datadir, make_string0 (g_datadir), a);

@@ -30,7 +30,7 @@
 (define mes %version)
 
 (define (defined? x)
-  (module-variable (current-module) x))
+  (module-variable (current-environment) x))
 
 (define (cond-expand-expander clauses)
   (if (defined? (car (car clauses)))
@@ -67,10 +67,10 @@
 
 (define (cons* . rest)
   (if (null? (cdr rest)) (car rest)
-      (cons (car rest) (core:apply cons* (cdr rest) (current-module)))))
+      (cons (car rest) (core:apply cons* (cdr rest) (current-environment)))))
 
 (define (apply f h . t)
-  (if (null? t) (core:apply f h (current-module))
+  (if (null? t) (core:apply f h (current-environment))
       (apply f (apply cons* (cons h t)))))
 
 (define (append . rest)
@@ -101,7 +101,7 @@
 ;; boot-03.scm
 (define guile? #f)
 (define mes? #t)
-(define (primitive-eval e) (core:eval e (current-module)))
+(define (primitive-eval e) (core:eval e (current-environment)))
 (define eval core:eval)
 
 (define (port-filename port) "<stdin>")
@@ -112,10 +112,10 @@
 
 (define (cons* . rest)
   (if (null? (cdr rest)) (car rest)
-      (cons (car rest) (core:apply cons* (cdr rest) (current-module)))))
+      (cons (car rest) (core:apply cons* (cdr rest) (current-environment)))))
 
 (define (apply f h . t)
-  (if (null? t) (core:apply f h (current-module))
+  (if (null? t) (core:apply f h (current-environment))
       (apply f (apply cons* (cons h t)))))
 
 (define-macro (load file)
@@ -137,7 +137,7 @@
           (append2 (car rest) (apply append (cdr rest))))))
 
 (if (not (defined? '%datadir))
-    (module-define! (current-module) '%datadir "mes"))
+    (module-define! (current-environment) '%datadir "mes"))
 
 (define %moduledir (string-append %datadir "/module/"))
 
@@ -270,7 +270,7 @@ General help using GNU software: <http://gnu.org/gethelp/>
              (setenv "GUILE_LOAD_PATH" (string-append dir ":" (getenv "GUILE_LOAD_PATH")))))
     (when command
       (let* ((prev (set-current-input-port (open-input-string command)))
-             (expr (cons 'begin (read-input-file-env (current-module))))
+             (expr (cons 'begin (read-input-file-env (current-environment))))
              (set-current-input-port prev))
         (primitive-eval expr)
         (exit 0)))

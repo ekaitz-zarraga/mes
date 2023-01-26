@@ -18,11 +18,11 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
 
-(define (interaction-environment) (current-module))
+(define (interaction-environment) (current-environment))
 
 (define (eval x . environment)
   (core:eval (if (and (pair? x) (equal? (car x) "noexpand")) (cadr x) x)
-             (if (null? environment) (current-module) (car environment))))
+             (if (null? environment) (current-environment) (car environment))))
 
 (define annotation? (lambda (x) #f))
 (define (self-evaluating? x)

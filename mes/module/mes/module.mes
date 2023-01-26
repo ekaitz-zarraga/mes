@@ -53,7 +53,7 @@
   (push! *input-ports* (current-input-port))
   (set-current-input-port (open-input-file (string-append %moduledir (module->file module))))
   (let ((x (core:eval (append2 (cons 'begin (read-input-file-env a))
-                               '((current-module)))
+                               '((current-environment)))
                       a)))
     (set-current-input-port (pop! *input-ports*))
     x))

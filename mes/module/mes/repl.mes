@@ -175,7 +175,7 @@ along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
              (lambda () #f)))))
 
     (display welcome)
-    (let loop ((a (current-module)))
+    (let loop ((a (current-environment)))
       (display "mes> ")
       (force-output)
       (catch #t

@@ -44,7 +44,7 @@
             c99-input->info
             c99-input->object))
 
-(define mes? (pair? (current-module)))
+(define mes? (defined? 'mes))
 (define mes-or-reproducible? #t)
 (define (cc-amd? info) #f)              ; use AMD calling convention?
 ;; (define %reduced-register-count #f)     ; use all registers?

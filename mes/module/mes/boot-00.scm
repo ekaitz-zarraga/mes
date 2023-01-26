@@ -20,7 +20,7 @@
 (define mes %version)
 
 (define (defined? x)
-  (module-variable (current-module) x))
+  (module-variable (current-environment) x))
 
 (define (cond-expand-expander clauses)
   (if (defined? (car (car clauses)))

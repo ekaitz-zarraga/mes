@@ -18,7 +18,7 @@
 
 (define-module (guile gc))
 
-(define (R) (reload-module (current-module)))
+(define (R) (reload-module (current-environment)))
 
 (define gc-size 10)
 (define the-cars (make-vector gc-size '(* . *)))
@@ -107,7 +107,7 @@
           (display (cell-value x)))))
 
 (define (gc-root)
-  (filter gc-pair? (module-map (lambda (x y) (variable-ref y)) (current-module)))
+  (filter gc-pair? (module-map (lambda (x y) (variable-ref y)) (current-environment)))
   list1234)
 
 (define new-cars (make-vector gc-size '(* . *)))

@@ -104,7 +104,7 @@
                   (write-char x port)))))
        ((closure? x)
         (display "#<procedure " port)
-        (let ((name (and=> (next-xassq2 x (current-module)) car)))
+        (let ((name (and=> (next-xassq2 x (current-environment)) car)))
           (display name port))
         (display " " port)
         (display (cadr (core:cdr x)) port)

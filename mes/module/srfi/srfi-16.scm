@@ -51,7 +51,7 @@
 (define-module (srfi srfi-16)
   :export-syntax (case-lambda))
 
-(cond-expand-provide (current-module) '(srfi-16))
+(cond-expand-provide (current-environment) '(srfi-16))
 
 (define-macro (case-lambda . clauses)
 
