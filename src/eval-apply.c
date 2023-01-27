@@ -688,6 +688,15 @@ eval:
                     goto eval;
                   }
               eval_define:
+                /* These may have been clobbered by an inline define
+                   during evaluation, so they must be recomputed. */
+                global_p = 0;
+                if (R0->car->car != cell_closure)
+                  global_p = 1;
+                macro_p = 0;
+                if (R2->car == cell_symbol_define_macro)
+                  macro_p = 1;
+
                 name = R2->cdr->car;
                 aa = R2->cdr->car;
                 if (aa->type == TPAIR)
@@ -706,9 +715,13 @@ eval:
                   {
                     entry = cons (name, R1);
                     aa = cons (entry, cell_nil);
+                    /* Push the definition onto the current lexical
+                       environment, but keep the first element (named
+                       '*closure*') pointing to the rest of the
+                       environment. */
                     set_cdr_x (aa, cdr (R0));
                     set_cdr_x (R0, aa);
-                    set_x (cell_closure, aa);
+                    set_cdr_x (car (R0), aa);
                   }
                 R1 = cell_unspecified;
                 goto vm_return;
