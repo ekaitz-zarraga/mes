@@ -310,7 +310,6 @@ expand_variable_ (struct scm *x, struct scm *formals, int top_p)        /*:((int
             return cell_unspecified;
           else if (a->type == TSYMBOL
                    && a != cell_symbol_current_environment
-                   && a != cell_symbol_primitive_load
                    && formal_p (x->car, formals) == 0)
             {
               v = lookup_binding (a);
@@ -436,9 +435,6 @@ eval_apply:
     goto eval_pmatch_cdr;
   else if (R3 == cell_vm_macro_expand_define_macro)
     goto macro_expand_define_macro;
-  else if (R3 == cell_vm_begin_primitive_load)
-    goto begin_primitive_load;
-
   else if (R3 == cell_vm_evlis)
     goto evlis;
   else if (R3 == cell_vm_apply)
@@ -453,8 +449,6 @@ eval_apply:
     goto begin;
   else if (R3 == cell_vm_begin_expand)
     goto begin_expand;
-  else if (R3 == cell_vm_begin_expand_primitive_load)
-    goto begin_expand_primitive_load;
   else if (R3 == cell_vm_if)
     goto vm_if;
   else if (R3 == cell_vm_call_with_values2)
@@ -865,19 +859,6 @@ begin:
       gc_check ();
       if (R1->type == TPAIR)
         {
-          if (R1->car->car == cell_symbol_primitive_load)
-            {
-              program = cons (R1->car, cell_nil);
-              push_cc (program, R1, R0, cell_vm_begin_primitive_load);
-              goto begin_expand;
-            begin_primitive_load:
-              R2->car = R1;
-              R1 = R2;
-            }
-        }
-
-      if (R1->type == TPAIR)
-        {
           a = R1->car;
           if (a->type == TPAIR)
             {
@@ -913,41 +894,6 @@ begin_expand:
           if (a->type == TPAIR)
             if (R1->car->car == cell_symbol_begin)
               R1 = append2 (R1->car->cdr, R1->cdr);
-          if (R1->car->car == cell_symbol_primitive_load)
-            {
-              push_cc (R1->car->cdr->car, R1, R0, cell_vm_begin_expand_primitive_load);
-              goto eval;
-            begin_expand_primitive_load:
-              if ((R1->type == TNUMBER) && R1->value == 0)
-                0;
-              else if (R1->type == TSTRING)
-                input = set_current_input_port (open_input_file (R1));
-              else if (R1->type == TPORT)
-                input = set_current_input_port (R1);
-              else
-                {
-                  eputs ("begin_expand failed, R1=");
-                  display_error_ (R1);
-                  assert_msg (0, "begin-expand-boom 0");
-                }
-
-              push_cc (input, R2, R0, cell_vm_return);
-              x = read_input_file_env (R0);
-              if (g_debug > 5)
-                {
-                  eputs ("initial module obarray\n");
-                  hash_table_printer (M0);
-                }
-              gc_pop_frame ();
-              input = R1;
-              R1 = x;
-              set_current_input_port (input);
-              R1 = cons (cell_symbol_begin, R1);
-              R2->car = R1;
-              R1 = R2;
-              goto begin_expand_while;
-              continue; /* FIXME: M2-PLanet */
-            }
         }
 
       push_cc (R1->car, R1, R0, cell_vm_begin_expand_macro);
@@ -1030,4 +976,40 @@ apply (struct scm *f, struct scm *x, struct scm *a)     /*:((internal)) */
   push_cc (cons (f, x), cell_unspecified, R0, cell_unspecified);
   R3 = cell_vm_apply;
   return eval_apply ();
+}
+
+struct scm *
+primitive_load (struct scm *filename)     /*:((arity . 1))*/
+{
+  struct scm *input;
+
+  if ((filename->type == TNUMBER) && filename->value == 0)
+    input = current_input_port ();
+  else if (filename->type == TSTRING)
+    input = set_current_input_port (open_input_file (filename));
+  else if (filename->type == TPORT)
+    input = set_current_input_port (filename);
+  else
+    {
+      eputs ("primitive_load failed, filename=");
+      display_error_ (filename);
+      assert_msg (0, "primitive-load-boom 0");
+    }
+
+  struct scm *forms = read_input_file_env (cell_nil);
+  forms = cons (cell_symbol_begin, forms);
+  set_current_input_port (input);
+
+  struct scm *env = cell_nil;
+  env = cons (cons (cell_symbol_program, forms), env);
+
+  gc_push_frame ();
+  /* Store 'input' in R2 so it does not get GCed during evaluation. */
+  push_cc (forms, cell_unspecified, env, cell_unspecified);
+  R3 = cell_vm_begin_expand;
+  struct scm *result = eval_apply ();
+  input = R2;
+  gc_pop_frame ();
+
+  return result;
 }

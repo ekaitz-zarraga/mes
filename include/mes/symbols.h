@@ -38,8 +38,6 @@ extern struct scm *cell_vm_begin_eval;
 extern struct scm *cell_vm_begin_expand;
 extern struct scm *cell_vm_begin_expand_eval;
 extern struct scm *cell_vm_begin_expand_macro;
-extern struct scm *cell_vm_begin_expand_primitive_load;
-extern struct scm *cell_vm_begin_primitive_load;
 extern struct scm *cell_vm_begin_read_input_file;
 extern struct scm *cell_vm_call_with_current_continuation2;
 extern struct scm *cell_vm_call_with_values2;
@@ -87,7 +85,6 @@ extern struct scm *cell_symbol_sc_expander_alist;
 extern struct scm *cell_symbol_call_with_values;
 extern struct scm *cell_symbol_call_with_current_continuation;
 extern struct scm *cell_symbol_current_environment;
-extern struct scm *cell_symbol_primitive_load;
 extern struct scm *cell_symbol_car;
 extern struct scm *cell_symbol_cdr;
 extern struct scm *cell_symbol_not_a_number;
@@ -136,10 +133,10 @@ extern struct scm *cell_type_broken_heart;
 extern struct scm *cell_symbol_program;
 extern struct scm *cell_symbol_test;
 
-#define SYMBOL_MAX 114
+#define SYMBOL_MAX 111
 
 #define CELL_UNSPECIFIED 7
 
-#define CELL_SYMBOL_RECORD_TYPE 80
+#define CELL_SYMBOL_RECORD_TYPE 77
 
 #endif /* __MES_SYMBOLS_H */

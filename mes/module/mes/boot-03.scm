@@ -172,4 +172,3 @@
 (define-macro (use-modules . rest) #t)
 ;; end boot-03.scm
 (primitive-load 0)
-(primitive-load 0)

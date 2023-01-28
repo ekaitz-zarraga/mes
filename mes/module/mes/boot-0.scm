@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -205,7 +206,7 @@
 (mes-use-module (mes getopt-long))
 
 (define %main #f)
-(primitive-load 0)
+
 (let ((tty? (isatty? 0)))
   (define (parse-opts args)
     (let* ((option-spec
@@ -274,18 +275,19 @@ General help using GNU software: <http://gnu.org/gethelp/>
              (set-current-input-port prev))
         (primitive-eval expr)
         (exit 0)))
-    (when main (set! %main main))
+    (when main
+      (let ((proc-name (string->symbol main)))
+        (set! %main (lambda () (apply proc-name (command-line) '())))))
     (cond ((pair? files)
-           (let* ((file (car files))
-                  (port (if (equal? file "-") 0
-                            (open-input-file file))))
+           (let ((file (car files)))
              (set! %argv files)
-             (set-current-input-port port)))
+             (if (equal? file "-") (primitive-load 0)
+                 (primitive-load file))))
           ((and (null? files) tty?)
 
            (mes-use-module (mes repl))
            (set-current-input-port 0)
            (repl))
-          (else #t))))
-(primitive-load 0)
-(primitive-load (open-input-string %main))
+          (else #t))
+    (when %main
+      (%main))))

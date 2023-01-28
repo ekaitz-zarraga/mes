@@ -62,8 +62,6 @@ init_symbols_ ()                  /*:((internal)) */
   cell_vm_begin_expand = init_symbol (g_symbol, TSPECIAL, "core:eval");
   cell_vm_begin_expand_eval = init_symbol (g_symbol, TSPECIAL, "*vm:begin-expand-eval*");
   cell_vm_begin_expand_macro = init_symbol (g_symbol, TSPECIAL, "*vm:begin-expand-macro*");
-  cell_vm_begin_expand_primitive_load = init_symbol (g_symbol, TSPECIAL, "*vm:core:begin-expand-primitive-load*");
-  cell_vm_begin_primitive_load = init_symbol (g_symbol, TSPECIAL, "*vm:core:begin-primitive-load*");
   cell_vm_begin_read_input_file = init_symbol (g_symbol, TSPECIAL, "*vm-begin-read-input-file*");
   cell_vm_call_with_current_continuation2 = init_symbol (g_symbol, TSPECIAL, "*vm-call-with-current-continuation2*");
   cell_vm_call_with_values2 = init_symbol (g_symbol, TSPECIAL, "*vm-call-with-values2*");
@@ -111,7 +109,6 @@ init_symbols_ ()                  /*:((internal)) */
   cell_symbol_call_with_values = init_symbol (g_symbol, TSYMBOL, "call-with-values");
   cell_symbol_call_with_current_continuation = init_symbol (g_symbol, TSYMBOL, "call-with-current-continuation");
   cell_symbol_current_environment = init_symbol (g_symbol, TSYMBOL, "current-environment");
-  cell_symbol_primitive_load = init_symbol (g_symbol, TSYMBOL, "primitive-load");
   cell_symbol_car = init_symbol (g_symbol, TSYMBOL, "car");
   cell_symbol_cdr = init_symbol (g_symbol, TSYMBOL, "cdr");
   cell_symbol_not_a_number = init_symbol (g_symbol, TSYMBOL, "not-a-number");

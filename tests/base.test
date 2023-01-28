@@ -116,9 +116,15 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
 (define load.scm
   (string-append (or (getenv "srcdest") "") "tests/data/load.scm"))
 
-(pass-if-equal "primitive-load" 42
-  (primitive-load load.scm)
-  the-answer)
+(define toplevel? #f)
+
+(pass-if-equal "primitive-load" 42 (primitive-load load.scm) the-answer)
+
+(pass-if-equal "primitive-load-toplevel"
+    #t
+  ((lambda ()
+     (primitive-load load.scm)))
+  toplevel?)
 
 (cond-expand
  (mes

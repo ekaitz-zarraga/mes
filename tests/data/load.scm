@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -19,3 +20,10 @@
 ;;; along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
 
 (define the-answer 42)
+
+(set! toplevel?
+      ;; If the module system has booted or we are running on Guile,
+      ;; assume everything is okay.
+      (if (current-module)
+          #t
+          (if (eq? '*closure* (car (car (current-environment)))) #f #t)))
