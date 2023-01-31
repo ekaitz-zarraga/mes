@@ -55,6 +55,7 @@ tests/fluids.test
 tests/catch.test
 tests/getopt-long.test
 tests/guile.test
+tests/guile-module.test
 tests/syntax.test
 tests/let-syntax.test
 tests/pmatch.test

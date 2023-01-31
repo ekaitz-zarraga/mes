@@ -2,7 +2,6 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
-;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -31,9 +30,7 @@
 (define mes %version)
 
 (define (defined? x)
-  ((lambda (v)
-     (if v (if (eq? (variable-ref v) *undefined*) #f #t) #f))
-   (core:hashq-ref (initial-module) x #f)))
+  (core:hashq-ref (initial-module) x #f))
 
 (define (cond-expand-expander clauses)
   (if (defined? (car (car clauses)))
@@ -64,9 +61,7 @@
   (if (null? lst) (list)
       (cons (f (car lst)) (map1 f (cdr lst)))))
 
-(define (map f lst)
-  (if (null? lst) (list)
-      (cons (f (car lst)) (map f (cdr lst)))))
+(define map map1)
 
 (define (cons* . rest)
   (if (null? (cdr rest)) (car rest)
@@ -99,6 +94,10 @@
 
 (define-macro (mes-use-module module)
   #t)
+
+(define-macro (define-module module . rest)
+  #t)
+
 ;; end boot-02.scm
 
 ;; boot-03.scm
@@ -138,9 +137,6 @@
   (if (null? rest) '()
       (if (null? (cdr rest)) (car rest)
           (append2 (car rest) (apply append (cdr rest))))))
-
-(if (not (defined? '%datadir))
-    (module-define! (current-environment) '%datadir "mes"))
 
 (define %moduledir (string-append %datadir "/module/"))
 
@@ -188,5 +184,16 @@
 ;; end boot-04.scm
 
 (mes-use-module (mes main))
+
+(mes-use-module (srfi srfi-9))
+
+(define (defined? x)
+  (module-defined? (current-module) x))
+
+(mes-use-module (mes guile-module))
+
+;; Until more of Mes is modularized, the REPL can only work from the
+;; root module.
+(set-current-module the-root-module)
 
 (top-main)

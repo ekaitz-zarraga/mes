@@ -22,10 +22,36 @@
 
 ;;; Code:
 
-(mes-use-module (srfi srfi-13))
-
 (define-macro (cond-expand-provide . rest) #t)
 
+(define-macro (include-from-path file)
+  (let loop ((path (cons* %moduledir "module" (string-split (or (getenv "GUILE_LOAD_PATH") "") #\:))))
+    (cond ((and=> (getenv "MES_DEBUG") (compose (lambda (o) (> o 2)) string->number))
+           (core:display-error (string-append "include-from-path: " file " [PATH:" (string-join path ":") "]\n")))
+          ((and=> (getenv "MES_DEBUG") (compose (lambda (o) (> o 1)) string->number))
+           (core:display-error (string-append "include-from-path: " file "\n"))))
+    (if (null? path) (error "include-from-path: not found: " file)
+        (let ((file (string-append (car path) "/" file)))
+          (if (access? file R_OK) `(load ,file)
+              (loop (cdr path)))))))
+
+(define-macro (define-module module . rest)
+  `(if ,(and (pair? module)
+             (= 1 (length module))
+             (symbol? (car module)))
+       (define (,(car module) . arguments) (main (command-line)))))
+
+(define-macro (defmacro name args . body)
+  `(define-macro ,(cons name args) ,@body))
+
+(define-macro (set-procedure-property! proc key value)
+  proc)
+
+(define-macro (use-modules . rest) #t)
+
+(define (effective-version) %version)
+
+(mes-use-module (srfi srfi-13))
 (mes-use-module (mes catch))
 (mes-use-module (mes posix))
 (mes-use-module (srfi srfi-16))
