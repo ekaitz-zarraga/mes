@@ -31,7 +31,7 @@
 (define mes %version)
 
 (define (defined? x)
-  (module-variable (current-environment) x))
+  (core:hashq-ref (initial-module) x #f))
 
 (define (cond-expand-expander clauses)
   (if (defined? (car (car clauses)))

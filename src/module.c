@@ -49,16 +49,42 @@ current_module ()
 }
 
 struct scm *
-module_variable (struct scm *module, struct scm *name)
+set_current_module (struct scm *module)
 {
-  module = M0;
-  return hashq_get_handle (module, name);
+  struct scm *previous = M1;
+  M1 = module;
+  return previous;
 }
 
 struct scm *
-module_define_x (struct scm *module, struct scm *name, struct scm *value)
+current_module_variable (struct scm *name, struct scm *define_p)
 {
-  module = M0;
-  struct scm *var = make_variable (value);
-  return hashq_set_x (module, name, var);
+  struct scm *module = current_module ();
+
+  /* When '(current-module)' is false, that means the module system is
+     not yet booted.  In that case, we lookup variables in the initial
+     module hash table. */
+  if (module == cell_f)
+    {
+      module = initial_module ();
+      struct scm *variable = hashq_ref_ (module, name, cell_f);
+      if (variable == cell_f && define_p != cell_f)
+        return hashq_set_x (module, name, make_variable (cell_undefined));
+      else
+        return variable;
+    }
+
+  /* The module system is booted.  We can use the current module's
+     'eval-closure' procedure.  We take it on faith that whatever is in
+     'M1' is a module. */
+  struct scm *eval_closure = struct_ref_ (module, MODULE_EVAL_CLOSURE);
+  struct scm *args = cell_nil;
+  args = cons (define_p, args);
+  args = cons (name, args);
+  /* XXX: Calling 'apply' does not restore the registers properly.  We
+     work around it here, but maybe it should be fixed in 'apply'. */
+  gc_push_frame ();
+  struct scm *result = apply (eval_closure, args, cell_nil);
+  gc_pop_frame ();
+  return result;
 }

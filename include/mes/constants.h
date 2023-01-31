@@ -51,4 +51,6 @@
 #define GC_FRAME_SIZE 5
 #define GC_FRAME_PROCEDURE 4
 
+#define MODULE_EVAL_CLOSURE 6
+
 #endif /* __MES_CONSTANTS_H */

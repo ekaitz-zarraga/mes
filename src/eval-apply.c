@@ -129,7 +129,7 @@ set_x (struct scm *x, struct scm *e)
   if (x->type == TBINDING)
     binding = x;
   else
-    binding = lookup_binding (x);
+    binding = lookup_binding (x, cell_f);
 
   if (binding == cell_f)
     return error (cell_symbol_unbound_variable, x);
@@ -205,15 +205,15 @@ push_cc (struct scm *p1, struct scm *p2, struct scm *a, struct scm *c)  /*:((int
 }
 
 struct scm *
-lookup_binding (struct scm *name)
+lookup_binding (struct scm *name, struct scm *define_p)
 {
   struct scm *handle = assq (name, R0);
   if (handle != cell_f)
     return make_binding_ (handle, 1);
 
-  handle = module_variable (M0, name);
-  if (handle != cell_f)
-    return make_binding_ (handle, 0);
+  struct scm *variable = current_module_variable (name, define_p);
+  if (variable != cell_f)
+    return make_binding_ (cons (name, variable), 0);
 
   return cell_f;
 }
@@ -221,7 +221,7 @@ lookup_binding (struct scm *name)
 struct scm *
 lookup_value (struct scm *name)
 {
-  struct scm *binding = lookup_binding (name);
+  struct scm *binding = lookup_binding (name, cell_f);
   if (binding != cell_f)
     {
       if (binding->lexical_p != 0)
@@ -316,7 +316,7 @@ expand_variable_ (int top_p)        /*:((internal)) */
                    && a != cell_symbol_current_environment
                    && formal_p (a, R2) == 0)
             {
-              v = lookup_binding (a);
+              v = lookup_binding (a, cell_f);
               if (v != cell_f)
                 R1->car = v;
             }
@@ -677,11 +677,9 @@ eval:
                       }
                     else
                       {
-                        R2 = name;
-                        entry = lookup_binding (name);
-                        name = R2;
-                        if (entry == cell_f)
-                          module_define_x (M0, name, cell_f);
+                        /* Ensure this name is bound in the current
+                           module. */
+                        lookup_binding (name, cell_t);
                       }
                   }
                 R2 = R1;

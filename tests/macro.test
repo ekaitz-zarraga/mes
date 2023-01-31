@@ -69,15 +69,15 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
      (list
       'begin
       (list
-       'module-define!
+       'hashq-set!
        (list 'initial-module)
        (list 'quote fluid)
-       (list
-        (lambda (v)
-          (lambda ( . rest)
-            (if (null? rest) v
-                (set! v (car rest)))))
-        (and (pair? default) (car default))))
+       (list 'make-variable
+             (list (lambda (v)
+                     (lambda ( . rest)
+                       (if (null? rest) v
+                           (set! v (car rest)))))
+                   (and (pair? default) (car default)))))
       (list 'quote fluid)))
    (symbol-append 'fluid: (gensym))))
 

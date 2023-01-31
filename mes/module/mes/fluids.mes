@@ -27,14 +27,15 @@
 (define-macro (make-fluid . default)
   ((lambda (fluid)
      `(begin
-        (module-define!
+        (hashq-set!
          (initial-module)
-        ',fluid
-        ((lambda (v)
-           (lambda ( . rest)
-             (if (null? rest) v
-                 (set! v (car rest)))))
-         ,(and (pair? default) (car default))))
+         ',fluid
+         (make-variable
+          ((lambda (v)
+             (lambda ( . rest)
+               (if (null? rest) v
+                   (set! v (car rest)))))
+           ,(and (pair? default) (car default)))))
         ',fluid))
    (symbol-append 'fluid: (gensym))))
 
