@@ -984,6 +984,24 @@ begin_expand:
           continue; /* FIXME: M2-PLanet */
         }
       R1 = R2;
+
+      /* If we expand a 'define' form that refers to itself, and it also
+         reuses a name higher up in the module chain, the self-reference
+         will be bound to the variable from the other module.  We hack
+         around this by binding the name in the current module before
+         expansion.  */
+      if (R1->type == TPAIR
+          && R1->car->type == TPAIR
+          && R1->car->car == cell_symbol_define)
+        {
+          /* Split the '&&' expression up to prevent a segfault when
+             compiled with M2-Planet. */
+          if (R1->car->cdr->type == TPAIR
+              && R1->car->cdr->car->type == TPAIR)
+            lookup_binding (R1->car->cdr->car->car, cell_t);
+        }
+
+
       expand_variable (R1->car, cell_nil);
       push_cc (R1->car, R1, R0, cell_vm_begin_expand_eval);
       goto eval;

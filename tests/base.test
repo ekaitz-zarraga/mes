@@ -101,11 +101,12 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
       (module-variable (current-module) name)
       (hashq-ref (initial-module) name)))
 
-(define (nested-define-value) (define x 12) x)
+(define (nested-define-value) (define *nested* 12) *nested*)
 (define *top-nested-define* (nested-define-value))
 (pass-if "top nested define"
   (let ((v (lookup-toplevel '*top-nested-define*)))
     (and v (equal? (variable-ref v) 12))))
+(pass-if "nested define" (not (lookup-toplevel '*nested*)))
 
 (pass-if "apply" (sequal? (apply list '(1)) '(1)))
 (pass-if "apply 2" (sequal? (apply list 1 '(2)) '(1 2)))
