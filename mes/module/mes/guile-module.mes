@@ -1072,16 +1072,16 @@
 (define (make-modules-in module name)
   (if (null? name)
       module
-      (cond
-       ((module-ref module (car name) #f)
-	=> (lambda (m) (make-modules-in m (cdr name))))
-       (else	(let ((m (make-module 31)))
-		  (set-module-kind! m 'directory)
-		  (set-module-name! m (append (or (module-name module)
-						  '())
-					      (list (car name))))
-		  (module-define! module (car name) m)
-		  (make-modules-in m (cdr name)))))))
+      (let ((already (module-ref module (car name) #f)))
+        (if (and already (module? already))
+            (make-modules-in already (cdr name))
+            (let ((m (make-module 31)))
+	      (set-module-kind! m 'directory)
+	      (set-module-name! m (append (or (module-name module)
+					      '())
+					  (list (car name))))
+	      (module-define! module (car name) m)
+	      (make-modules-in m (cdr name)))))))
 
 (define (beautify-user-module! module)
   (let ((interface (module-public-interface module)))
@@ -1101,7 +1101,7 @@
 (define (resolve-module name . maybe-autoload)
   (let ((full-name (append '(%app modules) name)))
     (let ((already (nested-ref the-root-module full-name)))
-      (if already
+      (if (and already (module? already))
 	  ;; The module already exists...
 	  (if (and (or (null? maybe-autoload) (car maybe-autoload))
 		   (not (module-public-interface already)))
