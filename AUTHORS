@@ -75,7 +75,7 @@ Pretty-print from Guile
 mes/module/mes/pretty-print.scm
 
 Srfi-1 bits from Guile
-mes/module/srfi/srfi-1.scm
+mes/module/srfi/srfi-1-guile.scm
 
 Srfi-16 from Guile
 mes/module/srfi/srfi-16.scm

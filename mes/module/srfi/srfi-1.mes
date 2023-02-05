@@ -111,13 +111,13 @@
       (if (eq x (car lst)) lst
           (srfi-1:member x (cdr lst) eq))))
 
-(define mes:member member)
+(define mes:member (@ (guile) member))
 
 (define (member x lst . rest)
   (if (null? rest) (mes:member x lst)
       (srfi-1:member x lst (car rest))))
 
-(define mes:iota iota)
+(define mes:iota (@ (guile) iota))
 
 (define (srfi-1:iota n start step)
   (if (<= n 0) '()
@@ -141,7 +141,7 @@
               (loop (cdr lst))
                 (cons (car lst) (loop (cdr lst))))))))
 
-(include-from-path "srfi/srfi-1.scm")
+(include-from-path "srfi/srfi-1-guile.scm")
 
 (define (take-while pred lst)
   (if (or (null? lst) (not (pred (car lst)))) '()
