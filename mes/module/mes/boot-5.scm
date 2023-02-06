@@ -187,8 +187,6 @@
 (mes-use-module (mes guile))
 ;; end boot-04.scm
 
-(mes-use-module (mes main))
-
 (mes-use-module (srfi srfi-9))
 
 (define (defined? x)
@@ -197,8 +195,6 @@
 (mes-use-module (mes syntax))
 (mes-use-module (mes guile-module))
 
-;; Until more of Mes is modularized, the REPL can only work from the
-;; root module.
-(set-current-module the-root-module)
+(use-modules (mes main))
 
 (top-main)
