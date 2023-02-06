@@ -217,7 +217,11 @@
                                       acc))))))))
 
 (define (hash-fold proc init table)
-  (fold proc init (hash-map->list cons table)))
+  (let loop ((handles (hash-map->list cons table)) (acc init))
+    (if (null? handles)
+        acc
+        (loop (cdr handles)
+              (cons (proc (caar handles) (cdar handles) acc) acc)))))
 
 (define (hash-for-each proc table)
   (hash-map->list proc table)

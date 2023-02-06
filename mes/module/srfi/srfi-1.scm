@@ -27,30 +27,33 @@
 ;;; Code:
 
 (define-module (srfi srfi-1)
-  #:re-export (every
-               find
-               filter
-               append-map
-               filter-map
-               fold
-               fold-right
-               unfold
-               remove
-               reverse!
-               mes:member
-               srfi-1:member
-               member
-               mes:iota
-               srfi-1:iota
-               iota
-               delete-duplicates
-               any
-               any1
-               every
-               every1
-               list-index
-               lset-union
-               lset-intersection
-               lset-difference
-               reverse!
-               take-while))
+  #:re-export (append-reverse
+               reverse
+               reverse!)
+  #:replace (member
+             iota
+             filter
+             srfi-1:member)
+  #:export (every
+            find
+            append-map
+            filter-map
+            fold
+            fold-right
+            unfold
+            remove
+            mes:member
+            mes:iota
+            srfi-1:iota
+            delete-duplicates
+            any
+            any1
+            every
+            every1
+            list-index
+            lset-union
+            lset-intersection
+            lset-difference
+            take-while))
+
+(include-from-path "srfi/srfi-1.mes")

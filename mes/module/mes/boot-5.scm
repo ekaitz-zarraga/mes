@@ -179,7 +179,6 @@
 ;; end boot-03.scm
 
 ;; boot-04.scm
-(mes-use-module (srfi srfi-1))
 (mes-use-module (srfi srfi-13))
 (mes-use-module (mes fluids))
 (mes-use-module (mes catch))

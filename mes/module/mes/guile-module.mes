@@ -74,6 +74,8 @@
 (define delete! delete)
 (define (include-deprecated-features) #f)
 (define current-reader (make-fluid))
+(define (reverse lst) (append-reverse lst '()))
+(define (reverse! lst) (core:reverse! lst '()))
 
 ;;; A leaky version of object properties.  We need weak references to do
 ;;; this properly.
