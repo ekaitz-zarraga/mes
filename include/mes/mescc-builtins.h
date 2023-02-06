@@ -20,3 +20,6 @@
 
 struct scm *getpid_ ();
 struct scm *environ_ (struct scm *args);
+struct scm *opendir_ (struct scm *args);
+struct scm *closedir_ (struct scm *args);
+struct scm *readdir_ (struct scm *args);

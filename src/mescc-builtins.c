@@ -23,3 +23,6 @@
 
 a = init_builtin (builtin_type, "getpid", 0, &getpid_, a);
 a = init_builtin (builtin_type, "environ", -1, &environ_, a);
+a = init_builtin (builtin_type, "opendir", 1, &opendir_, a);
+a = init_builtin (builtin_type, "closedir", 1, &closedir_, a);
+a = init_builtin (builtin_type, "readdir", 1, &readdir_, a);

@@ -18,6 +18,9 @@
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <errno.h>
+#include <dirent.h>
+
 struct scm *
 getpid_ ()
 {
@@ -83,4 +86,67 @@ environ_ (struct scm *args)
       error (cell_symbol_wrong_number_of_args,
              cons (args, cstring_to_symbol ("environ")));
     }
+}
+
+struct scm *
+opendir_ (struct scm *file_name)
+{
+  if (file_name->type != TSTRING)
+    error (cell_symbol_wrong_type_arg,
+           cons (file_name, cstring_to_symbol ("opendir")));
+
+  DIR *dirstream = opendir (cell_bytes (file_name->string));
+
+  if (dirstream == NULL)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("Could not open directory"), file_name));
+
+  /* Oof.  Mes has no support for foreign objects, so we return this as
+     bytevector with the pointer as its contents. */
+  return make_bytes ((char *) &dirstream, sizeof (DIR *));
+}
+
+struct scm *
+closedir_ (struct scm *dir)
+{
+  if (dir->type != TBYTES || dir->length != sizeof (DIR *))
+    error (cell_symbol_wrong_type_arg,
+           cons (dir, cstring_to_symbol ("closedir")));
+
+  char *bytes = cell_bytes (dir);
+  DIR *dirstream = *((DIR **) bytes);
+
+  int result = closedir (dirstream);
+
+  if (result != 0)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("Error closing directory"), dir));
+
+  for (long i = 0; i < dir->length; i++)
+      bytes[i] = 0;
+
+  return cell_unspecified;
+}
+
+struct scm *
+readdir_ (struct scm *dir)
+{
+  if (dir->type != TBYTES || dir->length != sizeof (DIR *))
+    error (cell_symbol_wrong_type_arg,
+           cons (dir, cstring_to_symbol ("readdir")));
+
+  char *bytes = cell_bytes (dir);
+  DIR *dirstream = *((DIR **) bytes);
+
+  errno = 0;
+  struct dirent *dent = readdir (dirstream);
+
+  if (errno != 0)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("Error reading from directory"), dir));
+
+  if (dent != NULL)
+    return make_string0 (dent->d_name);
+  else
+    return cell_f;
 }
