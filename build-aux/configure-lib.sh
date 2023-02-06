@@ -147,6 +147,9 @@ fi
 
 libc_SOURCES="
 $libmes_SOURCES
+lib/dirent/__getdirentries.c
+lib/dirent/closedir.c
+lib/dirent/opendir.c
 lib/mes/__assert_fail.c
 lib/mes/__buffered_read.c
 lib/mes/__mes_debug.c
@@ -166,6 +169,7 @@ lib/stdio/getchar.c
 lib/stdio/putc.c
 lib/stdio/putchar.c
 lib/stdio/ungetc.c
+lib/stdlib/calloc.c
 lib/stdlib/free.c
 lib/stdlib/realloc.c
 lib/string/memchr.c
@@ -192,13 +196,17 @@ lib/stub/access.c
 lib/stub/brk.c
 lib/stub/chmod.c
 lib/stub/clock_gettime.c
+lib/stub/close.c
 lib/stub/dup2.c
 lib/stub/dup.c
 lib/stub/execve.c
+lib/stub/fcntl.c
 lib/stub/fork.c
+lib/stub/fstat.c
 lib/stub/_getcwd.c
 lib/stub/gettimeofday.c
 lib/stub/ioctl3.c
+lib/stub/readdir.c
 lib/stub/time.c
 lib/stub/unlink.c
 lib/stub/waitpid.c
@@ -211,17 +219,22 @@ lib/linux/access.c
 lib/linux/brk.c
 lib/linux/chmod.c
 lib/linux/clock_gettime.c
+lib/linux/close.c
 lib/linux/dup.c
 lib/linux/dup2.c
 lib/linux/execve.c
+lib/linux/fcntl.c
 lib/linux/fork.c
+lib/linux/fstat.c
 lib/linux/fsync.c
 lib/linux/_getcwd.c
+lib/linux/getdents.c
 lib/linux/gettimeofday.c
 lib/linux/ioctl3.c
 lib/linux/_open3.c
 lib/linux/malloc.c
 lib/linux/_read.c
+lib/linux/readdir.c
 lib/linux/time.c
 lib/linux/unlink.c
 lib/linux/wait4.c
@@ -275,7 +288,6 @@ lib/stdio/vprintf.c
 lib/stdio/vsnprintf.c
 lib/stdio/vsprintf.c
 lib/stdio/vsscanf.c
-lib/stdlib/calloc.c
 lib/stdlib/qsort.c
 lib/stdlib/strtod.c
 lib/stdlib/strtof.c
@@ -302,7 +314,6 @@ lib/$mes_cpu-mes-$compiler/setjmp.c
 
 if test $mes_kernel = linux; then
     libc_tcc_SOURCES="$libc_tcc_SOURCES
-lib/linux/close.c
 lib/linux/rmdir.c
 lib/linux/stat.c
 "
@@ -310,7 +321,6 @@ fi
 
 if test $mes_kernel = gnu; then
     libc_tcc_SOURCES="$libc_tcc_SOURCES
-lib/stub/close.c
 lib/stub/rmdir.c
 lib/stub/stat.c
 "
@@ -325,10 +335,6 @@ lib/ctype/iscntrl.c
 lib/ctype/isgraph.c
 lib/ctype/isprint.c
 lib/ctype/ispunct.c
-lib/dirent/__getdirentries.c
-lib/dirent/closedir.c
-lib/dirent/opendir.c
-lib/dirent/readdir.c
 lib/math/ceil.c
 lib/math/fabs.c
 lib/math/floor.c
@@ -415,9 +421,6 @@ lib/stub/utime.c
 if test $mes_kernel = linux; then
     libc_gnu_SOURCES="$libc_gnu_SOURCES
 lib/linux/chdir.c
-lib/linux/fcntl.c
-lib/linux/fstat.c
-lib/linux/getdents.c
 lib/linux/getegid.c
 lib/linux/geteuid.c
 lib/linux/getgid.c

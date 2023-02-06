@@ -212,6 +212,9 @@ $CC -g -D HAVE_CONFIG_H=1                               \
     lib/ctype/isnumber.c                                \
     lib/ctype/isspace.c                                 \
     lib/ctype/isxdigit.c                                \
+    lib/dirent/__getdirentries.c                        \
+    lib/dirent/opendir.c                                \
+    lib/dirent/closedir.c                               \
                                                         \
     lib/stub/__raise.c                                  \
     lib/mes/__assert_fail.c                             \
@@ -233,6 +236,7 @@ $CC -g -D HAVE_CONFIG_H=1                               \
     lib/stdio/putc.c                                    \
     lib/stdio/putchar.c                                 \
     lib/stdio/ungetc.c                                  \
+    lib/stdlib/calloc.c                                 \
     lib/stdlib/free.c                                   \
     lib/linux/getpid.c                                  \
     lib/linux/malloc.c                                  \
@@ -252,17 +256,22 @@ $CC -g -D HAVE_CONFIG_H=1                               \
     lib/linux/brk.c                                     \
     lib/linux/chmod.c                                   \
     lib/linux/clock_gettime.c                           \
+    lib/linux/close.c                                   \
     lib/linux/dup.c                                     \
     lib/linux/dup2.c                                    \
     lib/linux/execve.c                                  \
+    lib/linux/fcntl.c                                   \
     lib/linux/fork.c                                    \
+    lib/linux/fstat.c                                   \
     lib/linux/fsync.c                                   \
     lib/linux/_getcwd.c                                 \
+    lib/linux/getdents.c                                \
     lib/linux/gettimeofday.c                            \
     lib/linux/ioctl3.c                                  \
     lib/linux/_open3.c                                  \
     lib/linux/read.c                                    \
     lib/linux/_read.c                                   \
+    lib/linux/readdir.c                                 \
     lib/linux/time.c                                    \
     lib/linux/unlink.c                                  \
     include/sys/resource.h                              \
