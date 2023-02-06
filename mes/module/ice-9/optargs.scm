@@ -58,17 +58,26 @@
 
 ;;; Code:
 
-(define-module (mes optargs)
+(define-module (ice-9 optargs)
   #:use-module (system base pmatch)
   #:replace (lambda*)
   #:export-syntax (let-optional
-		  let-optional*
-		  let-keywords
-		  let-keywords*
-		  define*
-                  define*-public
-		  defmacro*
-		  defmacro*-public))
+		   let-optional*
+		   let-keywords
+		   let-keywords*
+		   define*
+                   define*-public
+		   defmacro*
+		   defmacro*-public
+
+                   ;; define*-guts
+                   ;; parse-arglist
+                   ;; every?
+                   ;; ext-decl?
+                   ;; let-optional-template
+                   ;; let-keywords-template
+                   ;; rest-arg->keyword-binding-list
+                   ))
 
 ;; let-optional rest-arg (binding ...) . body
 ;; let-optional* rest-arg (binding ...) . body
@@ -152,11 +161,11 @@
 				 => cdr)
 				(else
 				 ,(cadr key)))))))
-	  `(let ((,kb-list-gensym ((if (not mes?) (@@ (mes optargs) rest-arg->keyword-binding-list)
-                                       rest-arg->keyword-binding-list)
-                                   ,REST-ARG ',(map (lambda (x) (symbol->keyword (if (pair? x) (car x) x)))
-                                                    BINDINGS)
-                                   ,ALLOW-OTHER-KEYS?)))
+	  `(let* ((ra->kbl ,rest-arg->keyword-binding-list)
+		  (,kb-list-gensym (ra->kbl ,REST-ARG ',(map
+							 (lambda (x) (symbol->keyword (if (pair? x) (car x) x)))
+							 BINDINGS)
+					    ,ALLOW-OTHER-KEYS?)))
 	     ,(let-o-k-template REST-ARG BINDINGS BODY let-type bindfilter)))))
 
 (define (rest-arg->keyword-binding-list rest-arg keywords allow-other-keys?)

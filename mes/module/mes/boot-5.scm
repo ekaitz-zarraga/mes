@@ -194,6 +194,7 @@
 (define (defined? x)
   (module-defined? (current-module) x))
 
+(mes-use-module (mes syntax))
 (mes-use-module (mes guile-module))
 
 ;; Until more of Mes is modularized, the REPL can only work from the

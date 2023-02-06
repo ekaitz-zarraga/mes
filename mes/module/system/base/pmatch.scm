@@ -55,7 +55,8 @@
 ;;        ()    -- matches the empty list
 
 (define-module (system base pmatch)
-  #:export-syntax (pmatch))
+  ;; XXX: Somehow this symbol gets bound in the root module.
+  #:replace (pmatch))
 
 (define-syntax pmatch
   (syntax-rules (else guard)

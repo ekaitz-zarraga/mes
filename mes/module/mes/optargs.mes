@@ -32,7 +32,7 @@
 (define-macro (set-procedure-property! proc key value)
   proc)
 
-(include-from-path "mes/optargs.scm")
+(include-from-path "ice-9/optargs.scm")
 
 (define-macro (define-macro* NAME+ARGLIST . BODY)
   `(define-macro ,(car NAME+ARGLIST) #f (lambda* ,(cdr NAME+ARGLIST) ,@BODY)))
