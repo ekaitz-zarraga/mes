@@ -1,6 +1,6 @@
 #! /bin/sh
 # -*-scheme-*-
-if [ "$MES" != guile ]; then
+if [ "$MES" != guile -a -z "$MES_BOOT" ]; then
     MES=${MES-$(dirname $0)/../bin/mes}
     MES_BOOT=boot-02.scm exec $MES < $0
     exit $?

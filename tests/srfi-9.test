@@ -1,7 +1,7 @@
 #! /bin/sh
 # -*-scheme-*-
 # bootstrap srfi-9
-if [ "$MES" != guile ]; then
+if [ "$MES" != guile -a -z "$MES_BOOT" ]; then
     MES_BOOT=boot-03.scm exec ${MES-bin/mes} < $0
 fi
 exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests srfi-9)' -s "$0" "$@"

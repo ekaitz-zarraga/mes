@@ -3,8 +3,10 @@
 srcdir=${srcdir-.}
 GUILE_LOAD_PATH=$srcdir/tests
 export GUILE_LOAD_PATH
-MES_BOOT=boot-5.scm
-export MES_BOOT
+if [ -z "$MES_BOOT" ]; then
+    MES_BOOT=boot-5.scm
+    export MES_BOOT
+fi
 exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests guile-module)' -s "$0" "$@"
 !#
 

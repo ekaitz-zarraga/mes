@@ -1,6 +1,6 @@
 #! /bin/sh
 # -*-scheme-*-
-if [ "$MES" != guile ]; then
+if [ "$MES" != guile -a -z "$MES_BOOT" ]; then
     export MES_BOOT=boot-02.scm
     MES=${MES-$(dirname $0)/../bin/mes}
     $MES < $0
