@@ -172,5 +172,9 @@
        (define (,(car module) . arguments) (main (command-line)))))
 
 (define-macro (use-modules . rest) #t)
+
+(define-macro (@ mod-name var-name) var-name)
+(define-macro (@@ mod-name var-name) var-name)
+
 ;; end boot-03.scm
 (primitive-load 0)
