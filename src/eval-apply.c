@@ -171,6 +171,12 @@ make_binding_ (struct scm *handle, long lexical_p)      /*:((internal)) */
 }
 
 struct scm *
+make_binding (struct scm *name, struct scm *variable)
+{
+  return make_binding_ (cons (name, variable), 0);
+}
+
+struct scm *
 macro_get_handle (struct scm *name)     /*:((internal)) */
 {
   if (name->type == TSYMBOL)

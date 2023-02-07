@@ -166,6 +166,7 @@ mes_builtins (struct scm *a)            /*:((internal)) */
   a = init_builtin (builtin_type, "add-formals", 2, &add_formals, a);
   a = init_builtin (builtin_type, "eval-apply", 0, &eval_apply, a);
   a = init_builtin (builtin_type, "primitive-load", 1, &primitive_load, a);
+  a = init_builtin (builtin_type, "make-binding", 2, &make_binding, a);
   /* src/gc.c */
   a = init_builtin (builtin_type, "gc-stats", 0, &gc_stats, a);
   a = init_builtin (builtin_type, "cons", 2, &cons, a);
