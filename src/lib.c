@@ -39,7 +39,7 @@ struct scm *
 car_ (struct scm *x)
 {
   struct scm *a = x->car;
-  if (x->type == TPAIR)
+  if (x->type == TPAIR || x->type == TBINDING)
     return a;
   return make_number (cast_scmp_to_long (a));
 }

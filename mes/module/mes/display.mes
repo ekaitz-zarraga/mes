@@ -125,7 +125,7 @@
         (display ">" port))
        ((binding? x)
         (display "#<binding " port)
-        (write (list->string (car (core:car x))) port)
+        (write (car (core:car x)) port)
         (display ">" port))
        ((number? x)
         (display (number->string x) port))
