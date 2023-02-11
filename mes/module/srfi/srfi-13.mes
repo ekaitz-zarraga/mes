@@ -148,25 +148,36 @@
                               (loop (cdr string) (1+ i)))
                           (loop (cdr string) (1+ i))))))))))
 
-(define (string-trim string . pred)
-  (list->string
-   (if (pair? pred) (error "string-trim: not supported: PRED=" pred)
-       (let loop ((lst (string->list string)))
-         (if (or (null? lst)
-                 (not (char-whitespace? (car lst)))) lst
-                 (loop (cdr lst)))))))
+(define (char-pred->pred char-pred)
+  (cond
+   ((procedure? char-pred) char-pred)
+   ((char? char-pred) (lambda (c) (eq? c char-pred)))
+   ((char-set? char-pred) (lambda (c) (char-set-contains? char-pred c)))
+   (else (error "unsupported character predicate" char-pred))))
 
-(define (string-trim-right string . pred)
-  (list->string
-   (reverse!
-    (if (pair? pred) (error "string-trim-right: not supported: PRED=" pred)
-        (let loop ((lst (reverse (string->list string))))
-          (if (or (null? lst)
-                  (not (char-whitespace? (car lst)))) lst
-                  (loop (cdr lst))))))))
+(define (string-trim string . rest)
+  (let* ((char-pred (if (pair? rest) (car rest) char-whitespace?))
+         (pred (char-pred->pred char-pred))
+         (start (if (and (pair? rest) (pair? (cdr rest))) (cadr rest) 0))
+         (end (if (and (pair? rest) (pair? (cdr rest)) (pair? (cddr rest)))
+                  (caddr rest)
+                  (string-length string))))
+    (let ((i (string-index string (negate pred) start end)))
+      (if i (substring string i end) ""))))
 
-(define (string-trim-both string . pred)
-  ((compose string-trim string-trim-right) string))
+(define (string-trim-right string . rest)
+  (let* ((char-pred (if (pair? rest) (car rest) char-whitespace?))
+         (pred (char-pred->pred char-pred))
+         (start (if (and (pair? rest) (pair? (cdr rest))) (cadr rest) 0))
+         (end (if (and (pair? rest) (pair? (cdr rest)) (pair? (cddr rest)))
+                  (caddr rest)
+                  (string-length string))))
+    (let ((i (string-rindex string (negate pred) start end)))
+      (if i (substring string start (+ i 1)) ""))))
+
+(define (string-trim-both string . rest)
+  (let ((char-pred (if (pair? rest) (car rest) char-whitespace?)))
+    (string-trim (apply string-trim-right string rest) char-pred)))
 
 (define (string-map f string)
   (list->string (map f (string->list string))))
