@@ -1053,6 +1053,8 @@ call_with_values:
 call_with_values2:
   if (R1->type == TVALUES)
     R1 = R1->cdr;
+  else
+    R1 = cons (R1, cell_nil);
   R1 = cons (R2->cdr->car, R1);
   goto apply;
 

@@ -40,6 +40,10 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
                                     (lambda (a b c) (+ a b c)))
                                   6))
 
+(pass-if "call-with-values (list)"
+  (call-with-values (lambda () (list 1 2 3))
+    (lambda args (= (length args) 1))))
+
 (pass-if-equal "lambda"
                '(1 2 3 4 5)
                ((lambda (x)
