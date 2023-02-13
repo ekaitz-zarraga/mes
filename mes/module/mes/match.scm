@@ -228,6 +228,11 @@
 ;; 2006/12/24 - bugfixes
 ;; 2006/12/01 - non-linear patterns, shared variables in OR, get!/set!
 
+;; Mes: We don't really have hygienic 'syntax-rules', so we need some
+;; helpers to make templates that introduce local bindings work properly
+;; when nested.  Essentially, all of the 'define-macro' forms are Mes
+;; workarounds.
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; force compile-time syntax errors with useful messages
 
@@ -332,6 +337,39 @@
 ;; multiple times) and IDS are the list of identifiers bound in the
 ;; pattern so far.
 
+(define-macro (match-two/field v proc p . x)
+  (let ((w (gensym)))
+    `(let ((,w (,proc ,v))) (match-one ,w ,p ,@x))))
+
+(define-macro (match-two/singleton v p sk fk i)
+  (let ((w (gensym)))
+    `(if (and (pair? ,v) (null? (cdr ,v)))
+         (let ((,w (car ,v)))
+           (match-one ,w ,p ((car ,v) (set-car! ,v)) ,sk ,fk ,i))
+         ,fk)))
+
+(define-macro (match-two/pair v p q sk fk i)
+  (let ((w (gensym))
+        (x (gensym)))
+    `(if (pair? ,v)
+         (let ((,w (car ,v)) (,x (cdr ,v)))
+           (match-one ,w ,p ((car ,v) (set-car! ,v))
+            (match-one ,x ,q ((cdr ,v) (set-cdr! ,v)) ,sk ,fk)
+            ,fk
+            ,i))
+         ,fk)))
+
+(define-macro (match-two/symbol v x sk fk i)
+  (let ((new-sym? (gensym)))
+    `(let-syntax
+         ((,new-sym?
+           (syntax-rules ,i
+             ((new-sym? ,x sk2 fk2) sk2)
+             ((new-sym? y sk2 fk2) fk2))))
+       (,new-sym? random-sym-to-match
+                  (let ((,x ,v)) (,@sk (,@i ,x)))
+                  (if (equal? ,v ,x) (,@sk ,i) ,fk)))))
+
 (define-syntax match-two
   (syntax-rules (_ ___ ..1 *** quote quasiquote ? $ = and or not set! get!)
     ((match-two v () g+s (sk ...) fk i)
@@ -356,20 +394,12 @@
      (let ((setter (lambda (x) (s ... x)))) (sk ... i)))
     ((match-two v (? pred . p) g+s sk fk i)
      (if (pred v) (match-one v (and . p) g+s sk fk i) fk))
-    ((match-two v (= proc p) . x)
-     (let ((w (proc v))) (match-one w p . x))
-     ;;(let ((W (proc v))) (match-one W p . x))
-     )
+    ((match-two v (= proc p) g+s sk fk i)
+     (match-two/field v proc p g+s sk fk i))
     ((match-two v (p ___ . r) g+s sk fk i)
      (match-extract-vars p (match-gen-ellipses v p r g+s sk fk i) i ()))
     ((match-two v (p) g+s sk fk i)
-     (if (and (pair? v) (null? (cdr v)))
-         (let ;;((w (car v)))
-             ((W (car v)))
-           ;;(match-one w p ((car v) (set-car! v)) sk fk i)
-           (match-one W p ((car v) (set-car! v)) sk fk i)
-           )
-         fk))
+     (match-two/singleton v p sk fk i))
     ((match-two v (p *** q) g+s sk fk i)
      (match-extract-vars p (match-gen-search v p q g+s sk fk i) i ()))
     ((match-two v (p *** . q) g+s sk fk i)
@@ -383,16 +413,7 @@
          (match-record-refs v rec 0 (p ...) g+s sk fk i)
          fk))
     ((match-two v (p . q) g+s sk fk i)
-     (if (pair? v)
-         (let ;;((w (car v)) (x (cdr v)))
-             ((W (car v)) (X (cdr v)))
-           (match-one ;;w p ((car v) (set-car! v))
-                      W p ((car v) (set-car! v))
-                      ;;(match-one x q ((cdr v) (set-cdr! v)) sk fk)
-                      (match-one X q ((cdr v) (set-cdr! v)) sk fk)
-                      fk
-                      i))
-         fk))
+     (match-two/pair v p q sk fk i))
     ((match-two v #(p ...) g+s . x)
      (match-vector v 0 () (p ...) . x))
     ((match-two v _ g+s (sk ...) fk i) (sk ... i))
@@ -400,21 +421,8 @@
     ;; new symbol, in which case we just bind it, or if it's an
     ;; already bound symbol or some other literal, in which case we
     ;; compare it with EQUAL?.
-    (;;(match-two v x g+s (sk ...) fk (id ...))
-     (match-two V X g+s (sk ...) fk (id ...))
-     (let-syntax
-         ((new-sym?
-           (syntax-rules (id ...)
-             ;;((new-sym? x sk2 fk2) sk2)
-             ((new-sym? X sk2 fk2) sk2)
-             ((new-sym? y sk2 fk2) fk2))))
-       (new-sym? random-sym-to-match
-                 ;;(let ((x v)) (sk ... (id ... x)))
-                 (let ((X V)) (sk ... (id ... X)))
-                 ;;(if (equal? v x) (sk ... (id ...)) fk)
-                 (if (equal? V X) (sk ... (id ...)) fk)
-                 )))
-    ))
+    ((match-two v x g+s (sk ...) fk (id ...))
+     (match-two/symbol v x (sk ...) fk (id ...)))))
 
 ;; QUASIQUOTE patterns
 

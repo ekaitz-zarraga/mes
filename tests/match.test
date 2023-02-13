@@ -79,6 +79,12 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
      (_ "no match: 0 1 2"))
    3))
 
+(pass-if-equal "match x-hygiene 2"
+    '(1 2)
+  (match '((v 1) 2)
+    ((('v x) . rest) (cons x rest))
+    (_ "no match: (1) 2")))
+
 (pass-if "match ellipsis"
   (sequal?
    (match '(1 2)

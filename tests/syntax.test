@@ -84,4 +84,14 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
         ((plus x ...) (+ x ...))))
     (plus 1 2 3)))
 
-(result 'report)
+(pass-if-equal "syntax-rules hygiene"
+    '(1 2 3)
+  (let ()
+    (define-syntax m
+      (syntax-rules ()
+        ((m (v . rest) (ids ...)) (let ((x v)) (m rest (x ids ...))))
+        ((m () (id . rest))       (cons id (m () rest)))
+        ((m () ())                '())))
+    (m (3 2 1) ())))
+
+(result 'report (if mes? 1 0))
