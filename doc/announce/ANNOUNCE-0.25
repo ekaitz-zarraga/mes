@@ -57,8 +57,8 @@ Enjoy!
 
   Here are the SHA1 and SHA256 checksums:
 
-  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  mes-0.25.tar.gz
-  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  mes-0.25.tar.gz
+  a0fcd35a32d16580cacb52add632d96eae0548a9  mes-0.25.tar.gz
+  325250b3567ed9203ba70161c835af01079e73ebed97b4b5bb77ca500b828940  mes-0.25.tar.gz
 
   [*] Use a .sig file to verify that the corresponding file (without the
   .sig suffix) is intact.  First, be sure to download both the .sig file
