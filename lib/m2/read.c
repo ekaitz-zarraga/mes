@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2019,2020,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -19,7 +19,7 @@
  */
 
 #include <linux/syscall.h>
-#include <syscall.h>
+#include <arch/syscall.h>
 #include <mes/lib.h>
 #include <fcntl.h>
 
