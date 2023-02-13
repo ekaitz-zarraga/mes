@@ -25,7 +25,7 @@ void
 __assert_fail (char const *msg, char const *file, unsigned line,
                char const *function)
 {
-  if (file && file[0])
+  if (file && *file)
     {
       eputs (file);
       eputs (":");
@@ -35,7 +35,7 @@ __assert_fail (char const *msg, char const *file, unsigned line,
       eputs (itoa (line));
       eputs (":");
     }
-  if (function && function[0])
+  if (function && *function)
     {
       eputs (function);
       eputs (":");
