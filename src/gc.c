@@ -52,7 +52,7 @@ gc_init ()
 #if SYSTEM_LIBC
   ARENA_SIZE = 100000000;       /* 2.3GiB */
 #elif ! __M2__
-  ARENA_SIZE = 600000;          /* 32b: 6MiB, 64b: 12 MiB */
+  ARENA_SIZE = 2400000;         /* 32b: 24MiB, 64b: 48 MiB */
 #else
   ARENA_SIZE = 20000000;
 #endif
