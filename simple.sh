@@ -240,6 +240,7 @@ $CC -g -D HAVE_CONFIG_H=1                               \
     lib/stdlib/free.c                                   \
     lib/linux/getpid.c                                  \
     lib/linux/malloc.c                                  \
+    lib/linux/pipe.c                                    \
     lib/stdlib/realloc.c                                \
     lib/string/memchr.c                                 \
     lib/string/memcmp.c                                 \

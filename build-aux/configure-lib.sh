@@ -2,6 +2,7 @@
 
 # GNU Mes --- Maxwell Equations of Software
 # Copyright © 2019,2020,2021,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 #
 # This file is part of GNU Mes.
 #
@@ -206,6 +207,7 @@ lib/stub/fstat.c
 lib/stub/_getcwd.c
 lib/stub/gettimeofday.c
 lib/stub/ioctl3.c
+lib/stub/pipe.c
 lib/stub/readdir.c
 lib/stub/time.c
 lib/stub/unlink.c
@@ -233,6 +235,7 @@ lib/linux/gettimeofday.c
 lib/linux/ioctl3.c
 lib/linux/_open3.c
 lib/linux/malloc.c
+lib/linux/pipe.c
 lib/linux/_read.c
 lib/linux/readdir.c
 lib/linux/time.c
@@ -433,7 +436,6 @@ lib/linux/lstat.c
 lib/linux/mkdir.c
 lib/linux/mknod.c
 lib/linux/nanosleep.c
-lib/linux/pipe.c
 lib/linux/readlink.c
 lib/linux/rename.c
 lib/linux/setgid.c
