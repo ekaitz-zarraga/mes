@@ -523,34 +523,47 @@
 ;; expects to see in the success body) to the reversed accumulated
 ;; list IDs.
 
+(define-macro (match-gen-ellipses/no-trail v p sk fk i id+lss)
+  (let ((ls (gensym))
+        (w (gensym))
+        (loop (gensym))
+        ;; Set all lists to empty.
+        (id+ls-init (map (lambda (id+ls)
+                           `(,(cdr id+ls) '()))
+                         id+lss))
+        ;; Bind all pattern variables to their lists.
+        (id+ls-let  (map (lambda (id+ls)
+                           `(,(car id+ls) (reverse ,(cdr id+ls))))
+                         id+lss))
+        ;; Cons each bound pattern variable onto their lists.
+        (id+ls-loop (map (lambda (id+ls)
+                           `(cons ,(car id+ls) ,(cdr id+ls)))
+                         id+lss)))
+    `(match-check-identifier
+      ,p
+      ;; simplest case equivalent to (p ...), just bind the list
+      (let ((,p ,v))
+        (if (list? ,p)
+            (,@sk ,i)
+            ,fk))
+      ;; simple case, match all elements of the list
+      (let ,loop ((,ls ,v) ,@id+ls-init)
+           (cond
+            ((null? ,ls)
+             (let (,@id+ls-let)
+               (,@sk ,i)))
+            ((pair? ,ls)
+             (let ((,w (car ,ls)))
+               (match-one ,w ,p ((car ,ls) (set-car! ,ls))
+                          (match-drop-ids (,loop (cdr ,ls) ,@id+ls-loop))
+                          ,fk ,i)))
+            (else
+             ,fk))))))
+
 (define-syntax match-gen-ellipses
   (syntax-rules ()
-    (;;(_ v p () g+s (sk ...) fk i ((id id-ls) ...))
-     (_ v P () g+s (sk ...) fk i ((id id-ls) ...))
-     (match-check-identifier
-      ;;p
-      P
-      ;; simplest case equivalent to (p ...), just bind the list
-      (let ;;((p v))
-          ((P v))
-        (if ;;(list? p)
-         (list? P)
-             (sk ... i)
-             fk))
-       ;; simple case, match all elements of the list
-       (let loop ((ls v) (id-ls '()) ...)
-         (cond
-           ((null? ls)
-            (let ((id (reverse id-ls)) ...) (sk ... i)))
-           ((pair? ls)
-            (let ;;((w (car ls)))
-                ((W (car ls)))
-              (match-one ;;w p ((car ls) (set-car! ls))
-                         W p ((car ls) (set-car! ls))
-                         (match-drop-ids (loop (cdr ls) (cons id id-ls) ...))
-                         fk i)))
-           (else
-            fk)))))
+    ((_ v p () g+s (sk ...) fk i ((id id-ls) ...))
+     (match-gen-ellipses/no-trail v p (sk ...) fk i ((id . id-ls) ...)))
     ((_ v p r g+s (sk ...) fk i ((id id-ls) ...))
      ;; general case, trailing patterns to match, keep track of the
      ;; remaining list length so we don't need any backtracking
@@ -731,6 +744,17 @@
 ;;
 ;; (match-extract-vars pattern continuation (ids ...) (new-vars ...))
 
+(define-macro (match-extract-vars/main p k i v)
+  (let ((p-ls (gensym)))
+    `(let-syntax
+         ((new-sym?
+           (syntax-rules ,i
+             ((new-sym? ,p sk fk) sk)
+             ((new-sym? any sk fk) fk))))
+       (new-sym? random-sym-to-match
+                 (,@k ((,p ,p-ls) . ,v))
+                 (,@k ,v)))))
+
 (define-syntax match-extract-vars
   (syntax-rules (_ ___ ..1 *** ? $ = quote quasiquote and or not get! set!)
     ((match-extract-vars (? pred . p) . x)
@@ -767,14 +791,7 @@
     ;; This is the main part, the only place where we might add a new
     ;; var if it's an unbound symbol.
     ((match-extract-vars p (k ...) (i ...) v)
-     (let-syntax
-         ((new-sym?
-           (syntax-rules (i ...)
-             ((new-sym? p sk fk) sk)
-             ((new-sym? any sk fk) fk))))
-       (new-sym? random-sym-to-match
-                 (k ... ((p p-ls) . v))
-                 (k ... v))))
+     (match-extract-vars/main p (k ...) (i ...) v))
     ))
 
 ;; Stepper used in the above so it can expand the CAR and CDR
