@@ -159,3 +159,11 @@ pipe_ ()
     error (cell_symbol_system_error, make_string0 ("Could not create pipe"));
   return cons (make_number (fds[0]), make_number (fds[1]));
 }
+
+struct scm *
+close_port (struct scm *port)
+{
+  if (port->type == TNUMBER)
+    if (close (port->value) != 0)
+      error (cell_symbol_system_error, cons (make_string0 ("Error closing port"), port));
+}

@@ -24,3 +24,4 @@ struct scm *opendir_ (struct scm *args);
 struct scm *closedir_ (struct scm *args);
 struct scm *readdir_ (struct scm *args);
 struct scm *pipe_ ();
+struct scm *close_port (struct scm *port);

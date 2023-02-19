@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+ * Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -27,3 +27,4 @@ a = init_builtin (builtin_type, "opendir", 1, &opendir_, a);
 a = init_builtin (builtin_type, "closedir", 1, &closedir_, a);
 a = init_builtin (builtin_type, "readdir", 1, &readdir_, a);
 a = init_builtin (builtin_type, "pipe", 0, &pipe_, a);
+a = init_builtin (builtin_type, "close-port", 1, &close_port, a);
