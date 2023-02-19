@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+ * Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -23,3 +23,4 @@ struct scm *environ_ (struct scm *args);
 struct scm *opendir_ (struct scm *args);
 struct scm *closedir_ (struct scm *args);
 struct scm *readdir_ (struct scm *args);
+struct scm *pipe_ ();

@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -81,6 +82,7 @@ int getpgid (pid_t pid);
 int isatty (int fd);
 int link (char const *old_name, char const *new_name);
 off_t lseek (int fd, off_t offset, int whence);
+int pipe (int filedes[2]);
 ssize_t read (int fd, void *buffer, size_t size);
 ssize_t readlink (char const *file_name, char *buffer, size_t size);
 #if __SBRK_CHAR_PTRDIFF

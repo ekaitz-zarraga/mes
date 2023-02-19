@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+ * Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -149,4 +149,13 @@ readdir_ (struct scm *dir)
     return make_string0 (dent->d_name);
   else
     return cell_f;
+}
+
+struct scm *
+pipe_ ()
+{
+  int fds[2];
+  if (pipe (fds) != 0)
+    error (cell_symbol_system_error, make_string0 ("Could not create pipe"));
+  return cons (make_number (fds[0]), make_number (fds[1]));
 }
