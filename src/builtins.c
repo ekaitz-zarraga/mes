@@ -1,7 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
- * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+ * Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -242,6 +242,7 @@ mes_builtins (struct scm *a)            /*:((internal)) */
   a = init_builtin (builtin_type, "chmod", 2, &chmod_, a);
   a = init_builtin (builtin_type, "isatty?", 1, &isatty_p, a);
   a = init_builtin (builtin_type, "primitive-fork", 0, &primitive_fork, a);
+  a = init_builtin (builtin_type, "primitive-exit", 1, &primitive_exit, a);
   a = init_builtin (builtin_type, "execl", 2, &execl_, a);
   a = init_builtin (builtin_type, "core:execle", 3, &execle_, a);
   a = init_builtin (builtin_type, "core:waitpid", 2, &waitpid_, a);

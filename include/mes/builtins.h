@@ -1,7 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
- * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+ * Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -132,6 +132,7 @@ struct scm *set_current_error_port (struct scm *port);
 struct scm *chmod_ (struct scm *file_name, struct scm *mode);
 struct scm *isatty_p (struct scm *port);
 struct scm *primitive_fork ();
+struct scm *primitive_exit (struct scm *status);
 struct scm *execl_ (struct scm *file_name, struct scm *args);
 struct scm *execle_ (struct scm *file_name, struct scm *args, struct scm *env);
 struct scm *waitpid_ (struct scm *pid, struct scm *options);
