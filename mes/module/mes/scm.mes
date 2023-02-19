@@ -369,13 +369,22 @@
 ;;; Math
 (define quotient /)
 
-(define (<= . rest)
-  (or (apply < rest)
-      (apply = rest)))
+(define <= #f)
+(define >= #f)
 
-(define (>= . rest)
-  (or (apply > rest)
-      (apply = rest)))
+(let ()
+  (define (every-two pred lst)
+    (or (null? lst)
+        (let loop ((lst lst))
+          (or (null? (cdr lst))
+              (and (pred (car lst) (cadr lst))
+                   (loop (cdr lst)))))))
+  (set! <= (lambda args
+             (every-two (lambda (a b) (or (= a b) (< a b)))
+                        args)))
+  (set! >= (lambda args
+             (every-two (lambda (a b) (or (= a b) (> a b)))
+                        args))))
 
 (define (remainder x y)
   (- x (* (quotient x y) y)))
