@@ -266,67 +266,87 @@ formal_p (struct scm *x, struct scm *formals)   /*:((internal)) */
   return formals->type == TPAIR;
 }
 
-struct scm *
-expand_variable_ (struct scm *x, struct scm *formals, int top_p)        /*:((internal)) */
+void
+expand_variable_ (int top_p)        /*:((internal)) */
 {
   struct scm *a;
   struct scm *f;
   struct scm *v;
-  while (x->type == TPAIR)
+
+  while (R1->type == TPAIR)
     {
-      a = x->car;
+      a = R1->car;
       if (a->type == TPAIR)
         {
           if (a->car == cell_symbol_lambda)
             {
               f = a->cdr->car;
-              formals = add_formals (formals, f);
+              R2 = add_formals (R2, f);
             }
           else if (a->car == cell_symbol_define || a->car == cell_symbol_define_macro)
             {
               f = a->cdr->car;
-              formals = add_formals (formals, f);
+              R2 = add_formals (R2, f);
             }
           if (a->car != cell_symbol_quote)
-            expand_variable_ (a, formals, 0);
+            {
+              /* Push this form onto the expansion stack. */
+              R3 = cons (cons (a, R2), R3);
+            }
         }
       else
         {
           if (a == cell_symbol_lambda)
             {
-              f = x->cdr->car;
-              formals = add_formals (formals, f);
-              x = x->cdr;
+              f = R1->cdr->car;
+              R2 = add_formals (R2, f);
+              R1 = R1->cdr;
             }
           else if (a == cell_symbol_define || a == cell_symbol_define_macro)
             {
-              f = x->cdr->car;
+              f = R1->cdr->car;
               if (top_p != 0 && f->type == TPAIR)
                 f = f->cdr;
-              formals = add_formals (formals, f);
-              x = x->cdr;
+              R2 = add_formals (R2, f);
+              R1 = R1->cdr;
             }
           else if (a == cell_symbol_quote)
-            return cell_unspecified;
+            return;
           else if (a->type == TSYMBOL
                    && a != cell_symbol_current_environment
-                   && formal_p (x->car, formals) == 0)
+                   && formal_p (a, R2) == 0)
             {
               v = lookup_binding (a);
               if (v != cell_f)
-                x->car = v;
+                R1->car = v;
             }
         }
-      x = x->cdr;
+      R1 = R1->cdr;
       top_p = 0;
     }
-  return cell_unspecified;
 }
 
 struct scm *
 expand_variable (struct scm *x, struct scm *formals)    /*:((internal)) */
 {
-  return expand_variable_ (x, formals, 1);
+  gc_push_frame ();
+
+  R1 = x;
+  R2 = formals;
+  R3 = cell_nil;
+  expand_variable_ (1);
+
+  while (R3->type == TPAIR)
+    {
+      R1 = R3->car->car;
+      R2 = R3->car->cdr;
+      R3 = R3->cdr;
+      expand_variable_ (0);
+    }
+
+  gc_pop_frame ();
+
+  return cell_unspecified;
 }
 
 struct scm *
@@ -657,7 +677,9 @@ eval:
                       }
                     else
                       {
+                        R2 = name;
                         entry = lookup_binding (name);
+                        name = R2;
                         if (entry == cell_f)
                           module_define_x (M0, name, cell_f);
                       }
@@ -671,12 +693,18 @@ eval:
                   }
                 else
                   {
-                    p = pairlis (R1->cdr->car, R1->cdr->car, R0);
                     formals = R1->cdr->car->cdr;
                     body = R1->cdr->cdr;
 
                     if (macro_p != 0 || global_p != 0)
                       expand_variable (body, formals);
+
+                    /* The GC may have moved 'formals' and 'body' during
+                       variable expansion, so get fresh pointers. */
+                    formals = R1->cdr->car->cdr;
+                    body = R1->cdr->cdr;
+                    p = pairlis (R1->cdr->car, R1->cdr->car, R0);
+
                     R1 = cons (cell_symbol_lambda, cons (formals, body));
                     push_cc (R1, R2, p, cell_vm_eval_define);
                     goto eval;
