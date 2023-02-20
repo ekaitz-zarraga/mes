@@ -43,9 +43,7 @@
                          (lambda (k . args)
                            (let ((handler (if (or (eq? key #t) (eq? key k)) handler
                                               previous-eh)))
-                             (cc
-                              (lambda (x)
-                                (apply handler (cons k args)))))))
+                             (cc (apply handler (cons k args))))))
              (thunk)))))))
 
 (define (throw key . args)

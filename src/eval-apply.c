@@ -968,14 +968,12 @@ if_expr:
   goto vm_return;
 
 call_with_current_continuation:
-  gc_push_frame ();
   x = make_continuation (g_continuations);
   g_continuations = g_continuations + 1;
   v = make_vector_ (STACK_SIZE - g_stack, cell_unspecified);
   for (i = g_stack; i < STACK_SIZE; i = i + 1)
     vector_set_x_ (v, i - g_stack, g_stack_array[i]);
   x->continuation = v;
-  gc_pop_frame ();
   push_cc (cons (R1->car, cons (x, cell_nil)), x, R0, cell_vm_call_with_current_continuation2);
   goto apply;
 call_with_current_continuation2:
