@@ -31,7 +31,9 @@
 (define mes %version)
 
 (define (defined? x)
-  (core:hashq-ref (initial-module) x #f))
+  ((lambda (v)
+     (if v (if (eq? (variable-ref v) *undefined*) #f #t) #f))
+   (core:hashq-ref (initial-module) x #f)))
 
 (define (cond-expand-expander clauses)
   (if (defined? (car (car clauses)))

@@ -46,6 +46,25 @@ mes_environment (int argc, char **argv)
 {
   struct scm *a = init_symbols ();
 
+  /* These are symbols that the evaluator treats specially.  We bind
+     them to themselves so that they can be looked up and bound at
+     expansion time. */
+  a = acons (cell_symbol_call_with_current_continuation,
+             cell_symbol_call_with_current_continuation, a);
+  a = acons (cell_symbol_call_with_values,
+             cell_symbol_call_with_values, a);
+  a = acons (cell_symbol_current_environment,
+             cell_symbol_current_environment, a);
+  a = acons (cell_symbol_lambda, cell_symbol_lambda, a);
+  a = acons (cell_symbol_pmatch_car, cell_symbol_pmatch_car, a);
+  a = acons (cell_symbol_pmatch_cdr, cell_symbol_pmatch_cdr, a);
+  a = acons (cell_symbol_quote, cell_symbol_quote, a);
+  a = acons (cell_symbol_begin, cell_symbol_begin, a);
+  a = acons (cell_symbol_if, cell_symbol_if, a);
+  a = acons (cell_symbol_set_x, cell_symbol_set_x, a);
+  a = acons (cell_symbol_define, cell_symbol_define, a);
+  a = acons (cell_symbol_define_macro, cell_symbol_define_macro, a);
+
   char *compiler = "gnuc";
 #if __MESC__
   compiler = "mesc";

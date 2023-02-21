@@ -278,27 +278,33 @@ expand_variable_ (int top_p)        /*:((internal)) */
   struct scm *f;
   struct scm *v;
 
+  /* First add all internal definitions to the current list of
+     formals. */
+  v = R1;
+  while (v->type == TPAIR)
+    {
+      a = v->car;
+      if (a == cell_symbol_quote)
+        break;
+      if (a->type == TPAIR)
+        {
+          if (a->car == cell_symbol_define || a->car == cell_symbol_define_macro)
+            {
+              if (a->cdr->car->type == TPAIR)
+                R2 = cons (a->cdr->car->car, R2);
+              else
+                R2 = cons (a->cdr->car, R2);
+            }
+        }
+      v = v->cdr;
+    }
+
+  /* Now do the expansion. */
   while (R1->type == TPAIR)
     {
       a = R1->car;
       if (a->type == TPAIR)
-        {
-          if (a->car == cell_symbol_lambda)
-            {
-              f = a->cdr->car;
-              R2 = add_formals (R2, f);
-            }
-          else if (a->car == cell_symbol_define || a->car == cell_symbol_define_macro)
-            {
-              f = a->cdr->car;
-              R2 = add_formals (R2, f);
-            }
-          if (a->car != cell_symbol_quote)
-            {
-              /* Push this form onto the expansion stack. */
-              R3 = cons (cons (a, R2), R3);
-            }
-        }
+        R3 = cons (cons (a, R2), R3);
       else
         {
           if (a == cell_symbol_lambda)
@@ -310,8 +316,13 @@ expand_variable_ (int top_p)        /*:((internal)) */
           else if (a == cell_symbol_define || a == cell_symbol_define_macro)
             {
               f = R1->cdr->car;
-              if (top_p != 0 && f->type == TPAIR)
-                f = f->cdr;
+              if (top_p != 0)
+                {
+                  if (f->type == TPAIR)
+                    f = f->cdr;
+                  else
+                    f = cell_nil;
+                }
               R2 = add_formals (R2, f);
               R1 = R1->cdr;
             }
@@ -321,9 +332,16 @@ expand_variable_ (int top_p)        /*:((internal)) */
                    && a != cell_symbol_current_environment
                    && formal_p (a, R2) == 0)
             {
-              v = lookup_binding (a, cell_f);
+              v = lookup_binding (R1->car, cell_f);
               if (v != cell_f)
                 R1->car = v;
+              else
+                {
+                  /* Lookup the binding again, but this time make a
+                     local definition in case the name becomes bound in
+                     the future. */
+                  R1->car = lookup_binding (R1->car, cell_t);
+                }
             }
         }
       R1 = R1->cdr;
@@ -600,6 +618,22 @@ eval:
   if (t == TPAIR)
     {
       c = R1->car;
+
+      /* If the car is a bound identifier, we want to dispatch on the
+         value to which it is bound. */
+      if (c->type == TBINDING)
+        {
+          if (c->lexical_p != 0)
+            R1->car = c->binding->cdr;
+          else
+            R1->car = variable_ref (c->binding->cdr);
+
+          if (R1->car == cell_undefined)
+            return error (cell_symbol_unbound_variable, c->binding->car);
+        }
+
+      c = R1->car;
+
       if (c == cell_symbol_pmatch_car)
         {
           push_cc (R1->cdr->car, R1, R0, cell_vm_eval_pmatch_car);
@@ -775,10 +809,16 @@ eval:
     }
   else if (t == TBINDING)
     {
+      name = R1->binding->car;
+
       if (R1->lexical_p != 0)
         R1 = R1->binding->cdr;
       else
         R1 = variable_ref (R1->binding->cdr);
+
+      if (R1 == cell_undefined)
+        return error (cell_symbol_unbound_variable, name);
+
       goto vm_return;
     }
   else if (t == TBROKEN_HEART)
