@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2017,2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -30,9 +31,16 @@
       (define ,predicate ,(record-predicate type))
       (define-record-accessors ,type ,@fields))))
 
+(define (print-record-type o)
+  (display "#<record-type ")
+  (display (record-type-name o))
+  (display ">"))
+
 (define (make-record-type type fields . printer)
-  (let ((printer (if (pair? printer) (car printer))))
-    (make-struct '<record-type> (cons type (list fields)) printer)))
+  (let ((printer (and (pair? printer) (car printer))))
+    (make-struct '<record-type>
+                 (cons type (cons printer (list fields)))
+                 print-record-type)))
 
 (define (record-type? o)
   (eq? (record-type-descriptor o) '<record-type>))
@@ -43,11 +51,14 @@
 (define (record-type-name o)
   (struct-ref o 2))
 
+(define (record-type-printer o)
+  (struct-ref o 3))
+
 (define (record-type-descriptor o)
   (struct-ref o 0))
 
 (define (record-type-fields o)
-  (struct-ref o 3))
+  (struct-ref o 4))
 
 (define (record-predicate type)
   (lambda (o)
@@ -60,20 +71,20 @@
 
 (define (record-constructor type . field-names)
   (let* ((fields (record-type-fields type))
+         (printer (or (record-type-printer type) record-printer))
          (name (record-type-name type))
          (field-names (if (null? field-names) fields
                           (car field-names))))
     (lambda (. o)
       (if (not (= (length o) (length field-names))) (error "wrong number of arguments for record-constructor")
           (let ((rest (make-list (- (length fields) (length field-names)))))
-            (make-struct type (cons name (append o rest)) record-printer))))))
+            (make-struct type (cons name (append o rest)) printer))))))
 
-(define record-printer *unspecified*)   ; TODO
 (define (record-printer o)
   (display "#<")
-  (display (record-type-name o))
   (let* ((vtable (struct-vtable o))
          (fields (record-type-fields vtable)))
+    (display (record-type-name vtable))
     (for-each (lambda (field)
                 (display " ")
                 (display field)
