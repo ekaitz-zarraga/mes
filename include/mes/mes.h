@@ -167,7 +167,7 @@ struct scm *make_variable_type ();
 struct scm *make_vector_ (long k, struct scm *e);
 struct scm *mes_builtins (struct scm *a);
 struct scm *push_cc (struct scm *p1, struct scm *p2, struct scm *a, struct scm *c);
-struct scm *set_x (struct scm *x, struct scm *e);
+struct scm *set_x (struct scm *x, struct scm *e, int define_p);
 struct scm *struct_ref_ (struct scm *x, long i);
 struct scm *struct_set_x_ (struct scm *x, long i, struct scm *e);
 struct scm *vector_ref_ (struct scm *x, long i);

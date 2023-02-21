@@ -122,7 +122,7 @@ set_cdr_x (struct scm *x, struct scm *e)
 }
 
 struct scm *
-set_x (struct scm *x, struct scm *e)
+set_x (struct scm *x, struct scm *e, int define_p)
 {
   struct scm *binding;
 
@@ -137,7 +137,12 @@ set_x (struct scm *x, struct scm *e)
   if (binding->lexical_p != 0)
     set_cdr_x (binding->binding, e);
   else
-    variable_set_x (binding->binding->cdr, e);
+    {
+      struct scm *variable = binding->binding->cdr;
+      if (define_p == 0 && variable_ref (variable) == cell_undefined)
+        return error (cell_symbol_unbound_variable, binding->binding->car);
+      variable_set_x (binding->binding->cdr, e);
+    }
 
   return cell_unspecified;
 }
@@ -639,7 +644,7 @@ eval:
           push_cc (R1->cdr->cdr->car, R1, R0, cell_vm_eval_set_x);
           goto eval;
         eval_set_x:
-          R1 = set_x (R2->cdr->car, R1);
+          R1 = set_x (R2->cdr->car, R1, 0);
           goto vm_return;
         }
       else if (c == cell_vm_macro_expand)
@@ -729,7 +734,7 @@ eval:
                   }
                 else if (global_p != 0)
                   {
-                    set_x (name, R1);
+                    set_x (name, R1, 1);
                   }
                 else
                   {
