@@ -16,6 +16,10 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
 
+;; Do not run this test on Guile or if modules are booted.
+(if (current-module)
+    (exit 0))
+
 (core:display "program:")
 (core:write %program)
 (core:display "\n")
