@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -185,6 +186,10 @@
 (mes-use-module (mes posix))
 (mes-use-module (mes guile))
 ;; end boot-04.scm
+
+(define (last lst) (car (last-pair lst)))
+
+(define (close-port port) #t)
 
 (mes-use-module (srfi srfi-9))
 
