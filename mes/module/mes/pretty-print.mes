@@ -24,4 +24,4 @@
 
 (mes-use-module (mes guile))
 (mes-use-module (mes optargs))
-(include-from-path "mes/pretty-print.scm")
+(include-from-path "ice-9/pretty-print.scm")

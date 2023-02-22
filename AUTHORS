@@ -72,7 +72,7 @@ Pmatch from Guile
 mes/module/system/base/pmatch.scm
 
 Pretty-print from Guile
-mes/module/mes/pretty-print.scm
+mes/module/ice-9/pretty-print.scm
 
 Srfi-1 bits from Guile
 mes/module/srfi/srfi-1-guile.scm
