@@ -61,12 +61,9 @@
 	       (apply (vector-ref act-v ix) args))))
         (loop (1+ ix))))))
 
-(cond-expand
- (guile
-  (insert-progress-monitors (@@ (nyacc lang c99 parser) c99-act-v)
-                            (@@ (nyacc lang c99 parser) c99-len-v)))
- (mes
-  (insert-progress-monitors c99-act-v c99-len-v)))
+(insert-progress-monitors (@@ (nyacc lang c99 parser) c99-act-v)
+                          (@@ (nyacc lang c99 parser) c99-len-v))
+
 
 (define* (c99-input->full-ast #:key (prefix "") (defines '()) (includes '()) (arch "") verbose?)
   (let* ((sys-include (if (equal? prefix "") "include"
