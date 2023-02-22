@@ -340,8 +340,12 @@ reader_read_character ()
         c = '\b';
       else if (strcmp (buf, "ht") == 0)
         c = '\t';
+      else if (strcmp (buf, "nl") == 0)
+        c = '\n';
       else if (strcmp (buf, "vt") == 0)
         c = '\v';
+      else if (strcmp (buf, "np") == 0)
+        c = '\f';
       else if (strcmp (buf, "cr") == 0)
         /* Nyacc bug
            c = '\r'; */
