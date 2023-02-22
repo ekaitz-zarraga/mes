@@ -20,8 +20,6 @@
   #:use-module (srfi srfi-1)
   #:export (%scheme
             disjoin
-            guile?
-            mes?
             pk
             pke
             warn
@@ -33,9 +31,6 @@
   (define %scheme "mes"))
  (guile
   (define %scheme "guile")))
-
-(define guile? (equal? %scheme "guile"))
-(define mes? (equal? %scheme "mes"))
 
 (define (logf port string . rest)
   (apply format (cons* port string rest))

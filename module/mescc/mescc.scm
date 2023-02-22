@@ -23,6 +23,7 @@
   #:use-module (ice-9 pretty-print)
   #:use-module (ice-9 getopt-long)
   #:use-module (mes misc)
+  #:use-module (mes mes-0)
 
   #:use-module (mescc info)
   #:use-module (mescc armv4 info)
