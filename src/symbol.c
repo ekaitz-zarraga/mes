@@ -136,6 +136,8 @@ init_symbols_ ()                  /*:((internal)) */
   cell_symbol_pmatch_car = init_symbol (g_symbol, TSYMBOL, "pmatch-car");
   cell_symbol_pmatch_cdr = init_symbol (g_symbol, TSYMBOL, "pmatch-cdr");
   cell_symbol_variable = init_symbol (g_symbol, TSYMBOL, "<variable>");
+  cell_symbol_standard_eval_closure = init_symbol (g_symbol, TSYMBOL, "standard-eval-closure");
+  cell_symbol_standard_interface_eval_closure = init_symbol (g_symbol, TSYMBOL, "standard-interface-eval-closure");
 
   cell_type_bytes = init_symbol (g_symbol, TSYMBOL, "<cell:bytes>");
   cell_type_char = init_symbol (g_symbol, TSYMBOL, "<cell:char>");

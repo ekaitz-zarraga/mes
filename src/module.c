@@ -78,6 +78,16 @@ current_module_variable (struct scm *name, struct scm *define_p)
      'eval-closure' procedure.  We take it on faith that whatever is in
      'M1' is a module. */
   struct scm *eval_closure = struct_ref_ (module, MODULE_EVAL_CLOSURE);
+
+  /* If the module's "eval-closure" is the standard one, we can save
+     time by performing the lookup without calling into Scheme code. */
+  if (eval_closure == cell_symbol_standard_eval_closure)
+    return standard_eval_closure (name, define_p);
+  else if (eval_closure == cell_symbol_standard_interface_eval_closure)
+    return standard_interface_eval_closure (name, define_p);
+
+  /* Otherwise, we assume it's a closure, and defer to it for the
+     lookup. */
   struct scm *args = cell_nil;
   args = cons (define_p, args);
   args = cons (name, args);
@@ -87,4 +97,56 @@ current_module_variable (struct scm *name, struct scm *define_p)
   struct scm *result = apply (eval_closure, args, cell_nil);
   gc_pop_frame ();
   return result;
+}
+
+struct scm *
+standard_eval_closure (struct scm *name, struct scm *define_p)
+{
+  if (define_p != cell_f)
+    return module_make_local_var_x (M1, name);
+  return module_variable (M1, name);
+}
+
+struct scm *
+standard_interface_eval_closure (struct scm *name, struct scm *define_p)
+{
+  if (define_p != cell_f)
+    return cell_f;
+  return module_variable (M1, name);
+}
+
+struct scm *
+module_make_local_var_x (struct scm *module, struct scm *name)
+{
+  struct scm *obarray = struct_ref_ (module, MODULE_OBARRAY);
+  struct scm *variable = make_variable (cell_undefined);
+  struct scm *handle = hashq_create_handle_x (obarray, name, variable);
+
+  /* TODO: Call 'module-modified' to invoke obervers, but only if there
+     are observers, since we are trying to avoid Scheme code. */
+
+  return handle->cdr;
+}
+
+struct scm *
+module_variable (struct scm *module, struct scm *name)
+{
+  struct scm *modules = cons (module, cell_nil);
+  struct scm *obarray;
+  struct scm *variable;
+  struct scm *uses;
+  while (modules->type == TPAIR)
+    {
+      module = modules->car;
+      obarray = struct_ref_ (module, MODULE_OBARRAY);
+      variable = hashq_ref_ (obarray, name, cell_f);
+      if (variable != cell_f)
+          return variable;
+
+      /* TODO: Call binders. */
+
+      uses = struct_ref_ (module, MODULE_USES);
+      modules = append2 (uses, modules->cdr);
+    }
+  return cell_f;
 }

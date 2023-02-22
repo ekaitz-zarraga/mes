@@ -111,6 +111,8 @@ extern struct scm *cell_symbol_arch;
 extern struct scm *cell_symbol_pmatch_car;
 extern struct scm *cell_symbol_pmatch_cdr;
 extern struct scm *cell_symbol_variable;
+extern struct scm *cell_symbol_standard_eval_closure;
+extern struct scm *cell_symbol_standard_interface_eval_closure;
 extern struct scm *cell_type_bytes;
 extern struct scm *cell_type_char;
 extern struct scm *cell_type_closure;
@@ -133,7 +135,8 @@ extern struct scm *cell_type_broken_heart;
 extern struct scm *cell_symbol_program;
 extern struct scm *cell_symbol_test;
 
-#define SYMBOL_MAX 111
+// CONSTANT SYMBOL_MAX 113
+#define SYMBOL_MAX 113
 
 #define CELL_UNSPECIFIED 7
 

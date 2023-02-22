@@ -100,23 +100,10 @@
 ;;; that we need.
 ;;;
 
-(define module-make-local-var! #f)
-(define module-variable #f)
-
-(define (standard-eval-closure module)
-  (let ((module-make-local-var! module-make-local-var!)
-        (module-variable module-variable))
-    (lambda (name define?)
-      (if define?
-          (module-make-local-var! module name)
-          (module-variable module name)))))
-
-(define (standard-interface-eval-closure module)
-  (let ((module-variable module-variable))
-    (lambda (name define?)
-      (if define?
-          #f
-          (module-variable module name)))))
+(define (standard-eval-closure m)
+  'standard-eval-closure)
+(define (standard-interface-eval-closure m)
+  'standard-interface-eval-closure)
 
 
 
