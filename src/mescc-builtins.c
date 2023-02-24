@@ -22,3 +22,4 @@
    'mes_builtins' procedure.  */
 
 a = init_builtin (builtin_type, "getpid", 0, &getpid_, a);
+a = init_builtin (builtin_type, "environ", -1, &environ_, a);

@@ -19,3 +19,4 @@
  */
 
 struct scm *getpid_ ();
+struct scm *environ_ (struct scm *args);

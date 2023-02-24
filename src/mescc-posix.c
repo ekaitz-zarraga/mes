@@ -23,3 +23,64 @@ getpid_ ()
 {
   return make_number (getpid ());
 }
+
+struct scm *
+environ_ (struct scm *args)
+{
+  /* No arguments; return the current environment. */
+  if (args == cell_nil)
+    {
+      char **p = environ;
+      struct scm *acc = cell_nil;
+      while (*p != NULL)
+        {
+          acc = cons (make_string0 (*p), acc);
+          p++;
+        }
+      return reverse_x_ (acc, cell_nil);
+    }
+  /* One argument; set the current environment. */
+  else if (args->cdr == cell_nil)
+    {
+      /* This approach assumes that 'environ' always has enough space to
+         store more variables ('setenv' makes the same assumption).  It
+         also leaks memory, since it allocates environment entries with
+         no intention of cleaning them up. */
+      struct scm *env;
+
+      /* Before we do anything, verify that the argument type is
+         correct.  This way we can error out before modifying the
+         current environment. */
+      env = args->car;
+      while (env->type == TPAIR)
+        {
+          if (env->car->type != TSTRING)
+            error (cell_symbol_wrong_type_arg,
+                   cons (args, cstring_to_symbol ("environ")));
+          env = env->cdr;
+        }
+      if (env != cell_nil)
+        error (cell_symbol_wrong_type_arg,
+               cons (args, cstring_to_symbol ("environ")));
+
+      /* Now that we know we have a list of strings, we can update the
+         value of 'environ'. */
+      char **p = environ;
+      env = args->car;
+      while (env->type == TPAIR)
+        {
+          *p = malloc (env->car->length + 1);
+          strcpy (*p, cell_bytes (env->car->string));
+          p++;
+          env = env->cdr;
+        }
+      *p = NULL;
+      return cell_unspecified;
+    }
+  /* More than one argument; error out. */
+  else
+    {
+      error (cell_symbol_wrong_number_of_args,
+             cons (args, cstring_to_symbol ("environ")));
+    }
+}
