@@ -77,6 +77,9 @@ mes/module/ice-9/pretty-print.scm
 Srfi-1 bits from Guile
 mes/module/srfi/srfi-1-guile.scm
 
+Srfi-11 from Guile
+mes/module/srfi/srfi-11.scm
+
 Srfi-16 from Guile
 mes/module/srfi/srfi-16.scm
 
