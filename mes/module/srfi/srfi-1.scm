@@ -56,9 +56,18 @@
             lset-difference
             take-while
 
+            drop-while
             partition))
 
 (include-from-path "srfi/srfi-1.mes")
+
+(define (drop-while pred lst)
+  (let loop ((lst lst))
+    (if (null? lst)
+        '()
+        (if (pred (car lst))
+            (loop (cdr lst))
+            lst))))
 
 (define (partition pred lst)
   (let loop ((lst lst) (yeas '()) (nays '()))
