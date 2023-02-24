@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2020,2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -459,3 +460,10 @@ delete_file (struct scm *file_name)
   unlink (cell_bytes (file_name->string));
   return cell_unspecified;
 }
+
+/* This is a conditional compilation hack for M2-Planet in bootstrap
+   mode.  The following file will not be included in the M2-Planet build
+   of Mes, as M2-Planet will ignore the preprocessor directive.  Other
+   builds of Mes will include it.  The code in the file relies on system
+   interfaces supported by MesCC but not M2-Planet. */
+#include "mescc-posix.c"

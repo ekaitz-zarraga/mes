@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -187,5 +188,14 @@ struct scm *vector_entry (struct scm *x);
 struct scm *vector_set_x (struct scm *x, struct scm *i, struct scm *e);
 struct scm *list_to_vector (struct scm *x);
 struct scm *vector_to_list (struct scm *v);
+
+/* This is a conditional compilation hack for M2-Planet in bootstrap
+   mode.  The following file will not be included in the M2-Planet build
+   of Mes, as M2-Planet will ignore the preprocessor directive.  Other
+   builds of Mes will include it.  The code in the file relies on system
+   interfaces supported by MesCC but not M2-Planet.  Note that we use
+   the full include path here, as otherwise NYACC can't find it when
+   this file is included from elsewhere (possibly a bug). */
+#include "mes/mescc-builtins.h"
 
 #endif /* __MES_BUILTINS_H */

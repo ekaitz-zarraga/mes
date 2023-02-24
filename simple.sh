@@ -234,6 +234,7 @@ $CC -g -D HAVE_CONFIG_H=1                               \
     lib/stdio/putchar.c                                 \
     lib/stdio/ungetc.c                                  \
     lib/stdlib/free.c                                   \
+    lib/linux/getpid.c                                  \
     lib/linux/malloc.c                                  \
     lib/stdlib/realloc.c                                \
     lib/string/memchr.c                                 \
