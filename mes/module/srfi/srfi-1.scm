@@ -54,6 +54,17 @@
             lset-union
             lset-intersection
             lset-difference
-            take-while))
+            take-while
+
+            partition))
 
 (include-from-path "srfi/srfi-1.mes")
+
+(define (partition pred lst)
+  (let loop ((lst lst) (yeas '()) (nays '()))
+    (if (null? lst)
+        (values (reverse yeas) (reverse nays))
+        (let ((x (car lst)))
+          (if (pred x)
+              (loop (cdr lst) (cons x yeas) nays)
+              (loop (cdr lst) yeas (cons x nays)))))))
