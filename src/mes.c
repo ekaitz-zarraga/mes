@@ -187,6 +187,7 @@ void
 init ()
 {
   __execl_c_argv = malloc (1024 * sizeof (char *));     /* POSIX minimum: 4096 */
+  __execle_c_env = malloc (1024 * sizeof (char *));
   __gettimeofday_time = malloc (sizeof (struct timeval));
   __get_internal_run_time_ts = malloc (sizeof (struct timespec));
   __open_boot_buf = malloc (PATH_MAX);

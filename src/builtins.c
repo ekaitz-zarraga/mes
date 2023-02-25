@@ -243,6 +243,7 @@ mes_builtins (struct scm *a)            /*:((internal)) */
   a = init_builtin (builtin_type, "isatty?", 1, &isatty_p, a);
   a = init_builtin (builtin_type, "primitive-fork", 0, &primitive_fork, a);
   a = init_builtin (builtin_type, "execl", 2, &execl_, a);
+  a = init_builtin (builtin_type, "core:execle", 3, &execle_, a);
   a = init_builtin (builtin_type, "core:waitpid", 2, &waitpid_, a);
   a = init_builtin (builtin_type, "current-time", 0, &current_time, a);
   a = init_builtin (builtin_type, "gettimeofday", 0, &gettimeofday_, a);

@@ -44,6 +44,9 @@
            (if (access? f R_OK) f
                (loop (cdr path)))))))
 
+(define (execle file-name env . args)
+  (core:execle file-name args env))
+
 (define (execlp file-name args)
   (let ((executable (if (string-index file-name #\/) file-name
                         (search-path (string-split (getenv "PATH") #\:) file-name))))

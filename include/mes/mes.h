@@ -113,6 +113,7 @@ extern struct timespec *gc_end_time;
 extern size_t gc_time;
 
 extern char **__execl_c_argv;
+extern char **__execle_c_env;
 extern char *__open_boot_buf;
 extern char *__open_boot_file_name;
 extern char *__setenv_buf;

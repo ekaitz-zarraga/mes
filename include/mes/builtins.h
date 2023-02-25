@@ -133,6 +133,7 @@ struct scm *chmod_ (struct scm *file_name, struct scm *mode);
 struct scm *isatty_p (struct scm *port);
 struct scm *primitive_fork ();
 struct scm *execl_ (struct scm *file_name, struct scm *args);
+struct scm *execle_ (struct scm *file_name, struct scm *args, struct scm *env);
 struct scm *waitpid_ (struct scm *pid, struct scm *options);
 struct scm *current_time ();
 struct scm *gettimeofday_ ();

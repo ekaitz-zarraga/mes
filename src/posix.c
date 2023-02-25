@@ -367,6 +367,50 @@ execl_ (struct scm *file_name, struct scm *args)        /*:((name . "execl")) */
 }
 
 struct scm *
+execle_ (struct scm *file_name, struct scm *args, struct scm *env)
+{
+  char *c_file_name = cell_bytes (file_name->string);
+
+  char **c_argv = __execl_c_argv;
+  int i = 0;
+
+  if (length__ (args) > 1000)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("too many arguments"),
+                 cons (file_name, args)));
+
+  struct scm *arg;
+  while (args != cell_nil)
+    {
+      assert_msg (args->car->type == TSTRING, "args->car->type == TSTRING");
+      arg = args->car;
+      c_argv[i] = cell_bytes (arg->string);
+      i = i + 1;
+      args = args->cdr;
+    }
+  c_argv[i] = 0;
+
+  char **c_env = __execle_c_env;
+  i = 0;
+
+  if (length__ (env) > 1000)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("too many variables"),
+                 cons (file_name, env)));
+
+  while (env != cell_nil)
+    {
+      assert_msg (env->car->type == TSTRING, "env->car->type == TSTRING");
+      c_env[i] = cell_bytes (env->car->string);
+      i = i + 1;
+      env = env->cdr;
+    }
+  c_env[i] = 0;
+
+  return make_number (execve (c_file_name, c_argv, c_env));
+}
+
+struct scm *
 waitpid_ (struct scm *pid, struct scm *options)
 {
   int status;
