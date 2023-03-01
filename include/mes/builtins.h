@@ -72,6 +72,7 @@ struct scm *hash_ref_ (struct scm *table, struct scm *key, struct scm *dflt);
 struct scm *hashq_create_handle_x (struct scm *table, struct scm *key, struct scm *init);
 struct scm *hashq_set_x (struct scm *table, struct scm *key, struct scm *value);
 struct scm *hash_set_x (struct scm *table, struct scm *key, struct scm *value);
+struct scm *hash_remove_x (struct scm *table, struct scm *key);
 struct scm *hash_table_printer (struct scm *table);
 struct scm *make_hash_table (struct scm *x);
 struct scm *hash_buckets (struct scm *table);

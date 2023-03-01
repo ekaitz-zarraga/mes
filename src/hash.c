@@ -1,7 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
- * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+ * Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -159,6 +159,36 @@ hash_set_x (struct scm *table, struct scm *key, struct scm *value)
   long size = s->value;
   unsigned hash = hash_ (key, size);
   return hash_set_x_ (table, hash, key, value);
+}
+
+struct scm *hash_remove_x (struct scm *table, struct scm *key)
+{
+  struct scm *s = struct_ref_ (table, 3);
+  long size = s->value;
+  unsigned hash = hash_ (key, size);
+  struct scm *buckets = struct_ref_ (table, 4);
+  struct scm *bucket = vector_ref_ (buckets, hash);
+
+  while (bucket != cell_nil
+         && equal2_p (key, bucket->car->car) == cell_t)
+    bucket = bucket->cdr;
+
+  if (bucket != cell_nil)
+    {
+      struct scm *p = bucket;
+      struct scm *b = bucket->cdr;
+      while (b != cell_nil)
+        {
+          if (equal2_p (key, b->car->car) == cell_t)
+            p->cdr = b->cdr;
+          else
+            p = b;
+          b = b->cdr;
+        }
+    }
+
+  vector_set_x_ (buckets, hash, bucket);
+  return cell_unspecified;
 }
 
 struct scm *
