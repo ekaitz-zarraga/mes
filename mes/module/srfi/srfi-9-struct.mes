@@ -1,7 +1,7 @@
 ;;; -*-scheme-*-
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2017,2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -22,11 +22,11 @@
 
 ;;; srfi-9.mes - records, based on struct.
 
-(define-macro (define-record-type name constructor+params predicate . fields)
+(define-macro (define-record-type name constructor+field-names predicate . fields)
   (let ((type (make-record-type name (map car fields))))
    `(begin
       (define ,name ,type)
-      (define ,(car constructor+params) ,(record-constructor type name (cdr constructor+params)))
+      (define ,(car constructor+field-names) ,(record-constructor type (cdr constructor+field-names)))
       (define ,predicate ,(record-predicate type))
       (define-record-accessors ,type ,@fields))))
 
@@ -43,6 +43,9 @@
 (define (record-type o)
   (struct-ref o 2))
 
+(define (record-field-names o)
+  (struct-ref o 3))
+
 (define (record-predicate type)
   (lambda (o)
     (and (record? o)
@@ -52,12 +55,14 @@
   (and (struct? o)
        (record-type? (struct-vtable o))))
 
-(define (record-constructor type name params)
-  (let ((fields (record-fields type))
-        (record-type (record-type type)))
+(define (record-constructor type . field-names)
+  (let* ((fields (record-field-names type))
+         (name (record-type type))
+         (field-names (if (null? field-names) fields
+                          (car field-names))))
     (lambda (. o)
-      (if (not (= (length o) (length params))) (error "wrong number of arguments for record-constructor")
-          (let ((rest (make-list (- (length fields) (length params)))))
+      (if (not (= (length o) (length field-names))) (error "wrong number of arguments for record-constructor")
+          (let ((rest (make-list (- (length fields) (length field-names)))))
             (make-struct type (cons name (append o rest)) record-printer))))))
 
 (define record-printer *unspecified*)   ; TODO
@@ -65,7 +70,7 @@
   (display "#<")
   (display (record-type o))
   (let* ((vtable (struct-vtable o))
-         (fields (record-fields vtable)))
+         (fields (record-field-names vtable)))
     (for-each (lambda (field)
                 (display " ")
                 (display field)
@@ -73,9 +78,6 @@
                 (display ((record-getter vtable field) o)))
               fields))
   (display ">"))
-
-(define (record-fields o)
-  (struct-ref o 3))
 
 (define-macro (define-record-accessors type . fields)
   `(begin
@@ -103,7 +105,7 @@
           (struct-set! o i v)))))
 
 (define (record-field-index type field)
-  (+ 3 (or (lst-index (record-fields type) field)
+  (+ 3 (or (lst-index (record-field-names type) field)
            (error "no such field" type field))))
 
 (define (lst-index lst o)

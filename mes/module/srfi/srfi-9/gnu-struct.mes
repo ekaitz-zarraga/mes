@@ -1,7 +1,7 @@
 ;;; -*-scheme-*-
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2017,2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -22,8 +22,8 @@
 
 ;;; srfi-9.mes - GNU immutable records.
 
-(define-macro (define-immutable-record-type type constructor+params predicate . fields)
-  `(define-record-type ,type ,constructor+params ,predicate ,@(map (lambda (f) (list-head f 2)) fields)))
+(define-macro (define-immutable-record-type type constructor+parameters predicate . fields)
+  `(define-record-type ,type ,constructor+parameters ,predicate ,@(map (lambda (f) (list-head f 2)) fields)))
 
 (define-macro (set-field o getters value)
   `(let ((getter ,(car getters)))
@@ -33,6 +33,6 @@
        (define (field->value field)
          (if (eq? set field) ,value
              ((record-getter type field) ,o)))
-       (let* ((fields (record-fields type))
+       (let* ((fields (record-field-names type))
               (values (map field->value fields)))
-         (apply (record-constructor type name fields) values)))))
+         (apply (record-constructor type fields) values)))))

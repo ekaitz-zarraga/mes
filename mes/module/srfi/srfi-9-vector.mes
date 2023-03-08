@@ -1,7 +1,7 @@
 ;;; -*-scheme-*-
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2017,2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -22,11 +22,11 @@
 
 ;;; srfi-9-vector.mes - records, based on vector
 
-(define-macro (define-record-type type constructor+params predicate . fields)
+(define-macro (define-record-type type constructor+field-names predicate . fields)
   (let ((record (make-record-type type (map car fields))))
    `(begin
       (define ,type ,record)
-      (define ,(car constructor+params) ,(record-constructor record (cdr constructor+params)))
+      (define ,(car constructor+field-names) ,(record-constructor record (cdr constructor+field-names)))
       (define ,predicate ,(record-predicate record))
       (define-record-accessors ,record ,@fields))))
 
@@ -34,25 +34,35 @@
   (list->vector (list '*record-type* type fields (length fields))))
 
 (define (record-type? o)
-  (eq? (record-type o) '*record-type*))
+  (eq? (record-type-type o) '*record-type*))
+
+(define (record? o)
+  (eq? (record-type-type o) '*record*))
+
+(define (record-type-type o)
+  (vector-ref o 0))
 
 (define (record-type o)
-  (vector-ref o 0))
+  (vector-ref o 1))
+
+(define (record-field-names o)
+  (vector-ref o 2))
 
 (define (record-predicate type)
   (lambda (o)
     (and (vector? o)
+         (or (record-type? o)
+             (record? o))
          (eq? (record-type o) type))))
 
-(define (record-constructor type params)
-  (let ((fields (record-fields type)))
+(define (record-constructor type . field-names)
+  (let* ((fields (record-field-names type))
+         (field-names (if (null? field-names) fields
+                          (car field-names))))
     (lambda (. o)
-      (if (not (= (length o) (length params))) (error "wrong number of arguments for record-constructor")
-          (let ((rest (make-list (- (length fields) (length params)))))
-            (list->vector (cons type (append o rest))))))))
-
-(define (record-fields o)
-  (vector-ref o 2))
+      (if (not (= (length o) (length field-names))) (error "wrong number of arguments for record-constructor")
+          (let ((rest (make-list (- (length fields) (length field-names)))))
+            (list->vector (cons* '*record* type (append o rest))))))))
 
 (define-macro (define-record-accessors type . fields)
   `(begin
@@ -80,7 +90,7 @@
           (vector-set! o i v)))))
 
 (define (record-field-index type field)
-  (1+ (or (lst-index (record-fields type) field)
+  (1+ (or (lst-index (record-field-names type) field)
           (error "no such field" type field))))
 
 (define (lst-index lst o)
