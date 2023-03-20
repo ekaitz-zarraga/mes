@@ -51,10 +51,10 @@
 (define (execle file-name env . args)
   (core:execle file-name args env))
 
-(define (execlp file-name args)
+(define (execlp file-name . args)
   (let ((executable (if (string-index file-name #\/) file-name
                         (search-path (string-split (getenv "PATH") #\:) file-name))))
-    (execl executable args)))
+    (apply execl executable args)))
 
 (define (system* file-name . args)
   (let ((pid (primitive-fork)))
@@ -67,7 +67,7 @@
              (when (and (> err 0)
                         (not (= err 2)))
                (dup2 err 2))
-             (exit (apply execlp file-name (list args)))))
+             (exit (apply execlp file-name args))))
           ((= -1 pid) (error "fork failed:" file-name))
           (else (let ((pid+status (waitpid 0)))
                   (cdr pid+status))))))
