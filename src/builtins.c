@@ -23,6 +23,7 @@
 #include "mes/mes.h"
 
 #include <fcntl.h>
+#include <sys/wait.h>
 
 struct scm *
 make_builtin_type ()            /*:((internal)) */

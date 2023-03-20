@@ -32,3 +32,5 @@ a = init_builtin (builtin_type, "close-port", 1, &close_port, a);
 a = acons (cstring_to_symbol ("O_RDWR"), make_number (O_RDWR), a);
 a = acons (cstring_to_symbol ("O_EXCL"), make_number (O_EXCL), a);
 a = acons (cstring_to_symbol ("O_APPEND"), make_number (O_APPEND), a);
+
+a = acons (cstring_to_symbol ("WNOHANG"), make_number (WNOHANG), a);
