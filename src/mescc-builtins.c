@@ -28,9 +28,14 @@ a = init_builtin (builtin_type, "closedir", 1, &closedir_, a);
 a = init_builtin (builtin_type, "readdir", 1, &readdir_, a);
 a = init_builtin (builtin_type, "pipe", 0, &pipe_, a);
 a = init_builtin (builtin_type, "close-port", 1, &close_port, a);
+a = init_builtin (builtin_type, "seek", 3, &seek, a);
 
 a = acons (cstring_to_symbol ("O_RDWR"), make_number (O_RDWR), a);
 a = acons (cstring_to_symbol ("O_EXCL"), make_number (O_EXCL), a);
 a = acons (cstring_to_symbol ("O_APPEND"), make_number (O_APPEND), a);
+
+a = acons (cstring_to_symbol ("SEEK_SET"), make_number (SEEK_SET), a);
+a = acons (cstring_to_symbol ("SEEK_CUR"), make_number (SEEK_CUR), a);
+a = acons (cstring_to_symbol ("SEEK_END"), make_number (SEEK_END), a);
 
 a = acons (cstring_to_symbol ("WNOHANG"), make_number (WNOHANG), a);

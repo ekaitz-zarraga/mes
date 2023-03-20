@@ -167,3 +167,16 @@ close_port (struct scm *port)
     if (close (port->value) != 0)
       error (cell_symbol_system_error, cons (make_string0 ("Error closing port"), port));
 }
+
+struct scm *
+seek (struct scm *port, struct scm *offset, struct scm *whence)
+{
+  if (port->type != TNUMBER)
+    error (cell_symbol_wrong_type_arg,
+           cons (port, cstring_to_symbol ("seek")));
+  off_t result = lseek (port->value, offset->value, whence->value);
+  if (result == -1)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("Error seeking"), port));
+  return make_number (result);
+}
