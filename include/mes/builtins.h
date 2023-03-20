@@ -122,6 +122,7 @@ struct scm *getenv_ (struct scm *s);
 struct scm *setenv_ (struct scm *s, struct scm *v);
 struct scm *access_p (struct scm *file_name, struct scm *mode);
 struct scm *current_input_port ();
+struct scm *open_ (struct scm *file_name, struct scm *flags);
 struct scm *open_input_file (struct scm *file_name);
 struct scm *open_input_string (struct scm *string);
 struct scm *set_current_input_port (struct scm *port);

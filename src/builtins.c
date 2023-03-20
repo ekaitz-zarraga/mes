@@ -22,6 +22,8 @@
 #include "mes/lib.h"
 #include "mes/mes.h"
 
+#include <fcntl.h>
+
 struct scm *
 make_builtin_type ()            /*:((internal)) */
 {
@@ -232,6 +234,7 @@ mes_builtins (struct scm *a)            /*:((internal)) */
   a = init_builtin (builtin_type, "setenv", 2, &setenv_, a);
   a = init_builtin (builtin_type, "access?", 2, &access_p, a);
   a = init_builtin (builtin_type, "current-input-port", 0, &current_input_port, a);
+  a = init_builtin (builtin_type, "open", 2, &open_, a);
   a = init_builtin (builtin_type, "open-input-file", 1, &open_input_file, a);
   a = init_builtin (builtin_type, "open-input-string", 1, &open_input_string, a);
   a = init_builtin (builtin_type, "set-current-input-port", 1, &set_current_input_port, a);
@@ -256,6 +259,12 @@ mes_builtins (struct scm *a)            /*:((internal)) */
   a = init_builtin (builtin_type, "dup", 1, &dup_, a);
   a = init_builtin (builtin_type, "dup2", 2, &dup2_, a);
   a = init_builtin (builtin_type, "delete-file", 1, &delete_file, a);
+
+  a = acons (cstring_to_symbol ("O_RDONLY"), make_number (O_RDONLY), a);
+  a = acons (cstring_to_symbol ("O_WRONLY"), make_number (O_WRONLY), a);
+  a = acons (cstring_to_symbol ("O_CREAT"), make_number (O_CREAT), a);
+  a = acons (cstring_to_symbol ("O_TRUNC"), make_number (O_TRUNC), a);
+
   /* src/reader.c */
   a = init_builtin (builtin_type, "core:read-input-file-env", 2, &read_input_file_env_, a);
   a = init_builtin (builtin_type, "read-input-file-env", 1, &read_input_file_env, a);

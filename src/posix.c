@@ -233,6 +233,19 @@ current_input_port ()
 }
 
 struct scm *
+open_ (struct scm *file_name, struct scm *flags)
+{
+  int mode = S_IRUSR | S_IWUSR;
+  int filedes = mes_open (cell_bytes (file_name->string),
+                          flags->value,
+                          mode);
+  if (filedes < 0)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("Cannot open file"), file_name));
+  return make_number (filedes);
+}
+
+struct scm *
 open_input_file (struct scm *file_name)
 {
   int filedes = mes_open (cell_bytes (file_name->string), O_RDONLY, 0);

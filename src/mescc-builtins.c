@@ -28,3 +28,7 @@ a = init_builtin (builtin_type, "closedir", 1, &closedir_, a);
 a = init_builtin (builtin_type, "readdir", 1, &readdir_, a);
 a = init_builtin (builtin_type, "pipe", 0, &pipe_, a);
 a = init_builtin (builtin_type, "close-port", 1, &close_port, a);
+
+a = acons (cstring_to_symbol ("O_RDWR"), make_number (O_RDWR), a);
+a = acons (cstring_to_symbol ("O_EXCL"), make_number (O_EXCL), a);
+a = acons (cstring_to_symbol ("O_APPEND"), make_number (O_APPEND), a);
