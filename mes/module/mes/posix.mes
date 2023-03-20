@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2017, 2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -43,6 +44,9 @@
          (let ((f (string-append (car path) "/" file-name)))
            (if (access? f R_OK) f
                (loop (cdr path)))))))
+
+(define (execl file-name . args)
+  (core:execl file-name args))
 
 (define (execle file-name env . args)
   (core:execle file-name args env))
