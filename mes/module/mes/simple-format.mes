@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -51,8 +52,10 @@
                     ((#\a) (display (car args) port))
                     ((#\S) (write (car args) port))
                     ((#\s) (write (car args) port))
+                    ((#\%) (newline port))
                     (else (display (car args) port)))
-                  (simple-format (cddr lst) (cdr args)))))))
+                  (simple-format (cddr lst)
+                                 (if (eq? c #\%) args (cdr args))))))))
 
     (if destination (simple-format lst rest)
         (with-output-to-string
