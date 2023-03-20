@@ -109,11 +109,11 @@
   (let ((pred (negate (char-pred->pred char-pred))))
     (list->string (filter pred (string->list s)))))
 
-(define (string-index s pred . rest)
+(define (string-index s char-pred . rest)
   (let* ((start (if (pair? rest) (car rest) 0))
          (rest  (if (pair? rest) (cdr rest) '()))
          (end   (if (pair? rest) (car rest) (string-length s)))
-         (pred  (if (char? pred) (lambda (c) (eq? c pred)) pred)))
+         (pred  (char-pred->pred char-pred)))
     (let loop ((lst (string->list s)) (i 0))
       (cond
        ((>= i end) #f)
