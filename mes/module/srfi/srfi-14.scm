@@ -1,6 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
-;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+;;; Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -36,6 +36,7 @@
                char-upcase
                char-downcase)
   #:export (char-set:ascii
+            char-set:full
             char-set:letter+digit
             char-set:letter
             char-set:blank
@@ -48,6 +49,8 @@
             char-set-difference))
 
 (define char-set:ascii (apply char-set (map integer->char (iota 128))))
+
+(define char-set:full char-set:ascii)
 
 (define char-set:letter+digit
   (apply char-set
