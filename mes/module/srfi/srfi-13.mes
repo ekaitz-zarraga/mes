@@ -105,10 +105,9 @@
         ((> n 0) ((compose list->string (lambda (o) (drop-right o n)) string->list) s))
         (else (error "string-drop-right: not supported: n=" n))))
 
-(define (string-delete pred s)
-  (let ((p (if (procedure? pred) pred
-               (lambda (c) (not (eq? pred c))))))
-    (list->string (filter p (string->list s)))))
+(define (string-delete char-pred s)
+  (let ((pred (negate (char-pred->pred char-pred))))
+    (list->string (filter pred (string->list s)))))
 
 (define (string-index s pred . rest)
   (let* ((start (if (pair? rest) (car rest) 0))
