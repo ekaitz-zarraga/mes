@@ -19,6 +19,7 @@
 # Usage:
 # kaem --verbose --strict
 
+cc_cpu=arm
 mes_cpu=arm
 stage0_cpu=armv7l
 kaem --verbose --strict
