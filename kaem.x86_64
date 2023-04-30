@@ -22,4 +22,5 @@
 cc_cpu=x86_64
 mes_cpu=x86_64
 stage0_cpu=amd64
+blood_elf_flag=--64
 kaem --verbose --strict
