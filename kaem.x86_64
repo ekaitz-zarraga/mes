@@ -19,7 +19,6 @@
 # Usage:
 # kaem --verbose --strict
 
-cc_cpu=x86_64
 mes_cpu=x86_64
 stage0_cpu=amd64
 kaem --verbose --strict

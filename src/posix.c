@@ -373,16 +373,15 @@ waitpid_ (struct scm *pid, struct scm *options)
   return cons (make_number (child), make_number (status));
 }
 
-#if __x86_64__
-/* Nanoseconds on 64-bit systems with POSIX timers.  */
 #if __M2__
-#define TIME_UNITS_PER_SECOND 1000000000
-#else
-#define TIME_UNITS_PER_SECOND 1000000000U
-#endif
-#else
 /* Milliseconds for everyone else.  */
 #define TIME_UNITS_PER_SECOND 1000
+#elif __x86_64__
+/* Nanoseconds on 64-bit systems with POSIX timers.  */
+#define TIME_UNITS_PER_SECOND 1000000000U
+#else
+/* Milliseconds for everyone else.  */
+#define TIME_UNITS_PER_SECOND 1000U
 #endif
 
 struct scm *
