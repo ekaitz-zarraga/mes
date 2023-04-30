@@ -20,6 +20,13 @@
 #ifndef __M2_TYPES_H
 #define __M2_TYPES_H 1
 
+// FIXME M2_Planet chokes on -1, even inside #if ! __M2__
+#if __arm__ || __i386__
+#define EOF 0xffffffff
+#else
+#define EOF 0xffffffffffffffff
+#endif
+
 /*
 #ifndef __MES_CLOCK_T
 #define __MES_CLOCK_T

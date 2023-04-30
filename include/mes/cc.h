@@ -21,6 +21,12 @@
 #ifndef __MES_CC_H
 #define __MES_CC_H
 
+#define EOF -1
+
+#if SYSTEM_LIBC
+#define __raise(x) -1
+#endif
+
 typedef struct scm* SCM;
 
 #if __MESC__

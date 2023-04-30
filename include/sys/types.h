@@ -31,15 +31,6 @@
 #define __MESCCLIB__ 15
 #endif
 
-#ifndef EOF
-// FIXME M2_Planet chokes on -1, even inside #if ! __M2__
-#if __arm__ || __i386__
-#define EOF 0xffffffff
-#else
-#define EOF 0xffffffffffffffff
-#endif
-#endif
-
 #ifndef NULL
 #define NULL 0
 #endif
