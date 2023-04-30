@@ -1,0 +1,50 @@
+#! /bin/sh
+
+# Usage:
+# kaem --verbose --strict --file scaffold/bug.kaem
+# scaffold/bug-m2
+
+mes_cpu=${mes_cpu:-x86}
+stage0_cpu=${stage0_cpu:-x86}
+
+M2-Planet                                       \
+    --debug                                     \
+    --architecture ${stage0_cpu}                \
+    -f lib/linux/${mes_cpu}-mes-m2/crt1.c       \
+    -f include/mes/lib-mini.h                   \
+    -f lib/linux/${mes_cpu}-mes-m2/_write.c     \
+    -f lib/linux/${mes_cpu}-mes-m2/_exit.c      \
+    -f include/linux/${mes_cpu}/syscall.h       \
+    -f lib/linux/${mes_cpu}-mes-m2/syscall.c    \
+    -f lib/m2/cast.c                            \
+    -f include/mes/lib.h                        \
+    -f lib/string/strlen.c                      \
+    -f lib/mes/write.c                          \
+    -f lib/mes/eputs.c                          \
+    -f lib/linux/brk.c                          \
+    -f lib/linux/malloc.c                       \
+    -f scaffold/bug.c                           \
+    -o scaffold/bug.M1
+
+blood-elf --little-endian -f scaffold/bug.M1 -o scaffold/bug.blood-elf-M1
+
+M1                                              \
+    --architecture ${stage0_cpu}                \
+    --little-endian                             \
+    -f lib/m2/${mes_cpu}/${mes_cpu}_defs.M1     \
+    -f lib/${mes_cpu}-mes/${mes_cpu}.M1         \
+    -f lib/linux/${mes_cpu}-mes-m2/crt1.M1      \
+    -f scaffold/bug.M1                         \
+    -f scaffold/bug.blood-elf-M1               \
+    -o scaffold/bug.hex2
+
+hex2                                            \
+    --architecture ${stage0_cpu}                \
+    --little-endian                             \
+    --base-address 0x1000000                    \
+    -f lib/m2/${mes_cpu}/ELF-${mes_cpu}.hex2    \
+    -f scaffold/bug.hex2                       \
+    -o scaffold/bug-m2
+
+echo Now run: scaffold/bug-m2
+./scaffold/bug-m2
