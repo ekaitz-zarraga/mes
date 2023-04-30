@@ -92,7 +92,7 @@ gc_init ()
   g_cells = cast_charp_to_scmp (g_arena);
   g_stack_array = cast_charp_to_scmpp (g_arena + arena_bytes);
 
-  /* The vector that holds the arenea. */
+  /* The vector that holds the arena. */
   cell_arena = g_cells;
 
   cell_zero = cell_arena + M2_CELL_SIZE;
