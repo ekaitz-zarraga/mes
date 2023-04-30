@@ -1,6 +1,7 @@
 #! /bin/sh
 # Copyright © 2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
-#
+# Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
+
 # This file is part of GNU Mes.
 #
 # GNU Mes is free software; you can redistribute it and/or modify it
@@ -22,4 +23,5 @@
 cc_cpu=x86_64
 mes_cpu=x86_64
 stage0_cpu=amd64
+blood_elf_flag=--64
 kaem --verbose --strict

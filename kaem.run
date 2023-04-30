@@ -1,5 +1,6 @@
 #! /bin/sh
 # Copyright © 2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
 #
 # This file is part of GNU Mes.
 #
@@ -22,6 +23,7 @@
 cc_cpu=${cc_cpu:-i386}
 mes_cpu=${mes_cpu:-x86}
 stage0_cpu=${stage0_cpu:-x86}
+blood_elf_flag=${blood_elf_flag:---little-endian}
 
 mkdir -p m2
 
@@ -136,7 +138,7 @@ M2-Planet                                       \
     -f src/vector.c                             \
     -o m2/mes.M1
 
-blood-elf --little-endian -f m2/mes.M1 -o m2/mes.blood-elf-M1
+blood-elf ${blood_elf_flag} --little-endian -f m2/mes.M1 -o m2/mes.blood-elf-M1
 
 M1                                              \
     --architecture ${stage0_cpu}                \
