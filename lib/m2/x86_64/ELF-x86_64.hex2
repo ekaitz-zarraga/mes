@@ -1,5 +1,6 @@
 ### Copyright (C) 2016 Jeremiah Orians
 ### Copyright (C) 2017 Jan Nieuwenhuizen <janneke@gnu.org>
+### Copyright (C) 2023 Andrius Štikonas <andrius@stikonas.eu>
 ### This file is part of M2-Planet.
 ###
 ### M2-Planet is free software: you can redistribute it and/or modify
@@ -45,7 +46,7 @@
 
 &_start 00 00 00 00                       # e_entry Address of the entry point
 %ELF_program_headers>ELF_base 00 00 00 00 # e_phoff Address of program header table
-00 00 00 00 00 00 00 00                   # e_shoff Address of section header table
+%ELF_section_headers>ELF_base 00 00 00 00 # e_shoff Address of section header table
 
 00 00 00 00                               # e_flags
 
@@ -54,10 +55,10 @@
 38 00                                     # e_phentsize size of a program header table
 01 00                                     # e_phnum number of entries in program table
 
-00 00                                     # e_shentsize size of a section header table
-00 00                                     # e_shnum number of entries in section table
+40 00                                     # e_shentsize size of a section header table
+05 00                                     # e_shnum number of entries in section table
 
-00 00                                     # e_shstrndx index of the section names
+02 00                                     # e_shstrndx index of the section names
 
 
 :ELF_program_headers
