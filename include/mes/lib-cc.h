@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -17,26 +17,13 @@
  * You should have received a copy of the GNU General Public License
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef __MES_LIB_CC_H
+#define __MES_LIB_CC_H
 
-#ifndef __MES_CC_H
-#define __MES_CC_H
+#define EOF -1
 
-typedef struct scm* SCM;
+#if SYSTEM_LIBC
+#define __raise(x) -1
+#endif
 
-#if __MESC__
-typedef long FUNCTION;
-typedef long function0_t;
-typedef long function1_t;
-typedef long function2_t;
-typedef long function3_t;
-typedef long functionn_t;
-#else // !__MESC__
-typedef SCM (*FUNCTION) (void);
-typedef SCM (*function0_t) (void);
-typedef SCM (*function1_t) (SCM);
-typedef SCM (*function2_t) (SCM, SCM);
-typedef SCM (*function3_t) (SCM, SCM, SCM);
-typedef SCM (*functionn_t) (SCM);
-#endif // !__MESC__
-
-#endif //__MES_CC_H
+#endif //__MES_LIB_CC_H

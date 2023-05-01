@@ -20,6 +20,8 @@
 #ifndef __MES_SYS_TYPES_H
 #define __MES_SYS_TYPES_H 1
 
+#include <mes/lib-cc.h>
+
 #if SYSTEM_LIBC
 #undef __MES_SYS_TYPES_H
 #include_next <sys/types.h>
