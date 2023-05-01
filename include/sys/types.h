@@ -29,6 +29,8 @@
 
 #include <endian.h>
 
+#define EOF -1
+
 #ifndef __MESCCLIB__
 #define __MESCCLIB__ 15
 #endif
