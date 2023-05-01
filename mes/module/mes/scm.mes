@@ -3,7 +3,7 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2019,2022 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
-;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+;;; Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -443,3 +443,121 @@
 (define (const . rest)
   (lambda (. _)
     (car rest)))
+
+
+;;; Dynamic winding
+
+;; This is a Scheme-level implementation of 'dynamic-wind'.  It assumes
+;; that the only way to manipulate the call stack (besides procedure
+;; application) is 'call-with-current-continuation' ('call/cc').  It
+;; works by wrapping 'call/cc' so that it produces continuations that
+;; know how to unwind and rewind the stack.  Then, when those
+;; continuations are used, all of the guards setup by calls to
+;; 'dynamic-wind' will be invoked as expected.
+;;
+;; N.B., it would be smarter to support this deeper down in the C code.
+;; For instance, since Mes already has a very explicit stack it wouldn't
+;; be too hard to add something like continuation marks to it
+;; <https://srfi.schemers.org/srfi-157/srfi-157.html>.  However, I
+;; already had this code lying around; it will work for now.
+
+(let ((%call/cc call-with-current-continuation))
+
+  ;; This is where we will store the dynamic stack.
+  (define dynamic-stack '())
+
+  ;; Create a frame for the dynamic stack.  The thunk BEFORE will be
+  ;; run whenever the dynamic stack is wound past this frame, and the
+  ;; thunk AFTER will be run whenever the dynamic stack is unwound
+  ;; past this frame.
+  (define (make-frame before after)
+    (cons (+ (dynamic-stack-length dynamic-stack) 1)
+          (cons before after)))
+
+  ;; Return the lengh of the dynamic stack STACK.
+  (define (dynamic-stack-length stack)
+    (if (null? stack) 0 (caar stack)))
+
+  ;; Push FRAME onto the dynamic stack and run its 'before' thunk.
+  (define (dynamic-stack-push! frame)
+    ((cadr frame))
+    (set! dynamic-stack (cons frame dynamic-stack)))
+
+  ;; Pop a frame off of the dynamic stack and run its 'after' thunk.
+  (define (dynamic-stack-pop!)
+    (let ((frame (car dynamic-stack)))
+      ((cddr frame))
+      (set! dynamic-stack (cdr dynamic-stack))))
+
+  ;; Unwind the dynamic stack back to the state TARGET, running the
+  ;; 'after' thunks of any frames removed from the stack.
+  (define (unwind-stack! target)
+    (let loop ((target target) (acc '()))
+      (if (eq? target dynamic-stack)
+          ;; The two stacks are equal.  Return all the frames removed
+          ;; from the target stack in reverse order (that will make
+          ;; winding easy).
+          acc
+          ;; The two stacks are different.  Try to unify them.
+          (let ((t-len (dynamic-stack-length target))
+                (d-len (dynamic-stack-length dynamic-stack)))
+            (if (= t-len d-len)
+                ;; The two stacks are different but have equal length.
+                ;; Remove a frame from both of them.
+                (begin
+                  (dynamic-stack-pop!)
+                  (loop (cdr target) (cons (car target) acc)))
+                (if (< t-len d-len)
+                    ;; The target stack is shorter.  Remove a frame
+                    ;; the current dynamic stack.
+                    (begin
+                      (dynamic-stack-pop!)
+                      (loop target acc))
+                    ;; The target stack is longer.  Remove a frame
+                    ;; from the target stack.
+                    (loop (cdr target) (cons (car target) acc))))))))
+
+  ;; Push each frame in FRAMES onto the dynamic stack, running their
+  ;; 'before' thunks in order.
+  (define (wind-stack! frames)
+    (if (null? frames)
+        #t
+        (begin
+          (dynamic-stack-push! (car frames))
+          (wind-stack! (cdr frames)))))
+
+  ;; A unique object for identifying continuations that perform
+  ;; dynamic winding.
+  (define continuation-tag (list 'continuation-tag))
+
+  ;; Convert RAW-CONT to a continuation that performs dynamic winding.
+  ;;
+  ;; TODO: Use a record type.
+  (define (make-continuation raw-cont)
+    (list continuation-tag raw-cont dynamic-stack))
+
+  (define continuation-cont cadr)
+  (define continuation-stack caddr)
+
+  ;; Continue the continuation CONT with value VAL.
+  (define (apply-continuation cont val)
+    ;; Check the type of CONT.
+    (wind-stack! (unwind-stack! (continuation-stack cont)))
+    ((continuation-cont cont) val))
+
+  (define (dynamic-wind before thunk after)
+    (dynamic-stack-push! (make-frame before after))
+    (let ((result (thunk)))
+      (dynamic-stack-pop!)
+      result))
+
+  (define (call/cc proc)
+    (%call/cc (lambda (raw-cont)
+                (let ((cont (make-continuation raw-cont)))
+                  (proc (lambda (val)
+                          (apply-continuation cont val)))))))
+
+  (hashq-set! (initial-module) 'dynamic-wind (make-variable dynamic-wind))
+  (hashq-set! (initial-module) 'call-with-current-continuation
+              (make-variable call/cc))
+  (hashq-set! (initial-module) 'call/cc (make-variable call/cc)))

@@ -2,7 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
-;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+;;; Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -52,11 +52,16 @@
   (hashq-set! (initial-module) 'fluid-set! (make-variable fluid-set!)))
 
 (define (with-fluid* fluid value thunk)
-  (let ((v (fluid-ref fluid)))
-    (fluid-set! fluid value)
-    (let ((r (thunk)))
-      (fluid-set! fluid v)
-      r)))
+  (let ((outer-value #f)
+        (inner-value value))
+    (dynamic-wind
+      (lambda ()
+        (set! outer-value (fluid-ref fluid))
+        (fluid-set! fluid inner-value))
+      thunk
+      (lambda ()
+        (set! inner-value (fluid-ref fluid))
+        (fluid-set! fluid outer-value)))))
 
 ;; (define-macro (with-fluids*-macro fluids values thunk)
 ;;   `(begin
@@ -70,15 +75,33 @@
 ;;   (primitive-eval (with-fluids*-next fluids values thunk)))
 
 (define-macro (with-fluids bindings . bodies)
-  (let ((syms (map gensym bindings)))
-    `(let ,(map (lambda (b s) `(,s (fluid-ref ,b))) (map car bindings) syms)
-       ,@(map (lambda (o) `(fluid-set! ,(car o) ,(cadr o))) bindings)
-       (let ((r (begin ,@bodies)))
-         ,@(map (lambda (b s) `(fluid-set! ,b ,s)) (map car bindings) syms)
-         r))))
-
-(define (dynamic-wind in-guard thunk out-guard)
-  (in-guard)
-  (let ((r (thunk)))
-    (out-guard)
-    r))
+  (let loop ((bindings (reverse bindings))
+             (initializations '())
+             (save-outers '())
+             (set-inners '())
+             (save-inners '())
+             (set-outers '()))
+    (cond
+     ((pair? bindings)
+      (let ((fluid (caar bindings))
+            (value (cadar bindings))
+            (inner-sym (gensym))
+            (outer-sym (gensym)))
+        (loop (cdr bindings)
+              (cons `(,outer-sym #f)
+                    (cons `(,inner-sym ,value)
+                          initializations))
+              (cons `(set! ,outer-sym (fluid-ref ,fluid)) save-outers)
+              (cons `(fluid-set! ,fluid ,inner-sym) set-inners)
+              (cons `(set! ,inner-sym (fluid-ref ,fluid)) save-inners)
+              (cons `(fluid-set! ,fluid ,outer-sym) set-outers))))
+     (else
+      `(let ,initializations
+         (dynamic-wind
+           (lambda ()
+             ,@save-outers
+             ,@set-inners)
+           (lambda () ,@bodies)
+           (lambda ()
+             ,@save-inners
+             ,@set-outers)))))))
