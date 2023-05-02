@@ -195,6 +195,7 @@ lib/gnu/malloc.c
 lib/gnu/vm-allocate.c
 lib/stub/access.c
 lib/stub/brk.c
+lib/stub/chdir.c
 lib/stub/chmod.c
 lib/stub/clock_gettime.c
 lib/stub/close.c
@@ -219,6 +220,7 @@ if test $mes_kernel = linux; then
     libc_SOURCES="$libc_SOURCES
 lib/linux/access.c
 lib/linux/brk.c
+lib/linux/chdir.c
 lib/linux/chmod.c
 lib/linux/clock_gettime.c
 lib/linux/close.c
@@ -423,7 +425,6 @@ lib/stub/utime.c
 
 if test $mes_kernel = linux; then
     libc_gnu_SOURCES="$libc_gnu_SOURCES
-lib/linux/chdir.c
 lib/linux/getegid.c
 lib/linux/geteuid.c
 lib/linux/getgid.c

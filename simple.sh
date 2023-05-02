@@ -255,6 +255,7 @@ $CC -g -D HAVE_CONFIG_H=1                               \
                                                         \
     lib/linux/access.c                                  \
     lib/linux/brk.c                                     \
+    lib/linux/chdir.c                                   \
     lib/linux/chmod.c                                   \
     lib/linux/clock_gettime.c                           \
     lib/linux/close.c                                   \
