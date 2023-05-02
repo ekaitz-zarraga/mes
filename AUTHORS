@@ -36,6 +36,10 @@ lib/div.c (__mesabi_log2i)
 
 W. J. van der Laan <laanwj@protonmail.com>
 Bugfixes for logand, 64bit build, and va_arg
+RISC-V port
+
+Andrius Štikonas <andrius@stikonas.eu>
+Rewrite the RISC-V port to use new word-based macros.
 
 List of imported files
 
@@ -91,7 +95,7 @@ lib/m2/x86/x86_defs.M1
 lib/m2/x86/ELF-x86.hex2
 
 * legalese
-Copyright © 2016,2017,2018,2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+Copyright © 2016,2017,2018,2019,2020,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 
   Copying and distribution of this file, with or without modification,
   are permitted in any medium without royalty provided the copyright
