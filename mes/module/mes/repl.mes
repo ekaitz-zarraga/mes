@@ -31,6 +31,8 @@
   (string-append "GNU Mes " %version "
 Copyright (C) 2016,2017,2018,2019,2020,2021,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 Copyright (C) 2019,2020,2021 Danny Milosavljevic <dannym@scratchpost.org>
+Copyright (C) 2021 Wladimir van der Laan <laanwj@protonmail.com>
+Copyright (C) 2023 Andrius Štikonas <andrius@stikonas.eu>
 and others.
 
 GNU Mes comes with ABSOLUTELY NO WARRANTY; for details type `,show w'.
