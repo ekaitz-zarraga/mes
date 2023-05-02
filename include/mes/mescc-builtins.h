@@ -26,3 +26,4 @@ struct scm *readdir_ (struct scm *args);
 struct scm *pipe_ ();
 struct scm *close_port (struct scm *port);
 struct scm *seek (struct scm *port, struct scm *offset, struct scm *whence);
+struct scm *chdir_ (struct scm *file_name);

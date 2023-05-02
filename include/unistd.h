@@ -60,6 +60,7 @@
 
 int access (char const *s, int mode);
 unsigned int alarm (unsigned int seconds);
+int chdir (char const *file_name);
 int close (int fd);
 int execv (char const *file_name, char *const argv[]);
 int execl (char const *file_name, char const *arg, ...);
