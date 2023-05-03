@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2018,2019,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -19,45 +19,20 @@
  */
 
 #include <mes/lib-mini.h>
-//int main (int argc, char *argv[], char *envp[]);
+int main (int argc, char *argv[], char *envp[]);
 
 // *INDENT-OFF*
 void
 _start ()
 {
   asm (
-       "mov    $0,%%eax\n\t"
-       "mov    %%eax,%0\n"
-       : "=r" (__stdin)
-       : //no inputs ""
-       );
-
-  asm (
-       "mov    $1,%%eax\n\t"
-       "mov    %%eax,%0\n"
-       : "=r" (__stdout)
-       : //no inputs ""
-       );
-
-  asm (
-       "mov    $2,%%eax\n\t"
-       "mov    %%eax,%0\n"
-       : "=r" (__stderr)
-       : //no inputs ""
-       );
-  asm (
-       "mov     %%ebp,%%eax\n\t"
-       "add     $4,%%eax\n\t"
-       "mov     (%%eax),%%eax\n\t"
-       "add     $3,%%eax\n\t"
-       "shl     $2,%%eax\n\t"
-       "add     %%ebp,%%eax\n\t"
-       "mov     %%eax,%0\n\t"
-       "push    %%eax\n\t"
-       : "=r" (environ)
-       : //no inputs ""
-       );
-  asm (
+       "mov     %ebp,%eax\n\t"
+       "add     $4,%eax\n\t"
+       "mov     (%eax),%eax\n\t"
+       "add     $3,%eax\n\t"
+       "shl     $2,%eax\n\t"
+       "add     %ebp,%eax\n\t"
+       "push    %eax\n\t"
        "mov     %ebp,%eax\n\t"
        "add     $8,%eax\n\t"
        "push    %eax\n\t"
@@ -67,6 +42,7 @@ _start ()
        "mov     (%eax),%eax\n\t"
        "push    %eax\n\t"
 
+       "call    __init_io\n\t"
        "call    main\n\t"
 
        "push    %eax\n\t"
