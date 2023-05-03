@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2019,2020,2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2019,2020,2021,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -30,6 +30,7 @@ fi
 . ./config.sh
 
 libc_mini_shared_SOURCES="
+lib/mes/__init_io.c
 lib/mes/eputs.c
 lib/mes/oputs.c
 "
