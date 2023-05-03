@@ -1,6 +1,6 @@
 ### GNU Mes --- Maxwell Equations of Software
 ### Copyright (C) 2016 Jeremiah Orians
-### Copyright © 2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+### Copyright © 2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 ###
 ### This file is part of GNU Mes.
 ###
@@ -32,21 +32,10 @@
 	'0' R0 R0 ADD BP ARITH2_ALWAYS  ; ENVP_address = BP + OFFSET
 	{R0} PUSH_ALWAYS                ; Put envp on the stack
 
-	mov____%r0,0x32 &GLOBAL_environ
-
 	;; Stack offset
 	!4 BP ADD BP ARITH_ALWAYS       ; Fix BP
 
-	;;^~FUNCTION___init_io CALL_ALWAYS ; Setup for FILE*
-
-        ;; Initialize MesCC lib file descriptors.
-	!0 mov____$i8,%r0
-	mov____%r0,0x32 &GLOBAL___stdin
-	!1 mov____$i8,%r0
-	mov____%r0,0x32 &GLOBAL___stdout
-	!2 mov____$i8,%r0
-	mov____%r0,0x32 &GLOBAL___stderr
-
+	^~FUNCTION___init_io CALL_ALWAYS ; Init libc
 	^~FUNCTION_main CALL_ALWAYS     ; Jump right into main
 
 	SYS_exit mov____$i8,%r7

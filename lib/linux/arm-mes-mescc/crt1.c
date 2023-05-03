@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2018,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2020 Danny Milosavljevic <dannym@scratchpost.org>
  *
  * This file is part of GNU Mes.
@@ -20,7 +20,6 @@
  */
 
 #include "mes/lib-mini.h"
-
 int main (int argc, char *argv[], char *envp[]);
 
 void /* must not return */
@@ -36,21 +35,6 @@ environ = &argv[argc + 1]
 HOWEVER, the function entry already allocated space for locals on the stack (after saving lr and fp, which moved sp again).  Hence, use fp instead of sp.
 */
 
-  /* stdin = 0 */
-
-  asm ("!0 mov____$i8,%r0");
-  asm ("mov____%r0,0x32 &__stdin");
-
-  /* stdout = 1 */
-
-  asm ("!1 mov____$i8,%r0");
-  asm ("mov____%r0,0x32 &__stdout");
-
-  /* stderr = 2 */
-
-  asm ("!2 mov____$i8,%r0");
-  asm ("mov____%r0,0x32 &__stderr");
-
   /* Add "environ" to main's arguments */
 
   asm ("!8 ldr____%r0,(%fp,+#$i8)"); /* "argc" */
@@ -63,10 +47,7 @@ HOWEVER, the function entry already allocated space for locals on the stack (aft
   asm ("push___%r1"); /* argv */
   asm ("push___%r0"); /* argc */
 
-  /* environ = r2 */
-
-  asm ("mov____%r2,0x32 &environ");
-
+  __init_io ();
   main ();
 
   asm ("SYS_exit mov____$i8,%r7");
