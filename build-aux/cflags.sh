@@ -1,5 +1,5 @@
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2018,2019,2020,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -18,19 +18,15 @@
 
 case "$mes_cpu" in
     arm)
-        stage0_arch=40
         stage0_cpu=armv7l
         ;;
     x86_64)
-        stage0_arch=2
         stage0_cpu=amd64
         ;;
     x86)
-        stage0_arch=1
         stage0_cpu=x86
         ;;
     *)
-        stage0_arch=1
         stage0_cpu=$mes_cpu
         ;;
 esac

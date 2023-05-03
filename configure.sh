@@ -99,13 +99,6 @@ else
     GUILE_EFFECTIVE_VERSION=${GUILE_EFFECTIVE_VERSION-$(guile -c '(display (effective-version))')}
 fi
 
-numbered_arch=false
-mes_tools=named
-if ( $HEX2 --help 2>&1 ) | grep -q "\-\-Architecture 12345"; then
-    numbered_arch=true
-    mes_tools=numbered
-fi
-
 bindir=$(eval echo ${bindir-$prefix/bin})
 datadir=$(eval echo ${datadir-$prefix/share})
 docdir=$(eval echo ${docdir-$datadir/doc/mes})
@@ -172,7 +165,6 @@ subst () {
     -e s,"@M2_PLANET@,$M2_PLANET,"\
     -e s,"@KAEM@,$KAEM,"\
     -e s,"@MES_FOR_BUILD@,$MES_FOR_BUILD,"\
-    -e s,"@numbered_arch@,$numbered_arch,"\
     -e s,"@SHELL@,$SHELL,"\
     $1 > $2
 }

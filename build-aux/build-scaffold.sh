@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2017,2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2017,2018,2019,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -54,15 +54,9 @@ trace "TEST       exit-42"
 [ $r != 42 ] && echo "  => $r"
 [ $r = 42 ]
 
-if $numbered_arch; then
-    stage0_cpu_flag="--Architecture $stage0_arch";
-else
-    stage0_cpu_flag="--architecture $stage0_cpu";
-fi
-
 trace "HEX2       ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0exit-42.hex2" $HEX2\
       --little-endian\
-      $stage0_cpu_flag\
+      --architecture $stage0_cpu\
       --base-address 0x1000000\
       -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0header.hex2\
       -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0exit-42.hex2\
@@ -75,7 +69,7 @@ trace "TEST       0exit-42"
 
 trace "HEX2       ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-body-exit-42.hex2" $HEX2\
       --little-endian\
-      $stage0_cpu_flag\
+      --architecture $stage0_cpu\
       --base-address 0x1000000\
       -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-header.hex2\
       -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-body-exit-42.hex2\
@@ -101,7 +95,7 @@ trace "TEST       hello-mes"
 
 trace "HEX2       ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0hello-mes.hex2" $HEX2\
       --little-endian\
-      $stage0_cpu_flag\
+      --architecture $stage0_cpu\
       --base-address 0x1000000\
       -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0header.hex2\
       -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0hello-mes.hex2\
@@ -114,7 +108,7 @@ trace "TEST       0hello-mes"
 
 trace "HEX2       ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-body-hello-mes.hex2" $HEX2\
       --little-endian\
-      $stage0_cpu_flag\
+      --architecture $stage0_cpu\
       --base-address 0x1000000\
       -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-header.hex2\
       -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-body-hello-mes.hex2\

@@ -1,5 +1,5 @@
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2019,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -42,7 +42,6 @@
 (define %includedir (or (getenv "%includedir") "include"))
 (define %libdir (or (getenv "%libdir") "."))
 (define %version (or (getenv "%version") "0.0"))
-(define %numbered-arch? (and=> (getenv "%numbered_arch") (lambda (x) (equal? x "true"))))
 
 (when (and=> (getenv "V") (lambda (v) (and (= (string-length v) 1) (> (string->number v) 1))))
   (format (current-error-port) "mescc[~a]...\n" %scheme))
@@ -78,7 +77,6 @@
             (nostartfiles)
             (nostdinc)
             (nostdlib)
-            (numbered-arch?)
             (preprocess (single-char #\E))
             (static)
             (std (value #t))
@@ -109,7 +107,6 @@ Options:
   -dumpmachine        display the compiler's target machine
   --base-address=ADDRESS
                       use BaseAddress ADDRESS [0x1000000]
-  --numbered-arch     mescc-tools use numbered arch
   -D DEFINE[=VALUE]   define DEFINE [VALUE=1]
   -E                  preprocess only; do not compile, assemble or link
   -g                  add debug info (call stack in GDB)
@@ -173,8 +170,6 @@ General help using GNU software: <http://gnu.org/gethelp/>
          (options (if arch (acons 'arch arch options) options))
          (kernel (option-ref options 'kernel %host-kernel))
          (options (acons 'kernel kernel options))
-         (numbered-arch? (option-ref options 'numbered-arch? %numbered-arch?))
-         (options (acons 'numbered-arch? numbered-arch? options))
          (dumpmachine? (option-ref options 'dumpmachine #f))
          (preprocess? (option-ref options 'preprocess #f))
          (print-libgcc-file-name? (option-ref options 'print-libgcc-file-name #f))

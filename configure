@@ -556,12 +556,7 @@ Some influential environment variables:
                       (and (file-exists? "/bin/sh") "/bin/sh")
                       (file-name "sh" deps)
                       "sh"))
-           (hex2 (file-name "hex2" deps))
-           (numbered-arch? (begin
-                             (stdout "checking for stage0 architecture flag... ")
-                             (let ((numbered? (and hex2 (string-contains (gulp-pipe (string-append hex2 " --help 2>&1" )) "--Architecture 12345"))))
-                               (stdout (if numbered? "numbered\n" "named\n"))
-                               numbered?))))
+           (hex2 (file-name "hex2" deps)))
 
       (define* (substitute file-name pairs
                            #:key (target (if (string-suffix? ".in" file-name)
@@ -655,7 +650,6 @@ See \"Porting GNU Mes\" in the manual, or try --with-courage\n" mes-system)
                      ("@LDFLAGS@" . ,(or (getenv "LDFLAGS") "-static -g"))
                      ("@HEX2FLAGS@" . ,(or (getenv "HEX2FLAGS") ""))
                      ("@M1FLAGS@" . ,(or (getenv "M1FLAGS") ""))
-                     ("@numbered_arch@" . ,(if numbered-arch? "true" "false"))
 
                      ,@(map
                         (lambda (o)
@@ -724,7 +718,6 @@ GNU Mes is configured for
    libc:       " mes-libc "
    kernel:     " mes-kernel "
    system:     " mes-system "
-   tools:      " (if numbered-arch? "numbered" "named") " arch
    bootstrap:  " (if with-bootstrap? "yes" "no") "
    courageous: " (if with-courage? "yes" "no") "
 
