@@ -1,5 +1,5 @@
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2019,2020,2021,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2019,2020,2021,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -79,12 +79,8 @@
                              (else (replace-suffix input-base ".s"))))
          (infos (map (cut file->info options <>) files))
          (verbose? (count-opt options 'verbose))
-         (numbered-arch? (option-ref options 'numbered-arch? #f))
          (align (filter-map (multi-opt 'align) options))
-         (align (if (null? align) '(functions) (map string->symbol align)))
-         (align (if (not numbered-arch?) align
-                    ;; function alignment not supported by MesCC-Tools 0.5.2
-                    (filter (negate (cut eq? <> 'functions)) align))))
+         (align (if (null? align) '(functions) (map string->symbol align))))
     (when verbose?
       (format (current-error-port) "dumping: ~a\n" M1-file-name))
     (with-output-to-file* M1-file-name
@@ -173,12 +169,8 @@
          (options (acons 'compile #t options)) ; ugh
          (options (acons 'output hex2-file-name options))
          (verbose? (count-opt options 'verbose))
-         (numbered-arch? (option-ref options 'numbered-arch? #f))
          (align (filter-map (multi-opt 'align) options))
-         (align (if (null? align) '(functions) (map string->symbol align)))
-         (align (if (not numbered-arch?) align
-                    ;; function alignment not supported by MesCC-Tools 0.5.2
-                    (filter (negate (cut eq? <> 'functions)) align))))
+         (align (if (null? align) '(functions) (map string->symbol align))))
     (when verbose?
       (format (current-error-port) "dumping: ~a\n" M1-file-name))
     (with-output-to-file* M1-file-name
@@ -373,13 +365,11 @@
           ((equal? arch "x86_64") "x86_64.M1"))))
 
 (define (arch-get-architecture options)
-  (let* ((arch (arch-get options))
-         (numbered-arch? (option-ref options 'numbered-arch? #f))
-        (flag (if numbered-arch? "--Architecture" "--architecture")))
-    (list flag
-          (cond ((equal? arch "arm") (if numbered-arch? "40" "armv7l"))
-                ((equal? arch "x86") (if numbered-arch? "1" "x86"))
-                ((equal? arch "x86_64") (if numbered-arch? "2" "amd64"))))))
+  (let ((arch (arch-get options)))
+    (list "--architecture"
+          (cond ((equal? arch "arm") "armv7l")
+                ((equal? arch "x86") "x86")
+                ((equal? arch "x86_64") "amd64")))))
 
 (define (multi-opt option-name) (lambda (o) (and (eq? (car o) option-name) (cdr o))))
 (define (count-opt options option-name)

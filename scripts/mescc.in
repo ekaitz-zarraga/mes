@@ -1,7 +1,7 @@
 #! @BASH@
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2018,2019,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -49,8 +49,6 @@ includedir=${includedir-@includedir@}
 export includedir
 libdir=${libdir-@libdir@}
 export libdir
-numbered_arch=${numbered_arch=@numbered_arch@}
-export numbered_arch
 
 if [ ! -f $bindir/mescc.scm ]; then
    bindir=$(dirname $0)

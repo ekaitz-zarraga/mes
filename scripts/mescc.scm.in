@@ -2,7 +2,7 @@
 --no-auto-compile -e main -L @guile_site_dir@ -C @guile_site_ccache_dir@ -s
 !#
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2019,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -48,18 +48,12 @@
 (define %kernel (if (string-prefix? "@mes_kernel" "@mes_kernel@") %kernel
                     "@mes_kernel@"))
 
-(define %numbered-arch? (if (getenv "numbered_arch") (and=> (getenv "numbered_arch")
-                                                            (lambda (x) (equal? x "true")))
-                            (if (string-prefix? "@numbered_arch" "@numbered_arch@") #f
-                                (equal? "@numbered_arch@" "true"))))
-
 (setenv "%prefix" %prefix)
 (setenv "%includedir" %includedir)
 (setenv "%libdir" %libdir)
 (setenv "%version" %version)
 (setenv "%arch" %arch)
 (setenv "%kernel" %kernel)
-(setenv "%numbered_arch" (if %numbered-arch? "true" "false"))
 
 (cond-expand
  (mes
