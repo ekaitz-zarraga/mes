@@ -24,7 +24,7 @@
 // let's try _main first
 
 #include <mes/lib-mini.h>
-int main (int argc, char *argv[]);
+int main (int argc, char *argv[], char *envp[]);
 
 // gcc x86_64 calling convention:
 // rdi, rsi, rdx, rcx, r8, r9, <stack0>, <stack1>
