@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -24,15 +24,6 @@ int main (int argc, char *argv[], char *envp[]);
 int
 _start ()
 {
-  asm ("mov____$i8,%rax !0");
-  asm ("movl___%eax,0x32 &__stdin");
-
-  asm ("mov____$i8,%rax !1");
-  asm ("movl___%eax,0x32 &__stdout");
-
-  asm ("mov____$i8,%rax !2");
-  asm ("movl___%eax,0x32 &__stderr");
-
 #if 0                           //MES_CCAMD64
   asm ("add____$i32,%rbp %0x80");       // FIXME: corresponds to x86_64/as.scm function-preamble-fu
 #endif
@@ -45,8 +36,6 @@ _start ()
   asm ("shl____$i8,%rax !0x03");
   asm ("add____%rbp,%rax");
 
-  // FIXME: 64-bit addresses...
-  asm ("mov____%rax,0x32 &environ");
 #if 0                           //MES_CCAMD64
   asm ("mov____%rax,%rdx");     // amd
 #else
@@ -70,6 +59,7 @@ _start ()
   asm ("push___%rax");          // bootstrap
 #endif
 
+  __init_io ();
   main ();
 
   asm ("mov____%rax,%rdi");

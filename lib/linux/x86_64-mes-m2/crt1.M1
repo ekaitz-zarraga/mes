@@ -20,14 +20,6 @@
 	push___%rbp
 	mov____%rsp,%rbp
 
-	;; mes c lib io
-	mov____$i8,%rax !0
-	movl___%eax,0x32 &GLOBAL___stdin
-	mov____$i8,%rax !1
-	movl___%eax,0x32 &GLOBAL___stdout
-	mov____$i8,%rax !2
-	movl___%eax,0x32 &GLOBAL___stderr
-
 	;; M2-Planet pushes forward
 	mov____%rbp,%rax        ;argc
 	add____$i8,%rax !8
@@ -46,9 +38,7 @@
 	add____%rbp,%rax
 	push___%rax
 
-	;; mes c lib environ
-	mov____%rax,0x32 &GLOBAL_environ
-
+	call32 %FUNCTION___init_io
 	call32 %FUNCTION_main
 
 	mov____%rax,%rdi

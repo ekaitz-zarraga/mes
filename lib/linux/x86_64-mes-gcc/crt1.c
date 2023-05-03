@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2018,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -19,7 +19,7 @@
  */
 
 #include <mes/lib-mini.h>
-// int main (int argc, char *argv[]);
+int main (int argc, char *argv[], char *envp[]);
 
 // gcc x86_64 calling convention:
 // rdi, rsi, rdx, rcx, r8, r9, <stack0>, <stack1>
@@ -29,38 +29,14 @@ void
 _start ()
 {
   asm (
-       "mov    $0,%%eax\n\t"
-       "mov    %%eax,%0\n"
-       : "=r" (__stdin)
-       : //no inputs ""
-       );
+       "mov     %rbp,%rax\n\t"
+       "add     $8,%rax\n\t"
+       "mov     (%rax),%rax\n\t"
+       "add     $3,%rax\n\t"
+       "shl     $3,%rax\n\t"
+       "add     %rbp,%rax\n\t"
+       "mov     %rax,%rdx\n\t"
 
-  asm (
-       "mov    $1,%%eax\n\t"
-       "mov    %%eax,%0\n"
-       : "=r" (__stdout)
-       : //no inputs ""
-       );
-
-  asm (
-       "mov    $2,%%eax\n\t"
-       "mov    %%eax,%0\n"
-       : "=r" (__stderr)
-       : //no inputs ""
-       );
-  asm (
-       "mov     %%rbp,%%rax\n\t"
-       "add     $8,%%rax\n\t"
-       "mov     (%%rax),%%rax\n\t"
-       "add     $3,%%rax\n\t"
-       "shl     $3,%%rax\n\t"
-       "add     %%rbp,%%rax\n\t"
-       "mov     %%rax,%0\n\t"
-       "mov     %%rax,%%rdx\n\t"
-       : "=r" (environ)
-       : //no inputs ""
-       );
-  asm (
        "mov     %rbp,%rax\n\t"
        "add     $16,%rax\n\t"
        "mov     %rax,%rsi\n\t"
@@ -69,6 +45,8 @@ _start ()
        "add     $8,%rax\n\t"
        "mov     (%rax),%rax\n\t"
        "mov     %rax,%rdi\n\t"
+
+       "call    __init_io\n\t"
        "call    main\n\t"
 
        "mov     %rax,%rdi\n\t"
