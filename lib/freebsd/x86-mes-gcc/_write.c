@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2019,2020,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -20,7 +20,7 @@
 
 #include "mes/lib-mini.h"
 
-#define SYS_exit   "0x01"
+#define SYS_write   "0x04"
 
 // *INDENT-OFF*
 ssize_t
