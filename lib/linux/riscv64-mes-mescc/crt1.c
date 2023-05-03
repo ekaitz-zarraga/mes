@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
  *
  * This file is part of GNU Mes.
@@ -30,20 +30,6 @@ int main (int argc, char *argv[], char *envp[]);
 int
 _start ()
 {
-  asm ("li_____%t0,$i16_0000 @0");
-  asm ("li_____%t1,$i32 &__stdin");
-  asm ("sw_____%t0,0(%t1)");
-
-  asm ("li_____%t0,$i16_0000 @1");
-  asm ("srai___%t0,16");
-  asm ("li_____%t1,$i32 &__stdout");
-  asm ("sw_____%t0,0(%t1)");
-
-  asm ("li_____%t0,$i16_0000 @2");
-  asm ("srai___%t0,16");
-  asm ("li_____%t1,$i32 &__stderr");
-  asm ("sw_____%t0,0(%t1)");
-
   // environ is &argv[argc + 1]
   asm ("mv_____%t1,%fp");
   asm ("addi___%t1,%t1,$i8_8 !0x1"); // 0x10 to skip over pushed fp+ra, 0x8 to skip over argc
@@ -55,12 +41,12 @@ _start ()
   asm ("add____%t0,%t0,%t1");
   asm ("push___%t0"); // envp
   asm ("push___%t1"); // argv
-  asm ("li_____%t1,$i32 &environ");
   asm ("sd_____%t0,0(%t1)");
   asm ("addi___%t5,%fp,$i8_0 !0x1"); // 0x10 to skip over pushed fp+ra
   asm ("ld_____%t0,0(%t5)");
   asm ("push___%t0"); // argc
 
+  __init_io ();
   main ();
 
   asm ("mv_____%a0,%t0");
