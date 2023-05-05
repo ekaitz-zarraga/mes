@@ -86,38 +86,41 @@ get_machine.")
     (license gpl3+)))
 
 (define-public m2-planet
-  (package
-    (name "m2-planet")
-    (version "1.10.0")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://github.com/oriansj/m2-planet")
-                    (commit (string-append "Release_" version))
-                    (recursive? #t)))             ;for M2libc
-              (file-name (git-file-name name version))
-              (sha256
-               (base32
-                "03ixvfdzhyy1d94iqpwl0p924pdvdp7yq4ggm05w3c013kzy2y12"))))
-    (native-inputs (list mescc-tools))
-    (build-system gnu-build-system)
-    (supported-systems '("i686-linux" "x86_64-linux"
-                         "armhf-linux" "aarch64-linux"
-                         "riscv32-linux" "riscv64-linux"))
-    (arguments
-     `(#:make-flags (list (string-append "PREFIX=" (assoc-ref %outputs "out"))
-                          (string-append "CC=" ,(cc-for-target)))
-       #:tests? #f
-       #:phases (modify-phases %standard-phases
-                  (delete 'bootstrap)
-                  (delete 'configure))))
-    (synopsis "The PLAtform NEutral Transpiler")
-    (description
-     "M2-Planet, The PLAtform NEutral Transpiler, when combined with
+  (let ((version "1.10.0")
+        (revision "0")
+        (commit "754c5de7d9ba980b98f3213d1f446cf59166dc16"))
+    (package
+      (name "m2-planet")
+      (version (git-version version revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/oriansj/m2-planet")
+                      (commit commit)
+                      (recursive? #t))) ;for M2libc
+                (file-name (git-file-name name version))
+                (sha256
+                 (base32
+                  "15hjnq7rimspbjddi8fnx1azcyajbnbv404zbgim8aq42k498fnp"))))
+      (native-inputs (list mescc-tools))
+      (build-system gnu-build-system)
+      (supported-systems '("i686-linux" "x86_64-linux"
+                           "armhf-linux" "aarch64-linux"
+                           "riscv32-linux" "riscv64-linux"))
+      (arguments
+       `(#:make-flags (list (string-append "PREFIX=" (assoc-ref %outputs "out"))
+                            (string-append "CC=" ,(cc-for-target)))
+         #:tests? #f
+         #:phases (modify-phases %standard-phases
+                    (delete 'bootstrap)
+                    (delete 'configure))))
+      (synopsis "The PLAtform NEutral Transpiler")
+      (description
+       "M2-Planet, The PLAtform NEutral Transpiler, when combined with
 mescc-tools compiles a subset of the C language into working binaries
 with introspective steps inbetween.")
-    (home-page "https://github.com/oriansj/m2-planet")
-    (license gpl3+)))
+      (home-page "https://github.com/oriansj/m2-planet")
+      (license gpl3+))))
 
 (define-public nyacc-0.99
   (package
