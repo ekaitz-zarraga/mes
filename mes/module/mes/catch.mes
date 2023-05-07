@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2018,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -33,18 +34,30 @@
                (abort))))
 
 (define (catch key thunk handler)
-  (let ((previous-eh (fluid-ref %eh)))
-    (with-fluid*
-        %eh #f
-        (lambda ()
+  ;; XXX: The use of mutation here should not be necessary, but trying
+  ;; to call a thunk returned directly via a continuation triggers a bug
+  ;; in Mes.  Setting the local variable first and then calling it
+  ;; avoids that bug.
+  (let ((return #t))
+
+    (define (make-eh set-return!)
+      (lambda (k . args)
+        (set-return!
+         (lambda ()
+           (let ((handler* (if (or (eq? key #t) (eq? key k))
+                               handler
+                               (fluid-ref %eh))))
+             (apply handler* k args))))))
+
+    (set! return
           (call/cc
-           (lambda (cc)
-             (fluid-set! %eh
-                         (lambda (k . args)
-                           (let ((handler (if (or (eq? key #t) (eq? key k)) handler
-                                              previous-eh)))
-                             (cc (apply handler (cons k args))))))
-             (thunk)))))))
+           (lambda (set-return!)
+             (with-fluid* %eh (make-eh set-return!)
+                          (lambda ()
+                            (let ((result (thunk)))
+                              (lambda () result)))))))
+
+    (return)))
 
 (define (throw key . args)
   (let ((handler (fluid-ref %eh)))

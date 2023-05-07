@@ -7,6 +7,7 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -66,5 +67,17 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
                        (exit 1))))
                  (lambda (key . args)
                    1)))
+
+(pass-if-equal "catch nested"
+    3
+  (catch #t
+    (lambda ()
+      (catch #t
+        (lambda ()
+          (throw 'foo 0))
+        (lambda (key arg)
+          (throw key (+ arg 1)))))
+    (lambda (key arg)
+      (+ arg 2))))
 
 (result 'report)
