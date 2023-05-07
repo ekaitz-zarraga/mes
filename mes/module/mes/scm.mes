@@ -257,7 +257,7 @@
   (list->string (list-set! (string->list s) k v)))
 
 (define (substring s start . rest)
-  (let* ((end (and (pair? rest) (car rest)))
+  (let* ((end (if (pair? rest) (car rest) (string-length s)))
          (lst (list-tail (string->list s) start)))
     (list->string (if (not end) lst
                       (list-head lst (- end start))))))
