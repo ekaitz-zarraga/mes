@@ -116,14 +116,6 @@
 (define (ftell port) 0)
 (define (false-if-exception x) x)
 
-(define (cons* . rest)
-  (if (null? (cdr rest)) (car rest)
-      (cons (car rest) (core:apply cons* (cdr rest) (current-environment)))))
-
-(define (apply f h . t)
-  (if (null? t) (core:apply f h (current-environment))
-      (apply f (apply cons* (cons h t)))))
-
 (define-macro (load file)
   (list 'begin
         (list 'if (list 'and (list getenv "MES_DEBUG")
@@ -136,11 +128,6 @@
      (list 'primitive-load file)))
 
 (define-macro (include file) (list 'load file))
-
-(define (append . rest)
-  (if (null? rest) '()
-      (if (null? (cdr rest)) (car rest)
-          (append2 (car rest) (apply append (cdr rest))))))
 
 (if (not (defined? '%datadir))
     (module-define! (current-environment) '%datadir "mes"))
