@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -24,7 +25,7 @@
 #include <mes/lib-mini.h>
 #include <mes/lib-cc.h>
 
-#define __FILEDES_MAX 512
+#define __FILEDES_MAX 4096
 extern char *__brk;
 
 char *cast_intp_to_charp (int const *i);
