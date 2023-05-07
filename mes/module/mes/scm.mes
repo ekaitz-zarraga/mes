@@ -177,11 +177,13 @@
         (loop (cdr lst) (cons (car lst) r)))))
 
 (define (filter pred lst)
-  (let loop ((lst lst))
-    (if (null? lst) '()
-        (if (pred (car lst))
-            (cons (car lst) (loop (cdr lst)))
-            (loop (cdr lst))))))
+  (let loop ((lst lst) (acc (list)))
+    (if (null? lst)
+        (core:reverse! acc (list))
+        (loop (cdr lst)
+              (if (pred (car lst))
+                  (cons (car lst) acc)
+                  acc)))))
 
 (define (delete x lst)
   (filter (lambda (e) (not (equal? e x))) lst))
