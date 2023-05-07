@@ -68,17 +68,24 @@
 (define map map1)
 
 (define (cons* . rest)
-  (if (null? (cdr rest)) (car rest)
-      (cons (car rest) (core:apply cons* (cdr rest) (current-environment)))))
+  (define (loop lst acc)
+    (if (null? (cdr lst))
+        (core:reverse! acc (car lst))
+        (loop (cdr lst) (cons (car lst) acc))))
+  (loop rest (list)))
 
 (define (apply f h . t)
   (if (null? t) (core:apply f h (current-environment))
       (apply f (apply cons* (cons h t)))))
 
 (define (append . rest)
-  (if (null? rest) '()
-      (if (null? (cdr rest)) (car rest)
-          (append2 (car rest) (apply append (cdr rest))))))
+  (define (loop lst acc)
+    (if (null? (cdr lst))
+        (core:reverse! acc (car lst))
+        (loop (cdr lst) (append-reverse (car lst) acc))))
+  (if (null? rest)
+      '()
+      (loop rest (list))))
 ;; end boot-01.scm
 
 ;; boot-02.scm
