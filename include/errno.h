@@ -60,7 +60,7 @@ extern int errno;
 #define ENOSYS  38
 #define ELOOP   40
 
-#if !__MESC__
+#if !__MESC__ && ! __M2__
 //extern char const *const sys_errlist[];
 extern char *sys_errlist[];
 extern int sys_nerr;

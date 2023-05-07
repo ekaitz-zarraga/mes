@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -28,6 +29,7 @@
 #include <gnu/hurd-types.h>
 #include <gnu/syscall.h>
 #include <mach/mach-init.h>
+#include <errno.h>
 
 int
 _open3 (char const *file_name, int flags, int mode)
@@ -37,6 +39,13 @@ _open3 (char const *file_name, int flags, int mode)
   char retry_name[1024];
   int start_dir = (file_name[0] == '/') ? INIT_PORT_CRDIR : INIT_PORT_CWDIR;
   mach_port_t start_port = _hurd_startup_data.portarray[start_dir];
+
+  if (_hurd_dtable_count >= __FILEDES_MAX - 1)
+    {
+      errno = EMFILE;
+      return -1;
+    }
+
   while (file_name[0] == '/')
     file_name++;
   error_t e = __dir_lookup (start_port, file_name, flags, mode, &do_retry, retry_name, &port);

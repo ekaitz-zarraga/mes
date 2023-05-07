@@ -54,6 +54,7 @@ M2-Planet                                               \
     -f ${srcdest}lib/stdio/getchar.c                    \
     -f ${srcdest}lib/stdio/putchar.c                    \
     -f ${srcdest}lib/stub/__buffered_read.c             \
+    -f ${srcdest}include/errno.h                        \
     -f ${srcdest}include/fcntl.h                        \
     -f ${srcdest}lib/linux/_open3.c                     \
     -f ${srcdest}lib/linux/open.c                       \

@@ -23,6 +23,7 @@
 #include <arch/syscall.h>
 #include <mes/lib.h>
 #include <fcntl.h>
+#include <errno.h>
 
 int
 _open3 (char const *file_name, int flags, int mask)
@@ -38,6 +39,11 @@ _open3 (char const *file_name, int flags, int mask)
   __ungetc_init ();
   if (r > 2)
     {
+      if (r >= __FILEDES_MAX)
+        {
+          errno = EMFILE;
+          return -1;
+        }
       __ungetc_clear (r);
       __buffered_read_clear (r);
     }
