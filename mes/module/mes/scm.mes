@@ -158,8 +158,11 @@
         (loop (cdr lst) (- k 1)))))
 
 (define (list-head x n)
-  (if (= 0 n) '()
-      (cons (car x) (list-head (cdr x) (- n 1)))))
+  (define (loop lst n acc)
+    (if (= 0 n)
+        (core:reverse! acc (list))
+        (loop (cdr lst) (- n 1) (cons (car lst) acc))))
+  (loop x n (list)))
 
 (define (list-tail x n)
   (if (= 0 n) x
