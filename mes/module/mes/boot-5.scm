@@ -59,8 +59,11 @@
 (define (cadr x) (car (cdr x)))
 
 (define (map1 f lst)
-  (if (null? lst) (list)
-      (cons (f (car lst)) (map1 f (cdr lst)))))
+  (define (loop lst acc)
+    (if (null? lst)
+        (core:reverse! acc (list))
+        (loop (cdr lst) (cons (f (car lst)) acc))))
+  (loop lst (list)))
 
 (define map map1)
 

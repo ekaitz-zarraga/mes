@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -119,15 +120,37 @@
 
 (define else #t)
 
+(define (map2 f l1 l2)
+  (define (loop l1 l2 acc)
+    (if (or (null? l1) (null? l2))
+        (core:reverse! acc (list))
+        (loop (cdr l1) (cdr l2)
+              (cons (f (car l1) (car l2)) acc))))
+  (loop l1 l2 (list)))
+
+(define (map3 f l1 l2 l3)
+  (define (loop l1 l2 l3 acc)
+    (if (or (null? l1) (null? l2) (null? l3))
+        (core:reverse! acc (list))
+        (loop (cdr l1) (cdr l2) (cdr l3)
+              (cons (f (car l1) (car l2) (car l3)) acc))))
+  (loop l1 l2 l3 (list)))
+
+(define (map4 f l1 l2 l3 l4)
+  (define (loop l1 l2 l3 l4 acc)
+    (if (or (null? l1) (null? l2) (null? l3) (null? l4))
+        (core:reverse! acc (list))
+        (loop (cdr l1) (cdr l2) (cdr l3) (cdr l4)
+              (cons (f (car l1) (car l2) (car l3) (car l4)) acc))))
+  (loop l1 l2 l3 l4 (list)))
+
 (define (map f h . t)
-  (if (or (null? h)
-          (and (pair? t) (null? (car t)))
-          (and (pair? t) (pair? (cdr t)) (null? (cadr t)))) '()
-      (if (null? t) (cons (f (car h)) (map f (cdr h)))
-          (if (null? (cdr t))
-              (cons (f (car h) (caar t)) (map f (cdr h) (cdar t)))
-              (if (null? (cddr t))
-                  (cons (f (car h) (caar t) (caadr t)) (map f (cdr h) (cdar t) (cdadr t)))
-                  (if (null? (cdddr t))
-                      (cons (f (car h) (caar t) (caadr t) (car (caddr t))) (map f (cdr h) (cdar t) (cdadr t) (cdr (caddr t))))
-                      (error 'unsupported (cons* "map 5:" f h t))) )))))
+  (if (null? t)
+      (map1 f h)
+      (if (null? (cdr t))
+          (map2 f h (car t))
+          (if (null? (cddr t))
+              (map3 f h (car t) (cadr t))
+              (if (null? (cdddr t))
+                  (map4 f h (car t) (cadr t) (caddr t))
+                  (error 'unsupported (cons* "map 5:" f h t)))))))

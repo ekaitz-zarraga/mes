@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -60,8 +61,11 @@
 (define (cadr x) (car (cdr x)))
 
 (define (map1 f lst)
-  (if (null? lst) (list)
-      (cons (f (car lst)) (map1 f (cdr lst)))))
+  (define (loop lst acc)
+    (if (null? lst)
+        (core:reverse! acc (list))
+        (loop (cdr lst) (cons (f (car lst)) acc))))
+  (loop lst (list)))
 
 (define (map f lst)
   (if (null? lst) (list)
