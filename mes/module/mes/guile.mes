@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -69,48 +70,62 @@
 (define (port-filename p) "<stdin>")
 (define (port-line p) 0)
 
+(define (with-input-from-port port thunk)
+  (let ((outer-port #f)
+        (inner-port port))
+    (dynamic-wind
+      (lambda ()
+        (set! outer-port (current-input-port))
+        (set-current-input-port inner-port))
+      thunk
+      (lambda ()
+        (set! inner-port (current-input-port))
+        (set-current-input-port outer-port)))))
+
+(define (with-output-to-port port thunk)
+  (let ((outer-port #f)
+        (inner-port port))
+    (dynamic-wind
+      (lambda ()
+        (set! outer-port (current-output-port))
+        (set-current-output-port inner-port))
+      thunk
+      (lambda ()
+        (set! inner-port (current-output-port))
+        (set-current-output-port outer-port)))))
+
+(define (with-error-to-port port thunk)
+  (let ((outer-port #f)
+        (inner-port port))
+    (dynamic-wind
+      (lambda ()
+        (set! outer-port (current-error-port))
+        (set-current-error-port inner-port))
+      thunk
+      (lambda ()
+        (set! inner-port (current-error-port))
+        (set-current-error-port outer-port)))))
+
 (define (with-input-from-string string thunk)
-  (let ((prev (set-current-input-port (open-input-string string)))
-        (r (thunk)))
-    (set-current-input-port prev)
-    r))
+  (with-input-from-port (open-input-string string) thunk))
 
 (define (with-input-from-file file thunk)
   (let ((port (open-input-file file)))
     (if (= port -1)
         (error 'no-such-file file)
-        (let* ((save (current-input-port))
-               (foo (set-current-input-port port))
-               (r (thunk)))
-          (set-current-input-port save)
-          r))))
+        (with-input-from-port port thunk))))
 
 (define (with-output-to-file file thunk)
   (let ((port (open-output-file file)))
     (if (= port -1)
         (error 'cannot-open file)
-        (let* ((save (current-output-port))
-               (foo (set-current-output-port port))
-               (r (thunk)))
-          (set-current-output-port save)
-          r))))
+        (with-output-to-port port thunk))))
 
 (define (with-error-to-file file thunk)
   (let ((port (open-output-file file)))
     (if (= port -1)
         (error 'cannot-open file)
-        (let* ((save (current-error-port))
-               (foo (set-current-error-port port))
-               (r (thunk)))
-          (set-current-error-port save)
-          r))))
-
-(define (with-output-to-port port thunk)
-  (let* ((save (current-output-port))
-         (foo (set-current-output-port port))
-         (r (thunk)))
-    (set-current-output-port save)
-    r))
+        (with-error-to-port port thunk))))
 
 (define core:open-input-file open-input-file)
 (define (open-input-file file)
