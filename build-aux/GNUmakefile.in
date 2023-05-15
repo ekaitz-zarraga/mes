@@ -85,7 +85,7 @@ PHONY_TARGETS:=\
 
 .PHONY: $(PHONY_TARGETS)
 
-X86_ARCH_HEADERS = $(wildcard $(scrdest)include/linux/x86/*.h)
+X86_ARCH_HEADERS = $(wildcard $(srcdest)include/linux/x86/*.h)
 ARCH_HEADERS = $(X86_ARCH_HEADERS:$(srcdest)include/linux/x86/%=include/arch/%)
 
 default: all
