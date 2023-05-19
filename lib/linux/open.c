@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
  *
  * This file is part of GNU Mes.
  *
@@ -46,7 +47,13 @@ open (char const *file_name, int flags, ...)
   va_list ap;
   va_start (ap, flags);
   int mask = va_arg (ap, int);
+#if defined (SYS_open)
   int r = _sys_call3 (SYS_open, (long) file_name, flags, mask);
+#elif defined (SYS_openat)
+  int r = _sys_call4 (SYS_openat, AT_FDCWD, (long) file_name, flags, mask);
+#else
+#error No usable open syscall
+#endif
   va_end (ap);
   if (r > 2)
     __ungetc_clear (r);
