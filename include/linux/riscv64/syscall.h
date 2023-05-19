@@ -2,6 +2,7 @@
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2017 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
+ * Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
  *
  * This file is part of GNU Mes.
  *
@@ -27,6 +28,10 @@
  * #define __ARCH_WANT_SET_GET_RLIMIT
  * #define __ARCH_WANT_SYS_CLONE3
  */
+
+#define MAKESTRING(s) #s
+#define MAKESTRING2(s) MAKESTRING (rd_a7 ! ## s addi)
+#define RISCV_SYSCALL(s) MAKESTRING2 (s)
 
 // libc-mini
 #ifndef SYS_exit

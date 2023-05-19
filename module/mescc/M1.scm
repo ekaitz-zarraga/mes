@@ -1,5 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -96,6 +97,16 @@
                      " %" (if (< o 0) "-1"
                               (number->string (dec->hex (quotient o #x100000000)))))))
 
+;; RISC-V instruction formats
+(define (riscv:i-format o)
+  (string-append "!" o))
+
+(define (riscv:j-format o)
+  (string-append "$" o))
+
+(define (riscv:u-format o)
+  (string-append "~" o))
+
 (define* (display-join o #:optional (sep ""))
   (let loop ((o o))
     (when (pair? o)
@@ -132,11 +143,11 @@
        ((char? o) (text->M1 (char->integer o)))
        ((string? o) o)
        ((symbol? o) (symbol->string o))
-       ((number? o) (let ((o (if (< o #x80) o (- o #x100))))
-                      (if hex? (string-append "!0x"
-                                              (if (and (>= o 0) (< o 16)) "0" "")
-                                              (number->string o 16))
-                          (string-append "!" (number->string o)))))
+       ((number? o) (if hex? (string-append
+                              "'" (if (and (>= o 0) (< o 16)) "0" "")
+                              (number->string o 16) "'")
+                        ;; non hex mode would be broken on RISC-V
+                        (string-append "!" (number->string o))))
        ((and (pair? o) (keyword? (car o)))
         (pmatch o
           ;; FIXME
@@ -184,6 +195,48 @@
           ((#:immediate2 ,immediate2) (hex2:immediate2 immediate2))
           ((#:immediate4 ,immediate4) (hex2:immediate4 immediate4))
           ((#:immediate8 ,immediate8) (hex2:immediate8 immediate8))
+
+          ;; RISC-V instruction formats
+          ((#:i-format (#:string ,string))
+           (riscv:i-format (string->label `(#:string ,string))))
+          ((#:i-format (#:address ,address)) (guard (string? address))
+           (riscv:i-format address))
+          ((#:i-format ,function) (guard (function? function))
+           (riscv:i-format (function->string function)))
+          ((#:i-format (#:address ,global)) (guard (global? global))
+           (riscv:i-format (global->string global)))
+          ((#:i-format ,number) (guard (number? number))
+           (riscv:i-format (number->string number)))
+          ((#:j-format (#:string ,string))
+           (riscv:j-format (string->label `(#:string ,string))))
+          ((#:j-format (#:address ,address)) (guard (string? address))
+           (riscv:j-format address))
+          ((#:j-format ,function) (guard (function? function))
+           (riscv:j-format (function->string function)))
+          ((#:j-format (#:address ,global)) (guard (global? global))
+           (riscv:j-format (global->string global)))
+          ((#:u-format (#:string ,string))
+           (riscv:u-format (string->label `(#:string ,string))))
+          ((#:u-format (#:address ,address)) (guard (string? address))
+           (riscv:u-format address))
+          ((#:u-format ,function) (guard (function? function))
+           (riscv:u-format (function->string function)))
+          ((#:u-format (#:address ,global)) (guard (global? global))
+           (riscv:u-format (global->string global)))
+
+          ((#:i-format ,address) (guard (string? address))
+           (riscv:i-format address))
+          ((#:i-format ,global) (guard (global? global))
+           (riscv:i-format (global->string global)))
+          ((#:j-format ,address) (guard (string? address))
+           (riscv:j-format address))
+          ((#:j-format ,global) (guard (global? global))
+           (riscv:j-format (global->string global)))
+          ((#:u-format ,address) (guard (string? address))
+           (riscv:u-format address))
+          ((#:u-format ,global) (guard (global? global))
+           (riscv:u-format (global->string global)))
+
           (_ (error "text->M1 no match o" o))))
        ((pair? o) (string-join (map text->M1 o)))
        (#t (error "no such text:" o))))

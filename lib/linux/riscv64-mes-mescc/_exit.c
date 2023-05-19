@@ -2,6 +2,7 @@
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2018,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
+ * Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
  *
  * This file is part of GNU Mes.
  *
@@ -20,12 +21,13 @@
  */
 
 #include "mes/lib-mini.h"
+#include "linux/riscv64/syscall.h"
 
 void
 _exit (int status)
 {
-  asm ("ld_____%a0,0x10(%fp)");
-  asm ("li_____%a7,SYS_exit");
+  asm ("rd_a0 rs1_fp !16 ld");
+  asm (RISCV_SYSCALL(SYS_exit));
   asm ("ecall");
   // no need to read return value
 }

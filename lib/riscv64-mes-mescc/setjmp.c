@@ -2,6 +2,7 @@
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
+ * Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
  *
  * This file is part of GNU Mes.
  *
@@ -26,12 +27,12 @@ void
 longjmp (jmp_buf env, int val)
 {
   val = val == 0 ? 1 : val;
-  asm ("ld_____%fp,0x10(%fp)"); // env*
+  asm ("rd_fp rs1_fp !16 ld");  // env*
 
-  asm ("ld_____%t0,0x8(%fp)");  // env.__pc
-  asm ("ld_____%sp,0x10(%fp)"); // env.__sp
-  asm ("ld_____%fp,0x0(%fp)");  // env.__bp
-  asm ("jr_____%t0");
+  asm ("rd_t0 rs1_fp !8 ld");   // env.__pc
+  asm ("rd_sp rs1_fp !16 ld");  // env.__sp
+  asm ("rd_fp rs1_fp ld");      // env.__bp
+  asm ("rs1_t0 jalr");
   // not reached
   exit (42);
 }
