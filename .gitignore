@@ -64,6 +64,8 @@
 /lib/x86-mes/0exit-42
 /lib/x86-mes/exit-42
 
+/m2
+
 /lib/tests/*/[0-9a][0-9a-z]-*
 !/lib/tests/*/*.c
 !/lib/tests/*/*.exit
