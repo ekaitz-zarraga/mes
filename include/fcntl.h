@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2017 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2023 Emily Trau <emily@downunderctf.com>
  *
  * This file is part of GNU Mes.
  *
@@ -40,10 +41,11 @@
 #define O_APPEND      0x400
 
 #ifdef __arm__
-#define O_DIRECTORY 0x4000
-/*#define O_DIRECT 0x10000*/
+#define O_DIRECTORY   0x4000
+#define O_TMPFILE   0x404000
 #else
-#define O_DIRECTORY 0x10000
+#define O_DIRECTORY  0x10000
+#define O_TMPFILE   0x410000
 #endif
 
 #elif __GNU__
