@@ -88,8 +88,8 @@ get_machine.")
 
 (define-public m2-planet
   (let ((version "1.10.0")
-        (revision "0")
-        (commit "754c5de7d9ba980b98f3213d1f446cf59166dc16"))
+        (revision "1")
+        (commit "c82fb8c3530e93fd49efe60da785ffff827ea4d"))
     (package
       (name "m2-planet")
       (version (git-version version revision commit))
@@ -102,7 +102,7 @@ get_machine.")
                 (file-name (git-file-name name version))
                 (sha256
                  (base32
-                  "15hjnq7rimspbjddi8fnx1azcyajbnbv404zbgim8aq42k498fnp"))))
+                  "1fy6ll8z96y6xzyi7zfgsn07rxxvfm600i8f8vwc57266a3sds9j"))))
       (native-inputs (list mescc-tools))
       (build-system gnu-build-system)
       (supported-systems '("i686-linux" "x86_64-linux"
