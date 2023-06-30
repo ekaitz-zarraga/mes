@@ -174,6 +174,19 @@ integer_to_char (struct scm *x)
   return make_char (x->value);
 }
 
+#if 0
+void
+assert_type (long type, char const *name_name, struct scm *x)
+{
+  if (x->type != type)
+    {
+      eputs (name);
+      eputs (": ");
+      error (cell_wrong_type_arg, cons (x, cell_nil));
+    }
+}
+#endif
+
 void
 assert_num (long pos, struct scm *x)
 {

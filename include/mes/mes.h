@@ -180,6 +180,9 @@ FUNCTION builtin_function (struct scm *builtin);
 void assert_num (long pos, struct scm *x);
 void assert_range (int assert, long x);
 void assert_struct (long pos, struct scm *x);
+#if 0
+void assert_type (long type, char const *name_name, struct scm *x)
+#endif
 char *cell_bytes (struct scm *x);
 int peekchar ();
 int readchar ();
