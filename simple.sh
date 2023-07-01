@@ -95,7 +95,7 @@ echo '(display "hello\n")' | MES_BOOT=boot-01.scm out-system-libc/mes
 MES_DEBUG=4 MES=out-system-libc/mes tests/base.test
 
 # GC test
-MES_DEBUG=3 MES_ARENA=10000 MES_MAX_ARENA=10000 MES_BOOT=tests/gc.test out-system-libc/mes
+MES_DEBUG=3 MES_ARENA=20000 MES_MAX_ARENA=20000 MES_BOOT=tests/gc.test out-system-libc/mes
 
 # MesCC test
 # Interesting, but compiling multiple C files is not supported (yet).
@@ -302,7 +302,7 @@ echo '(display "hello\n")' | MES_BOOT=boot-01.scm out-mes/mes
 MES_DEBUG=4 MES=out-mes/mes tests/base.test
 
 # GC test
-MES_DEBUG=3 MES_ARENA=10000 MES_MAX_ARENA=10000 MES_BOOT=tests/gc.test out-mes/mes
+MES_DEBUG=3 MES_ARENA=20000 MES_MAX_ARENA=20000 MES_BOOT=tests/gc.test out-mes/mes
 
 # MesCC test
 # Interesting, but compiling multiple C files is not supported (yet).
