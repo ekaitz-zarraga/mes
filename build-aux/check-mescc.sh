@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2017,2018,2019,2020,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 # Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
 #
 # This file is part of GNU Mes.
@@ -296,6 +296,12 @@ lib/tests/scaffold/70-extern.c
 lib/tests/stdio/80-sscanf.c
 lib/tests/posix/90-execlp.c
 lib/tests/string/90-snprintf.c
+"
+    fi
+
+    if test $mes_cpu = riscv64; then
+        xfail_tests="$xfail_tests
+lib/tests/scaffold/70-extern.c
 "
     fi
 fi
