@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
  *
  * This file is part of GNU Mes.
@@ -30,7 +30,7 @@ struct foo
   int b;
   int c;
   unsigned char *d;
-#if __MESC__ && __x86_64__
+#if __MESC__ && (__x86_64__ || __riscv_xlen == 64)
   int __align;
 #endif
 };
