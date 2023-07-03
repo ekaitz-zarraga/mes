@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -144,7 +144,7 @@ display_helper (struct scm *x, int cont, char *sep, int fd, int write_p)
     }
   else if (t == TNUMBER)
     {
-      fdputs (itoa (x->value), fd);
+      fdputs (ltoa (x->value), fd);
     }
   else if (t == TPAIR)
     {
@@ -183,7 +183,7 @@ display_helper (struct scm *x, int cont, char *sep, int fd, int write_p)
   else if (t == TPORT)
     {
       fdputs ("#<port ", fd);
-      fdputs (itoa (x->port), fd);
+      fdputs (ltoa (x->port), fd);
       fdputs (" ", fd);
       x = x->string;
       fdputc ('"', fd);
@@ -249,7 +249,7 @@ display_helper (struct scm *x, int cont, char *sep, int fd, int write_p)
   else
     {
       fdputs ("<", fd);
-      fdputs (itoa (t), fd);
+      fdputs (ltoa (t), fd);
       fdputs (":", fd);
       fdputs (ltoa (cast_voidp_to_long (x)), fd);
       fdputs (">", fd);
