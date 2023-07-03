@@ -47,6 +47,8 @@ mes_environment (int argc, char **argv)
   char *compiler = "gnuc";
 #if __MESC__
   compiler = "mesc";
+#elif __M2__
+  compiler = "m2c";
 #elif __TINYC__
   compiler = "tcc";
 #endif
