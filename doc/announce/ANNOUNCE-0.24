@@ -10,7 +10,7 @@ Mes has now been ported to M2-Planet and can be bootstrapped using
 stage0-posix[0], starting from the 357-byte hex0 binary of the
 bootstrap-seeds[1], as was promised at FOSDEM'21[2].
 
-We are exciteda that the NlNet Foundation[4] is again sponsoring this
+We are excited that the NlNet Foundation[4] is again sponsoring this
 work!
 
 What's next?
