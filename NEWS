@@ -2,7 +2,7 @@
 #+TITLE: GNU Mes NEWS – history of user-visible changes
 #+STARTUP: content hidestars
 
-Copyright © 2016,2017,2018,2019,2021,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+Copyright © 2016,2017,2018,2019,2021,2022,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
 
   Copying and distribution of this file, with or without modification,
   are permitted in any medium without royalty provided the copyright
@@ -10,6 +10,22 @@ Copyright © 2016,2017,2018,2019,2021,2022,2023 Jan (janneke) Nieuwenhuizen <jan
 
 Please send Mes bug reports to bug-mes@gnu.org.
 
+* Changes in 0.25 since 0.24.2
+** Core
+*** Support for riscv64-linux.
+** Build
+*** Support M2-Planet build for x86_64-linux.
+*** Building with M2-Planet-1.11.0 is now supported.
+*** The requirement for M2-Planet's --bootstrap-mode was dropped.
+** Noteworthy bug fixes
+*** In the REPL, `include', `load', and `,use MODULE' now work.
+*** Using mes' `access' with R_OK now respects read permissions.
+*** On 64bit, displayed values are no longer truncated.
+*** On 64bit, MesCC now correctly supports 8-byte immediate values.
+*** MesCC now initializes struct fields to 0.
+*** The MesCC test suite passes with gcc >= 10
+An array overflow bug was fixed in `63-struct-cell.c'.
+*** Debugging MesCC binaries (function scope) has been resurrected.
 * Changes in 0.24.2 since 0.24.1
 ** Build
 *** A number of compile warnings have been fixed.
