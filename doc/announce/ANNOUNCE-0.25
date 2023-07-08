@@ -1,0 +1,108 @@
+
+Subject: GNU Mes 0.25 released
+
+<#secure method=pgpmime mode=sign>
+
+We are happy to announce the release of GNU Mes 0.25!
+
+Although it's been only four months since the previous release, this
+release represents 70 commits over two years by five people.  This
+release brings RISC-V64-linux support.
+
+We are excited that the NLnet Foundation is sponsoring this work!
+
+What's next?
+
+Bringing the Full Source Bootstrap to NixOS.  Full Guile compatible
+module support, and support for running Gash and Gash-Utils.  Support
+for bootstrapping gcc-4.6.4, and a Full Source Bootstrap for
+armhf-linux, and riscv64-linux.
+
+Enjoy!
+
+* About
+
+  GNU Mes is a Scheme interpreter and C compiler for bootstrapping the
+  GNU System.  It has helped to decimate the number and size of binary
+  seeds that were used in the bootstrap of GNU Guix 1.0.  Recently,
+  version 0.24.2 has realized the first Full Source Bootstrap for Guix
+  <https://guix.gnu.org/en/blog/2023/the-full-source-bootstrap-building-from-source-all-the-way-down/>.
+  The final goal is to help create a full source bootstrap as part of
+  the bootstrappable builds effort <https://bootstrappable.org> for any
+  UNIX-like operating system.
+
+  Mes + MesCC + Mes C Library can build a bootstrappable TinyCC
+  <https://gitlab.com/janneke/tinycc> that is self-hosting.  Using this
+  bootstrappable-tcc and the Mes C library we can build an ancient
+  version of the GNU tools triplet: glibc-2.2.5, binutils-2.20.1,
+  gcc-2.95.3.  This is enough to bootstrap Guix for i686-linux,
+  x86_64-linux, armhf-linux and aarch64-linux.
+
+  Mes was inspired by The Maxwell Equations of Software: LISP-1.5 --
+  John McCarthy page 13, Guix's source/binary packaging transparency and
+  Jeremiah Orians's Stage0 <https://github.com/oriansj/stage0>, a
+  ~500-byte self-hosting hex assembler.
+
+* Download
+
+  git clone git://git.savannah.gnu.org/mes.git
+
+  Here are the compressed sources and a GPG detached signature[*]:
+    https://ftp.gnu.org/gnu/mes/mes-0.25.tar.gz
+    https://ftp.gnu.org/gnu/mes/mes-0.25.tar.gz.sig
+
+  Use a mirror for higher download bandwidth:
+    https://ftpmirror.gnu.org/mes/mes-0.25.tar.gz
+    https://ftpmirror.gnu.org/mes/mes-0.25.tar.gz.sig
+
+  Here are the SHA1 and SHA256 checksums:
+
+  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  mes-0.25.tar.gz
+  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  mes-0.25.tar.gz
+
+  [*] Use a .sig file to verify that the corresponding file (without the
+  .sig suffix) is intact.  First, be sure to download both the .sig file
+  and the corresponding tarball.  Then, run a command like this:
+
+    gpg --verify mes-0.25.tar.gz.sig
+
+  If that command fails because you don't have the required public key,
+  or that public key has expired, try the following commands to update
+  or refresh it, and then rerun the 'gpg --verify' command.
+
+    gpg --recv-keys 1A858392E331EAFDB8C27FFBF3C1A0D9C1D65273
+
+  Alternatively, Mes can be installed or updated using Guix:
+
+    guix pull
+    guix install mes
+
+
+* Changes in 0.25 since 0.24.2
+
+  ** Core
+  *** Support for riscv64-linux.
+  ** Build
+  *** Support M2-Planet build for x86_64-linux.
+  *** Building with M2-Planet-1.11.0 is now supported.
+  *** The requirement for M2-Planet's --bootstrap-mode was dropped.
+  ** Noteworthy bug fixes
+  *** In the REPL, `include', `load', and `,use MODULE' now work.
+  *** Using mes' `access' with R_OK now respects read permissions.
+  *** On 64bit, displayed values are no longer truncated.
+  *** On 64bit, MesCC now correctly supports 8-byte immediate values.
+  *** MesCC now initializes struct fields to 0.
+  *** The MesCC test suite passes with gcc >= 10
+  An array overflow bug was fixed in `63-struct-cell.c'.
+
+Join bug-mes@gnu.org and #bootstrappable on irc.libera.chat for
+discussions.
+
+Thanks to everyone who contributed to this release:
+
+     7	Andrius Štikonas
+     1	Efraim Flashner
+     1	Emily Trau
+     5	Ekaitz Zarraga
+    49	Janneke Nieuwenhuizen
+    15	W. J. van der Laan
