@@ -1,7 +1,7 @@
                                                               -*- org -*-
 #+TITLE: Building and Installing GNU Mes
 
-Copyright © 2016,2017,2018,2019,2021,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+Copyright © 2016,2017,2018,2019,2021,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 
   Copying and distribution of this file, with or without modification,
   are permitted in any medium without royalty provided the copyright
@@ -27,12 +27,12 @@ similar way.
 
 *** Other GNU/Linux
   - [[https://savannah.gnu.org/projects/mescc-tools/][mescc-tools]], 1.4.0 is known to work.
-  - [[https://github.com/oriansj/m2-planet][M2-Planet]] (optional), 1.9.0 is known to work.
+  - [[https://github.com/oriansj/m2-planet][M2-Planet]] (optional), 1.11.0 is known to work.
   - [[https://savannah.gnu.org/projects/nyacc][Nyacc]], 1.00.2 is known to work.
   - GNU Gcc, 7.5.0 is known to work.
-  - GNU Guile, version 3.0.4 is know to work.
+  - GNU Guile, version 3.0.4 is known to work.
   - SH, /bin/sh, GNU Bash 5.0.16 is known to work.
-  - GNU coreutils
+  - GNU coreutils.
   - sed, GNU sed 4.8 is known to work.
 
 ** Build it
