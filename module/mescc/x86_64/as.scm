@@ -1,5 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -82,7 +83,7 @@
   (or v (error "invalid value: x86_64:value->r: " v))
   (let ((r (get-r info)))
     (if (and (>= v 0)
-             (< v #xffffffff))
+             (< v #x80000000))
      `((,(string-append "mov____$i32,%" r) (#:immediate ,v)))
      `((,(string-append "mov____$i64,%" r) (#:immediate8 ,v))))))
 
@@ -520,7 +521,7 @@
     (cond ((< (abs v) #x80)
            `((,(string-append "cmp____$i8,%" r) (#:immediate1 ,v))))
           ((and (>= v 0)
-                (< v #xffffffff))
+                (< v #x80000000))
            `((,(string-append "cmp____$i32,%" r) (#:immediate ,v))))
           (else
            `(,(string-append "mov____$i64,%r15") (#:immediate8 ,v)
@@ -608,7 +609,7 @@
     (cond  ((< (abs v) #x80)
             `((,(string-append "addl___$i8,(%" r ")") (#:immediate1 ,v))))
            ((and (>= v 0)
-                 (< v #xffffffff))
+                 (< v #x80000000))
             `((,(string-append "addl___$i32,(%" r ")") (#:immediate ,v))))
            (else
             `((,(string-append "mov____$i64,%r15") (#:immediate8 ,v))
@@ -638,7 +639,7 @@
 (define (x86_64:r-and info v)
   (let ((r (get-r info)))
     (if (and (>= v 0)
-             (< v #xffffffff))
+             (< v #x80000000))
         `((,(string-append "and____$i32,%" r) (#:immediate ,v)))
         `((,(string-append "mov____$i64,%r15") (#:immediate8 ,v))
           (,(string-append "and____%r15,%" r))))))

@@ -2,6 +2,7 @@
 
 # GNU Mes --- Maxwell Equations of Software
 # Copyright © 2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
 #
 # This file is part of GNU Mes.
 #
@@ -134,6 +135,7 @@ lib/tests/scaffold/63-struct-cell.c
 lib/tests/scaffold/64-make-cell.c
 lib/tests/scaffold/65-read.c
 lib/tests/scaffold/66-local-char-array.c
+lib/tests/scaffold/67-m1-overflow-check.c
 "
 
 tcc_tests="
