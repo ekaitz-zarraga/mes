@@ -62,6 +62,9 @@ Portable syntax-case from Chez Scheme; patches from Guile
 mes/module/mes/psyntax.ss
 mes/module/mes/psyntax.pp [generated]
 
+The pregexp regular expression system
+mes/module/mes/ice-9/pregexp.upstream.scm
+
 Getopt-long from Guile
 module/mes/getopt-long.scm
 
