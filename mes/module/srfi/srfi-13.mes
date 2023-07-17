@@ -249,3 +249,6 @@
           acc
           (loop (+ i 1)
                 (+ acc (if (pred (string-ref string i)) 1 0)))))))
+
+(define (string-concatenate-reverse lst)
+  (apply string-append (reverse lst)))
