@@ -1215,8 +1215,20 @@
            (append-text info (wrap-as (as info 'not-r)))))
         ((bitwise-or ,a ,b) ((binop->r info) a b 'r0-or-r1))
         ((bitwise-xor ,a ,b) ((binop->r info) a b 'r0-xor-r1))
-        ((lshift ,a ,b) ((binop->r info) a b 'r0<<r1))
-        ((rshift ,a ,b) ((binop->r info) a b 'r0>>r1))
+        ((lshift ,a ,b)
+         (let* ((type-a (ast->type a info))
+                (default (get-type "default" info))
+                (type (if (> (->size type-a info) (->size default info)) type-a
+                             default))
+                (info ((binop->r info) a b 'r0<<r1)))
+           (append-text info (convert-r0 info type))))
+        ((rshift ,a ,b)
+         (let* ((type-a (ast->type a info))
+                (default (get-type "default" info))
+                (type (if (> (->size type-a info) (->size default info)) type-a
+                             default))
+                (info ((binop->r info) a b 'r0>>r1)))
+           (append-text info (convert-r0 info type))))
         ((div ,a ,b)
          ((binop->r info) a b 'r0/r1
           (signed? (ast->type a info))))
