@@ -136,6 +136,7 @@ lib/tests/scaffold/64-make-cell.c
 lib/tests/scaffold/65-read.c
 lib/tests/scaffold/66-local-char-array.c
 lib/tests/scaffold/67-m1-overflow-check.c
+lib/tests/scaffold/68-truncate-shift.c
 "
 
 tcc_tests="
