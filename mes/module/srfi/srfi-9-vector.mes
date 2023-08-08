@@ -34,15 +34,19 @@
   (list->vector (list '*record-type* type fields (length fields))))
 
 (define (record-type? o)
-  (eq? (record-type-type o) '*record-type*))
+  (eq? (record-type-descriptor o) '*record-type*))
+
+(define (struct-vtable o)
+  (record-type-descriptor o))
 
 (define (record? o)
-  (eq? (record-type-type o) '*record*))
+  (and (vector? o)
+       (record-type? (record-type-descriptor o))))
 
-(define (record-type-type o)
+(define (record-type-descriptor o)
   (vector-ref o 0))
 
-(define (record-type o)
+(define (record-type-name o)
   (vector-ref o 1))
 
 (define (record-type-fields o)
@@ -52,17 +56,16 @@
   (lambda (o)
     (and (vector? o)
          (or (record-type? o)
-             (record? o))
-         (eq? (record-type o) type))))
+             (record? o)))))
 
-(define (record-constructor type . field-names)
+(define (record-constructor type . type-fields)
   (let* ((fields (record-type-fields type))
-         (field-names (if (null? field-names) fields
-                          (car field-names))))
+         (type-fields (if (null? type-fields) fields
+                          (car type-fields))))
     (lambda (. o)
-      (if (not (= (length o) (length field-names))) (error "wrong number of arguments for record-constructor")
-          (let ((rest (make-list (- (length fields) (length field-names)))))
-            (list->vector (cons* '*record* type (append o rest))))))))
+      (if (not (= (length o) (length type-fields))) (error "wrong number of arguments for record-constructor")
+          (let ((rest (make-list (- (length fields) (length type-fields)))))
+            (list->vector (cons* type (append o rest))))))))
 
 (define-macro (define-record-accessors type . fields)
   `(begin
@@ -79,14 +82,14 @@
 (define (record-accessor type field)
   (let ((i (record-field-index type field)))
     (lambda (o . field?)
-      (if (not (eq? (record-type o) type)) (error "record accessor: record expected" type o)
+      (if (not (eq? (record-type-descriptor o) type)) (error "record accessor: record expected" type o)
           (if (pair? field?) field
               (vector-ref o i))))))
 
 (define (record-modifier type field)
   (let ((i (record-field-index type field)))
     (lambda (o v)
-      (if (not (eq? (record-type o) type)) (error "record modifier: record expected" type o)
+      (if (not (eq? (record-type-descriptor o) type)) (error "record modifier: record expected" type o)
           (vector-set! o i v)))))
 
 (define (record-field-index type field)

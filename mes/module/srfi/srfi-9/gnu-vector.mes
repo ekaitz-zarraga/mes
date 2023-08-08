@@ -27,11 +27,11 @@
 
 (define-macro (set-field o getters value)
   `(let ((getter ,(car getters)))
-     (let ((type (record-type ,o))
+     (let ((type (record-type-descriptor ,o))
            (set (getter ,o #t)))
        (define (field->value field)
          (if (eq? set field) ,value
-             ((record-getter type field) ,o)))
-       (let* ((fields (record-fields type))
+             ((record-accessor type field) ,o)))
+       (let* ((fields (record-type-fields type))
               (values (map field->value fields)))
          (apply (record-constructor type fields) values)))))
