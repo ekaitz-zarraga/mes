@@ -32,7 +32,7 @@
             (set (getter ,o #t)))
        (define (field->value field)
          (if (eq? set field) ,value
-             ((record-getter type field) ,o)))
+             ((record-accessor type field) ,o)))
        (let* ((fields (record-field-names type))
               (values (map field->value fields)))
          (apply (record-constructor type fields) values)))))

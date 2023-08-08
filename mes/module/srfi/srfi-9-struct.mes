@@ -75,7 +75,7 @@
                 (display " ")
                 (display field)
                 (display ": ")
-                (display ((record-getter vtable field) o)))
+                (display ((record-accessor vtable field) o)))
               fields))
   (display ">"))
 
@@ -87,21 +87,21 @@
 
 (define-macro (define-record-accessor type field)
   `(begin
-     (define ,(cadr field) ,(record-getter type (car field)))
+     (define ,(cadr field) ,(record-accessor type (car field)))
      (if ,(pair? (cddr field))
-         (define ,(if (pair? (cddr field)) (caddr field)) ,(record-setter type (car field))))))
+         (define ,(if (pair? (cddr field)) (caddr field)) ,(record-modifier type (car field))))))
 
-(define (record-getter type field)
+(define (record-accessor type field)
   (let ((i (record-field-index type field)))
     (lambda (o . field?)
-      (if (not (eq? (record-type o) (record-type type))) (error "record getter: record expected" type o)
+      (if (not (eq? (record-type o) (record-type type))) (error "record accessor: record expected" type o)
           (if (pair? field?) field
               (struct-ref o i))))))
 
-(define (record-setter type field)
+(define (record-modifier type field)
   (let ((i (record-field-index type field)))
     (lambda (o v)
-      (if (not (eq? (record-type o) (record-type type))) (error "record setter: record expected" type o)
+      (if (not (eq? (record-type o) (record-type type))) (error "record modifier: record expected" type o)
           (struct-set! o i v)))))
 
 (define (record-field-index type field)
