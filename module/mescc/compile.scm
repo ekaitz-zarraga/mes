@@ -2177,7 +2177,7 @@
                             (let* ((missing (max 0 (- (length field+counts) (length inits))))
                                    (counts (map cdr field+counts))
                                    (fields (map car field+counts))
-                                   (info (fold (cut init-struct-field local <> <> <> <>) info fields counts (append inits (map (const '(p-expr (fixed "22"))) (iota missing))))))
+                                   (info (fold (cut init-struct-field local <> <> <> <>) info fields counts (append inits (map (const '(p-expr (fixed "0"))) (iota missing))))))
                               ;; bah, loopme!
                               ;;(loop (list-tail field+counts (length field-fields)) (list-tail inits (length field-inits)) info)
                               info)))))))

@@ -3,6 +3,7 @@
 # GNU Mes --- Maxwell Equations of Software
 # Copyright © 2017,2018,2019,2020,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 # Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
+# Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 #
 # This file is part of GNU Mes.
 #
@@ -195,6 +196,7 @@ lib/tests/scaffold/7u-inc-byte-word.c
 lib/tests/scaffold/7u-struct-func.c
 lib/tests/scaffold/7u-struct-size10.c
 lib/tests/scaffold/7u-vstack.c
+lib/tests/scaffold/7v-struct-initialize-zeroes.c
 lib/tests/scaffold/70-array-in-struct-init.c
 lib/tests/scaffold/70-struct-short-enum-init.c
 lib/tests/scaffold/70-struct-post.c
@@ -250,7 +252,6 @@ if test $compiler = mescc; then
 lib/tests/scaffold/17-compare-unsigned-char-le.c
 lib/tests/scaffold/17-compare-unsigned-short-le.c
 lib/tests/scaffold/66-local-char-array.c
-lib/tests/scaffold/72-typedef-struct-def-local.c
 lib/tests/scaffold/70-ternary-arithmetic-argument.c
 lib/tests/mes/90-abtod.c
 lib/tests/mes/90-dtoab.c
