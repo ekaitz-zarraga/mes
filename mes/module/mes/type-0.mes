@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -75,6 +76,9 @@
 
 (define (port? x)
   (eq? (core:type x) <cell:port>))
+
+(define (unspecified? x)
+  (eq? (if #f #f) x))
 
 (define (procedure? p)
   (and (or (builtin? p)
