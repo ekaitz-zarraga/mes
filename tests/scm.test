@@ -10,6 +10,7 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -29,6 +30,8 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
 (define-module (tests scm)
   #:use-module (mes mes-0)
   #:use-module (mes test))
+
+(mes-use-module (mes catch))
 
 (cond-expand
  (mes
@@ -131,7 +134,12 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
     '() (iota 0))
 
 (pass-if-equal "iota -1"
-               '() (iota -1))
+  'iota-negative-length
+  (catch 'wrong-type-arg
+    (lambda ()
+      (iota -1))
+    (lambda (key . args)
+      'iota-negative-length)))
 
 (pass-if "cond-expand" (sequal? (cond-expand (foobar #f) (mes (display ": pass: *YAY*") 'mes) (guile (display ": pass: *GUILE*") 'mes)) 'mes))
 

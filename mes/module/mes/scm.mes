@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -164,8 +165,10 @@
       (list-tail (cdr x) (- n 1))))
 
 (define (iota n)
-  (if (<= n 0) '()
-      (append2 (iota (- n 1)) (list (- n 1)))))
+  (cond
+    ((< n 0) (throw 'wrong-type-arg n))
+    ((= n 0) '())
+    (else (append2 (iota (- n 1)) (list (- n 1))))))
 
 (define (reverse lst)
   (let loop ((lst lst) (r '()))
