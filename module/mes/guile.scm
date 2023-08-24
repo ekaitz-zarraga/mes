@@ -2,6 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -23,8 +24,7 @@
 ;;; Code:
 
 (define-module (mes guile)
-  #:export (
-            <cell:char>
+  #:export (<cell:char>
             <cell:keyword>
             <cell:number>
             <cell:pair>
@@ -34,6 +34,8 @@
 
             %arch
             %compiler
+            %program
+
             append2
             core:apply
             core:car
@@ -46,14 +48,10 @@
             core:write-error
             core:write-port
             core:type
-            %compiler
             equal2?
             keyword->string
             pmatch-car
-            pmatch-cdr
-            )
-  ;;#:re-export (open-input-file open-input-string with-input-from-string)
-  )
+            pmatch-cdr))
 
 (cond-expand
  (guile-2)
@@ -91,10 +89,11 @@
   (define <cell:string> 10)
   (define <cell:symbol> 11)
   (define <cell:vector> 15)
+
   (define %arch (car (string-split %host-type #\-)))
   (define %compiler "gnuc")
+  (define %program #f)
 
-  (define %compiler "gnuc")
   (define keyword->string (compose symbol->string keyword->symbol))
 
   (define (core:type x)
