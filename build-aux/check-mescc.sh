@@ -298,7 +298,7 @@ fi
 if test -n "$bootstrap"; then
     TESTS="${TESTS-$mes_tests$tcc_tests}"
 else
-    TESTS="${TESTS-$mes_tests$tcc_test$gnu_tests}"
+    TESTS="${TESTS-$mes_tests$tcc_tests$gnu_tests}"
 fi
 
 # Allow for make check xfail_tests=lib/tests/setjmp/80-setjmp.c
