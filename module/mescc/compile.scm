@@ -1217,12 +1217,18 @@
         ((bitwise-xor ,a ,b) ((binop->r info) a b 'r0-xor-r1))
         ((lshift ,a ,b) ;; FIXME for all binop/binop*?
          (let* ((type-a (ast->type a info))
+                (default (get-type "default" info))
+                (type (if (> (->size type-a info) (->size default info)) type-a
+                             default))
                 (info ((binop->r info) a b 'r0<<r1)))
-           (append-text info (convert-r0 info type-a))))
+           (append-text info (convert-r0 info type))))
         ((rshift ,a ,b) ;; FIXME for all binop/binop*?
          (let* ((type-a (ast->type a info))
+                (default (get-type "default" info))
+                (type (if (> (->size type-a info) (->size default info)) type-a
+                             default))
                 (info ((binop->r info) a b 'r0>>r1)))
-           (append-text info (convert-r0 info type-a))))
+           (append-text info (convert-r0 info type))))
         ((div ,a ,b)
          ((binop->r info) a b 'r0/r1
           (signed? (ast->type a info))))
