@@ -1,5 +1,5 @@
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2020,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -25,7 +25,6 @@
   #:use-module (system base pmatch)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26)
-  #:use-module (nyacc lang c99 parser)
   #:use-module (nyacc lang c99 parser)
   #:use-module (nyacc version)
   #:use-module (mes guile)
