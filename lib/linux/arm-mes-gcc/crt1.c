@@ -20,7 +20,6 @@
  */
 
 #include <mes/lib-mini.h>
-int main (int argc, char *argv[], char *envp[]);
 
 /* Note: GCC automatically emits a preable in order to set up the
 frame pointer: "push {fp}" "add fp, sp, 0"

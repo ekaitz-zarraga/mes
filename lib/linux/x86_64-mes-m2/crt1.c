@@ -24,7 +24,6 @@ int __stdin;
 int __stdout;
 int __stderr;
 char **environ;
-int main (int argc, char **argv, char **envp);
 
 /* FIXME: this is going to be called `FUNCTION__start' */
 //#int
