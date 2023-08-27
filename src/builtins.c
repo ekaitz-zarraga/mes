@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2020,2022,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
@@ -265,6 +265,7 @@ mes_builtins (struct scm *a)            /*:((internal)) */
   a = init_builtin (builtin_type, "dup", 1, &dup_, a);
   a = init_builtin (builtin_type, "dup2", 2, &dup2_, a);
   a = init_builtin (builtin_type, "delete-file", 1, &delete_file, a);
+  a = init_builtin (builtin_type, "uname", 0, &uname_, a);
 
   a = acons (cstring_to_symbol ("O_RDONLY"), make_number (O_RDONLY), a);
   a = acons (cstring_to_symbol ("O_WRONLY"), make_number (O_WRONLY), a);

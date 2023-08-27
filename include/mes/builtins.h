@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2020,2022,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
@@ -149,6 +149,7 @@ struct scm *getcwd_ ();
 struct scm *dup_ (struct scm *port);
 struct scm *dup2_ (struct scm *old, struct scm *new);
 struct scm *delete_file (struct scm *file_name);
+struct scm *uname_ ();
 /* src/reader.c */
 struct scm *read_input_file_env_ (struct scm *e, struct scm *a);
 struct scm *read_input_file_env (struct scm *a);

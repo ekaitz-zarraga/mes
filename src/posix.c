@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2020,2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2020,2021,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
@@ -32,6 +32,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#include <sys/utsname.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -535,6 +536,19 @@ delete_file (struct scm *file_name)
 {
   unlink (cell_bytes (file_name->string));
   return cell_unspecified;
+}
+
+struct scm *
+uname_ ()        /*:((name . "uname")) */
+{
+  uname (__uts);
+  struct scm *v = make_vector_ (5, cell_unspecified);
+  vector_set_x_ (v, 0, make_string0 (__uts->sysname));
+  vector_set_x_ (v, 1, make_string0 (__uts->nodename));
+  vector_set_x_ (v, 2, make_string0 (__uts->release));
+  vector_set_x_ (v, 3, make_string0 (__uts->version));
+  vector_set_x_ (v, 4, make_string0 (__uts->machine));
+  return v;
 }
 
 /* This is a conditional compilation hack for M2-Planet in bootstrap

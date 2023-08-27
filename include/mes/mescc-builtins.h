@@ -38,4 +38,3 @@ struct scm *symlink_ (struct scm *old_name, struct scm *new_name);
 struct scm *umask_ (struct scm *mode);
 struct scm *utime_ (struct scm *file_name, struct scm *actime, struct scm *modtime);
 struct scm *sleep_ (struct scm *seconds);
-struct scm *uname_ ();

@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
+#include <sys/utsname.h>
 #include <time.h>
 
 struct scm *
@@ -194,6 +195,7 @@ init ()
   __open_boot_file_name = malloc (PATH_MAX);
   __reader_read_char_buf = malloc (10);
   __setenv_buf = malloc (1024);
+  __uts = malloc (sizeof (struct utsname));
   g_datadir = malloc (1024);
   g_start_time = malloc (sizeof (struct timespec));
   memset (g_start_time, 0, sizeof (struct timespec));

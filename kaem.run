@@ -68,6 +68,7 @@ M2-Planet                                               \
     -f ${srcdest}include/sys/time.h                     \
     -f ${srcdest}include/m2/types.h                     \
     -f ${srcdest}include/sys/types.h                    \
+    -f ${srcdest}include/sys/utsname.h                  \
     -f ${srcdest}include/mes/mes.h                      \
     -f ${srcdest}include/mes/builtins.h                 \
     -f ${srcdest}include/mes/constants.h                \
@@ -119,6 +120,7 @@ M2-Planet                                               \
     -f ${srcdest}lib/linux/dup2.c                       \
     -f ${srcdest}lib/string/strcmp.c                    \
     -f ${srcdest}lib/string/memcmp.c                    \
+    -f ${srcdest}lib/linux/uname.c                      \
     -f ${srcdest}lib/linux/unlink.c                     \
     -f ${srcdest}include/fcntl.h                        \
     -f ${srcdest}src/builtins.c                         \

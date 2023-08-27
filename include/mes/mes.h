@@ -121,6 +121,7 @@ extern char *__reader_read_char_buf;
 extern struct timespec *g_start_time;
 extern struct timeval *__gettimeofday_time;
 extern struct timespec *__get_internal_run_time_ts;
+extern struct utsname *__uts;
 
 extern struct scm *scm_hash_table_type;
 extern struct scm *scm_variable_type;
