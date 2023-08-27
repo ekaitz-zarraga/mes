@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * Mes --- Maxwell Equations of Software
- * Copyright © 2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2019,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of Mes.
  *
@@ -19,13 +19,13 @@
  */
 
 #include <gnu/hurd.h>
+int main (int argc, char *argv[], char *envp[]);
 
 char **environ;
 int __stdin;
 int __stdout;
 int __stderr;
 
-int main ();
 void _exit (int status);
 
 void _hurd_start (void);
