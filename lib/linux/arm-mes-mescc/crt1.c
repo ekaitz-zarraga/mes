@@ -20,6 +20,7 @@
  */
 
 #include "mes/lib-mini.h"
+int main (int argc, char *argv[], char *envp[]);
 
 void /* must not return */
 _start ()

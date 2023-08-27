@@ -21,6 +21,7 @@
  */
 
 #include <mes/lib-mini.h>
+int main (int argc, char *argv[], char *envp[]);
 
 /* gcc will generate the following preamble:
 

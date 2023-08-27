@@ -18,8 +18,8 @@
  * along with Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <mes/lib-mini.h>
 #include <gnu/hurd.h>
+int main (int argc, char *argv[], char *envp[]);
 
 char **environ;
 int __stdin;

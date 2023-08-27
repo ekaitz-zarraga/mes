@@ -21,8 +21,9 @@
  */
 
 #include "mes/lib-mini.h"
-int main (int argc, char *argv[], char *envp[]);
 #include "linux/riscv64/syscall.h"
+
+int main (int argc, char *argv[], char *envp[]);
 
 /* mesc will generate the following preamble:
 
