@@ -19,6 +19,7 @@
  */
 
 #include "mes/lib-mini.h"
+int main (int argc, char *argv[], char *envp[]);
 
 int
 _start ()

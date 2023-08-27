@@ -52,8 +52,6 @@ extern int __stdout;
 extern int __stderr;
 
 void __init_io ();
-int main (int argc, char *argv[], char *envp[]);
-
 int eputs (char const *s);
 int puts (char const *s);
 int oputs (char const *s);
