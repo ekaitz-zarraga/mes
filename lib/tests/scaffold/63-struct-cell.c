@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -80,7 +80,7 @@ struct function g_bar = { &bar, 1, "bar" };
 void *functions[2];
 //int functions[2];
 
-struct function g_functions[2];
+struct function g_functions[3];
 int g_function = 0;
 
 enum type_t
