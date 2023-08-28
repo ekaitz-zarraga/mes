@@ -31,6 +31,7 @@
   #:use-module (gnu packages commencement)
   #:use-module (gnu packages cross-base)
   #:use-module (gnu packages gcc)
+  #:use-module (gnu packages gdb)
   #:use-module (gnu packages graphviz)
   #:use-module (gnu packages guile)
   #:use-module (gnu packages man)
@@ -241,7 +242,7 @@ Guile.")
     (license gpl3+)))
 
 (define-public mes.git
- (let ((version #!mes!# "0.24.2")
+  (let ((version #!mes!# "0.24.2")
         (revision "0")
         (commit (read-string (open-pipe "git show HEAD | head -1 | cut -d ' ' -f 2" OPEN_READ))))
     (package
@@ -250,4 +251,7 @@ Guile.")
       (version (string-append version "-" revision "." (string-take commit 7)))
       (source (local-file %source-dir
                           #:recursive? #t
-                          #:select? (git-predicate %source-dir))))))
+                          #:select? (git-predicate %source-dir)))
+      (native-inputs
+       `(("gdb" ,gdb)
+         ,@(package-native-inputs mes))))))
