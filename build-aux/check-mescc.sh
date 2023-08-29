@@ -64,6 +64,7 @@ lib/tests/scaffold/17-compare-or.c
 lib/tests/scaffold/17-compare-and-or.c
 lib/tests/scaffold/17-compare-assign.c
 lib/tests/scaffold/17-compare-call.c
+lib/tests/scaffold/17-compare-rotated.c
 lib/tests/scaffold/18-assign-shadow.c
 lib/tests/scaffold/20-while.c
 lib/tests/scaffold/21-char-array-simple.c
@@ -261,6 +262,7 @@ lib/tests/scaffold/91-goto-array.c
 
     if test $mes_cpu = x86_64; then
         xfail_tests="$xfail_tests
+lib/tests/scaffold/17-compare-rotated.c
 lib/tests/scaffold/a0-call-trunc-int.c
 "
     fi
