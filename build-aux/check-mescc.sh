@@ -46,6 +46,7 @@ lib/tests/scaffold/13-if-neq.c
 lib/tests/scaffold/14-if-goto.c
 lib/tests/scaffold/15-if-not-f.c
 lib/tests/scaffold/16-if-t.c
+lib/tests/scaffold/16-cast.c
 lib/tests/scaffold/17-compare-char.c
 lib/tests/scaffold/17-compare-ge.c
 lib/tests/scaffold/17-compare-gt.c
