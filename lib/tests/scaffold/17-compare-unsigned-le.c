@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -21,10 +21,20 @@
 int
 main ()
 {
-  unsigned r = -2;
-  if (r <= -3)
+  unsigned u = -2;
+  int i = -3;
+  int r = u <= -3;
+  if (r)
     return 1;
-  if (r <= -1)
-    return 0;
-  return 2;
+
+  i = -1;
+  r = u <= -1;
+  if (!r)
+    return 2;
+
+  u = 0;
+  i = -1;
+  r = i <= u;
+  if (r)
+    return 3;
 }
