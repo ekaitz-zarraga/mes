@@ -18,23 +18,24 @@
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include<stdint.h>
-#include<stdio.h>
-
 int
 main ()
 {
-  uint32_t r = 0xFFFFFFFF;
-  r = r <<30 >>30;          // higher 30 bits are cleared because they leave
+  unsigned u = 0xFFFFFFFF;
+  u = u <<30 >>30;          // higher 30 bits are cleared because they leave
                             // the register to the left
-  if (r != 3)
+  int i = 3;
+  int r = u != i;
+  if (r)
     return 1;
 
-  uint16_t s = 0xFFFF;
+  unsigned short s = 0xFFFF;
   s = s <<14 >>14;          // s<<14 is promoted to int, the higher bits are
                             // not cleared, because there's space in the
                             // register
-  if (s != 0xFFFF)
+  i = 0xFFFF;
+  r = s != i;
+  if (r)
     return 2;
 
   return 0;
