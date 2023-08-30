@@ -17,16 +17,20 @@
  * You should have received a copy of the GNU General Public License
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include<stdio.h>
+
 int
 main ()
 {
-  char r = -1;
-  unsigned s = r;
-  unsigned t = (unsigned char)r;
-  if (s != -1)
+  char c = -1;
+  unsigned u = c;
+  unsigned t = (unsigned char)c;
+  int i = -1;
+  int r = u != -1;
+  if (r)
     return 2;
-  if (t != 255)
+  i = 255;
+  r = t != 255;
+  if (r)
     return 1;
   return 0;
 }
