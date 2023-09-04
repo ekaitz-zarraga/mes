@@ -40,8 +40,8 @@
 01                             # e_ident[EI_DATA] Indicating little endianness
 01                             # e_ident[EI_VERSION] Indicating original elf
 
-00                             # e_ident[EI_OSABI] Set at 0 because none cares
-00                             # e_ident[EI_ABIVERSION] See above
+03                             # e_ident[EI_OSABI] Set at 3 because FreeBSD is strict
+00                             # e_ident[EI_ABIVERSION] Set at 0 because none cares
 
 00 00 00 00 00 00 00           # e_ident[EI_PAD]
 
@@ -51,7 +51,7 @@ f3 00                          # e_machine Indicating AMD64
 01 00 00 00                    # e_version Indicating original elf
 
 # 0x18
-&ELF_text 00 00 00 00          # e_entry Address of the entry point
+&_start 00 00 00 00            # e_entry Address of the entry point (Number of bytes this header is + Base Address)
 %ELF_program_headers>ELF_base  # e_phoff Address of program header table
   00 00 00 00
 
@@ -66,9 +66,9 @@ f3 00                          # e_machine Indicating AMD64
 01 00                          # e_phnum number of entries in program table
 
 40 00                          # e_shentsize size of a section header table
-07 00                          # e_shnum number of entries in section table
+05 00                          # e_shnum number of entries in section table
 
-04 00                          # e_shstrndx index of the section names
+02 00                          # e_shstrndx index of the section names
 
 # @40
 :ELF_program_headers
