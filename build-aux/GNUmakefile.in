@@ -227,6 +227,10 @@ man: doc/mes.1 doc/mescc.1 doc/mesar.1
 %: %.o
 %: %.c
 
+# help2man reproducibility
+SOURCE_DATE_EPOCH=$(shell git show HEAD --format=%ct --no-patch 2>/dev/null || echo 0)
+export SOURCE_DATE_EPOCH
+
 doc/mes.1: src/${program_prefix}mes | build
 	MES_ARENA=10000000 ./pre-inst-env $(HELP2MAN)				\
 	    --name="Scheme interpreter for bootstrapping the GNU system"	\
@@ -286,7 +290,7 @@ TARBALL_VERSION=$(COMMIT:v%=%)
 TARBALL_DIR:=$(PACKAGE)-$(TARBALL_VERSION)
 TARBALL:=$(TARBALL_DIR).tar.gz
 # Be friendly to Debian; avoid using EPOCH
-MTIME=$(shell git show HEAD --format=%ct --no-patch 2>/dev/null)
+MTIME=$(SOURCE_DIR_EPOCH)
 # Reproducible tarball
 TAR_FLAGS=--sort=name --mtime=@$(MTIME) --owner=0 --group=0 --numeric-owner --mode=go=rX,u+rw,a-s
 
