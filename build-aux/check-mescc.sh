@@ -107,6 +107,7 @@ lib/tests/scaffold/47-function-expression.c
 lib/tests/scaffold/48-global-static.c
 lib/tests/assert/50-assert.c
 lib/tests/mes/50-itoa.c
+lib/tests/scaffold/50-compare-rotated-weird.c
 lib/tests/posix/50-getenv.c
 lib/tests/stdlib/50-malloc.c
 lib/tests/string/50-memcmp.c
