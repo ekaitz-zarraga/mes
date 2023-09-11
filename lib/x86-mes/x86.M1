@@ -199,6 +199,7 @@ DEFINE shl____$i8,%ebx c1e3
 DEFINE shl____%cl,%eax d3e0
 DEFINE shl____%cl,%ebx d3e3
 DEFINE shr____%cl,%eax d3e8
+DEFINE sar____%cl,%eax d3f8
 DEFINE sub____$8,%esp 83ec
 DEFINE sub____$i32,%esp 81ec
 DEFINE sub____%al,%dl 28d0

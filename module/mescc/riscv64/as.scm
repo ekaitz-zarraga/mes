@@ -463,6 +463,11 @@
         (r1 (get-r1 info)))
     `((,(string-append "rd_" r0 " rs1_" r0 " rs2_" r1 " srl")))))
 
+(define (riscv64:r0>>r1-signed info)
+  (let ((r0 (get-r0 info))
+        (r1 (get-r1 info)))
+    `((,(string-append "rd_" r0 " rs1_" r0 " rs2_" r1 " sra")))))
+
 ;;; bitwise r0 := r0 & r1
 (define (riscv64:r0-and-r1 info)
   (let ((r0 (get-r0 info))
@@ -739,6 +744,7 @@
     (r0/r1 . ,riscv64:r0/r1)
     (r0<<r1 . ,riscv64:r0<<r1)
     (r0>>r1 . ,riscv64:r0>>r1)
+    (r0>>r1-signed . ,riscv64:r0>>r1-signed)
     (r1->r0 . ,riscv64:r1->r0)
     (r2->r0 . ,riscv64:r2->r0)
     (ret . ,riscv64:ret)

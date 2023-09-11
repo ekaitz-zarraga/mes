@@ -430,6 +430,12 @@
     `((,(string-append "mov____%" r1 ",%rcx"))
       (,(string-append "shr____%cl,%" r0)))))
 
+(define (x86_64:r0>>r1-signed info)
+  (let ((r0 (get-r0 info))
+        (r1 (get-r1 info)))
+    `((,(string-append "mov____%" r1 ",%rcx"))
+      (,(string-append "sar____%cl,%" r0)))))
+
 (define (x86_64:r0-and-r1 info)
   (let ((r0 (get-r0 info))
         (r1 (get-r1 info)))
@@ -760,6 +766,7 @@
     (r0/r1 . ,x86_64:r0/r1)
     (r0<<r1 . ,x86_64:r0<<r1)
     (r0>>r1 . ,x86_64:r0>>r1)
+    (r0>>r1-signed . ,x86_64:r0>>r1-signed)
     (r1->r0 . ,x86_64:r1->r0)
     (r2->r0 . ,x86_64:r2->r0)
     (ret . ,x86_64:ret)

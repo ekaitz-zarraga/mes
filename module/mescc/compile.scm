@@ -1,6 +1,7 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2019,2020,2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
+;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;; Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -1228,7 +1229,7 @@
                 (default (get-type "default" info))
                 (type (if (> (->size type-a info) (->size default info)) type-a
                              default))
-                (info ((binop->r info) a b 'r0>>r1)))
+                (info ((binop->r info) a b (if (signed? type) 'r0>>r1-signed 'r0>>r1))))
            (append-text info (convert-r0 info type))))
         ((div ,a ,b)
          ((binop->r info) a b 'r0/r1
@@ -1384,7 +1385,7 @@
                                                                ((equal? op "&=") (wrap-as (as info 'r0-and-r1)))
                                                                ((equal? op "|=") (wrap-as (as info 'r0-or-r1)))
                                                                ((equal? op "^=") (wrap-as (as info 'r0-xor-r1)))
-                                                               ((equal? op ">>=") (wrap-as (as info 'r0>>r1)))
+                                                               ((equal? op ">>=") (wrap-as (as info (if signed? 'r0>>r1-signed 'r0>>r1))))
                                                                ((equal? op "<<=") (wrap-as (as info 'r0<<r1)))
                                                                (else (error (format #f "mescc: op ~a not supported: ~a\n" op o))))))
                                  (info (free-register info)))

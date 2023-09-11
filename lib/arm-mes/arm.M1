@@ -269,6 +269,7 @@ DEFINE lsl____%r0,%r0,%r1 1001a0e1  # lsl %r0, %r0, %r1
 DEFINE lsl____%r0,%r0,$i8 90a0e31009a0e1 # mov     r9, #xx; lsl %r0, %r0, %r9
 DEFINE lsl____%r1,%r1,$i8 90a0e31119a0e1 # mov     r9, #xx; lsl %r1, %r1, %r9
 DEFINE lsr____%r0,%r0,%r1 3001a0e1  # lsr %r0, %r0, %r1
+DEFINE asr____%r0,%r0,%r1 5001a0e1  # asr %r0, %r0, %r1
 DEFINE ldr____%r0,(%sp,#$i8) 009de5  # ldr r0, [r13+xx]
 DEFINE ldr____%r1,(%sp,#$i8) 109de5  # ldr r1, [r13+xx]
 #DEFINE add____%r2,%r0,%r1,lsl#4 012280e0

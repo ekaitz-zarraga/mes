@@ -350,6 +350,12 @@
     `((,(string-append "mov____%" r1 ",%ecx"))
       (,(string-append "shr____%cl,%" r0)))))
 
+(define (i386:r0>>r1-signed info)
+  (let ((r0 (get-r0 info))
+        (r1 (get-r1 info)))
+    `((,(string-append "mov____%" r1 ",%ecx"))
+      (,(string-append "shr____%cl,%" r0)))))
+
 (define (i386:r0-and-r1 info)
   (let ((r0 (get-r0 info))
         (r1 (get-r1 info)))
@@ -626,6 +632,7 @@
     (r0/r1 . ,i386:r0/r1)
     (r0<<r1 . ,i386:r0<<r1)
     (r0>>r1 . ,i386:r0>>r1)
+    (r0>>r1-signed . ,i386:r0>>r1-signed)
     (r1->r0 . ,i386:r1->r0)
     (r2->r0 . ,i386:r2->r0)
     (ret . ,i386:ret)
