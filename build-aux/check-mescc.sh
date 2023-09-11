@@ -101,6 +101,7 @@ lib/tests/scaffold/43-for-do-while.c
 lib/tests/scaffold/44-switch.c
 lib/tests/scaffold/44-switch-fallthrough.c
 lib/tests/scaffold/44-switch-body-fallthrough.c
+lib/tests/scaffold/44-switch-body-fallthrough-not-default.c
 lib/tests/scaffold/45-void-call.c
 lib/tests/scaffold/46-function-static.c
 lib/tests/scaffold/47-function-expression.c
