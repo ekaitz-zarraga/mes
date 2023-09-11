@@ -350,11 +350,15 @@
         (r1 (get-r1 info)))
     `((,(string-append "lsl____%" r0 ",%" r0 ",%" r1)))))
 
-;; FIXME: lsr??! Signed or unsigned r0?
 (define (armv4:r0>>r1 info)
   (let ((r0 (get-r0 info))
         (r1 (get-r1 info)))
     `((,(string-append "lsr____%" r0 ",%" r0 ",%" r1)))))
+
+(define (armv4:r0>>r1-signed info)
+  (let ((r0 (get-r0 info))
+        (r1 (get-r1 info)))
+    `((,(string-append "asr____%" r0 ",%" r0 ",%" r1)))))
 
 (define (armv4:r0-and-r1 info)
   (let ((r0 (get-r0 info))
@@ -627,6 +631,7 @@
     (r0/r1 . ,armv4:r0/r1)
     (r0<<r1 . ,armv4:r0<<r1)
     (r0>>r1 . ,armv4:r0>>r1)
+    (r0>>r1-signed . ,armv4:r0>>r1-signed)
     (r1->r0 . ,armv4:r1->r0)
     (r2->r0 . ,armv4:r2->r0)
     (ret . ,armv4:ret)

@@ -226,6 +226,7 @@ DEFINE shl____$i8,%rdi 48c1e7
 DEFINE shl____%cl,%rax 48d3e0
 DEFINE shl____%cl,%rdi 48d3e7
 DEFINE shr____%cl,%rax 48d3e8
+DEFINE sar____%cl,%rax 48d3f8
 DEFINE sub____$i32,%rbp 4881ed
 DEFINE sub____$i32,%rsp 4881ec
 DEFINE sub____%rdi,%rax 4829f8
