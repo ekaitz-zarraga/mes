@@ -252,7 +252,6 @@ if test $compiler = mescc; then
     xfail_tests="$xfail_tests
 lib/tests/scaffold/17-compare-unsigned-char-le.c
 lib/tests/scaffold/17-compare-unsigned-short-le.c
-lib/tests/scaffold/66-local-char-array.c
 lib/tests/scaffold/70-ternary-arithmetic-argument.c
 lib/tests/mes/90-abtod.c
 lib/tests/mes/90-dtoab.c
