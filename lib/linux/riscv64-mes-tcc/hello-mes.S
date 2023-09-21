@@ -1,6 +1,7 @@
 /*
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
+ * Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
  *
  * This file is part of GNU Mes.
  *
