@@ -2,7 +2,7 @@
 
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
-;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+;;; Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -56,11 +56,17 @@
             lset-difference
             take-while
 
+            reduce
             drop
             drop-while
             partition))
 
 (include-from-path "srfi/srfi-1.mes")
+
+(define (reduce f ridentity lst)
+  (if (null? lst)
+      ridentity
+      (fold f (car lst) (cdr lst))))
 
 (define drop list-tail)
 
