@@ -252,3 +252,10 @@
 
 (define (string-concatenate-reverse lst)
   (apply string-append (reverse lst)))
+
+(define (string-pad-right s len)
+(let ((delta (- len (string-length s))))
+    (cond
+     ((positive? delta) (string-append s (make-string delta #\space)))
+     ((negative? delta) (substring s 0 len))
+     (else s))))
