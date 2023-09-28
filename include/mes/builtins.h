@@ -70,6 +70,7 @@ struct scm *hashq_get_handle (struct scm *table, struct scm *key);
 struct scm *hashq_ref_ (struct scm *table, struct scm *key, struct scm *dflt);
 struct scm *hash_ref_ (struct scm *table, struct scm *key, struct scm *dflt);
 struct scm *hashq_create_handle_x (struct scm *table, struct scm *key, struct scm *init);
+struct scm *hash_create_handle_x (struct scm *table, struct scm *key, struct scm *init);
 struct scm *hashq_set_x (struct scm *table, struct scm *key, struct scm *value);
 struct scm *hash_set_x (struct scm *table, struct scm *key, struct scm *value);
 struct scm *hash_remove_x (struct scm *table, struct scm *key);

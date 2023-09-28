@@ -133,13 +133,10 @@ hashq_set_x (struct scm *table, struct scm *key, struct scm *value)
 }
 
 struct scm *
-hashq_create_handle_x (struct scm *table, struct scm *key, struct scm *init)
+create_handle_x (struct scm *table, struct scm *key, unsigned index, struct scm *init)
 {
-  struct scm *s = struct_ref_ (table, 3);
-  long size = s->value;
-  unsigned hash = hashq_ (key, size);
   struct scm *buckets = struct_ref_ (table, 4);
-  struct scm *bucket = vector_ref_ (buckets, hash);
+  struct scm *bucket = vector_ref_ (buckets, index);
   if (bucket->type != TPAIR)
     bucket = cell_nil;
   struct scm *handle = assq (key, bucket);
@@ -147,9 +144,27 @@ hashq_create_handle_x (struct scm *table, struct scm *key, struct scm *init)
     {
       handle = cons (key, init);
       bucket = cons (handle, bucket);
-      vector_set_x_ (buckets, hash, bucket);
+      vector_set_x_ (buckets, index, bucket);
     }
   return handle;
+}
+
+struct scm *
+hashq_create_handle_x (struct scm *table, struct scm *key, struct scm *init)
+{
+  struct scm *s = struct_ref_ (table, 3);
+  long size = s->value;
+  unsigned hash = hashq_ (key, size);
+  return create_handle_x (table, key, hash, init);
+}
+
+struct scm *
+hash_create_handle_x (struct scm *table, struct scm *key, struct scm *init)
+{
+  struct scm *s = struct_ref_ (table, 3);
+  long size = s->value;
+  unsigned hash = hash_ (key, size);
+  return create_handle_x (table, key, hash, init);
 }
 
 struct scm *

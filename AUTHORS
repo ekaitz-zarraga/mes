@@ -89,6 +89,9 @@ mes/module/srfi/srfi-16.scm
 Srfi-26 from Guile
 mes/module/srfi/srfi-26.scm
 
+Srfi-37 from Guile
+mes/module/srfi/srfi-37.scm
+
 GNU FDL in texinfo from GNU
 doc/fdl-1.3.texi
 
