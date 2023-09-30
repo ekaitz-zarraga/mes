@@ -356,14 +356,15 @@ primitive_exit (struct scm *status)
 struct scm *
 execl_ (struct scm *file_name, struct scm *args)        /*:((name . "execl")) */
 {
+  char *c_file_name = cell_bytes (file_name->string);
+
   char **c_argv = __execl_c_argv;
   int i = 0;
 
   if (length__ (args) > 1000)
     error (cell_symbol_system_error,
            cons (file_name, cons (make_string0 ("too many arguments"), cons (file_name, args))));
-  c_argv[i] = cell_bytes (file_name->string);
-  i = i + 1;
+
   struct scm *arg;
   while (args != cell_nil)
     {
@@ -382,7 +383,8 @@ execl_ (struct scm *file_name, struct scm *args)        /*:((name . "execl")) */
         }
     }
   c_argv[i] = 0;
-  return make_number (execv (c_argv[0], c_argv));
+
+  return make_number (execv (c_file_name, c_argv));
 }
 
 struct scm *
