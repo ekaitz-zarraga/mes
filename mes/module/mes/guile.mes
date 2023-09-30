@@ -127,6 +127,21 @@
         (error 'cannot-open file)
         (with-error-to-port port thunk))))
 
+(define (call-with-port port proc)
+  (call-with-values (lambda () (proc port))
+    (lambda results
+      (close-port port)
+      (apply values results))))
+
+(define (call-with-input-file file proc)
+  (call-with-port (open-input-file file) proc))
+
+(define (call-with-input-string str proc)
+  (call-with-port (open-input-string str) proc))
+
+(define (call-with-output-file file proc)
+  (call-with-port (open-output-file file) proc))
+
 (define core:open-input-file open-input-file)
 (define (open-input-file file)
   (let ((port (core:open-input-file file))
