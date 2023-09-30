@@ -210,6 +210,7 @@ lib/stub/gettimeofday.c
 lib/stub/ioctl3.c
 lib/stub/pipe.c
 lib/stub/readdir.c
+lib/stub/stat.c
 lib/stub/time.c
 lib/stub/unlink.c
 lib/stub/waitpid.c
@@ -240,6 +241,7 @@ lib/linux/malloc.c
 lib/linux/pipe.c
 lib/linux/_read.c
 lib/linux/readdir.c
+lib/linux/stat.c
 lib/linux/time.c
 lib/linux/unlink.c
 lib/linux/wait4.c
@@ -320,14 +322,12 @@ lib/$mes_cpu-mes-$compiler/setjmp.c
 if test $mes_kernel = linux; then
     libc_tcc_SOURCES="$libc_tcc_SOURCES
 lib/linux/rmdir.c
-lib/linux/stat.c
 "
 fi
 
 if test $mes_kernel = gnu; then
     libc_tcc_SOURCES="$libc_tcc_SOURCES
 lib/stub/rmdir.c
-lib/stub/stat.c
 "
 fi
 
