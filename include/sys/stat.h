@@ -43,6 +43,7 @@ int mknod (char const *file_name, mode_t mode, dev_t dev);
 int chown (char const *file_name, uid_t owner, gid_t group);
 int rmdir (char const *file_name);
 int stat (char const *file_name, struct stat *buf);
+int lstat (char const *file_name, struct stat *buf);
 
 #define S_IFIFO 0010000
 #define S_IFCHR 0020000
