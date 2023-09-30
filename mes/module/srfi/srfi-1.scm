@@ -56,6 +56,7 @@
             lset-difference
             take-while
 
+            concatenate
             reduce
             drop
             drop-while
@@ -63,6 +64,9 @@
             alist-cons))
 
 (include-from-path "srfi/srfi-1.mes")
+
+(define (concatenate list-of-lists)
+  (apply append list-of-lists))
 
 (define (reduce f ridentity lst)
   (if (null? lst)
