@@ -59,7 +59,8 @@
             reduce
             drop
             drop-while
-            partition))
+            partition
+            alist-cons))
 
 (include-from-path "srfi/srfi-1.mes")
 
@@ -86,3 +87,5 @@
           (if (pred x)
               (loop (cdr lst) (cons x yeas) nays)
               (loop (cdr lst) yeas (cons x nays)))))))
+
+(define alist-cons acons)
