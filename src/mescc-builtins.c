@@ -30,6 +30,8 @@ a = init_builtin (builtin_type, "pipe", 0, &pipe_, a);
 a = init_builtin (builtin_type, "close-port", 1, &close_port, a);
 a = init_builtin (builtin_type, "seek", 3, &seek, a);
 a = init_builtin (builtin_type, "chdir", 1, &chdir_, a);
+a = init_builtin (builtin_type, "stat", -1, &stat_, a);
+a = init_builtin (builtin_type, "lstat", -1, &lstat_, a);
 
 a = acons (cstring_to_symbol ("O_RDWR"), make_number (O_RDWR), a);
 a = acons (cstring_to_symbol ("O_EXCL"), make_number (O_EXCL), a);

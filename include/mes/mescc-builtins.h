@@ -27,3 +27,5 @@ struct scm *pipe_ ();
 struct scm *close_port (struct scm *port);
 struct scm *seek (struct scm *port, struct scm *offset, struct scm *whence);
 struct scm *chdir_ (struct scm *file_name);
+struct scm *stat_ (struct scm *args);
+struct scm *lstat_ (struct scm *args);

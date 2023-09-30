@@ -194,3 +194,98 @@ chdir_ (struct scm *file_name)
 
   return cell_unspecified;
 }
+
+struct scm *
+statbuf_to_vector (struct stat *buf)
+{
+  struct scm *v = make_vector_ (18, cell_unspecified);
+  vector_set_x_ (v, 0, make_number (buf->st_dev));
+  vector_set_x_ (v, 1, make_number (buf->st_ino));
+  vector_set_x_ (v, 2, make_number (buf->st_mode));
+  vector_set_x_ (v, 3, make_number (buf->st_nlink));
+  vector_set_x_ (v, 4, make_number (buf->st_uid));
+  vector_set_x_ (v, 5, make_number (buf->st_gid));
+  vector_set_x_ (v, 6, make_number (buf->st_rdev));
+  vector_set_x_ (v, 7, make_number (buf->st_size));
+  vector_set_x_ (v, 8, make_number (buf->st_atime));
+  vector_set_x_ (v, 9, make_number (buf->st_mtime));
+  vector_set_x_ (v, 10, make_number (buf->st_ctime));
+
+  if (S_ISDIR (buf->st_mode))
+    vector_set_x_ (v, 13, cstring_to_symbol ("directory"));
+  else if (S_ISREG (buf->st_mode))
+    vector_set_x_ (v, 13, cstring_to_symbol ("regular"));
+  else if (S_ISFIFO (buf->st_mode))
+    vector_set_x_ (v, 13, cstring_to_symbol ("fifo"));
+  else
+    vector_set_x_ (v, 13, cstring_to_symbol ("unknown"));
+
+  vector_set_x_ (v, 14, make_number ((~S_IFMT) & buf->st_mode));
+
+  /* FIXME: These are the nanosecond components of the "atime", "mtime",
+     and "ctime" respectively.  They should be filled from 'buf', but we
+     need to check if the kernel gave us microseconds or nanoseconds to
+     do so. */
+  vector_set_x_ (v, 15, make_number (0));
+  vector_set_x_ (v, 16, make_number (0));
+  vector_set_x_ (v, 17, make_number (0));
+
+  return v;
+}
+
+struct scm *
+stat__ (char const *variant, struct scm *args)
+{
+  int result;
+  struct stat buf;
+  struct scm *file_name;
+  struct scm *exception_on_error = cell_t;
+
+  if (args->type != TPAIR)
+    error (cell_symbol_wrong_number_of_args,
+           cstring_to_symbol (variant));
+
+  file_name = args->car;
+
+  if (file_name->type != TSTRING)
+    error (cell_symbol_wrong_type_arg,
+           cons (file_name, cstring_to_symbol (variant)));
+
+  if (args->cdr->type == TPAIR)
+    {
+      exception_on_error = args->cdr->car;
+      if (args->cdr->cdr != cell_nil)
+        error (cell_symbol_wrong_number_of_args,
+               cstring_to_symbol (variant));
+    }
+
+  /* It's a little sneaky.... */
+  if (variant[0] == 'l')
+    result = lstat (cell_bytes (file_name->string), &buf);
+  else
+    result = stat (cell_bytes (file_name->string), &buf);
+
+  if (result != 0)
+    {
+      if (exception_on_error != cell_f)
+        error (cell_symbol_system_error,
+               cons (make_string0 ("Could not read file attributes"),
+                     file_name));
+      else
+        return cell_f;
+    }
+
+  return statbuf_to_vector (&buf);
+}
+
+struct scm *
+stat_ (struct scm *args)
+{
+  return stat__ ("stat", args);
+}
+
+struct scm *
+lstat_ (struct scm *args)
+{
+  return stat__ ("lstat", args);
+}
