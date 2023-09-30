@@ -19,12 +19,31 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (ice-9 rdelim))
+(define-module (ice-9 rdelim)
+  #:export (read-line))
 
 ;;; Commentary:
 
-;;; This is a place holder so that '(mes test)' can use 'read-line'.
-;;; When run from Guile, 'read-line' will come from '(ice-9 rdelim)'.
-;;; When run from Mes, 'read-line' is part of the root module, but for
-;;; Guile compatibility, other modules will still have to import
-;;; '(ice-9 rdelim)'.
+(define (%read-line handle-delim)
+  (let loop ((acc '()))
+    (define c (read-char))
+    (cond
+     ((eof-object? c)
+      (if (null? acc) c (list->string (reverse! acc))))
+     ((eq? c #\newline)
+      (case handle-delim
+        ((trim) (list->string (reverse! acc)))
+        ((concat) (list->string (reverse! (cons c acc))))
+        ((peek) (begin (unget-char c) (list->string (reverse! acc))))
+        ((split) (cons (list->string (reverse! acc)) c))
+        (else (error "read-line: Invalid handle-delim" handle-delim))))
+     (else
+      (loop (cons c acc))))))
+
+(define* (read-line #:optional (port (current-input-port))
+                    (handle-delim 'trim))
+  (if (eq? port (current-input-port))
+      (%read-line handle-delim)
+      (with-input-from-port port
+        (lambda ()
+          (%read-line handle-delim)))))
