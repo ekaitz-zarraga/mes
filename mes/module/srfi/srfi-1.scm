@@ -61,6 +61,7 @@
             drop
             drop-while
             partition
+            span
             alist-cons))
 
 (include-from-path "srfi/srfi-1.mes")
@@ -91,5 +92,12 @@
           (if (pred x)
               (loop (cdr lst) (cons x yeas) nays)
               (loop (cdr lst) yeas (cons x nays)))))))
+
+(define (span pred lst)
+  (let loop ((lst lst) (acc '()))
+    (if (or (null? lst)
+            (not (pred (car lst))))
+        (values (reverse acc) lst)
+        (loop (cdr lst) (cons (car lst) acc)))))
 
 (define alist-cons acons)
