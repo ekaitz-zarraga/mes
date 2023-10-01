@@ -21,6 +21,11 @@
   #:export (make-regexp
             regexp?
 
+            regexp/icase
+            regexp/newline
+            regexp/basic
+            regexp/extended
+
             regexp-match?
             match:substring
             match:start
@@ -49,6 +54,11 @@
   (if (not (null? flags))
       (error "make-regexp: Flags are not supported" flags))
   (tree->regexp (pregexp pat)))
+
+(define regexp/icase (list 'regexp/icase))
+(define regexp/newline (list 'regexp/newline))
+(define regexp/basic (list 'regexp/basic))
+(define regexp/extended (list 'regexp/extended))
 
 
 ;;; Matches
