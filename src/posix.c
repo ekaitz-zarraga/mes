@@ -52,8 +52,19 @@ abort_ ()                   /*:((name . "abort")) */
 struct scm *
 exit_ (struct scm *x)                   /*:((name . "exit")) */
 {
-  assert_msg (x->type == TNUMBER, "x->type == TNUMBER");
-  exit (x->value);
+  int status;
+
+  if (x == cell_t)
+    status = 0;
+  else if (x == cell_f)
+    status = 1;
+  else
+    {
+      assert_msg (x->type == TNUMBER, "x->type == TNUMBER");
+      status = x->value;
+    }
+
+  exit (status);
 }
 
 int
