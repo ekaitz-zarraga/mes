@@ -211,6 +211,7 @@ lib/stub/ioctl3.c
 lib/stub/lstat.c
 lib/stub/pipe.c
 lib/stub/readdir.c
+lib/stub/rename.c
 lib/stub/stat.c
 lib/stub/time.c
 lib/stub/unlink.c
@@ -243,6 +244,7 @@ lib/linux/malloc.c
 lib/linux/pipe.c
 lib/linux/_read.c
 lib/linux/readdir.c
+lib/linux/rename.c
 lib/linux/stat.c
 lib/linux/time.c
 lib/linux/unlink.c
@@ -439,7 +441,6 @@ lib/linux/mkdir.c
 lib/linux/mknod.c
 lib/linux/nanosleep.c
 lib/linux/readlink.c
-lib/linux/rename.c
 lib/linux/setgid.c
 lib/linux/settimer.c
 lib/linux/setuid.c
