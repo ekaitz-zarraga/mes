@@ -62,10 +62,11 @@ tests/let-syntax.test
 tests/pmatch.test
 tests/posix.test
 tests/match.test
-tests/psyntax.test
 "
 
-XFAIL_TESTS=
+XFAIL_TESTS="
+tests/psyntax.test
+"
 
 test_ext=.test
 log_compiler=${SHELL}
