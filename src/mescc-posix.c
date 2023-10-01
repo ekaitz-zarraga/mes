@@ -289,3 +289,27 @@ lstat_ (struct scm *args)
 {
   return stat__ ("lstat", args);
 }
+
+struct scm *
+rename_file (struct scm *old_name, struct scm *new_name)
+{
+  int result;
+
+  if (old_name->type != TSTRING)
+    error (cell_symbol_wrong_type_arg,
+           cons (old_name, cstring_to_symbol ("rename-file")));
+
+  if (new_name->type != TSTRING)
+    error (cell_symbol_wrong_type_arg,
+           cons (new_name, cstring_to_symbol ("rename-file")));
+
+  result = rename (cell_bytes (old_name->string),
+                   cell_bytes (new_name->string));
+
+  if (result != 0)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("Could not rename file"),
+                 cons (old_name, new_name)));
+
+  return cell_unspecified;
+}

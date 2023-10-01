@@ -32,6 +32,7 @@ a = init_builtin (builtin_type, "seek", 3, &seek, a);
 a = init_builtin (builtin_type, "chdir", 1, &chdir_, a);
 a = init_builtin (builtin_type, "stat", -1, &stat_, a);
 a = init_builtin (builtin_type, "lstat", -1, &lstat_, a);
+a = init_builtin (builtin_type, "rename-file", 2, &rename_file, a);
 
 a = acons (cstring_to_symbol ("O_RDWR"), make_number (O_RDWR), a);
 a = acons (cstring_to_symbol ("O_EXCL"), make_number (O_EXCL), a);
