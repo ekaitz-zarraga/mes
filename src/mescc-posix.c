@@ -313,3 +313,19 @@ rename_file (struct scm *old_name, struct scm *new_name)
 
   return cell_unspecified;
 }
+
+/* TODO: Support an optional 'mode' argument. */
+struct scm *
+mkdir_ (struct scm *file_name)
+{
+  if (file_name->type != TSTRING)
+    error (cell_symbol_wrong_type_arg,
+           cons (file_name, cstring_to_symbol ("mkdir")));
+
+  if (mkdir (cell_bytes (file_name->string), 0777) != 0)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("Could not make directory"),
+                 file_name));
+
+  return cell_unspecified;
+}

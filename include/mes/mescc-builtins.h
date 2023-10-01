@@ -30,3 +30,4 @@ struct scm *chdir_ (struct scm *file_name);
 struct scm *stat_ (struct scm *args);
 struct scm *lstat_ (struct scm *args);
 struct scm *rename_file (struct scm *old_name, struct scm *new_name);
+struct scm *mkdir_ (struct scm *file_name);
