@@ -209,6 +209,7 @@ lib/stub/_getcwd.c
 lib/stub/gettimeofday.c
 lib/stub/ioctl3.c
 lib/stub/lstat.c
+lib/stub/mkdir.c
 lib/stub/pipe.c
 lib/stub/readdir.c
 lib/stub/rename.c
@@ -241,6 +242,7 @@ lib/linux/ioctl3.c
 lib/linux/lstat.c
 lib/linux/_open3.c
 lib/linux/malloc.c
+lib/linux/mkdir.c
 lib/linux/pipe.c
 lib/linux/_read.c
 lib/linux/readdir.c
@@ -437,7 +439,6 @@ lib/linux/getrusage.c
 lib/linux/getuid.c
 lib/linux/ioctl.c
 lib/linux/link.c
-lib/linux/mkdir.c
 lib/linux/mknod.c
 lib/linux/nanosleep.c
 lib/linux/readlink.c
