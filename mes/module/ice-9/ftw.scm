@@ -18,9 +18,10 @@
 
 (define-module (ice-9 ftw)
   #:use-module (ice-9 optargs)
+  #:use-module (srfi srfi-132)
   #:export (scandir))
 
-(define* (scandir name #:optional (select? (lambda _ #t)))
+(define* (scandir name #:optional (select? (lambda _ #t)) (entry<? string<))
   (let ((dir (opendir name)))
     (let loop ((acc '()))
       (cond
@@ -30,4 +31,4 @@
                        (cons n acc)
                        acc))))
        (else (closedir dir)
-             (reverse acc))))))
+             (list-sort entry<? acc))))))
