@@ -1,5 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -22,4 +23,26 @@
 
 ;;; Code:
 
-(define-module (srfi srfi-2))
+(define-module (srfi srfi-2)
+  #:export (and-let*))
+
+(define-macro (and-let* bindings . body)
+  (if (null? bindings)
+      `(begin . ,body)
+      (let ((binding (car bindings)))
+        (cond
+         ((pair? (cdr binding))
+          (let ((name (car binding))
+                (value (cadr binding))
+                (rest (cdr bindings)))
+            `((lambda (,name)
+                (if ,name
+                    (and-let* ,rest . ,body)
+                    #f))
+              ,value)))
+         (else
+          (let ((value (car binding))
+                (rest (cdr bindings)))
+            `((if ,value
+                  (and-let* ,rest . ,body)
+                  #f))))))))
