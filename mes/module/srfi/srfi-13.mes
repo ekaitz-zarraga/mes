@@ -79,6 +79,25 @@
                      (and (eq? c1 c2)
                           (loop (+ i1 1) (+ i2 1))))))))))
 
+(define (string> s1 s2 . rest)
+  (let* ((start1 (if (pair? rest) (car rest) 0))
+         (rest   (if (pair? rest) (cdr rest) '()))
+         (end1   (if (pair? rest) (car rest) (string-length s1)))
+         (rest   (if (pair? rest) (cdr rest) '()))
+         (start2 (if (pair? rest) (car rest) 0))
+         (rest   (if (pair? rest) (cdr rest) '()))
+         (end2   (if (pair? rest) (car rest) (string-length s2))))
+    (let loop ((i1 start1) (i2 start2))
+      ;; If we run past the end of S1, we have S1 <= S2.
+      (and (< i1 end1)
+           ;; Otherwise, if we run past the end of S2, we have S2 < S1.
+           (or (>= i2 end2)
+               (let ((c1 (string-ref s1 i1))
+                     (c2 (string-ref s2 i2)))
+                 (or (char>? c1 c2)
+                     (and (eq? c1 c2)
+                          (loop (+ i1 1) (+ i2 1))))))))))
+
 (define (string-split s c)
   (let loop ((lst (string->list s)) (result '()))
     (let ((rest (memq c lst)))
