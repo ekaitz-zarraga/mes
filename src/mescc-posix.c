@@ -329,3 +329,18 @@ mkdir_ (struct scm *file_name)
 
   return cell_unspecified;
 }
+
+struct scm *
+rmdir_ (struct scm *file_name)
+{
+  if (file_name->type != TSTRING)
+    error (cell_symbol_wrong_type_arg,
+           cons (file_name, cstring_to_symbol ("rmdir")));
+
+  if (rmdir (cell_bytes (file_name->string)) != 0)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("Could not remove directory"),
+                 file_name));
+
+  return cell_unspecified;
+}
