@@ -62,6 +62,9 @@ Portable syntax-case from Chez Scheme; patches from Guile
 mes/module/mes/psyntax.ss
 mes/module/mes/psyntax.pp [generated]
 
+File Tree Walk partially from Guile
+mes/module/ice-9/ftw.scm
+
 The pregexp regular expression system
 mes/module/mes/ice-9/pregexp.upstream.scm
 
