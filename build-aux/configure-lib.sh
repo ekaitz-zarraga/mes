@@ -213,6 +213,7 @@ lib/stub/mkdir.c
 lib/stub/pipe.c
 lib/stub/readdir.c
 lib/stub/rename.c
+lib/stub/rmdir.c
 lib/stub/stat.c
 lib/stub/time.c
 lib/stub/unlink.c
@@ -247,6 +248,7 @@ lib/linux/pipe.c
 lib/linux/_read.c
 lib/linux/readdir.c
 lib/linux/rename.c
+lib/linux/rmdir.c
 lib/linux/stat.c
 lib/linux/time.c
 lib/linux/unlink.c
@@ -324,18 +326,6 @@ lib/stub/localtime.c
 lib/stub/sigemptyset.c
 lib/$mes_cpu-mes-$compiler/setjmp.c
 "
-
-if test $mes_kernel = linux; then
-    libc_tcc_SOURCES="$libc_tcc_SOURCES
-lib/linux/rmdir.c
-"
-fi
-
-if test $mes_kernel = gnu; then
-    libc_tcc_SOURCES="$libc_tcc_SOURCES
-lib/stub/rmdir.c
-"
-fi
 
 libc_gnu_SOURCES="
 $libc_tcc_SOURCES
