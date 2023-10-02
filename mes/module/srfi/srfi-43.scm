@@ -1,5 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -18,6 +19,14 @@
 
 (define-module (srfi srfi-43)
   #:export (vector-map
-            vector-for-each))
+            vector-for-each
+            vector-copy!)
+  #:re-export (vector-copy))
 
 (include-from-path "srfi/srfi-43.mes")
+
+(define (vector-copy! target tstart source sstart send)
+  (let loop ((tk tstart) (sk sstart))
+    (when (< sk send)
+      (vector-set! target tk (vector-ref source sk))
+      (loop (+ tk 1) (+ sk 1)))))
