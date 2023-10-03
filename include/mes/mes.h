@@ -153,7 +153,7 @@ struct scm *init_time (struct scm *a);
 struct scm *lookup_binding (struct scm *name, struct scm *define_p);
 struct scm *lookup_value (struct scm *name);
 struct scm *make_builtin_type ();
-struct scm *make_bytes (char const *s, size_t length);
+struct scm *make_bytes (size_t length);
 struct scm *make_cell (long type, struct scm *car, struct scm *cdr);
 struct scm *make_pointer_cell (long type, long car, void *cdr);
 struct scm *make_value_cell (long type, long car, long cdr);

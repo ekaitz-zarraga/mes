@@ -91,6 +91,8 @@ environ_ (struct scm *args)
 struct scm *
 opendir_ (struct scm *file_name)
 {
+  struct scm *result;
+
   if (file_name->type != TSTRING)
     error (cell_symbol_wrong_type_arg,
            cons (file_name, cstring_to_symbol ("opendir")));
@@ -103,7 +105,11 @@ opendir_ (struct scm *file_name)
 
   /* Oof.  Mes has no support for foreign objects, so we return this as
      bytevector with the pointer as its contents. */
-  return make_bytes ((char *) &dirstream, sizeof (DIR *));
+  result = make_bytes (sizeof (DIR *));
+  char *p = cell_bytes (result);
+  memcpy (p, (char *) &dirstream, sizeof (DIR *));
+
+  return result;
 }
 
 struct scm *

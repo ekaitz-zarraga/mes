@@ -2,6 +2,7 @@
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2020,2021,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2022 Gabriel Wicki <gabriel@erlikon.ch>
+ * Copyright © 2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -239,18 +240,12 @@ bytes_cells (size_t length)
 }
 
 struct scm *
-make_bytes (char const *s, size_t length)
+make_bytes (size_t length)
 {
   size_t size = bytes_cells (length);
   struct scm *x = alloc (size);
   x->type = TBYTES;
   x->length = length;
-  char *p = cell_bytes (x);
-  if (length == 0)
-    p[0] = 0;
-  else
-    memcpy (p, s, length);
-
   return x;
 }
 
@@ -290,7 +285,9 @@ make_string (char const *s, size_t length)
   if (length > MAX_STRING)
     assert_max_string (length, "make_string", s);
   struct scm *x = make_pointer_cell (TSTRING, length, 0);
-  struct scm *v = make_bytes (s, length + 1);
+  struct scm *v = make_bytes (length + 1);
+  char *p = cell_bytes (v);
+  memcpy (p, s, length + 1);
   x->cdr = v;
   return x;
 }

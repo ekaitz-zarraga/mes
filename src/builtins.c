@@ -204,6 +204,9 @@ mes_builtins (struct scm *a)            /*:((internal)) */
   a = init_builtin (builtin_type, "pair?", 1, &pair_p, a);
   a = init_builtin (builtin_type, "char->integer", 1, &char_to_integer, a);
   a = init_builtin (builtin_type, "integer->char", 1, &integer_to_char, a);
+  a = init_builtin (builtin_type, "make-bytevector", -1, &make_bytevector, a);
+  a = init_builtin (builtin_type, "bytevector-u8-ref", 2, &bytevector_u8_ref, a);
+  a = init_builtin (builtin_type, "bytevector-u8-set!", 3, &bytevector_u8_set_x, a);
   /* src/math.c */
   a = init_builtin (builtin_type, ">", -1, &greater_p, a);
   a = init_builtin (builtin_type, "<", -1, &less_p, a);

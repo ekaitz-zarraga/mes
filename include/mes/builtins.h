@@ -90,6 +90,9 @@ struct scm *last_pair (struct scm *x);
 struct scm *pair_p (struct scm *x);
 struct scm *char_to_integer (struct scm *x);
 struct scm *integer_to_char (struct scm *x);
+struct scm *make_bytevector (struct scm *args);
+struct scm *bytevector_u8_ref (struct scm *bv, struct scm *k);
+struct scm *bytevector_u8_set_x (struct scm *bv, struct scm *k, struct scm *value);
 /* src/math.c */
 struct scm *greater_p (struct scm *x);
 struct scm *less_p (struct scm *x);

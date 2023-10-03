@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -172,6 +173,113 @@ struct scm *
 integer_to_char (struct scm *x)
 {
   return make_char (x->value);
+}
+
+struct scm *
+make_bytevector (struct scm *args)
+{
+  struct scm *size;
+  struct scm *init;
+  int init_p = 0;
+
+  if (args->type != TPAIR)
+    error (cell_symbol_wrong_number_of_args,
+           cstring_to_symbol ("make-bytevector"));
+
+  size = args->car;
+  args = args->cdr;
+
+  if (size->type != TNUMBER)
+    error (cell_symbol_wrong_type_arg,
+           cons (size, cstring_to_symbol ("make-bytevector")));
+
+  if (args->type == TPAIR)
+    {
+      init = args->car;
+      args = args->cdr;
+
+      if (init->type != TNUMBER)
+        error (cell_symbol_wrong_type_arg,
+               cons (size, cstring_to_symbol ("make-bytevector")));
+      if (init->value < 0 || 256 <= init->value)
+        error (cell_symbol_system_error,
+               cons (make_string0 ("make-bytevector: value out of range"), init));
+
+      init_p = 1;
+    }
+
+  if (args != cell_nil)
+    error (cell_symbol_wrong_number_of_args,
+           cstring_to_symbol ("make-bytevector"));
+
+  struct scm *result = make_bytes (size->value);
+  char *p = cell_bytes (result);
+  long i;
+  if (size->value == 0)
+    p[0] = 0;
+  else if (init_p)
+    for (i = 0; i < size->value; i = i + 1)
+      p[i] = init->value;
+
+  return result;
+}
+
+struct scm *
+bytevector_u8_ref (struct scm *bv, struct scm *k)
+{
+  char *p;
+  if (bv->type != TBYTES)
+    error (cell_symbol_wrong_type_arg,
+           cons (bv, cstring_to_symbol ("bytevector-u8-ref")));
+  if (k->type != TNUMBER)
+    error (cell_symbol_wrong_type_arg,
+           cons (k, cstring_to_symbol ("bytevector-u8-ref")));
+  if (k->value < 0 || bv->length <= k->value)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("bytevector-u8-ref: index out of range"), k));
+  p = cell_bytes (bv);
+
+  /* Try to be portable across signed and unsigned char (while
+     respecting the limitions of M2 and MesCC, which precludes using
+     'unsigned char' or 'uint8_t'). */
+  long i = p[k->value];
+  if (i < 0)
+    return make_number (256 + i);
+  else
+    return make_number (i);
+}
+
+struct scm *
+bytevector_u8_set_x (struct scm *bv, struct scm *k, struct scm *value)
+{
+  char *p;
+  if (bv->type != TBYTES)
+    error (cell_symbol_wrong_type_arg,
+           cons (bv, cstring_to_symbol ("bytevector-u8-set!")));
+  if (k->type != TNUMBER)
+    error (cell_symbol_wrong_type_arg,
+           cons (k, cstring_to_symbol ("bytevector-u8-set!")));
+  if (k->value < 0 || bv->length <= k->value)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("bytevector-u8-set!: index out of range"), k));
+  if (value->type != TNUMBER)
+    error (cell_symbol_wrong_type_arg,
+           cons (value, cstring_to_symbol ("bytevector-u8-set!")));
+  if (value->value < 0 || 256 <= value->value)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("bytevector-u8-set!: value out of range"), value));
+  p = cell_bytes (bv);
+
+  /* Try to be portable across signed and unsigned char (while
+     respecting the limitions of M2 and MesCC, which precludes using
+     'unsigned char' or 'uint8_t'). */
+  char c = -1;
+  if (c < 255 && value->value >= 128)
+    p[k->value] = value->value - 256;
+  else
+    p[k->value] = value->value;
+
+  return cell_unspecified;
 }
 
 #if 0

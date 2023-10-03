@@ -249,6 +249,15 @@
   (list->vector (vector->list x)))
 
 
+;;; Bytevectors
+(define bytevector? bytes?)
+
+(define (bytevector-length bv)
+  (if (bytevector? bv)
+      (core:car bv)
+      (core:error "bytevector-length: Wrong type" bv)))
+
+
 ;;; Strings/srfi-13
 (define (make-string n . fill)
   (list->string (apply make-list n fill)))
