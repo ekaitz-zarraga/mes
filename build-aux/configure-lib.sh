@@ -216,6 +216,7 @@ lib/stub/rename.c
 lib/stub/rmdir.c
 lib/stub/stat.c
 lib/stub/time.c
+lib/stub/umask.c
 lib/stub/unlink.c
 lib/stub/waitpid.c
 "
@@ -251,6 +252,7 @@ lib/linux/rename.c
 lib/linux/rmdir.c
 lib/linux/stat.c
 lib/linux/time.c
+lib/linux/umask.c
 lib/linux/unlink.c
 lib/linux/wait4.c
 lib/linux/waitpid.c
@@ -415,7 +417,6 @@ lib/stub/sys_siglist.c
 lib/stub/system.c
 lib/stub/times.c
 lib/stub/ttyname.c
-lib/stub/umask.c
 lib/stub/utime.c
 "
 

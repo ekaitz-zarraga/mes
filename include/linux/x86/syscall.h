@@ -96,6 +96,9 @@
 #define SYS_readlink  0x55
 #define SYS_mknod     0x0e
 
+/* gash */
+#define SYS_umask     0x3c
+
 #if __SIZEOF_LONG_LONG__ == 8
 
 #define SYS_stat64     0xc3

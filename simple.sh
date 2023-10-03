@@ -280,6 +280,7 @@ $CC -g -D HAVE_CONFIG_H=1                               \
     lib/linux/rmdir.c                                   \
     lib/linux/stat.c                                    \
     lib/linux/time.c                                    \
+    lib/linux/umask.c                                   \
     lib/linux/unlink.c                                  \
     include/sys/resource.h                              \
     lib/linux/wait4.c                                   \

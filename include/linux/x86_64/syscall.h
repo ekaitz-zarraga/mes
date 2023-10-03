@@ -94,4 +94,7 @@
 #define SYS_readlink  0x59
 #define SYS_mknod     0x85
 
+/* gash */
+#define SYS_umask     0x5f
+
 #endif // __MES_LINUX_X86_64_SYSCALL_H

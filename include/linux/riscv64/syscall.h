@@ -98,4 +98,7 @@
 #define SYS_readlinkat     78
 #define SYS_mknodat        33
 
+/* gash */
+#define SYS_umask          166
+
 #endif // __MES_LINUX_RISCV_SYSCALL_H
