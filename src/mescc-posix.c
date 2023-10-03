@@ -344,3 +344,25 @@ rmdir_ (struct scm *file_name)
 
   return cell_unspecified;
 }
+
+struct scm *
+umask_ (struct scm *args)
+{
+  mode_t mask;
+  if (args->type == TPAIR)
+    {
+      if (args->car->type != TNUMBER)
+        error (cell_symbol_wrong_type_arg,
+               cons (args->car, cstring_to_symbol ("umask")));
+      if (args->cdr != cell_nil)
+        error (cell_symbol_wrong_number_of_args,
+               cstring_to_symbol ("umask"));
+      return make_number (umask (args->car->value));
+    }
+  else
+    {
+      mask = umask (0);
+      umask (mask);
+      return make_number (mask);
+    }
+}
