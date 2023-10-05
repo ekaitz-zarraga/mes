@@ -36,6 +36,7 @@ a = init_builtin (builtin_type, "rename-file", 2, &rename_file, a);
 a = init_builtin (builtin_type, "mkdir", 1, &mkdir_, a);
 a = init_builtin (builtin_type, "rmdir", 1, &rmdir_, a);
 a = init_builtin (builtin_type, "umask", -1, &umask_, a);
+a = init_builtin (builtin_type, "utime", 3, &utime_, a);
 
 a = acons (cstring_to_symbol ("O_RDWR"), make_number (O_RDWR), a);
 a = acons (cstring_to_symbol ("O_EXCL"), make_number (O_EXCL), a);

@@ -20,6 +20,7 @@
 
 #include <errno.h>
 #include <dirent.h>
+#include <time.h>
 
 struct scm *
 getpid_ ()
@@ -371,4 +372,32 @@ umask_ (struct scm *args)
       umask (mask);
       return make_number (mask);
     }
+}
+
+struct scm *
+utime_ (struct scm *file_name, struct scm *actime, struct scm *modtime)
+{
+  struct timespec times[2];
+
+  if (file_name->type != TSTRING)
+    error (cell_symbol_wrong_type_arg,
+           cons (file_name, cstring_to_symbol ("utime")));
+  if (actime->type != TNUMBER)
+    error (cell_symbol_wrong_type_arg,
+           cons (actime, cstring_to_symbol ("utime")));
+  if (modtime->type != TNUMBER)
+    error (cell_symbol_wrong_type_arg,
+           cons (modtime, cstring_to_symbol ("utime")));
+
+  times[0].tv_sec = actime->value;
+  times[0].tv_nsec = 0;
+  times[1].tv_sec = modtime->value;
+  times[1].tv_nsec = 0;
+
+  if (utimensat (AT_FDCWD, cell_bytes (file_name->string), times, 0) != 0)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("Could not update timestamps"),
+                 file_name));
+
+  return cell_unspecified;
 }
