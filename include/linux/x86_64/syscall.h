@@ -96,5 +96,6 @@
 
 /* gash */
 #define SYS_umask     0x5f
+#define SYS_utimensat 0x118
 
 #endif // __MES_LINUX_X86_64_SYSCALL_H

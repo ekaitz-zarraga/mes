@@ -100,5 +100,6 @@
 
 /* gash */
 #define SYS_umask          166
+#define SYS_utimensat      88
 
 #endif // __MES_LINUX_RISCV_SYSCALL_H

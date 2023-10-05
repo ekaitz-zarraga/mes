@@ -218,6 +218,7 @@ lib/stub/stat.c
 lib/stub/time.c
 lib/stub/umask.c
 lib/stub/unlink.c
+lib/stub/utimensat.c
 lib/stub/waitpid.c
 "
 fi
@@ -254,6 +255,7 @@ lib/linux/stat.c
 lib/linux/time.c
 lib/linux/umask.c
 lib/linux/unlink.c
+lib/linux/utimensat.c
 lib/linux/wait4.c
 lib/linux/waitpid.c
 lib/linux/$mes_cpu-mes-$compiler/syscall.c

@@ -282,6 +282,7 @@ $CC -g -D HAVE_CONFIG_H=1                               \
     lib/linux/time.c                                    \
     lib/linux/umask.c                                   \
     lib/linux/unlink.c                                  \
+    lib/linux/utimensat.c                               \
     include/sys/resource.h                              \
     lib/linux/wait4.c                                   \
     lib/linux/waitpid.c                                 \

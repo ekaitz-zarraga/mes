@@ -45,6 +45,8 @@ int rmdir (char const *file_name);
 int stat (char const *file_name, struct stat *buf);
 int lstat (char const *file_name, struct stat *buf);
 mode_t umask (mode_t mask);
+int utimensat(int dirfd, char const *file_name,
+              struct timespec const *times, int flags);
 
 #define S_IFIFO 0010000
 #define S_IFCHR 0020000

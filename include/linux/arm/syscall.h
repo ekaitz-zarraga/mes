@@ -96,6 +96,7 @@
 
 /* gash */
 #define SYS_umask     0x3c
+#define SYS_utimensat 0x15c
 
 #if __SIZEOF_LONG_LONG__ == 8
 
