@@ -227,6 +227,9 @@
 (define (string-map f string)
   (list->string (map f (string->list string))))
 
+(define (string-filter f string)
+  (list->string (filter f (string->list string))))
+
 (define (string-replace string replace . rest)
   (let* ((start1 (and (pair? rest) (car rest)))
          (end1 (and start1 (pair? (cdr rest)) (cadr rest)))
