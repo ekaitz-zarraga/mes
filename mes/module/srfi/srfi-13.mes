@@ -272,9 +272,19 @@
 (define (string-concatenate-reverse lst)
   (apply string-append (reverse lst)))
 
-(define (string-pad-right s len)
-(let ((delta (- len (string-length s))))
+(define (string-pad s len . rest)
+  (let* ((chr (if (null? rest) #\space (car rest)))
+         (slen (string-length s))
+         (delta (- len slen)))
     (cond
-     ((positive? delta) (string-append s (make-string delta #\space)))
+     ((positive? delta) (string-append (make-string delta chr) s))
+     ((negative? delta) (substring s (- slen len) slen))
+     (else s))))
+
+(define (string-pad-right s len . rest)
+  (let* ((chr (if (null? rest) #\space (car rest)))
+         (delta (- len (string-length s))))
+    (cond
+     ((positive? delta) (string-append s (make-string delta chr)))
      ((negative? delta) (substring s 0 len))
      (else s))))
