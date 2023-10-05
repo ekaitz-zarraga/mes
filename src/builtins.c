@@ -299,6 +299,7 @@ mes_builtins (struct scm *a)            /*:((internal)) */
   a = init_builtin (builtin_type, "string-append", -1, &string_append, a);
   a = init_builtin (builtin_type, "string-length", 1, &string_length, a);
   a = init_builtin (builtin_type, "string-ref", 2, &string_ref, a);
+  a = init_builtin (builtin_type, "string-set!", 3, &string_set_x, a);
   /* src/struct.c */
   a = init_builtin (builtin_type, "make-struct", 3, &make_struct, a);
   a = init_builtin (builtin_type, "struct-length", 1, &struct_length, a);

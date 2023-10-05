@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
  *
@@ -233,4 +234,19 @@ string_ref (struct scm *str, struct scm *k)
     error (cell_symbol_system_error, cons (make_string0 ("value out of range"), k));
   char const *p = cell_bytes (str->string);
   return make_char (p[i]);
+}
+
+struct scm *
+string_set_x (struct scm *str, struct scm *k, struct scm *c)
+{
+  assert_msg (str->type == TSTRING, "str->type == TSTRING");
+  assert_msg (k->type == TNUMBER, "k->type == TNUMBER");
+  assert_msg (c->type == TCHAR, "c->type == TCHAR");
+  size_t size = str->length;
+  size_t i = k->value;
+  if (i > size)
+    error (cell_symbol_system_error, cons (make_string0 ("value out of range"), k));
+  char *p = cell_bytes (str->string);
+  p[i] = c->value;
+  return cell_unspecified;
 }

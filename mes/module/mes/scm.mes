@@ -262,9 +262,6 @@
 (define (make-string n . fill)
   (list->string (apply make-list n fill)))
 
-(define (string-set! s k v)
-  (list->string (list-set! (string->list s) k v)))
-
 (define (substring s start . rest)
   (let* ((end (if (pair? rest) (car rest) (string-length s)))
          (lst (list-tail (string->list s) start)))
