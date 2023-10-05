@@ -249,7 +249,8 @@
                       (cons (car opt-ls) ret-ls))))))
 
 (define (looks-like-an-option string)
-  (eq? (string-ref string 0) #\-))
+  (and (eq? (string-ref string 0) #\-)
+       (not (string=? string "-"))))
 
 (define (process-options specs argument-ls stop-at-first-non-option)
   ;; Use SPECS to scan ARGUMENT-LS; return (FOUND . ETC).
