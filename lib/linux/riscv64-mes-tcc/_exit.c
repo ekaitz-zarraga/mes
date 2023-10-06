@@ -28,12 +28,10 @@
 void
 _exit (int code)
 {
-  register long __a7 asm ("a7") = SYS_exit;
-  register long __a0 asm ("a0") = code;
   asm volatile (
+       "addi a7, zero, 93\n\t"
+       "ld a0, s0, -24\n\t"
        "ecall\n\t"
-       : // no outputs
-       : "r" (__a0), "r" (__a7)
        );
   // not reached
   _exit (0);
