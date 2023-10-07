@@ -37,6 +37,8 @@
 
             string-match
             regexp-exec
+            fold-matches
+            list-matches
 
             regexp-quote))
 
@@ -118,6 +120,21 @@
   (let ((positions (pregexp-match-positions (regexp-tree rx) str start)))
     (and positions
          (make-regexp-match str positions))))
+
+(define* (fold-matches regexp str init proc #:optional (flags 0))
+  (let ((rx (if (regexp? regexp)
+                regexp
+                (make-regexp regexp))))
+    (let loop ((k 0) (acc init))
+      (if (< k (string-length str))
+          (let ((m (regexp-exec rx str k flags)))
+            (if m
+                (loop (match:end m) (proc m acc))
+                acc))
+          acc))))
+
+(define* (list-matches regexp str #:optional (flags 0))
+  (reverse (fold-matches regexp str '() cons flags)))
 
 
 ;;; Quoting
