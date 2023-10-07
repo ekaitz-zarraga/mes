@@ -19,7 +19,6 @@
 (define-module (mescc as)
   #:use-module (srfi srfi-1)
   #:use-module (mes guile)
-  #:use-module (mescc bytevectors)
   #:use-module (mescc info)
   #:export (as
             dec->hex
@@ -33,24 +32,27 @@
             get-r-1))
 
 (define (int->bv64 value)
-  (let ((bv (make-bytevector 8)))
-    (bytevector-u64-native-set! bv 0 value)
-    bv))
+  (list (modulo value #x100)
+        (modulo (ash value -8) #x100)
+        (modulo (ash value -16) #x100)
+        (modulo (ash value -24) #x100)
+        (modulo (ash value -32) #x100)
+        (modulo (ash value -40) #x100)
+        (modulo (ash value -48) #x100)
+        (modulo (ash value -56) #x100)))
 
 (define (int->bv32 value)
-  (let ((bv (make-bytevector 4)))
-    (bytevector-u32-native-set! bv 0 value)
-    bv))
+  (list (modulo value #x100)
+        (modulo (ash value -8) #x100)
+        (modulo (ash value -16) #x100)
+        (modulo (ash value -24) #x100)))
 
 (define (int->bv16 value)
-  (let ((bv (make-bytevector 2)))
-    (bytevector-u16-native-set! bv 0 value)
-    bv))
+  (list (modulo value #x100)
+        (modulo (ash value -8) #x100)))
 
 (define (int->bv8 value)
-  (let ((bv (make-bytevector 1)))
-    (bytevector-u8-set! bv 0 value)
-    bv))
+  (list (modulo value #x100)))
 
 (define (dec->hex o)
   (cond ((number? o) (number->string o 16))
