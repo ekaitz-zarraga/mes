@@ -161,14 +161,13 @@
 
 (define string-null? (compose null? string->list))
 
-(define (string-fold cons' nil' s . rest)
-  (let* ((start (and (pair? rest) (car rest)))
-         (end (and start (pair? (cdr rest)) (cadr rest))))
-    (if start (error "string-fold: not supported: start=" start))
-    (if end (error "string-fold: not supported: end=" end))
-    (let loop ((lst (string->list s)) (prev nil'))
-      (if (null? lst) prev
-          (loop (cdr lst) (cons' (car lst) prev))))))
+(define (string-fold kons knil s . rest)
+  (let* ((start (or (and (pair? rest) (car rest)) 0))
+         (end (or (and (pair? rest) (pair? (cdr rest)) (cadr rest))
+                  (string-length s))))
+    (let loop ((k start) (acc knil))
+      (if (>= k end) acc
+          (loop (+ k 1) (kons (string-ref s k) acc))))))
 
 (define (string-fold-right cons' nil' s . rest)
   (let* ((start (and (pair? rest) (car rest)))
