@@ -1,5 +1,5 @@
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+;;; Copyright © 2022, 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -18,6 +18,16 @@
 
 (define-module (srfi srfi-9 gnu)
   #:export (define-immutable-record-type
-            set-field))
+            set-field
+            set-fields))
 
 (include-from-path "srfi/srfi-9/gnu.mes")
+
+(define-macro (%set-fields record field-path value . rest)
+  (if (null? rest) `(set-field ,record ,field-path ,value)
+      (let ((record* (gensym)))
+        `(let ((,record* (set-field ,record ,field-path ,value)))
+           (set-fields ,record* ,@rest)))))
+
+(define-syntax-rule (set-fields record ((field sub-field ...) value) . rest)
+  (%set-fields record (field sub-field ...) value . rest))
