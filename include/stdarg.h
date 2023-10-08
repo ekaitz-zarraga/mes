@@ -25,12 +25,13 @@
 #undef __MES_STDARG_H
 #include_next <stdarg.h>
 
-#define va_arg8(ap, type) va_arg(ap, type)
+#define va_arg8(ap, type) va_arg (ap, type)
 
-#elif __GNUC__ && __riscv
+#elif (__GNUC__ || __TINYC__) && __riscv
 
 // GCC on RISC-V always passes arguments in registers.  Implementing
 // these macros without the use of built-ins would be very involved.
+// TINYCC tries to be GCC compatible in this case.
 typedef __builtin_va_list va_list;
 
 #define va_start(v, l)     __builtin_va_start (v, l)
