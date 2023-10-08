@@ -20,10 +20,16 @@
 (define-module (srfi srfi-43)
   #:export (vector-map
             vector-for-each
+            vector-fold
             vector-copy!)
   #:re-export (vector-copy))
 
 (include-from-path "srfi/srfi-43.mes")
+
+(define (vector-fold kons knil vec)
+  (let loop ((k 0) (acc knil))
+    (if (=> k (vector-length vec)) acc
+        (loop (+ k 1) (kons k acc (vector-ref vec k))))))
 
 (define (vector-copy! target tstart source sstart send)
   (let loop ((tk tstart) (sk sstart))
