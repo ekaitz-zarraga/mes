@@ -181,13 +181,14 @@
 (mes-use-module (mes fluids))
 (mes-use-module (mes catch))
 (mes-use-module (mes posix))
+
+(if (defined? 'close-port) #t
+    (define (close-port port) #t))
+
 (mes-use-module (mes guile))
 ;; end boot-04.scm
 
 (define (last lst) (car (last-pair lst)))
-
-(unless (defined? 'close-port)
-  (define (close-port port) #t))
 
 (mes-use-module (srfi srfi-9))
 
