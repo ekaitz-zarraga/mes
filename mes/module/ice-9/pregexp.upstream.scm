@@ -1,4 +1,5 @@
 ;;; GNU Mes --- Maxwell Equations of Software
+;;; Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -15,8 +16,9 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
 ;;;
-;;; This file comes from the pregexp package, which contains the
-;;; following copyright notice:
+;;; This file comes from the pregexp package.  It was modified to add
+;;; support for the "not beginning of line" and "not end of line" flags.
+;;; The original file contains the following copyright notice:
 ;;;
 ;;; Copyright (c) 1999-2015, Dorai Sitaram.
 ;;; All rights reserved.
@@ -468,8 +470,14 @@
                 (append (sub car-re) sub-cdr-re)))
           '()))))
 
+(define (notbol? flags)
+  (not (zero? (logand flags 1))))
+
+(define (noteol? flags)
+  (not (zero? (logand flags 2))))
+
 (define pregexp-match-positions-aux
-  (lambda (re s sn start n i)
+  (lambda (re s sn start n i flags)
     (let ((identity (lambda (x) x))
           (backrefs (pregexp-make-backref-list re))
           (case-sensitive? #t))
@@ -477,11 +485,11 @@
         ;(printf "sub ~s ~s\n" i re)
         (cond ((eqv? re ':bos)
                ;(if (= i 0) (sk i) (fk))
-               (if (= i start) (sk i) (fk))
+               (if (and (not (notbol? flags)) (= i start)) (sk i) (fk))
                )
               ((eqv? re ':eos)
                ;(if (>= i sn) (sk i) (fk))
-               (if (>= i n) (sk i) (fk))
+               (if (and (not (noteol? flags)) (>= i n)) (sk i) (fk))
                )
               ((eqv? re ':empty)
                (sk i))
@@ -692,11 +700,15 @@
                         (set! opt-args (cdr opt-args))
                         start)))
            (end (if (null? opt-args) str-len
-                    (car opt-args))))
+                    (let ((end (car opt-args)))
+                      (set! opt-args (cdr opt-args))
+                      end)))
+           (flags (if (null? opt-args) 0
+                      (car opt-args))))
       (let loop ((i start))
         (and (<= i end)
              (or (pregexp-match-positions-aux
-                   pat str str-len start end i)
+                   pat str str-len start end i flags)
                  (loop (+ i 1))))))))
 
 (define pregexp-match

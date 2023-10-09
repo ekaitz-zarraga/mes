@@ -35,6 +35,9 @@
             match:count
             match:string
 
+            regexp/notbol
+            regexp/noteol
+
             string-match
             regexp-exec
             fold-matches
@@ -118,17 +121,19 @@
 
 ;;; Searching
 
+(define regexp/notbol 1)
+(define regexp/noteol 2)
+
 (define* (string-match pattern str #:optional (start 0))
   (let ((positions (pregexp-match-positions pattern str start)))
     (and positions
          (make-regexp-match str positions))))
 
 (define* (regexp-exec rx str #:optional (start 0) (flags 0))
-  (if (not (zero? flags))
-      (error "regexp-exec: Flags are not supported" flags))
   (if (not (regexp? rx))
       (error "regexp-exec: Not a regular expression" rx))
-  (let ((positions (pregexp-match-positions (regexp-tree rx) str start)))
+  (let ((positions (pregexp-match-positions (regexp-tree rx) str start
+                                            (string-length str) flags)))
     (and positions
          (make-regexp-match str positions))))
 
