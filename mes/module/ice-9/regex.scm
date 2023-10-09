@@ -142,12 +142,15 @@
                 regexp
                 (make-regexp regexp))))
     (let loop ((k 0) (acc init))
-      (if (< k (string-length str))
+      (define flags*
+        (if (<= k 0) flags
+            (logior flags regexp/notbol)))
+      (if (> k (string-length str)) acc
           (let ((m (regexp-exec rx str k flags)))
-            (if m
-                (loop (match:end m) (proc m acc))
-                acc))
-          acc))))
+            (if (not m) acc
+                (if (= (match:start m) (match:end m))
+                    (loop (+ k 1) (proc m acc))
+                    (loop (match:end m) (proc m acc)))))))))
 
 (define* (list-matches regexp str #:optional (flags 0))
   (reverse (fold-matches regexp str '() cons flags)))
