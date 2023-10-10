@@ -56,6 +56,7 @@
             lset-difference
             take-while
 
+            append-reverse!
             concatenate
             reduce
             drop
@@ -65,6 +66,13 @@
             alist-cons))
 
 (include-from-path "srfi/srfi-1.mes")
+
+(define (append-reverse! rev-list tail)
+  (if (null? rev-list)
+      tail
+      (let ((next (cdr rev-list)))
+        (set-cdr! rev-list tail)
+        (append-reverse! next rev-list))))
 
 (define (concatenate list-of-lists)
   (apply append list-of-lists))
