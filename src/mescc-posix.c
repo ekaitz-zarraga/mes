@@ -401,3 +401,19 @@ utime_ (struct scm *file_name, struct scm *actime, struct scm *modtime)
 
   return cell_unspecified;
 }
+
+struct scm *
+sleep_ (struct scm *seconds)
+{
+  if (seconds->type != TNUMBER)
+    error (cell_symbol_wrong_type_arg,
+           cons (seconds, cstring_to_symbol ("sleep")));
+  struct timespec requested_time;
+  struct timespec remaining;
+  requested_time.tv_sec = seconds->value;
+  requested_time.tv_nsec = 0;
+  if (nanosleep (&requested_time, &remaining) != 0)
+    return make_number (remaining.tv_sec);
+  else
+    return make_number (0);
+}
