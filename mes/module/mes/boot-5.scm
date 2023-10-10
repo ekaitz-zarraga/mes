@@ -198,6 +198,19 @@
 (mes-use-module (mes syntax))
 (mes-use-module (mes guile-module))
 
+;; Now that the module system is booted, we can add procedures to the
+;; root module that we don't already have.
+
+(let-syntax ((define-in-root (syntax-rules ()
+                               ((_ (name . formals) . body)
+                                (module-define! the-root-module 'name
+                                                (lambda formals . body)))
+                               ((_ name value)
+                                (module-define! the-root-module 'name
+                                                value)))))
+  (define-in-root (sort lst less)
+    ((@ (srfi srfi-132) list-sort) less lst)))
+
 (use-modules (mes main))
 
 (top-main)
