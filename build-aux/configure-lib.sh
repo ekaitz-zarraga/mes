@@ -208,6 +208,7 @@ lib/stub/fstat.c
 lib/stub/_getcwd.c
 lib/stub/gettimeofday.c
 lib/stub/ioctl3.c
+lib/stub/link.c
 lib/stub/lstat.c
 lib/stub/mkdir.c
 lib/stub/nanosleep.c
@@ -243,6 +244,7 @@ lib/linux/_getcwd.c
 lib/linux/getdents.c
 lib/linux/gettimeofday.c
 lib/linux/ioctl3.c
+lib/linux/link.c
 lib/linux/lstat.c
 lib/linux/_open3.c
 lib/linux/malloc.c
@@ -433,7 +435,6 @@ lib/linux/getppid.c
 lib/linux/getrusage.c
 lib/linux/getuid.c
 lib/linux/ioctl.c
-lib/linux/link.c
 lib/linux/mknod.c
 lib/linux/readlink.c
 lib/linux/setgid.c

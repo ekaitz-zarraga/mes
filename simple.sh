@@ -270,6 +270,7 @@ $CC -g -D HAVE_CONFIG_H=1                               \
     lib/linux/getdents.c                                \
     lib/linux/gettimeofday.c                            \
     lib/linux/ioctl3.c                                  \
+    lib/linux/link.c                                    \
     lib/linux/lstat.c                                   \
     lib/linux/mkdir.c                                   \
     lib/linux/nanosleep.c                               \
