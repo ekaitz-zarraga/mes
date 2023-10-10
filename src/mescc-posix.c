@@ -370,6 +370,23 @@ link_ (struct scm *old_name, struct scm *new_name)
 }
 
 struct scm *
+symlink_ (struct scm *old_name, struct scm *new_name)
+{
+  if (old_name->type != TSTRING)
+    error (cell_symbol_wrong_type_arg,
+           cons (old_name, cstring_to_symbol ("symlink")));
+  if (new_name->type != TSTRING)
+    error (cell_symbol_wrong_type_arg,
+           cons (new_name, cstring_to_symbol ("symlink")));
+  if (symlink (cell_bytes (old_name->string),
+               cell_bytes (new_name->string)) != 0)
+    error (cell_symbol_system_error,
+           cons (make_string0 ("Could not create symbolic link"),
+                 new_name));
+  return cell_unspecified;
+}
+
+struct scm *
 umask_ (struct scm *args)
 {
   mode_t mask;
