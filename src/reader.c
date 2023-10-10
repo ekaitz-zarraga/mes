@@ -350,6 +350,9 @@ reader_read_character ()
         /* Nyacc bug
            c = '\r'; */
         c = 13;
+      /* Other control characters */
+      else if (strcmp (buf, "fs") == 0)
+        c = 28;
       else
         {
           eputs ("char not supported: ");
