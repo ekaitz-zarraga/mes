@@ -281,6 +281,7 @@ $CC -g -D HAVE_CONFIG_H=1                               \
     lib/linux/rename.c                                  \
     lib/linux/rmdir.c                                   \
     lib/linux/stat.c                                    \
+    lib/linux/symlink.c                                 \
     lib/linux/time.c                                    \
     lib/linux/umask.c                                   \
     lib/linux/unlink.c                                  \

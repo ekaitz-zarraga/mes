@@ -217,6 +217,7 @@ lib/stub/readdir.c
 lib/stub/rename.c
 lib/stub/rmdir.c
 lib/stub/stat.c
+lib/stub/symlink.c
 lib/stub/time.c
 lib/stub/umask.c
 lib/stub/unlink.c
@@ -256,6 +257,7 @@ lib/linux/readdir.c
 lib/linux/rename.c
 lib/linux/rmdir.c
 lib/linux/stat.c
+lib/linux/symlink.c
 lib/linux/time.c
 lib/linux/umask.c
 lib/linux/unlink.c
@@ -442,7 +444,6 @@ lib/linux/settimer.c
 lib/linux/setuid.c
 lib/linux/signal.c
 lib/linux/sigprogmask.c
-lib/linux/symlink.c
 "
 fi
 
