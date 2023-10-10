@@ -209,7 +209,9 @@
                                 (module-define! the-root-module 'name
                                                 value)))))
   (define-in-root (sort lst less)
-    ((@ (srfi srfi-132) list-sort) less lst)))
+    ((@ (srfi srfi-132) list-sort) less lst))
+
+  (define-in-root the-eof-object (integer->char -1)))
 
 (use-modules (mes main))
 
