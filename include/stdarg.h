@@ -32,6 +32,21 @@
 // GCC on RISC-V always passes arguments in registers.  Implementing
 // these macros without the use of built-ins would be very involved.
 // TINYCC tries to be GCC compatible in this case.
+
+#if __TINYC__ < 928
+// Bootstrappable TINYCC (version < 928) needs some definitions in RISC-V
+typedef char *__builtin_va_list;
+#define __va_reg_size (__riscv_xlen >> 3)
+#define _tcc_align(addr,type) (((unsigned long)addr + __alignof__(type) - 1) \
+                              & -(__alignof__(type)))
+#define __builtin_va_arg(ap,type) (*(sizeof(type) > (2*__va_reg_size) ? *(type **)((ap += __va_reg_size) - __va_reg_size) : (ap = (va_list)(_tcc_align(ap,type) + (sizeof(type)+__va_reg_size - 1)& -__va_reg_size), (type *)(ap - ((sizeof(type)+ __va_reg_size - 1)& -__va_reg_size)))))
+
+#define __builtin_va_end(ap) (void)(ap)
+#ifndef __builtin_va_copy
+# define __builtin_va_copy(dest, src) (dest) = (src)
+#endif
+#endif
+
 typedef __builtin_va_list va_list;
 
 #define va_start(v, l)     __builtin_va_start (v, l)
