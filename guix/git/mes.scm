@@ -1,5 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2019,2020,2021,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -199,7 +200,8 @@ extensive examples, including parsers for the Javascript and C99 languages.")
               (sha256
                (base32 #!mes!# "0vp8v88zszh1imm3dvdfi3m8cywshdj7xcrsq4cgmss69s2y1nkx"))))
     (build-system gnu-build-system)
-    (supported-systems '("aarch64-linux" "armhf-linux" "i686-linux" "x86_64-linux"))
+    (supported-systems '("aarch64-linux" "armhf-linux" "i686-linux"
+                         "x86_64-linux" "riscv64-linux"))
     (propagated-inputs (list mescc-tools nyacc))
     (native-inputs
      (append
