@@ -209,11 +209,6 @@ extensive examples, including parsers for the Javascript and C99 languages.")
       (let ((target-system (or (%current-target-system)
                                (%current-system))))
         (cond
-         ((string-prefix? "riscv64-linux" target-system)
-          ;; Use cross-compiler rather than #:system "i686-linux" to get
-          ;; MesCC 64 bit .go files installed ready for use with Guile.
-          (list (cross-binutils "riscv64-linux-gnu")
-                (cross-gcc "riscv64-linux-gnu")))
          ((string-prefix? "x86_64-linux" target-system)
           ;; Use cross-compiler rather than #:system "i686-linux" to get
           ;; MesCC 64 bit .go files installed ready for use with Guile.
