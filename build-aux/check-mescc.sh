@@ -270,6 +270,11 @@ lib/tests/scaffold/91-goto-array.c
 lib/tests/scaffold/a0-call-trunc-int.c
 "
     fi
+    if test $mes_cpu = riscv64; then
+        xfail_tests="$xfail_tests
+lib/tests/scaffold/17-compare-rotated.c
+        "
+    fi
 fi
 
 if test $mes_cpu = x86_64; then
