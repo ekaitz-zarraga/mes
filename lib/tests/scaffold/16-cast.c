@@ -21,7 +21,7 @@
 int
 main ()
 {
-  char c = -1;
+  signed char c = -1;
   unsigned u = c;
   unsigned t = (unsigned char)c;
   int i = -1;
