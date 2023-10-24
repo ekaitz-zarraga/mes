@@ -2,6 +2,7 @@
 
 # GNU Mes --- Maxwell Equations of Software
 # Copyright © 2018,2019,2021,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 #
 # This file is part of GNU Mes.
 #
@@ -201,7 +202,7 @@ case "$host" in
 esac
 
 case "$mes_cpu" in
-    x86_64)
+    x86_64|riscv64)
         mes_bits=64;;
     *)
         mes_bits=32;;
