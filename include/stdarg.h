@@ -2,6 +2,7 @@
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
+ * Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
  *
  * This file is part of GNU Mes.
  *
@@ -72,7 +73,7 @@ typedef __builtin_va_list va_list;
 #endif
 
 typedef char *va_list;
-#define va_start(ap, last) (void)((ap) = (char*)(&(last) + 1))
+#define va_start(ap, last) (void)((ap) = (char*)(&(last)) + sizeof (void*))
 #define va_arg(ap, type) (type)(((long*)((ap) = ((ap) + sizeof (void*))))[-1])
 #define va_align(ap, alignment) ((char*)((((unsigned long) (ap)) + (alignment) - 1) &~ ((alignment) - 1)))
 #define va_arg8(ap, type) (type)(((double*)((ap) = (va_align((ap), 8) + sizeof(double))))[-1])
