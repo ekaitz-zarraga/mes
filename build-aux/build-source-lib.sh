@@ -31,6 +31,11 @@ srcdest=${srcdest-}
 mkdir -p $mes_cpu-mes
 cp ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/crt*.c $mes_cpu-mes
 
+# Needs special treatment, in RISC-V 64 we have a separate lib for tcc, so we
+# might need to build it too, instead of just leaving the `libc+gnu.c`
+# generated from it.
+# If we build both, we will be able to `REBUILD_LIBC` in the future, with GCC.
+
 rm -f libc+gnu.c
 cat > libc+gnu.c <<EOF
 // Generated from Mes -- do not edit
