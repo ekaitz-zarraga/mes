@@ -20,6 +20,7 @@
  */
 /* Commentary:
  *   See https://github.com/torvalds/linux/blob/v4.19/arch/arm/tools/syscall.tbl
+ *       https://github.com/torvalds/linux/raw/v4.19/arch/arm/tools/syscall.tbl
  *
  * Code:
  */
@@ -52,6 +53,7 @@
 #define SYS_unlink  0x0a
 #define SYS_gettimeofday 0x4e
 #define SYS_clock_gettime 0x107
+#define SYS_newuname   0x7a
 
 /* libc+tcc */
 #define SYS_close  0x06

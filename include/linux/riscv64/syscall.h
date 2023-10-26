@@ -52,6 +52,7 @@
 #define SYS_brk            214
 #define SYS_ioctl          29
 #define SYS_fsync          82
+#define SYS_newuname       160
 
 // libc+tcc
 #define SYS_close          57

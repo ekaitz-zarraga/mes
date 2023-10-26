@@ -220,6 +220,7 @@ lib/stub/stat.c
 lib/stub/symlink.c
 lib/stub/time.c
 lib/stub/umask.c
+lib/stub/uname.c
 lib/stub/unlink.c
 lib/stub/utimensat.c
 lib/stub/waitpid.c
@@ -260,6 +261,7 @@ lib/linux/stat.c
 lib/linux/symlink.c
 lib/linux/time.c
 lib/linux/umask.c
+lib/linux/uname.c
 lib/linux/unlink.c
 lib/linux/utimensat.c
 lib/linux/wait4.c

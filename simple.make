@@ -142,6 +142,7 @@ M2_SOURCES =					\
  lib/linux/dup2.c				\
  lib/string/strcmp.c				\
  lib/string/memcmp.c				\
+ lib/linux/uname.c				\
  lib/linux/unlink.c				\
  src/m2.c
 

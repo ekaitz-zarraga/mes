@@ -284,6 +284,7 @@ $CC -g -D HAVE_CONFIG_H=1                               \
     lib/linux/symlink.c                                 \
     lib/linux/time.c                                    \
     lib/linux/umask.c                                   \
+    lib/linux/uname.c                                   \
     lib/linux/unlink.c                                  \
     lib/linux/utimensat.c                               \
     include/sys/resource.h                              \

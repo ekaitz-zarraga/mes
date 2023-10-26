@@ -19,6 +19,7 @@
  */
 /* Commentary:
  *   See https://github.com/torvalds/linux/blob/v4.19/arch/x86/entry/syscalls/syscall_32.tbl
+ *       https://github.com/torvalds/linux/raw/v4.19/arch/x86/entry/syscalls/syscall_32.tbl
  *
  * Code:
  */
@@ -52,6 +53,7 @@
 #define SYS_gettimeofday 0x4e
 #define SYS_clock_gettime 0x109
 #define SYS_time   0x0d
+#define SYS_newuname   0x7a
 
 /* libc+tcc */
 #define SYS_close  0x06
