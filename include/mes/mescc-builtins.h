@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
+ * Copyright © 2023 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -37,3 +38,4 @@ struct scm *symlink_ (struct scm *old_name, struct scm *new_name);
 struct scm *umask_ (struct scm *mode);
 struct scm *utime_ (struct scm *file_name, struct scm *actime, struct scm *modtime);
 struct scm *sleep_ (struct scm *seconds);
+struct scm *uname_ ();

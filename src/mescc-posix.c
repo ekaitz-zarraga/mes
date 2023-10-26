@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
+ * Copyright © 2023 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -20,6 +21,7 @@
 
 #include <errno.h>
 #include <dirent.h>
+#include <sys/utsname.h>
 #include <time.h>
 
 struct scm *
@@ -450,4 +452,18 @@ sleep_ (struct scm *seconds)
     return make_number (remaining.tv_sec);
   else
     return make_number (0);
+}
+
+struct scm *
+uname_ ()        /*:((name . "uname")) */
+{
+  struct utsname uts;
+  uname (&uts);
+  struct scm *v = make_vector_ (5, cell_unspecified);
+  vector_set_x_ (v, 0, make_string0 (uts.sysname));
+  vector_set_x_ (v, 1, make_string0 (uts.nodename));
+  vector_set_x_ (v, 2, make_string0 (uts.release));
+  vector_set_x_ (v, 3, make_string0 (uts.version));
+  vector_set_x_ (v, 4, make_string0 (uts.machine));
+  return v;
 }
