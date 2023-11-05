@@ -86,41 +86,36 @@ get_machine.")
     (license gpl3+)))
 
 (define-public m2-planet
-  (let ((version "1.10.0")
-        (revision "1")
-        (commit "c82fb8c3530e93fd49efe60da785ffff827ea4d"))
-    (package
-      (name "m2-planet")
-      (version (git-version version revision commit))
-      (source (origin
-                (method git-fetch)
-                (uri (git-reference
-                      (url "https://github.com/oriansj/m2-planet")
-                      (commit commit)
-                      (recursive? #t))) ;for M2libc
-                (file-name (git-file-name name version))
-                (sha256
-                 (base32
-                  "1fy6ll8z96y6xzyi7zfgsn07rxxvfm600i8f8vwc57266a3sds9j"))))
-      (native-inputs (list mescc-tools))
-      (build-system gnu-build-system)
-      (supported-systems '("i686-linux" "x86_64-linux"
-                           "armhf-linux" "aarch64-linux"
-                           "riscv32-linux" "riscv64-linux"))
-      (arguments
-       `(#:make-flags (list (string-append "PREFIX=" (assoc-ref %outputs "out"))
-                            (string-append "CC=" ,(cc-for-target)))
-         #:tests? #f
-         #:phases (modify-phases %standard-phases
-                    (delete 'bootstrap)
-                    (delete 'configure))))
-      (synopsis "The PLAtform NEutral Transpiler")
-      (description
-       "M2-Planet, The PLAtform NEutral Transpiler, when combined with
+  (package
+    (name "m2-planet")
+    (version "1.11.0")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append
+                    "https://github.com/oriansj/M2-Planet/releases/download/"
+                    "Release_" version "/" name "-" version ".tar.gz"))
+              (sha256
+               (base32
+                "1c510p55amxjyvjlx9jpa30gixlgmf6mmfnaqcs46412krymwg38"))))
+    (native-inputs (list mescc-tools))
+    (build-system gnu-build-system)
+    (supported-systems '("i686-linux" "x86_64-linux"
+                         "armhf-linux" "aarch64-linux"
+                         "riscv32-linux" "riscv64-linux"))
+    (arguments
+     `(#:make-flags (list (string-append "PREFIX=" (assoc-ref %outputs "out"))
+                          (string-append "CC=" ,(cc-for-target)))
+       #:tests? #f
+       #:phases (modify-phases %standard-phases
+                  (delete 'bootstrap)
+                  (delete 'configure))))
+    (synopsis "The PLAtform NEutral Transpiler")
+    (description
+     "M2-Planet, The PLAtform NEutral Transpiler, when combined with
 mescc-tools compiles a subset of the C language into working binaries
 with introspective steps inbetween.")
-      (home-page "https://github.com/oriansj/m2-planet")
-      (license gpl3+))))
+    (home-page "https://github.com/oriansj/m2-planet")
+    (license gpl3+)))
 
 (define-public nyacc-0.99
   (package
