@@ -1406,8 +1406,9 @@
                                 (= size-b reg-size)))
                       (not (and (= size reg-size)
                                 (or (= size-b 1) (= size-b 2) (= size-b 4)))))
-             (format (current-error-port) "ERROR assign: ~a" (with-output-to-string (lambda () (pretty-print-c99 o))))
-             (format (current-error-port) "   size[~a]:~a != size[~a]:~a\n"  rank size rank-b size-b))
+             (when (getenv "MESC_DEBUG")
+               (format (current-error-port) "WARNING assign: ~a" (with-output-to-string (lambda () (pretty-print-c99 o))))
+               (format (current-error-port) "   size[~a]:~a != size[~a]:~a\n"  rank size rank-b size-b)))
            (pmatch a
              ((p-expr (ident ,name))
               (if (or (<= size r-size)
