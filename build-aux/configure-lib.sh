@@ -108,8 +108,16 @@ lib/mes/ntoab.c
 lib/mes/oputc.c
 lib/mes/ultoa.c
 lib/mes/utoa.c
+"
+
+# /include/mes/lib-cc.h already defines __raise.c as a macro for __TCC__
+# if we include it in the target source lib it explodes when reading the
+# function definition
+if test $compiler != tcc; then
+    libmes_SOURCES="$libmes_SOURCES
 lib/stub/__raise.c
 "
+fi
 
 if test $mes_libc = mes; then
     libmes_SOURCES="$libmes_SOURCES

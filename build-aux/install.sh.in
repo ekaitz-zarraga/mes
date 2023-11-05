@@ -114,6 +114,9 @@ fi
 if test -d mescc-lib/$mes_cpu-mes; then
     tar -cf- -C mescc-lib $mes_cpu-mes | tar -${v}xf- -C $DESTDIR$libdir
 fi
+if test -d tcc-lib/$mes_cpu-mes; then
+    tar -cf- -C tcc-lib/$mes_cpu-mes . | tar -${v}xf- -C $DESTDIR$libdir
+fi
 
 mkdir -p ${DESTDIR}${guile_site_dir}
 mkdir -p ${DESTDIR}${guile_site_ccache_dir}
