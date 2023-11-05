@@ -26,7 +26,7 @@ similar way.
    #+END_SRC
 
 *** Other GNU/Linux
-  - [[https://savannah.gnu.org/projects/mescc-tools/][mescc-tools]], 1.4.0 is known to work.
+  - [[https://savannah.gnu.org/projects/mescc-tools/][mescc-tools]], 1.5.0 is known to work.
   - [[https://github.com/oriansj/m2-planet][M2-Planet]] (optional), 1.11.0 is known to work.
   - [[https://savannah.gnu.org/projects/nyacc][Nyacc]], 1.00.2 is known to work.
   - GNU Gcc, 7.5.0 is known to work.

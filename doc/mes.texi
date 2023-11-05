@@ -13,7 +13,7 @@
 @set OPENPGP-SIGNING-KEY-ID 1A858392E331EAFDB8C27FFBF3C1A0D9C1D65273
 
 @copying
-Copyright @copyright{} 2018,2019,2020,2021,2022,2023 Jan (janneke) Nieuwenhuizen@*
+Copyright @copyright{} 2018,2019,2020,2021,2022,2023 Janneke Nieuwenhuizen@*
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -571,7 +571,7 @@ later, including 2.2.x and 3.0.x,
 @item @url{https://www.gnu.org/software/make/, GNU Make}.
 @item @url{https://savannah.gnu.org/projects/nyacc/, NYACC}, version 1.00.2,
 @item @url{https://gcc.gnu.org, GCC's gcc}, version 2.95.3 or later, including 10.2.0,
-@item @url{https://savannah.gnu.org/projects/mescc-tools/, mescc-tools}, version 1.4.0,
+@item @url{https://savannah.gnu.org/projects/mescc-tools/, mescc-tools}, version 1.5.0,
 @end itemize
 
 The following dependencies are optional:
@@ -607,7 +607,7 @@ Bootstrapping Mes depends on the following packages:
 
 @itemize
 @item a POSIX-compatible shell
-@item @url{https://savannah.gnu.org/projects/mescc-tools/, mescc-tools}, version 1.4.0,
+@item @url{https://savannah.gnu.org/projects/mescc-tools/, mescc-tools}, version 1.5.0,
 @item @url{https://github.com/oriansj/m2-planet/, M2-Planet}, version 1.11.0.
 @item @url{https://savannah.gnu.org/projects/nyacc/, NYACC}, version 1.00.2,
 @end itemize
