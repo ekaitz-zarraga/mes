@@ -1,5 +1,5 @@
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2019,2020,2021,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2019,2020,2021,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -56,17 +56,15 @@
 (define-public mescc-tools
   (package
     (name "mescc-tools")
-    (version "1.4.0")
+    (version "1.5.0")
     (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://git.savannah.nongnu.org/r/mescc-tools.git")
-                    (commit (string-append "Release_" version))
-                    (recursive? #t)))             ;for M2libc
-              (file-name (git-file-name name version))
+              (method url-fetch)
+              (uri (string-append
+                    "https://github.com/oriansj/mescc-tools/releases/download/"
+                    "Release_" version "/" name "-" version ".tar.gz"))
               (sha256
                (base32
-                "0z2ni2qn2np1walcaqlxz8sinzb78d4hiq9glddzf26wxc226hs4"))))
+                "1vjczlajyrbjcx9ld35vhdqbxfdwwy3axg0jray3iwnrf70qr700"))))
     (build-system gnu-build-system)
     (supported-systems '("i686-linux" "x86_64-linux"
                          "armhf-linux" "aarch64-linux"
