@@ -2,6 +2,7 @@
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2017 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2020 Danny Milosavljevic <dannym@scratchpost.org>
+ * Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
  *
  * This file is part of GNU Mes.
  *
@@ -43,6 +44,13 @@ typedef struct
   long __sp;
 } __jmp_buf;
 #endif
+#elif __riscv && (__GNUC__ || __TINYC__)
+typedef struct
+{
+  long __sp;
+  long __lr;
+  long __registers[14]; /* Note: Keep in sync with lib/riscv64-mes-gcc/setjmp.c */
+} __jmp_buf;
 #else
 typedef struct
 {
