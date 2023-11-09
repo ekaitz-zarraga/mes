@@ -1,5 +1,5 @@
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2019,2020,2021,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2019,2020,2021,2022,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -185,13 +185,13 @@ extensive examples, including parsers for the Javascript and C99 languages.")
 (define-public mes
   (package
     (name "mes")
-    (version #!mes!# "0.24.2")
+    (version #!mes!# "0.25")
     (source (origin
               (method url-fetch)
               (uri (string-append
                     "https://ftp.gnu.org/pub/gnu/mes/mes-" version ".tar.gz"))
               (sha256
-               (base32 #!mes!# "0vp8v88zszh1imm3dvdfi3m8cywshdj7xcrsq4cgmss69s2y1nkx"))))
+               (base32 #!mes!# "0h49h85m1jkppfsv95zdxdrrw1q1mwswhq81lwxj1nbyasrm0lij"))))
     (build-system gnu-build-system)
     (supported-systems '("aarch64-linux" "armhf-linux" "i686-linux"
                          "x86_64-linux" "riscv64-linux"))
@@ -241,7 +241,7 @@ Guile.")
     (license gpl3+)))
 
 (define-public mes.git
-  (let ((version #!mes!# "0.24.2")
+  (let ((version #!mes!# "0.25")
         (revision "0")
         (commit (read-string (open-pipe "git show HEAD | head -1 | cut -d ' ' -f 2" OPEN_READ))))
     (package
