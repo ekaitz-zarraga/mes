@@ -248,9 +248,9 @@ __fixunsxfdi (double a1)
 long
 #elif __TINYC__
 int
-#else // !__TINYCC__
+#else // !__TINYC__
 long long
-#endif // !__TINYCC__
+#endif // !__TINYC__
 __attribute__((weak))
 __fixdfdi (double a1)
 {
