@@ -397,6 +397,7 @@ release: check-signature update-hash
 	git commit -m 'guix: mes: Update to $(VERSION).'			\
 	    -m '* guix/git/mes.scm (mes)[source]: Update to $(VERSION).'	\
 	    guix/git/mes.scm
+	git checkout ChangeLog
 
 GPG_KEY_ID:=1A858392E331EAFDB8C27FFBF3C1A0D9C1D65273
 GEN_ANNOUNCE=$(GNULIB)/build-aux/announce-gen
