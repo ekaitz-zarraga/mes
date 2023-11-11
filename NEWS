@@ -10,6 +10,38 @@ Copyright © 2016,2017,2018,2019,2021,2022,2023 Janneke Nieuwenhuizen <janneke@g
 
 Please send Mes bug reports to bug-mes@gnu.org.
 
+* Changes in 0.26 since 0.25.1
+** Core
+*** Mes now has a Guile-compatible record interface.
+*** Mes now has a Guile-compatible hash-table interface.
+*** Mes now uses exceptions instead of asserts.
+*** Mes now supports Guile-compatible modules and variable lookup.
+*** The reader now supports `#\fs', `#\nl', and `#\np'.
+*** Mes now supports vectors in syntax-rules.
+*** Dynamic-wind was fully implemented.
+*** Mes now has regex support.
+*** Mes now supports functional record setters.
+*** simple-format now supports `~%'.
+*** Charsets can now be used in `string-index'.
+*** The (srfi srfi-14) module was completed.
+**** 9 new modules
+(ice-9 ftw), (ice-9 i18n), (ice-9 receive), (ice-9 regex), (rnrs io
+ports), (rnrs bytevectors), (srfi srfi-2). (srfi srfi-11). (srfi srfi-37).
+**** 47 new functions
+alist-cons, append-reverse!, call-with-port, call-with-input-file,
+call-with-input-string, call-with-output-file, chdir, clone-port,
+closedir, concatenate, drop, drop-while. environ, execle,
+file-system-fold, fold-matches, getpid, hash-clear!, hash-fold,
+hash-map->list, hash-remove!, hash-table?, link, list-matches,
+match-let, mkdir, opendir, partition, pipe, primitive-exit, readdir,
+reduce, rename-file, rmdir, seek, set-fields, span, sleep,
+string-concatenate-reverse, string-count, string-pad, string-pad-right,
+string>, string<, umask, uname, utimes, vector-fold.
+*** Mes now supports running Gash and Gash-Utils.
+** MesCC
+*** MesCC now uses Guile-compatible modules.
+** Noteworthy bug fixes
+*** Many bug-fixes to hygiene, string primitives, optional arguments.
 * Changes in 0.25.1 since 0.25
 ** Build
 *** The bootstrap on x86 has been fixed:
