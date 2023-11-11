@@ -59,9 +59,8 @@
     (version "1.5.0")
     (source (origin
               (method url-fetch)
-              (uri (string-append
-                    "https://github.com/oriansj/mescc-tools/releases/download/"
-                    "Release_" version "/" name "-" version ".tar.gz"))
+              (uri (string-append "mirror://savannah/" name "/"
+                                  name "-" version ".tar.gz"))
               (sha256
                (base32
                 "1vjczlajyrbjcx9ld35vhdqbxfdwwy3axg0jray3iwnrf70qr700"))))
@@ -71,11 +70,15 @@
                          "riscv32-linux" "riscv64-linux"))
     (native-inputs (list which))
     (arguments
-     `(#:make-flags (list (string-append "PREFIX=" (assoc-ref %outputs "out"))
-                          (string-append "CC=" ,(cc-for-target)))
-       #:test-target "test"
-       #:phases (modify-phases %standard-phases
-                  (delete 'configure))))
+     (list
+      #:make-flags #~(list (string-append "PREFIX=" #$output))
+      #:test-target "test"
+      #:phases #~(modify-phases %standard-phases
+                   (delete 'configure)
+                   (add-after 'unpack 'patch-Kaem/test.sh
+                     (lambda _
+                       (substitute* "Kaem/test.sh"
+                         (("#/usr/") "#! /usr")))))))
     (synopsis "Tools for the full source bootstrapping process")
     (description
      "Mescc-tools is a collection of tools for use in a full source
