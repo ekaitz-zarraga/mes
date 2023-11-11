@@ -31,6 +31,7 @@ M2-Planet                                       \
     -D __linux__=1                              \
     -f include/mes/lib-mini.h                   \
     -f lib/linux/${mes_cpu}-mes-m2/crt1.c       \
+    -f lib/mes/__init_io.c                      \
     -f lib/linux/${mes_cpu}-mes-m2/_exit.c      \
     -f lib/linux/${mes_cpu}-mes-m2/_write.c     \
     -f lib/string/strlen.c                      \

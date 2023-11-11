@@ -1,5 +1,5 @@
 ### GNU Mes --- Maxwell Equations of Software
-### Copyright © 2017,2018,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+### Copyright © 2017,2018,2020,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 ### Copyright © 2019,2020 Danny Milosavljevic <dannym@scratchpost.org>
 ### Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
 ###
@@ -326,6 +326,7 @@ DEFINE mv_____%s10,%x0 130d0000
 DEFINE mv_____%s11,%t0 938d0200
 DEFINE mv_____%s11,%t1 930d0300
 DEFINE mv_____%s11,%x0 930d0000
+
 DEFINE ld_____%a7,0x10(%fp) 83380401
 DEFINE ld_____%a0,0x18(%fp) 03358401
 DEFINE ld_____%a1,0x20(%fp) 83350402
@@ -335,6 +336,18 @@ DEFINE ld_____%a4,0x38(%fp) 03378403
 DEFINE ld_____%a0,0x10(%fp) 03350401
 DEFINE ld_____%a1,0x18(%fp) 83358401
 DEFINE ld_____%a2,0x20(%fp) 03360402
+
+DEFINE ld_____%a0,-0x08(%fp) 033584ff
+DEFINE ld_____%a1,-0x10(%fp) 833504ff
+DEFINE ld_____%a2,-0x18(%fp) 033684fe
+
+DEFINE ld_____%a7,-0x08(%fp) 833884ff
+DEFINE ld_____%a0,-0x10(%fp) 033504ff
+DEFINE ld_____%a1,-0x18(%fp) 833584fe
+DEFINE ld_____%a2,-0x20(%fp) 033604fe
+DEFINE ld_____%a3,-0x28(%fp) 833684fd
+DEFINE ld_____%a4,-0x30(%fp) 033704fd
+
 DEFINE ld_____%fp,0x10(%fp) 03340401
 DEFINE ld_____%t0,0x8(%fp) 83328400
 DEFINE ld_____%sp,0x10(%fp) 03310401

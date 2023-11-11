@@ -30,6 +30,7 @@ M2-Planet                                       \
     -D __${cc_cpu}__=1                          \
     -D __linux__=1                              \
     -f lib/linux/${mes_cpu}-mes-m2/crt1.c       \
+    -f lib/mes/__init_io.c                      \
     -f include/mes/lib-mini.h                   \
     -f lib/linux/${mes_cpu}-mes-m2/_write.c     \
     -f lib/linux/${mes_cpu}-mes-m2/_exit.c      \
@@ -47,6 +48,7 @@ M2-Planet                                       \
     -f lib/mes/fdgetc.c                         \
     -f lib/stdio/getchar.c                      \
     -f lib/stdio/putchar.c                      \
+    -f include/fcntl.h                          \
     -f lib/linux/open.c                         \
     -f include/m2/types.h                       \
     -f include/sys/types.h                      \

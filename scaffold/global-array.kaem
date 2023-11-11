@@ -31,6 +31,7 @@ M2-Planet                                       \
     -D __${cc_cpu}__=1                          \
     -D __linux__=1                              \
     -f lib/linux/${mes_cpu}-mes-m2/crt1.c       \
+    -f lib/mes/__init_io.c                      \
     -f lib/mes/globals.c                        \
     -f lib/linux/${mes_cpu}-mes-m2/_exit.c      \
     -f lib/linux/${mes_cpu}-mes-m2/_write.c     \
