@@ -10,6 +10,13 @@ ARM port
 lib/mes/div.c
 Additions and fixes throughout
 
+Timothy Sample <samplet@ngyro.com>
+Co-author of Guile-compatible variable lookup
+Co-author of Guile-compatible hash-table, record interface
+Co-author of Guile Module support
+Gash Support
+Additions and fixes throughout
+
 Jeremiah Orians <jeremiah@pdp10.guru>
 lib/stdio/fopen.c (first simple version of fopen)
 scaffold/tests/98-fopen.c
