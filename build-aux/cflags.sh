@@ -29,6 +29,10 @@ case "$mes_cpu" in
         cc_cpu=i386
         stage0_cpu=x86
         ;;
+    riscv64)
+        cc_cpu=riscv64
+        stage0_cpu=riscv64
+        ;;
     *)
         stage0_cpu=$mes_cpu
         cc_cpu=$mes_cpu

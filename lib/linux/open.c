@@ -28,7 +28,13 @@
 int
 open (char *file_name, int flags, int mask)
 {
+#if defined (SYS_open)
   int r = _sys_call3 (SYS_open, file_name, flags, mask);
+#elif defined (SYS_openat)
+  int r = _sys_call4 (SYS_openat, AT_FDCWD, file_name, flags, mask);
+#else
+#error No usable open syscall
+#endif
   if (r > 2)
     __ungetc_clear (r);
   return r;

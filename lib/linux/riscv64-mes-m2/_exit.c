@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2020,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
  *
  * This file is part of GNU Mes.
  *
@@ -18,25 +19,13 @@
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <mes/lib.h>
-#include <string.h>
+#include "mes/lib-mini.h"
 
-int
-main (int argc, char **argv)
+void
+_exit (int status)
 {
-  eputs ("Hi Mes!\n");
-#if __M2__
-  eputs ("MESC.M2\n");
-#elif __MESC_MES__
-  eputs ("MESC.MES\n");
-#else
-  eputs ("MESC.GUILE\n");
-#endif
-  if (argc > 1)
-    if (strcmp (argv[1], "--help") == 0)
-      {
-        eputs ("argc > 1 && --help\n");
-        return argc;
-      }
-  return 42;
+  asm ("ld_____%a0,-0x08(%fp)");
+  asm ("li_____%a7,SYS_exit");
+  asm ("ecall");
+  // no need to read return value
 }
