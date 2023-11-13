@@ -1,5 +1,6 @@
 # GNU Mes --- Maxwell Equations of Software
 # Copyright © 2018,2019,2021,2022,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2023 Vagrant Cascadian <vagrant@debian.org>
 #
 # This file is part of GNU Mes.
 #
@@ -106,8 +107,9 @@ arch-dir:
 	mkdir -p include/arch
 
 clean:
-	rm -f *.o *.s bin/mes bin/mes-gcc bin/mes-mescc
-	rm -f mes.{aux,cp,cps,fn,info,log,tmp,toc,vr,vrs}
+	rm -f *.o *.s bin/mes bin/mes-gcc bin/mes-m2 bin/mes-mescc
+	rm -f mes.{aux,cp,cps,fls,fn,info,log,tmp,toc,vr,vrs}
+	rm -f doc/mes.{dvi,pdf,ps}
 	rm -f .log build.log
 	rm -f 0exit-42 0hello-mes exit-42 body-exit-42 body-hello-mes hello-mes
 	rm -f build-aux/mes-snarf.go
@@ -115,33 +117,33 @@ clean:
 	rm -f module/mes/*.go module/mescc/*.go
 	rm -f module/mescc/armv4/*.go
 	rm -f module/mescc/i386/*.go
+	rm -f module/mescc/riscv64/*.go
 	rm -f module/mescc/x86_64/*.go
-	rm -rf gcc-lib/*.o gcc-lib/*.s gcc-lib/*.a gcc-lib/*-mes
-	rm -f gcc-lib/libc+gnu.c
-	rm -f gcc-lib/.log gcc-lib/build.log
-	rm -rf mescc-lib/*.o mescc-lib/*.s mescc-lib/*.a mescc-lib/*-mes
-	rm -f mescc-lib/libc+gnu.c
-	rm -f mescc-lib/.log mescc-lib/build.log
-	rm -rf mescc/bin
+	rm -rf gcc-lib/
+	rm -rf mescc-lib/
+	rm -rf tcc-lib/
 	rm -f scaffold/boot/*.log scaffold/boot/*.trs
 	rm -f test-suite.log tests/*.log tests/*.trs
 	rm -f scaffold/*.s scaffold/*.o
 	rm -f doc/images/gcc-mesboot-graph.{eps,pdf,png}
 	rm -f doc/mes.1 doc/mesar.1 doc/mescc.1
-	rm -f .config .config.E .config.o
+	rm -f doc/mes.info
+	rm -f doc/version.texi
+	rm -rf doc/web/
 
 distclean: clean
 	rm -f GNUmakefile bootstrap.sh build.sh check.sh install.sh uninstall.sh
+	rm -f .config .config.E .config.make .config.o
+	rm -f pre-inst-env
+	rm -rf include/arch/
 	rm -f include/mes/config.h
-	rm -f .config.make config.sh mescc-lib/config.sh gcc-lib/config.sh
-	rm -f scripts/mesar scripts/mescc scripts/mescc.scm scripts/m2-merge
+	rm -f .config.make config.sh
+	rm -f scripts/mesar scripts/mescc scripts/mescc.scm
 	rm -f TAGS
 
 mostlyclean: clean
 
 maintainer-clean: distclean
-	rm -f doc/mes.info
-	rm -f doc/version.texi
 
 TAGS:
 	etags ${srcdest}lib/*.c ${srcdest}lib/*/*.c ${srcdest}src/*.c ${srcdest}include/*.h ${srcdest}include/*/*.h ${srcdest}include/sys/*.h
