@@ -18,8 +18,12 @@
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef __raise
+
 int
 __raise (int signum)
 {
   return -1;
 }
+
+#endif
