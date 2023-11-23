@@ -2,6 +2,8 @@
 
 # GNU Mes --- Maxwell Equations of Software
 # Copyright © 2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
+# Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 #
 # This file is part of GNU Mes.
 #
@@ -142,14 +144,17 @@ cp bin/mes-mescc bin/mes
     fi
     @SHELL@ ${srcdest}build-aux/build-source-lib.sh
 )
-(
-    mkdir -p tcc-lib
-    cp config.sh tcc-lib
-    cd tcc-lib
-    compiler=tcc
-    if test -z "$srcdest"; then
-        srcdest=../
-        srcdir=../
-    fi
-    ${SHELL} ${srcdest}build-aux/build-source-lib.sh
-)
+
+if test -d ${srcdest}lib/$mes_kernel/$mes_cpu-mes-tcc; then
+    (
+        mkdir -p tcc-lib
+        cp config.sh tcc-lib
+        cd tcc-lib
+        compiler=tcc
+        if test -z "$srcdest"; then
+            srcdest=../
+            srcdir=../
+        fi
+        ${SHELL} ${srcdest}build-aux/build-source-lib.sh
+    )
+fi
