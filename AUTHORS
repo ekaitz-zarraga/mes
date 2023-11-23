@@ -41,6 +41,9 @@ RISC-V port
 Andrius Štikonas <andrius@stikonas.eu>
 Rewrite the RISC-V port to use new word-based macros.
 
+Ekaitz Zarraga <ekaitz@elenq.tech>
+Fixes for RISC-V port and bootstrap.
+
 List of imported files
 
 D A Gwyn
