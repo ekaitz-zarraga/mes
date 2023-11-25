@@ -1,5 +1,5 @@
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2016,2017,2019,2020,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2016,2017,2019,2020,2022,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -105,21 +105,21 @@
 /doc/fosdem/fosdem.toc
 /doc/fosdem/fosdem.*vrb
 /doc/mes.1
+/doc/mes.aux
+/doc/mes.cp
+/doc/mes.cps
+/doc/mes.fls
+/doc/mes.fn
+/doc/mes.info
 /doc/mes.info
 /doc/mes.pdf
+/doc/mes.tmp
+/doc/mes.toc
+/doc/mes.vr
+/doc/mes.vrs
 /doc/mesar.1
 /doc/mescc.1
 /doc/version.texi
-/mes.aux
-/mes.cp
-/mes.cps
-/mes.fls
-/mes.fn
-/mes.info
-/mes.tmp
-/mes.toc
-/mes.vr
-/mes.vrs
 
 /config.status
 /pre-inst-env

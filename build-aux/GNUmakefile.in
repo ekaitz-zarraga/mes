@@ -108,8 +108,6 @@ arch-dir:
 
 clean:
 	rm -f *.o *.s bin/mes bin/mes-gcc bin/mes-m2 bin/mes-mescc
-	rm -f mes.{aux,cp,cps,fls,fn,info,log,tmp,toc,vr,vrs}
-	rm -f doc/mes.{dvi,pdf,ps}
 	rm -f .log build.log
 	rm -f 0exit-42 0hello-mes exit-42 body-exit-42 body-hello-mes hello-mes
 	rm -f build-aux/mes-snarf.go
@@ -127,7 +125,8 @@ clean:
 	rm -f scaffold/*.s scaffold/*.o
 	rm -f doc/images/gcc-mesboot-graph.{eps,pdf,png}
 	rm -f doc/mes.1 doc/mesar.1 doc/mescc.1
-	rm -f doc/mes.info
+	rm -f doc/mes.{aux,cp,cps,fls,fn,info,log,tmp,toc,vr,vrs}
+	rm -f doc/mes.{dvi,pdf,ps}
 	rm -f doc/version.texi
 	rm -rf doc/web/
 
@@ -258,26 +257,35 @@ doc/html/index.html: ${srcdest}doc/mes.texi doc/version.texi doc/images/gcc-mesb
 
 dvi: doc/mes.dvi
 
-doc/mes.dvi: ${srcdest}doc/mes.texi
-	$(MAKEINFO) --dvi -I ${srcdest}doc -I doc -o doc/mes.dvi $<
+doc/mes.dvi: ${srcdest}doc/mes.texi doc/version.texi doc/images/gcc-mesboot-graph.eps | doc-dir
+	cd doc && $(MAKEINFO) --dvi -I ${srcdest}../doc -o mes.dvi $(<F)
 
 pdf: doc/mes.pdf
 
-doc/mes.pdf: ${srcdest}doc/mes.texi
-	$(MAKEINFO) --pdf -I ${srcdest}doc -I doc -o doc/mes.pdf $<
+doc/mes.pdf: ${srcdest}doc/mes.texi doc/version.texi doc/images/gcc-mesboot-graph.eps | doc-dir
+	cd doc && $(MAKEINFO) --pdf -I ${srcdest}../doc -o mes.pdf $(<F)
 
 ps: doc/mes.ps
 
-doc/mes.ps: ${srcdest}doc/mes.texi
-	$(MAKEINFO) --ps -I ${srcdest}doc -I doc -o doc/mes.ps $<
+doc/mes.ps: ${srcdest}doc/mes.texi doc/version.texi doc/images/gcc-mesboot-graph.eps | doc-dir
+	cd doc && $(MAKEINFO) --ps -I ${srcdest}../doc -o mes.ps $(<F)
 
-WEB_IMAGES:=\
- doc/images/gcc-mesboot-graph.eps\
- doc/images/gcc-mesboot-graph.pdf\
+WEB_IMAGES:=					\
+ doc/images/gcc-mesboot-graph.eps		\
+ doc/images/gcc-mesboot-graph.pdf		\
  doc/images/gcc-mesboot-graph.png
 
-web: info $(WEB_IMAGES)
-	GENDOCS_TEMPLATE_DIR=doc build-aux/gendocs.sh -I doc -s ${srcdest}doc/mes.texi -o doc/web/manual --email bug-mes@gnu.org mes "GNU Mes manual"
+web: info $(WEB_IMAGES) | doc-dir
+	cd doc && GENDOCS_TEMPLATE_DIR=${srcdir}/../doc	\
+	    ${srcdest}../build-aux/gendocs.sh		\
+		-I ${srcdir}/../doc			\
+		-s $(srcdest)../doc/mes.texi		\
+		-o web/manual				\
+		--email bug-mes@gnu.org			\
+		mes "GNU Mes manual"
+
+doc-dir:
+	mkdir -p doc
 
 SITE = /srv/mes.org
 publish: web
