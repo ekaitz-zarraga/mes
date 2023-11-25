@@ -117,9 +117,12 @@ clean:
 	rm -f module/mescc/i386/*.go
 	rm -f module/mescc/riscv64/*.go
 	rm -f module/mescc/x86_64/*.go
+	rm -rf m2/
 	rm -rf gcc-lib/
 	rm -rf mescc-lib/
 	rm -rf tcc-lib/
+	rm -f scaffold/{argv,hello,main,read}.{M1,blood-elf-M1,hex2}
+	rm -f scaffold/{argv,hello,main,read}-m2
 	rm -f scaffold/boot/*.log scaffold/boot/*.trs
 	rm -f test-suite.log tests/*.log tests/*.trs
 	rm -f scaffold/*.s scaffold/*.o
