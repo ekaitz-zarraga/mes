@@ -55,10 +55,8 @@ fi
     mkdir -p gcc-lib
     cp config.sh gcc-lib
     cd gcc-lib
-    if test -z "$srcdest"; then
-        srcdest=../
-        srcdir=../
-    fi
+    srcdest=../$srcdest
+    srcdir=../$srcdir
     if test $compiler = gcc; then
         AM_LDFLAGS="$AM_LDFLAGS
 -L gcc-lib
@@ -101,7 +99,8 @@ fi
     fi
 )
 
-if test -n "$M2_PLANET" && (test "$mes_cpu" == "x86" \
+if test -n "$M2_PLANET" && (test -z "$srcdest" \
+                                || test "$mes_cpu" == "x86" \
                                 || test "$mes_cpu" == "x86_64" \
                                 || test "$mes_cpu" == "arm" \
                                 || test "$mes_cpu" == "riscv64" \
@@ -130,10 +129,8 @@ fi
     mkdir -p include/mes
     cp ../include/mes/config.h include/mes/config.h
     sed -i 's,#define SYSTEM_LIBC 1,#undef SYSTEM_LIBC,' include/mes/config.h
-    if test -z "$srcdest"; then
-        srcdest=../
-        srcdir=../
-    fi
+    srcdest=../$srcdest
+    srcdir=../$srcdir
     ln -sf ${srcdest}mes .
     ln -sf ${srcdest}module .
     ln -sf ${srcdest}src .

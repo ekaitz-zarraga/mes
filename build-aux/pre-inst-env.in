@@ -1,7 +1,7 @@
 #! @BASH@
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2018,2019,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -32,7 +32,7 @@ export MES_PREFIX
 GUILE_LOAD_COMPILED_PATH="$abs_top_builddir/scripts:$abs_top_builddir/module${GUILE_LOAD_COMPILED_PATH:+:}$GUILE_LOAD_COMPILED_PATH"
 GUILE_LOAD_PATH="$abs_top_srcdir/module:$abs_top_srcdir/mes:$abs_top_srcdir/guix${GUILE_LOAD_PATH:+:}$GUILE_LOAD_PATH"
 if [ -n "$srcdest" ]; then
-    GUILE_LOAD_PATH="${srcdest}module:${srcdest}mes:$GUILE_LOAD_PATH"
+    GUILE_LOAD_PATH="${srcdest}module:${srcdest}mes:${srcdest}:$GUILE_LOAD_PATH"
 fi
 export GUILE_LOAD_COMPILED_PATH GUILE_LOAD_PATH
 

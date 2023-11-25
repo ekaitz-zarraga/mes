@@ -198,11 +198,12 @@ endif
 
 info: doc/mes.info
 
-doc/mes.info: ${srcdest}doc/mes.texi doc/version.texi ${srcdest}doc/images/gcc-mesboot-graph.png GNUmakefile
+doc/mes.info: ${srcdest}doc/mes.texi doc/version.texi doc/images/gcc-mesboot-graph.png GNUmakefile
 	$(MAKEINFO) -o $@ -I doc -I doc $<
 
 doc/images/%.eps: ${srcdest}doc/images/%.dot
 ifdef DOT
+	@mkdir -p $(@D)
 	$(DOT) -T eps $< > $@
 else
 	touch $@
@@ -210,6 +211,7 @@ endif
 
 doc/images/%.pdf: ${srcdest}doc/images/%.dot
 ifdef DOT
+	@mkdir -p $(@D)
 	$(DOT) -T pdf $< > $@
 else
 	touch $@
@@ -217,6 +219,7 @@ endif
 
 doc/images/%.png: ${srcdest}doc/images/%.dot
 ifdef DOT
+	@mkdir -p $(@D)
 	$(DOT) -T png $< > $@
 else
 	touch $@
