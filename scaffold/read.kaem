@@ -24,56 +24,56 @@ cc_cpu=${cc_cpu:-i386}
 mes_cpu=${mes_cpu:-x86}
 stage0_cpu=${stage0_cpu:-x86}
 
-M2-Planet                                       \
-    --debug                                     \
-    --architecture ${stage0_cpu}                \
-    -D __${cc_cpu}__=1                          \
-    -D __linux__=1                              \
-    -f lib/linux/${mes_cpu}-mes-m2/crt1.c       \
-    -f lib/mes/__init_io.c                      \
-    -f include/mes/lib-mini.h                   \
-    -f lib/linux/${mes_cpu}-mes-m2/_write.c     \
-    -f lib/linux/${mes_cpu}-mes-m2/_exit.c      \
-    -f include/linux/${mes_cpu}/syscall.h       \
-    -f lib/linux/${mes_cpu}-mes-m2/syscall.c    \
-    -f lib/m2/cast.c                            \
-    -f include/mes/lib.h                        \
-    -f lib/string/strlen.c                      \
-    -f lib/mes/write.c                          \
-    -f lib/mes/eputs.c                          \
-    -f lib/linux/brk.c                          \
-    -f lib/linux/malloc.c                       \
-    -f lib/string/memset.c                      \
-    -f lib/linux/read.c                         \
-    -f lib/mes/fdgetc.c                         \
-    -f lib/stdio/getchar.c                      \
-    -f lib/stdio/putchar.c                      \
-    -f include/fcntl.h                          \
-    -f lib/linux/open.c                         \
-    -f include/m2/types.h                       \
-    -f include/sys/types.h                      \
-    -f include/stdio.h                          \
-    -f scaffold/read.c                          \
+M2-Planet                                               \
+    --debug                                             \
+    --architecture ${stage0_cpu}                        \
+    -D __${cc_cpu}__=1                                  \
+    -D __linux__=1                                      \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/crt1.c     \
+    -f ${srcdest}lib/mes/__init_io.c                    \
+    -f ${srcdest}include/mes/lib-mini.h                 \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/_write.c   \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/_exit.c    \
+    -f ${srcdest}include/linux/${mes_cpu}/syscall.h     \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/syscall.c  \
+    -f ${srcdest}lib/m2/cast.c                          \
+    -f ${srcdest}include/mes/lib.h                      \
+    -f ${srcdest}lib/string/strlen.c                    \
+    -f ${srcdest}lib/mes/write.c                        \
+    -f ${srcdest}lib/mes/eputs.c                        \
+    -f ${srcdest}lib/linux/brk.c                        \
+    -f ${srcdest}lib/linux/malloc.c                     \
+    -f ${srcdest}lib/string/memset.c                    \
+    -f ${srcdest}lib/linux/read.c                       \
+    -f ${srcdest}lib/mes/fdgetc.c                       \
+    -f ${srcdest}lib/stdio/getchar.c                    \
+    -f ${srcdest}lib/stdio/putchar.c                    \
+    -f ${srcdest}include/fcntl.h                        \
+    -f ${srcdest}lib/linux/open.c                       \
+    -f ${srcdest}include/m2/types.h                     \
+    -f ${srcdest}include/sys/types.h                    \
+    -f ${srcdest}include/stdio.h                        \
+    -f ${srcdest}scaffold/read.c                        \
     -o scaffold/read.M1
 
 blood-elf --little-endian -f scaffold/read.M1 -o scaffold/read.blood-elf-M1
 
-M1                                              \
-    --architecture ${stage0_cpu}                \
-    --little-endian                             \
-    -f lib/m2/${mes_cpu}/${mes_cpu}_defs.M1     \
-    -f lib/${mes_cpu}-mes/${mes_cpu}.M1         \
-    -f lib/linux/${mes_cpu}-mes-m2/crt1.M1      \
-    -f scaffold/read.M1                         \
-    -f scaffold/read.blood-elf-M1               \
+M1                                                      \
+    --architecture ${stage0_cpu}                        \
+    --little-endian                                     \
+    -f ${srcdest}lib/m2/${mes_cpu}/${mes_cpu}_defs.M1   \
+    -f ${srcdest}lib/${mes_cpu}-mes/${mes_cpu}.M1       \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/crt1.M1    \
+    -f scaffold/read.M1                                 \
+    -f scaffold/read.blood-elf-M1                       \
     -o scaffold/read.hex2
 
-hex2                                            \
-    --architecture ${stage0_cpu}                \
-    --little-endian                             \
-    --base-address 0x1000000                    \
-    -f lib/m2/${mes_cpu}/ELF-${mes_cpu}.hex2    \
-    -f scaffold/read.hex2                       \
+hex2                                                    \
+    --architecture ${stage0_cpu}                        \
+    --little-endian                                     \
+    --base-address 0x1000000                            \
+    -f ${srcdest}lib/m2/${mes_cpu}/ELF-${mes_cpu}.hex2  \
+    -f scaffold/read.hex2                               \
     -o scaffold/read-m2
 
 echo Now run: scaffold/read-m2

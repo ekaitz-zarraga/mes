@@ -24,40 +24,40 @@ cc_cpu=${cc_cpu:-i386}
 mes_cpu=${mes_cpu:-x86}
 stage0_cpu=${stage0_cpu:-x86}
 
-M2-Planet                                       \
-    --debug                                     \
-    --architecture ${stage0_cpu}                \
-    -D __${cc_cpu}__=1                          \
-    -D __linux__=1                              \
-    -f include/mes/lib-mini.h                   \
-    -f lib/linux/${mes_cpu}-mes-m2/crt1.c       \
-    -f lib/mes/__init_io.c                      \
-    -f lib/linux/${mes_cpu}-mes-m2/_exit.c      \
-    -f lib/linux/${mes_cpu}-mes-m2/_write.c     \
-    -f lib/string/strlen.c                      \
-    -f lib/mes/write.c                          \
-    -f lib/mes/eputs.c                          \
-    -f scaffold/hello.c                         \
+M2-Planet                                               \
+    --debug                                             \
+    --architecture ${stage0_cpu}                        \
+    -D __${cc_cpu}__=1                                  \
+    -D __linux__=1                                      \
+    -f ${srcdest}include/mes/lib-mini.h                 \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/crt1.c     \
+    -f ${srcdest}lib/mes/__init_io.c                    \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/_exit.c    \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/_write.c   \
+    -f ${srcdest}lib/string/strlen.c                    \
+    -f ${srcdest}lib/mes/write.c                        \
+    -f ${srcdest}lib/mes/eputs.c                        \
+    -f ${srcdest}scaffold/hello.c                       \
     -o scaffold/hello.M1
 
 blood-elf --little-endian -f scaffold/hello.M1 -o scaffold/hello.blood-elf-M1
 
-M1                                              \
-    --architecture ${stage0_cpu}                \
-    --little-endian                             \
-    -f lib/m2/${mes_cpu}/${mes_cpu}_defs.M1     \
-    -f lib/${mes_cpu}-mes/${mes_cpu}.M1         \
-    -f lib/linux/${mes_cpu}-mes-m2/crt1.M1      \
-    -f scaffold/hello.M1                        \
-    -f scaffold/hello.blood-elf-M1              \
+M1                                                      \
+    --architecture ${stage0_cpu}                        \
+    --little-endian                                     \
+    -f ${srcdest}lib/m2/${mes_cpu}/${mes_cpu}_defs.M1   \
+    -f ${srcdest}lib/${mes_cpu}-mes/${mes_cpu}.M1       \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/crt1.M1    \
+    -f scaffold/hello.M1                                \
+    -f scaffold/hello.blood-elf-M1                      \
     -o scaffold/hello.hex2
 
-hex2                                            \
-    --architecture ${stage0_cpu}                \
-    --little-endian                             \
-    --base-address 0x1000000                    \
-    -f lib/m2/${mes_cpu}/ELF-${mes_cpu}.hex2    \
-    -f scaffold/hello.hex2                      \
+hex2                                                    \
+    --architecture ${stage0_cpu}                        \
+    --little-endian                                     \
+    --base-address 0x1000000                            \
+    -f ${srcdest}lib/m2/${mes_cpu}/ELF-${mes_cpu}.hex2  \
+    -f scaffold/hello.hex2                              \
     -o scaffold/hello-m2
 
 echo Now run: scaffold/hello-m2

@@ -24,34 +24,34 @@ cc_cpu=${cc_cpu:-i386}
 mes_cpu=${mes_cpu:-x86}
 stage0_cpu=${stage0_cpu:-x86}
 
-M2-Planet                                       \
-    --debug                                     \
-    --architecture ${stage0_cpu}                \
-    -D __${cc_cpu}__=1                          \
-    -D __linux__=1                              \
-    -f lib/linux/${mes_cpu}-mes-m2/crt1.c       \
-    -f lib/mes/__init_io.c                      \
-    -f scaffold/main.c                          \
+M2-Planet                                               \
+    --debug                                             \
+    --architecture ${stage0_cpu}                        \
+    -D __${cc_cpu}__=1                                  \
+    -D __linux__=1                                      \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/crt1.c     \
+    -f ${srcdest}lib/mes/__init_io.c                    \
+    -f ${srcdest}scaffold/main.c                        \
     -o scaffold/main.M1
 
 blood-elf --little-endian -f scaffold/main.M1 -o scaffold/main.blood-elf-M1
 
-M1                                              \
-    --architecture ${stage0_cpu}                \
-    --little-endian                             \
-    -f lib/m2/${mes_cpu}/${mes_cpu}_defs.M1     \
-    -f lib/${mes_cpu}-mes/${mes_cpu}.M1         \
-    -f lib/linux/${mes_cpu}-mes-m2/crt1.M1      \
-    -f scaffold/main.M1                         \
-    -f scaffold/main.blood-elf-M1               \
+M1                                                      \
+    --architecture ${stage0_cpu}                        \
+    --little-endian                                     \
+    -f ${srcdest}lib/m2/${mes_cpu}/${mes_cpu}_defs.M1   \
+    -f ${srcdest}lib/${mes_cpu}-mes/${mes_cpu}.M1       \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/crt1.M1    \
+    -f scaffold/main.M1                                 \
+    -f scaffold/main.blood-elf-M1                       \
     -o scaffold/main.hex2
 
-hex2                                            \
-    --architecture ${stage0_cpu}                \
-    --little-endian                             \
-    --base-address 0x1000000                    \
-    -f lib/m2/${mes_cpu}/ELF-${mes_cpu}.hex2    \
-    -f scaffold/main.hex2                       \
+hex2                                                    \
+    --architecture ${stage0_cpu}                        \
+    --little-endian                                     \
+    --base-address 0x1000000                            \
+    -f ${srcdest}lib/m2/${mes_cpu}/ELF-${mes_cpu}.hex2  \
+    -f scaffold/main.hex2                               \
     -o scaffold/main-m2
 
 echo Now run: scaffold/main-m2

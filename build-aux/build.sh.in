@@ -99,8 +99,7 @@ fi
     fi
 )
 
-if test -n "$M2_PLANET" && (test -z "$srcdest" \
-                                || test "$mes_cpu" == "x86" \
+if test -n "$M2_PLANET" && (test "$mes_cpu" == "x86" \
                                 || test "$mes_cpu" == "x86_64" \
                                 || test "$mes_cpu" == "arm" \
                                 || test "$mes_cpu" == "riscv64" \
@@ -112,12 +111,16 @@ if test -n "$M2_PLANET" && (test -z "$srcdest" \
         else
             __verbose=--verbose
         fi
-        trace "KAEM       scaffold/main.kaem" kaem --strict $__verbose -f scaffold/main.kaem
-        trace "KAEM       scaffold/hello.kaem" kaem --strict $__verbose -f scaffold/hello.kaem
-        trace "KAEM       scaffold/argv.kaem" kaem --strict $__verbose -f scaffold/argv.kaem
-        trace "KAEM       scaffold/env.kaem" kaem --strict $__verbose -f scaffold/env.kaem
-        trace "KAEM       scaffold/read.kaem" kaem --strict $__verbose -f scaffold/read.kaem
-        trace "KAEM       kaem.run" kaem --strict $__verbose
+        mkdir -p scaffold
+        trace "KAEM       scaffold/main.kaem" kaem --strict $__verbose -f ${srcdest}scaffold/main.kaem
+        trace "KAEM       scaffold/hello.kaem" kaem --strict $__verbose -f ${srcdest}scaffold/hello.kaem
+        trace "KAEM       scaffold/argv.kaem" kaem --strict $__verbose -f ${srcdest}scaffold/argv.kaem
+        trace "KAEM       scaffold/env.kaem" kaem --strict $__verbose -f ${srcdest}scaffold/env.kaem
+        if test -n "${srcdest}"; then
+            cp -f ${srcdest}scaffold/read.data scaffold/read.data
+        fi
+        trace "KAEM       scaffold/read.kaem" kaem --strict $__verbose -f ${srcdest}scaffold/read.kaem
+        trace "KAEM       kaem.run" kaem --strict $__verbose -f ${srcdest}kaem.run
     )
 fi
 

@@ -24,41 +24,41 @@ cc_cpu=${cc_cpu:-i386}
 mes_cpu=${mes_cpu:-x86}
 stage0_cpu=${stage0_cpu:-x86}
 
-M2-Planet                                       \
-    --bootstrap-mode                            \
-    --debug                                     \
-    --architecture ${stage0_cpu}                \
-    -f lib/linux/${mes_cpu}-mes-m2/crt1.c       \
-    -D __${cc_cpu}__=1                          \
-    -D __linux__=1                              \
-    -f lib/mes/globals.c                        \
-    -f lib/linux/${mes_cpu}-mes-m2/_exit.c      \
-    -f lib/linux/${mes_cpu}-mes-m2/_write.c     \
-    -f lib/mes/write.c                          \
-    -f lib/string/strlen.c                      \
-    -f lib/string/strcpy.c                      \
-    -f lib/mes/eputs.c                          \
-    -f scaffold/local-static-array.c            \
+M2-Planet                                               \
+    --bootstrap-mode                                    \
+    --debug                                             \
+    --architecture ${stage0_cpu}                        \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/crt1.c     \
+    -D __${cc_cpu}__=1                                  \
+    -D __linux__=1                                      \
+    -f ${srcdest}lib/mes/globals.c                      \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/_exit.c    \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/_write.c   \
+    -f ${srcdest}lib/mes/write.c                        \
+    -f ${srcdest}lib/string/strlen.c                    \
+    -f ${srcdest}lib/string/strcpy.c                    \
+    -f ${srcdest}lib/mes/eputs.c                        \
+    -f ${srcdest}scaffold/local-static-array.c          \
     -o scaffold/local-static-array.M1
 
 blood-elf --little-endian -f scaffold/local-static-array.M1 -o scaffold/local-static-array.blood-elf-M1
 
-M1                                              \
-    --architecture ${stage0_cpu}                \
-    --little-endian                             \
-    -f lib/m2/${mes_cpu}/${mes_cpu}_defs.M1     \
-    -f lib/${mes_cpu}-mes/${mes_cpu}.M1         \
-    -f lib/linux/${mes_cpu}-mes-m2/crt1.M1      \
-    -f scaffold/local-static-array.M1           \
-    -f scaffold/local-static-array.blood-elf-M1 \
+M1                                                      \
+    --architecture ${stage0_cpu}                        \
+    --little-endian                                     \
+    -f ${srcdest}lib/m2/${mes_cpu}/${mes_cpu}_defs.M1   \
+    -f ${srcdest}lib/${mes_cpu}-mes/${mes_cpu}.M1       \
+    -f ${srcdest}lib/linux/${mes_cpu}-mes-m2/crt1.M1    \
+    -f scaffold/local-static-array.M1                   \
+    -f scaffold/local-static-array.blood-elf-M1         \
     -o scaffold/local-static-array.hex2
 
-hex2                                            \
-    --architecture ${stage0_cpu}                \
-    --little-endian                             \
-    --base-address 0x1000000                    \
-    -f lib/m2/${mes_cpu}/ELF-${mes_cpu}.hex2    \
-    -f scaffold/local-static-array.hex2         \
+hex2                                                    \
+    --architecture ${stage0_cpu}                        \
+    --little-endian                                     \
+    --base-address 0x1000000                            \
+    -f ${srcdest}lib/m2/${mes_cpu}/ELF-${mes_cpu}.hex2  \
+    -f scaffold/local-static-array.hex2                 \
     -o scaffold/local-static-array
 
 echo Now run: scaffold/scaffold/local-static-array

@@ -39,7 +39,7 @@ MES_PREFIX=${MES_PREFIX-$PWD}
 
 if test -n "@M2_PLANET@"; then
     echo "  KAEM         kaem.run"
-    kaem --strict --verbose
+    kaem --strict --verbose -f ${srcdest}kaem.run
 fi
 
 CPPFLAGS="-D HAVE_CONFIG_H=1 -I include"
