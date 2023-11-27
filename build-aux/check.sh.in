@@ -63,6 +63,7 @@ if test $mes_libc = mes; then
     LIBS=-lc
 fi
 
+export AM_CPPFLAGS
 export CFLAGS
 export CPPFLAGS
 export LDFLAGS
@@ -77,8 +78,15 @@ export recheck
 if test $compiler = gcc; then
     (
         cd gcc-lib
-        srcdest=$srcdir/../
+        srcdest=../$srcdest
         srcdir=../$srcdir
+        AM_CPPFLAGS="
+-D HAVE_CONFIG_H=1
+-I ${srcdest}lib
+-I ${srcdest}include
+-I ../include
+-I include
+"
         MES_CHECKING_BUILTIN_LIBS="-l gcc"
         export MES_CHECKING_BUILTIN_LIBS
         ../pre-inst-env ${SHELL} ${srcdest}build-aux/check-mescc.sh
@@ -87,10 +95,17 @@ fi
 
 (
     cd mescc-lib
-    srcdest=$srcdir/../
+    srcdest=../$srcdest
     srcdir=../$srcdir
     compiler=mescc
     mes_lib=mes
+    AM_CPPFLAGS="
+-D HAVE_CONFIG_H=1
+-I ${srcdest}lib
+-I ${srcdest}include
+-I ../include
+-I include
+"
     CFLAGS="
 -nostdinc
 -nostdlib

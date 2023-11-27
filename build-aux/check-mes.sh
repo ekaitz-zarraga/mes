@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2017,2018,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -19,7 +19,12 @@
 # along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
 
 set -e
-. ./config.sh
+if test -z "$config_sh"; then
+    . ./config.sh
+fi
+if [ -n "$srcdest" ]; then
+    GUILE_LOAD_PATH="${srcdest}module:${srcdest}mes:${srcdest}:$GUILE_LOAD_PATH"
+fi
 set -u
 
 TESTS="

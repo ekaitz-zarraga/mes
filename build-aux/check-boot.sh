@@ -19,7 +19,9 @@
 # along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
 
 set -e
-. ./config.sh
+if test -z "$config_sh"; then
+    . ./config.sh
+fi
 set -u
 
 TESTS="

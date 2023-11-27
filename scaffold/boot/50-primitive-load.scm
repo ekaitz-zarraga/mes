@@ -1,5 +1,5 @@
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2018, 2023 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -22,7 +22,9 @@
   (define-macro (include-from-path file)
     (list
      'begin
-     (list 'primitive-load file)))))
+     (list 'primitive-load
+           (if (getenv "srcdest") (string-append (getenv "srcdest") file)
+               file))))))
 
 (include-from-path "scaffold/boot/data/i.scm")
 
