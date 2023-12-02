@@ -6,7 +6,7 @@ We are happy to announce the release of GNU Mes 0.26.
 
 It's been only a month since the previous release mainly because most
 this work has been waiting for 0.25 to be released.  This release
-represents 195 commits over one year by two people.  This release brings
+represents 194 commits over one year by two people.  This release brings
 Guile module support and support for running Gash and Gash-Utils.
 
 We are excited that the NLnet Foundation is sponsoring this work!
@@ -57,8 +57,8 @@ Enjoy!
 
   Here are the SHA1 and SHA256 checksums:
 
-    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  mes-0.26.tar.gz
-    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  mes-0.26.tar.gz
+    581d7dba5f9749dd232a203d04175494ded0e77d  mes-0.26.tar.gz
+    0f2210ad5896249466a0fc9a509e86c9a16db2b722741c6dfb5e8f7b33e385d4  mes-0.26.tar.gz
 
   [*] Use a .sig file to verify that the corresponding file (without the
   .sig suffix) is intact.  First, be sure to download both the .sig file
@@ -119,6 +119,7 @@ string>, string<, umask, uname, utimes, vector-fold.
 ** Noteworthy bug fixes
 *** Many bug-fixes to hygiene, string primitives, optional arguments.
 
+See also <https://bootstrappable.org>.
 Join bug-mes@gnu.org and #bootstrappable on irc.libera.chat for
 discussions.
 
