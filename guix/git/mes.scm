@@ -56,14 +56,14 @@
 (define-public mescc-tools
   (package
     (name "mescc-tools")
-    (version "1.5.0")
+    (version "1.5.2")
     (source (origin
               (method url-fetch)
               (uri (string-append "mirror://savannah/" name "/"
                                   name "-" version ".tar.gz"))
               (sha256
                (base32
-                "1vjczlajyrbjcx9ld35vhdqbxfdwwy3axg0jray3iwnrf70qr700"))))
+                "1jak61gxab8bj8ddpgwfn9lqs917szq1phadmg8y5cjsndn1hv4k"))))
     (build-system gnu-build-system)
     (supported-systems '("i686-linux" "x86_64-linux"
                          "armhf-linux" "aarch64-linux"
@@ -74,11 +74,7 @@
       #:make-flags #~(list (string-append "PREFIX=" #$output))
       #:test-target "test"
       #:phases #~(modify-phases %standard-phases
-                   (delete 'configure)
-                   (add-after 'unpack 'patch-Kaem/test.sh
-                     (lambda _
-                       (substitute* "Kaem/test.sh"
-                         (("#/usr/") "#! /usr")))))))
+                   (delete 'configure))))
     (synopsis "Tools for the full source bootstrapping process")
     (description
      "Mescc-tools is a collection of tools for use in a full source
