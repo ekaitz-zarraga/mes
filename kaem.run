@@ -169,4 +169,5 @@ hex2                                                    \
 echo Running mes-m2
 GUILE_LOAD_PATH=${srcdest}mes/module:${srcdest}module
 ./bin/mes-m2 -c "(display 'Hello,M2-mes!) (newline)"
+GUILE_LOAD_PATH=/fubar
 cp bin/mes-m2 bin/mes
