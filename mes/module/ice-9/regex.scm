@@ -45,7 +45,7 @@
 
             regexp-quote))
 
-(include "/home/samplet/Code/3rdparty/mes/wip-gash/mes/module/ice-9/pregexp.upstream.scm")
+(include-from-path "ice-9/pregexp.upstream.scm")
 
 
 ;;; Patterns
