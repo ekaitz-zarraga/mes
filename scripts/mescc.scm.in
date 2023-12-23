@@ -57,9 +57,9 @@
 
 (cond-expand
  (mes
-  (if (current-module) (use-modules (mescc))
-      (mes-use-module (mescc)))
-  (mescc:main (command-line)))
+  (if (current-module)
+    (use-modules (mescc))
+    (mes-use-module (mescc))))
  (guile
   (use-modules (mescc))))
 
