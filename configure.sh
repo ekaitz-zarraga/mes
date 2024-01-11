@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2018,2019,2021,2022,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2018,2019,2021,2022,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 # Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 #
 # This file is part of GNU Mes.
@@ -170,7 +170,7 @@ subst () {
     $1 > $2
 }
 
-host=${host-$($CC -dumpmachine 2>/dev/null)}
+host=${host-$($CC -dumpmachine 2>/dev/null)} || true
 if test -z "$host$host_type"; then
     mes_cpu=${arch-$(get_machine || uname -m)}
 else
