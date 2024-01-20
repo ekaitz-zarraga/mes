@@ -1,6 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2018, 2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
-;;; Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
+;;; Copyright © 2023, 2024 Andrius Štikonas <andrius@stikonas.eu>
 ;;; Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -135,12 +135,8 @@
     `((,(string-append "push___%" r)))))
 
 (define (x86_64:label->arg info label i)
-  `(("push___$i32" (#:address ,label))))
-
-;; FIXME?
-;; (define (x86_64:label->arg info label i)
-;;   `((,(string-append "mov____$i64,%r15") (#:address8 ,label))
-;;     ("push___%r15" (#:address ,label))))
+  `((,(string-append "lea____$i32(%rip),%r10") (#:offset ,label))
+    (,(string-append "push___%r10"))))
 
 (define (x86_64:r0+r1 info)
   (let ((r1 (get-r1 info))
@@ -197,7 +193,7 @@
 
 (define (x86_64:label->r info label)
   (let ((r (get-r info)))
-    `((,(string-append "mov____$i64,%" r) (#:address8 ,label)))))
+    `((,(string-append "lea____$i32(%rip),%" r) (#:offset ,label)))))
 
 (define (x86_64:r0->r1 info)
   (let ((r0 (get-r0 info))
@@ -285,7 +281,8 @@
 
 (define (x86_64:label-mem->r info label)
   (let ((r (get-r info)))
-    `((,(string-append "mov____0x32,%" r) (#:address ,label)))))
+    `((,(string-append "lea____$i32(%rip),%r10") (#:offset ,label))
+      (,(string-append "mov____(%r10),%" r)))))
 
 (define (x86_64:word-mem->r info)
   (let ((r (get-r info)))
@@ -306,8 +303,8 @@
                 `("add____$i32,0x32(%rbp)" (#:immediate ,n) (#:immediate ,v)))))) ;; FIXME: 64b
 
 (define (x86_64:label-mem-add info label v)
-  `(,(if (< (abs v) #x80) `("add____$i8,0x32" (#:address ,label) (#:immediate1 ,v))
-         `("add____$i32,0x32" (#:address ,label) (#:immediate ,v))))) ;; FIXME: 64b
+  `(,(if (< (abs v) #x80) `("add____$i8,0x32" (#:offset ,label) (#:immediate1 ,v))
+         `("add____$i32,0x32" (#:offset ,label) (#:immediate ,v))))) ;; FIXME: 64b
 
 (define (x86_64:nop info)
   '(("nop")))
@@ -373,22 +370,26 @@
 
 (define (x86_64:r->label info label)
   (let ((r (get-r info)))
-    `((,(string-append "mov____%" r ",0x32") (#:address ,label))))) ;; FIXME: 64 bits
+  `((,(string-append "lea____$i32(%rip),%r10") (#:offset ,label)) ;; FIXME: 64 bits
+      (,(string-append "mov____%" r ",(%r10)")))))
 
 (define (x86_64:r->byte-label info label)
   (let* ((r (get-r info))
          (l (r->l r)))
-    `((,(string-append "movb___%" l ",0x32") (#:address ,label)))))
+    `((,(string-append "lea____$i32(%rip),%r10") (#:offset ,label))
+      (,(string-append "mov____%" l ",(%r10)")))))
 
 (define (x86_64:r->word-label info label)
   (let* ((r (get-r info))
         (x (r->x r)))
-    `((,(string-append "movw___%" x ",0x32") (#:address ,label)))))
+    `((,(string-append "lea____$i32(%rip),%r10") (#:offset ,label))
+      (,(string-append "mov____%" x ",(%r10)")))))
 
 (define (x86_64:r->long-label info label)
   (let* ((r (get-r info))
         (e (r->e r)))
-    `((,(string-append "movl___%" e ",0x32") (#:address ,label)))))
+    `((,(string-append "lea____$i32(%rip),%r10") (#:offset ,label))
+      (,(string-append "mov____%" e ",(%r10)")))))
 
 (define (x86_64:call-r info n)
   (let ((r (get-r info)))

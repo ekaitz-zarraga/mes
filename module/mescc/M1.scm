@@ -1,6 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
-;;; Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
+;;; Copyright © 2023, 2024 Andrius Štikonas <andrius@stikonas.eu>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -185,6 +185,18 @@
            (hex2:address8 address))
           ((#:address8 ,global) (guard (global? global))
            (hex2:address8 (global->string global)))
+
+          ((#:offset ,global) (guard (global? global))
+           (hex2:offset (global->string global)))
+
+          ((#:offset (#:string ,string))
+           (hex2:offset (string->label `(#:string ,string))))
+          ((#:offset (#:address ,address)) (guard (string? address))
+           (hex2:offset address))
+          ((#:offset ,function) (guard (function? function))
+           (hex2:offset (function->string function)))
+          ((#:offset (#:address ,global)) (guard (global? global))
+           (hex2:offset (global->string global)))
 
           ((#:offset ,offset) (hex2:offset offset))
           ((#:offset1 ,offset1) (hex2:offset1 offset1))
