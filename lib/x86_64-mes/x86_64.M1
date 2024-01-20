@@ -2,6 +2,7 @@
 ### Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 ### Copyright © 2018 Peter De Wachter <pdewacht@gmail.com>
 ### Copyright © 2022 Ekaitz Zarraga <ekaitz@elenq.tech>
+### Copyright © 2024 Andrius Štikonas <andrius@stikonas.eu>
 ###
 ### This file is part of GNU Mes.
 ###
@@ -20,7 +21,7 @@
 
 # reduced instruction set: rax, rdi (some rcx for shift, rdx for mul, div)
 # and r10 as i64 immediate helper
-# 212 instructions
+# 222 instructions
 
 DEFINE add____$i32,%rax 4805
 DEFINE add____$i32,%rbp 4881c5
@@ -78,6 +79,9 @@ DEFINE jmp32 e9
 DEFINE jmp____*%rbx ffe3
 DEFINE jne32 0f85
 DEFINE lahf 9f
+DEFINE lea____$i32(%rip),%rax 488d05
+DEFINE lea____$i32(%rip),%rdi 488d3d
+DEFINE lea____$i32(%rip),%r10 4c8d15
 DEFINE mov____$i32,%rax 48c7c0
 DEFINE mov____$i32,%rdi 48c7c7
 DEFINE mov____$i32,0x8(%rbp) c745
@@ -90,10 +94,13 @@ DEFINE mov____%al,(%rdi) 8807
 DEFINE mov____%al,0x32(%rbp) 8885
 DEFINE mov____%al,0x8(%rbp) 8845
 DEFINE mov____%ax,(%rdi) 668907
+DEFINE mov____%ax,(%r10) 66418902
 DEFINE mov____%ax,0x8(%rbp) 668945
 DEFINE mov____%eax,%eax 89c0
 DEFINE mov____%eax,%rax 89c0
 DEFINE mov____%eax,(%rdi) 8907
+DEFINE mov____%eax,(%r10) 418902
+DEFINE mov____%edi,(%r10) 41893a
 DEFINE mov____%eax,0x32(%rbp)  8985
 DEFINE mov____%eax,0x8(%rbp) 8945
 DEFINE mov____%edi,%edi 89ff
@@ -106,7 +113,7 @@ DEFINE mov____%r8,%rdi 4c89c7
 DEFINE mov____%rax,%rax 4889c0
 DEFINE mov____%rax,%rdi 4889c7
 DEFINE mov____%rax,(%rdi) 488907
-DEFINE mov____%rax,0x32 48890425
+DEFINE mov____%rax,(%r10) 498902
 DEFINE mov____%rax,0x32(%rbp) 488985
 DEFINE mov____%rax,0x8(%rbp) 488945
 DEFINE mov____%rax,0x8(%rdi) 488947
@@ -136,6 +143,8 @@ DEFINE mov____(%rax),%si 668b30
 DEFINE mov____(%rax),%sil 408a30
 DEFINE mov____(%rdi),%edi 8b3f
 DEFINE mov____(%rdi),%rdi 488b3f
+DEFINE mov____(%r10),%rax 498b02
+DEFINE mov____(%r10),%rdi 498b3a
 DEFINE mov____0x32(%rbp),%rax 488b85
 DEFINE mov____0x32(%rbp),%rdi 488bbd
 DEFINE mov____0x32,%rax 488b0425
@@ -154,8 +163,6 @@ DEFINE mov____0x8(%rbp),%rsp 488b65
 DEFINE mov____0x8(%rdi),%rax 488b47
 DEFINE mov____0x8(%rdi),%rbp 488b6f
 DEFINE mov____0x8(%rdi),%rsp 488b67
-DEFINE movl___%eax,0x32 890425
-DEFINE movl___%edi,0x32 893c25
 DEFINE movl___%esi,(%rdi) 8937
 DEFINE movl___(%rax),%esi 8b30
 DEFINE movsbq_%al,%rax 480fbec0
@@ -170,8 +177,6 @@ DEFINE movswq_%ax,%rax 480fbfc0
 DEFINE movswq_%di,%rdi 480fbfff
 DEFINE movswq_(%rax),%rax 480fbf00
 DEFINE movswq_(%rdi),%rdi 480fbf3f
-DEFINE movw___%ax,0x32 66890425
-DEFINE movw___%di,0x32 66893c25
 DEFINE movz___(%rax),%rax 480fb600
 DEFINE movzbq_%al,%rax 480fb6c0
 DEFINE movzbq_%dil,%rdi 480fb6ff
@@ -194,7 +199,7 @@ DEFINE pop____%rax 58
 DEFINE pop____%rbp 5d
 DEFINE pop____%rdi 5f
 DEFINE pop____%rdx 5a
-DEFINE push___$i32 68
+DEFINE push___%r10 4152
 DEFINE push___%r15 4157
 DEFINE push___%rax 50
 DEFINE push___%rbp 55
