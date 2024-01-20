@@ -31,7 +31,7 @@ Small fixes and additions to
 lib/x86-mes/x86.M1
 lib/x86_64-mes/x86_64.M1
 include/stdint.h
-module/mescc/compile.mes
+module/mescc/compile.scm
 
 rain1
 scaffold/tests/90-goto-var.c
@@ -47,6 +47,7 @@ RISC-V port
 
 Andrius Štikonas <andrius@stikonas.eu>
 Rewrite the RISC-V port to use new word-based macros.
+Make the x86_64 port emit position independent code.
 
 Ekaitz Zarraga <ekaitz@elenq.tech>
 Fixes for RISC-V port and bootstrap.
