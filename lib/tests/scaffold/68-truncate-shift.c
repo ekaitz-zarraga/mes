@@ -2,6 +2,7 @@
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
  * Copyright © 2023 Janneke Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2024 Ekaitz Zarraga <ekaitz@elenq.tech>
  *
  * This file is part of GNU Mes.
  *
@@ -29,28 +30,53 @@ main ()
   eputs (ntoab (a, 16, 1));
   eputs ("\n");
 
+#if __riscv
+  asm ("#//b = a << 20;");
+#else
   asm (";;//b = a << 20;");
+#endif
   int b = a << 20;
+#if __riscv
+  asm ("#//print b;");
+#else
   asm (";;//print b;");
+#endif
   eputs ("b=");
   eputs (ntoab (b, 16, 1));
   eputs ("\n");
   if (b != 0x100000)
     return 1;
 
+#if __riscv
+  asm ("#//c = b >> 20;");
+#else
   asm (";;//c = b >> 20;");
+#endif
   int c = b >> 20;;
+#if __riscv
+  asm ("#//print c;");
+#else
   asm (";;//print c;");
+#endif
   eputs ("c=");
   eputs (ntoab (c, 16, 1));
   eputs ("\n");
   if (c != 1)
     return 2;
 
+#if __riscv
+  asm ("#//x = a << 20 >> 20;");
+#else
   asm (";;//x = a << 20 >> 20;");
+#endif
   int x = a << 20 >> 20;
   // printf ("x=%d\n", x);
+
+#if __riscv
+  asm ("#//print x;");
+#else
   asm (";;//print x;");
+#endif
   eputs ("x=");
   eputs (ntoab (x, 16, 1));
   eputs ("\n");
