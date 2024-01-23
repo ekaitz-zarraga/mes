@@ -1,6 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2016,2017,2018,2019,2020,2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
-;;; Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
+;;; Copyright © 2023, 2024 Andrius Štikonas <andrius@stikonas.eu>
 ;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;; Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
 ;;;
@@ -1485,7 +1485,7 @@
                (wrap-as (as info 'long-signed-r)))
               ((and (> reg-size 4) (= size 4))
                ;; for 17-unsigned-le
-               (wrap-as (as info 'long-signed-r))  ; huh, why not long-r?
+               (wrap-as (as info 'long-r))
                ;; for a0-call-trunc-int
                ;;(wrap-as (as info 'long-r))
                )
