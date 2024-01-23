@@ -1,6 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
-;;; Copyright © 2023 Timothy Sample <samplet@ngyro.com>
+;;; Copyright © 2023, 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -28,7 +28,7 @@
 
 (define (vector-fold kons knil vec)
   (let loop ((k 0) (acc knil))
-    (if (=> k (vector-length vec)) acc
+    (if (>= k (vector-length vec)) acc
         (loop (+ k 1) (kons k acc (vector-ref vec k))))))
 
 (define (vector-copy! target tstart source sstart send)
