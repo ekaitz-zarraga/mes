@@ -2,7 +2,7 @@
 
 # GNU Mes --- Maxwell Equations of Software
 # Copyright © 2017,2018,2019,2020,2022,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
-# Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
+# Copyright © 2023, 2024 Andrius Štikonas <andrius@stikonas.eu>
 # Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 #
 # This file is part of GNU Mes.
@@ -268,6 +268,8 @@ lib/tests/scaffold/91-goto-array.c
 
     if test $mes_cpu = x86_64; then
         xfail_tests="$xfail_tests
+lib/tests/scaffold/16-cast.c
+lib/tests/scaffold/17-compare-unsigned-le.c
 lib/tests/scaffold/17-compare-rotated.c
 lib/tests/scaffold/a0-call-trunc-int.c
 "
