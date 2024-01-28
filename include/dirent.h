@@ -2,6 +2,7 @@
  * GNU Mes --- Maxwell Equations of Software
  * Copyright (C) 1991, 1992 Free Software Foundation, Inc.
  * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2024 Andrius Štikonas <andrius@stikonas.eu>
  *
  * This file is part of GNU Mes.
  *
@@ -31,6 +32,7 @@
 
 #else // ! SYSTEM_LIBC
 
+#include <arch/syscall.h>
 #include <dirstream.h>
 
 // Taken from GNU C Library 1.06.4, 2.2.5
@@ -48,7 +50,7 @@ struct dirent
   ino_t d_ino;
   off_t d_off;
   unsigned short int d_reclen;
-#if 0
+#if defined (SYS_getdents64)
   unsigned char d_type;
 #endif
   char d_name[256];             /* We must not include limits.h! */

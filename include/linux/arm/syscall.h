@@ -106,7 +106,8 @@
 #define SYS_lstat64    0xc4
 #define SYS_fstat64    0xc5
 #define SYS_fcntl64    0xdd
-#define SYS_getdents64 0xdc
+// This breaks 90-readdir.c, on GCC and MESCC alike
+// #define SYS_getdents64 0xdc
 
 #undef SYS_stat
 #define SYS_stat SYS_stat64
