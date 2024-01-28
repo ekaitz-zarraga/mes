@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2018,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2024 Andrius Štikonas <andrius@stikonas.eu>
  *
  * This file is part of GNU Mes.
  *
@@ -79,7 +80,7 @@
 #define SYS_setitimer 0x26
 #define SYS_fstat     0x05
 #define SYS_nanosleep 0x33
-#define SYS_getdents  0x4e
+#define SYS_getdents64 0xd9
 
 // bash
 #define SYS_setuid    0x69
