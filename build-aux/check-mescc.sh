@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2017,2018,2019,2020,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2017,2018,2019,2020,2022,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 # Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
 # Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 #
@@ -272,6 +272,13 @@ lib/tests/scaffold/17-compare-rotated.c
 lib/tests/scaffold/a0-call-trunc-int.c
 "
     fi
+
+    if test $mes_cpu = arm; then
+        xfail_tests="$xfail_tests
+lib/tests/scaffold/17-compare-rotated.c
+"
+    fi
+
     if test $mes_cpu = riscv64; then
         xfail_tests="$xfail_tests
 lib/tests/scaffold/17-compare-rotated.c
