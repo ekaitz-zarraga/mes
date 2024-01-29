@@ -1,5 +1,5 @@
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2018,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2018,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -171,4 +171,28 @@ endif
 
 ifdef XFAIL_TESTS
 export XFAIL_TESTS
+endif
+
+ifdef BOOT_TESTS
+export BOOT_TESTS
+endif
+
+ifdef BOOT_XFAIL_TESTS
+export BOOT_XFAIL_TESTS
+endif
+
+ifdef MES_TESTS
+export MES_TESTS
+endif
+
+ifdef MES_XFAIL_TESTS
+export MES_XFAIL_TESTS
+endif
+
+ifdef MESCC_TESTS
+export MESCC_TESTS
+endif
+
+ifdef MESCC_XFAIL_TESTS
+export MESCC_XFAIL_TESTS
 endif
