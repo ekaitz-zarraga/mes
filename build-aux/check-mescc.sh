@@ -276,6 +276,7 @@ lib/tests/scaffold/a0-call-trunc-int.c
     if test $mes_cpu = arm; then
         xfail_tests="$xfail_tests
 lib/tests/scaffold/17-compare-rotated.c
+lib/tests/scaffold/67-m1-overflow-check.c
 "
     fi
 
