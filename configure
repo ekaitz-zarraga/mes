@@ -4,7 +4,7 @@ MES_ARENA=100000000 exec ${SCHEME-guile} -L . --no-auto-compile -e '(configure)'
 !#
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2019,2020,2021,2022,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2019,2020,2021,2022,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2020 Vagrant Cascadian <vagrant@reproducible-builds.org>
 ;;; Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
 ;;;
@@ -576,7 +576,6 @@ Some influential environment variables:
       (when (and (not (member mes-system '("arm-linux-mes"
                                            "x86-linux-mes"
                                            "x86_64-linux-mes"
-                                           "riscv32-linux-mes"
                                            "riscv64-linux-mes")))
                  (not with-courage?))
         (stderr "platform not supported: ~a
