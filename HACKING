@@ -51,7 +51,7 @@ Configure to compile with Tiny CC
   6) globals
 
 * TESTING
-** make check recheck=true TESTS="tests/base lib/tests/scaffold/t.c"
+** make check recheck=true MES_TESTS=tests/base MESCC_TESTS=lib/tests/scaffold/t
 ** mescc
 
 *** To skip MES tests, in "./check.sh", comment-out check-boot.sh, check-mes.sh.
@@ -202,7 +202,7 @@ https://notabug.org/rain1/hex86/src/master/tests/hex0b3.hex86
 ** linux syscalls: https://fedora.juszkiewicz.com.pl/syscalls.html
 * legalese
 
-Copyright © 2016,2017,2018,2019,2021,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+Copyright © 2016,2017,2018,2019,2021,2022,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 
   Copying and distribution of this file, with or without modification,
   are permitted in any medium without royalty provided the copyright

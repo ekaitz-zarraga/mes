@@ -314,15 +314,15 @@ lib/tests/scaffold/70-extern.c
     fi
 fi
 
-# Allow for make check TESTS=lib/tests/setjmp/80-setjmp.c
+# Allow for make check MESCC_TESTS=lib/tests/setjmp/80-setjmp.c
 if test -n "$bootstrap"; then
-    TESTS="${TESTS-$mes_tests$tcc_tests}"
+    TESTS="${MESCC_TESTS-$mes_tests$tcc_tests}"
 else
-    TESTS="${TESTS-$mes_tests$tcc_tests$gnu_tests}"
+    TESTS="${MESCC_TESTS-$mes_tests$tcc_tests$gnu_tests}"
 fi
 
-# Allow for make check xfail_tests=lib/tests/setjmp/80-setjmp.c
-XFAIL_TESTS="${XFAIL_TESTS-$xfail_tests}"
+# Allow for make check MESCC_XFAIL_TESTS=lib/tests/setjmp/80-setjmp.c
+XFAIL_TESTS="${MESCC_XFAIL_TESTS-$xfail_tests}"
 
 recheck=${recheck-false}
 test_ext=.c
