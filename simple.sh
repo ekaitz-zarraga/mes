@@ -168,6 +168,7 @@ EOF
 
 mkdir -p include/arch
 cp -f include/$mes_kernel/$mes_cpu/kernel-stat.h include/arch
+cp -f include/$mes_kernel/$mes_cpu/signal.h include/arch
 cp -f include/$mes_kernel/$mes_cpu/syscall.h include/arch
 
 ## Build ##
