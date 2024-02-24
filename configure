@@ -709,7 +709,7 @@ See \"Porting GNU Mes\" in the manual, or try --with-courage\n" mes-system)
                    (string-append arch-dir "/" file-name)
                    (string-append "include/arch/" file-name)))
         (system* "mkdir" "-p" "include/arch")
-        (for-each copy-header '("kernel-stat.h" "syscall.h")))
+        (for-each copy-header '("kernel-stat.h" "signal.h" "syscall.h")))
 
       (let ((make (and=> (file-name "make" deps) basename)))
         (display (string-append "

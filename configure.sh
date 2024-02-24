@@ -2,7 +2,7 @@
 
 # GNU Mes --- Maxwell Equations of Software
 # Copyright © 2018,2019,2021,2022,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
-# Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
+# Copyright © 2023, 2024 Ekaitz Zarraga <ekaitz@elenq.tech>
 #
 # This file is part of GNU Mes.
 #
@@ -266,6 +266,7 @@ EOF
 
 mkdir -p include/arch
 cp -f -v ${srcdest}include/${mes_kernel}/${mes_cpu}/kernel-stat.h include/arch
+cp -f -v ${srcdest}include/${mes_kernel}/${mes_cpu}/signal.h include/arch
 cp -f -v ${srcdest}include/${mes_kernel}/${mes_cpu}/syscall.h include/arch
 
 cat <<EOF
