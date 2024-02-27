@@ -3,7 +3,7 @@
 # GNU Mes --- Maxwell Equations of Software
 # Copyright © 2017,2018,2019,2020,2022,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 # Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
-# Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
+# Copyright © 2023, 2024 Ekaitz Zarraga <ekaitz@elenq.tech>
 #
 # This file is part of GNU Mes.
 #
@@ -217,6 +217,7 @@ lib/tests/scaffold/82-define.c
 lib/tests/scaffold/83-heterogenoous-init.c
 lib/tests/scaffold/84-struct-field-list.c
 lib/tests/scaffold/85-sizeof.c
+lib/tests/scaffold/86-comma-operator-types.c
 "
 
 gnu_tests="
@@ -247,6 +248,7 @@ lib/tests/scaffold/a1-global-no-clobber.c
 "
 
 xfail_tests="
+lib/tests/scaffold/86-comma-operator-types.c
 lib/tests/stdio/90-sprintf.c
 "
 
