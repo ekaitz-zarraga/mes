@@ -2,6 +2,7 @@
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2017,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2018 Peter De Wachter <pdewacht@gmail.com>
+ * Copyright © 2024 Ekaitz Zarraga <ekaitz@elenq.tech>
  *
  * This file is part of GNU Mes.
  *
@@ -66,8 +67,18 @@ typedef unsigned uintmax_t;
 #include <sys/types.h>
 
 #define CHAR_BIT 8
-#define CHAR_MAX 255
+#define SCHAR_MIN (-128)
+#define SCHAR_MAX 127
 #define UCHAR_MAX 255
+
+/* Check if we are in signed or unsigned char case */
+#if '\xff' > 0
+#define CHAR_MIN 0
+#define CHAR_MAX UCHAR_MAX
+#else
+#define CHAR_MIN SCHAR_MIN
+#define CHAR_MAX SCHAR_MAX
+#endif
 
 #define INT8_MAX 127
 #define INT8_MIN (-INT8_MAX-1)
