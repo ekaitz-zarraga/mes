@@ -61,8 +61,13 @@ typedef unsigned long long uint64_t;
 typedef long long int64_t;
 #endif // __SIZEOF_LONG_LONG__ == 8
 
+#if __i386__ || __arm__ || __riscv_xlen == 32
 typedef int intmax_t;
 typedef unsigned uintmax_t;
+#elif __x86_64__ || __riscv_xlen == 64
+typedef long intmax_t;
+typedef unsigned long uintmax_t;
+#endif
 
 #include <sys/types.h>
 
