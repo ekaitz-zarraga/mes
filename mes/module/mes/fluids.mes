@@ -1,7 +1,7 @@
 ;;; -*-scheme-*-
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -105,3 +105,9 @@
            (lambda ()
              ,@save-inners
              ,@set-outers)))))))
+
+(define (with-fluids* fluids values thunk)
+  (if (null? fluids) (thunk)
+      (with-fluid* (car fluids) (car values)
+                   (lambda _
+                     (with-fluids* (cdr fluids) (cdr values) thunk)))))
