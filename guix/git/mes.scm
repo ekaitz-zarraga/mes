@@ -1,5 +1,5 @@
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2019,2020,2021,2022,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2019,2020,2021,2022,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -153,7 +153,7 @@ extensive examples, including parsers for the Javascript and C99 languages.")
     (home-page "https://savannah.nongnu.org/projects/nyacc")
     (license (list gpl3+ lgpl3+))))
 
-(define-public nyacc
+(define-public nyacc-1.00.2
   (package
     (inherit nyacc-0.99)
     (version "1.00.2")
@@ -194,7 +194,7 @@ extensive examples, including parsers for the Javascript and C99 languages.")
     (build-system gnu-build-system)
     (supported-systems '("aarch64-linux" "armhf-linux" "i686-linux"
                          "x86_64-linux" "riscv64-linux"))
-    (propagated-inputs (list mescc-tools nyacc))
+    (propagated-inputs (list mescc-tools nyacc-1.00.2))
     (native-inputs
      (append
       (list guile-3.0)
