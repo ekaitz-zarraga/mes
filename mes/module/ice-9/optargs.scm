@@ -1,7 +1,7 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;;
 ;;; Copyright © 1997, 1998, 1999, 2001, 2002, 2004, 2006 Free Software Foundation, Inc.
-;;; Copyright © 2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2017,2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -142,6 +142,9 @@
 			  (lambda (optional)
 			    `(,(car optional)
 			      (cond
+                               ((and (pair? ,REST-ARG)
+                                     (keyword? (car ,REST-ARG)))
+                                ,(cadr optional))
 			       ((not (null? ,REST-ARG))
 				(let ((result (car ,REST-ARG)))
 				  ,(list 'set! REST-ARG
