@@ -1,5 +1,5 @@
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2019,2020,2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2019,2020,2021,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2023, 2024 Andrius Štikonas <andrius@stikonas.eu>
 ;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;; Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
@@ -1654,9 +1654,17 @@
       ((comp-decl (decl-spec-list (type-spec ,type)) (comp-declr-list (comp-declr (ptr-declr ,pointer (ident ,name)))))
        (let ((rank (pointer->rank pointer)))
          (list (cons name (rank+= (ast->type type info) rank)))))
+
+      ;; Nyacc => 1.02.0
+      ((comp-decl (decl-spec-list (type-spec ,type)) (comp-declr-list (comp-declr (ftn-declr (ptr-declr ,pointer (ident ,name)) _))))
+       (let ((rank (pointer->rank pointer)))
+         (list (cons name (rank+= (ast->type type info) rank)))))
+
+      ;; Nyacc < 1.02.0
       ((comp-decl (decl-spec-list (type-spec ,type)) (comp-declr-list (comp-declr (ftn-declr (scope (ptr-declr ,pointer (ident ,name))) _))))
        (let ((rank (pointer->rank pointer)))
          (list (cons name (rank+= (ast->type type info) rank)))))
+
       ((comp-decl (decl-spec-list (type-spec ,type)) (comp-declr-list (comp-declr (ptr-declr ,pointer (array-of (ident ,name) ,count)))))
        (let ((rank (pointer->rank pointer))
              (count (expr->number info count)))
@@ -2084,6 +2092,9 @@
   (pmatch o
     ((ident ,name) name)
     ((array-of ,array . ,_) (ast->name array))
+    ;;Nyacc >= 1.02.0
+    ((ftn-declr (ptr-declr ,pointer (ident ,name)) . _) name)
+    ;;Nyacc < 1.02.0
     ((ftn-declr (scope (ptr-declr ,pointer (ident ,name))) . _) name)
     ((ptr-declr ,pointer ,decl . ,_) (ast->name decl))
     ((ptr-declr ,pointer (ident ,name)) name)
@@ -2376,6 +2387,20 @@
        (if (member name functions) info
            (let ((function (make-function name type #f)))
              (clone info #:functions (cons (cons name function) functions))))))
+
+    ;; Nyacc >= 1.02.0
+    (((ftn-declr (ptr-declr ,pointer (ident ,name)) ,param-list) ,init)
+     (let* ((rank (pointer->rank pointer))
+            (type (rank+= type rank)))
+       (if (.function info) (local->info type name o init info)
+           (global->info storage type name o init info))))
+    (((ftn-declr (ptr-declr ,pointer (ident ,name)) ,param-list))
+     (let* ((rank (pointer->rank pointer))
+            (type (rank+= type rank)))
+       (if (.function info) (local->info type name o '() info)
+           (global->info storage type name o '() info))))
+
+    ;; Nyacc < 1.02.0
     (((ftn-declr (scope (ptr-declr ,pointer (ident ,name))) ,param-list) ,init)
      (let* ((rank (pointer->rank pointer))
             (type (rank+= type rank)))
@@ -2386,6 +2411,7 @@
             (type (rank+= type rank)))
        (if (.function info) (local->info type name o '() info)
            (global->info storage type name o '() info))))
+
     (((ptr-declr ,pointer . ,_) . ,init)
      (let* ((rank (pointer->rank pointer))
             (type (rank+= type rank)))
