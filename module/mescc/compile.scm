@@ -139,6 +139,13 @@
              (let ((type (get-type name info)))
                (ast->type type info)))
 
+      ;; Nyacc >= 1.02.0
+      ((type-name (decl-spec-list ,type) (abs-ptr-declr (pointer . ,pointer)))
+       (let ((rank (pointer->rank `(pointer ,@pointer)))
+             (type (ast->type type info)))
+         (rank+= type rank)))
+
+      ;; Nyacc < 1.02.0
       ((type-name (decl-spec-list ,type) (abs-declr (pointer . ,pointer)))
        (let ((rank (pointer->rank `(pointer ,@pointer)))
              (type (ast->type type info)))
@@ -238,6 +245,12 @@
 
       ((cast (type-name ,type) ,expr) (ast->type type info))
 
+      ;; Nyacc >= 1.02.0
+      ((cast (type-name ,type (abs-ptr-declr ,pointer)) ,expr)
+       (let ((rank (pointer->rank pointer)))
+         (rank+= (ast->type type info) rank)))
+
+      ;; Nyacc < 1.02.0
       ((cast (type-name ,type (abs-declr ,pointer)) ,expr)
        (let ((rank (pointer->rank pointer)))
          (rank+= (ast->type type info) rank)))
@@ -964,7 +977,23 @@
          (expr->register initzer info))
 
         ;; offsetoff
-        ((ref-to (i-sel (ident ,field) (cast (type-name (decl-spec-list ,struct) (abs-declr (pointer))) (p-expr (fixed ,base)))))
+
+        ;; Nyacc >= 1.02.0
+        ((ref-to (i-sel (ident ,field) (cast (type-name
+                                              (decl-spec-list ,struct)
+                                              (abs-ptr-declr (pointer)))
+                                             (p-expr (fixed ,base)))))
+         (let* ((type (ast->basic-type struct info))
+                (offset (field-offset info type field))
+                (base (cstring->int base))
+                (info (allocate-register info)))
+           (append-text info (wrap-as (as info 'value->r (+ base offset))))))
+
+      ;; Nyacc < 1.02.0
+        ((ref-to
+          (i-sel (ident ,field) (cast (type-name (decl-spec-list ,struct)
+                                                 (abs-declr (pointer)))
+                                      (p-expr (fixed ,base)))))
          (let* ((type (ast->basic-type struct info))
                 (offset (field-offset info type field))
                 (base (cstring->int base))
