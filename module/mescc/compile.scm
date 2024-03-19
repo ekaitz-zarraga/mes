@@ -2700,6 +2700,9 @@
 (define (param-decl:get-name o)
   (pmatch o
     ((ellipsis) #f)
+    ;; Nyacc >= 1.02.0
+    ((param-decl (decl-spec-list (type-spec (void))) (param-declr)) #f)
+    ;; Nyacc < 1.02.0
     ((param-decl (decl-spec-list (type-spec (void)))) #f)
     ((param-decl _ (param-declr ,ast)) (ast->name ast))
     (_ (error "param-decl:get-name not supported:" o))))
