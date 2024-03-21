@@ -142,14 +142,3 @@ cp bin/mes-mescc bin/mes
     fi
     @SHELL@ ${srcdest}build-aux/build-source-lib.sh
 )
-(
-    mkdir -p tcc-lib
-    cp config.sh tcc-lib
-    cd tcc-lib
-    compiler=tcc
-    if test -z "$srcdest"; then
-        srcdest=../
-        srcdir=../
-    fi
-    ${SHELL} ${srcdest}build-aux/build-source-lib.sh
-)
