@@ -223,6 +223,27 @@ $prefix/share/guile/site/$GUILE_EFFECTIVE_VERSION\n"))
                   #t))))
     (inputs (list guile-3.0))))
 
+(define-public nyacc-1.04.0
+  (package
+    (inherit nyacc-0.99)
+    (version "1.04.0")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append "mirror://savannah/nyacc/nyacc-"
+                                  version ".tar.gz"))
+              (sha256
+               (base32
+                "0m3mcdaslvvr2iav8ga146hzsja2hdj4656pszljb4q2q7h25ip5"))
+              (modules '((guix build utils)))
+              (snippet
+               '(begin
+                  (substitute* "configure"
+                    (("GUILE_GLOBAL_SITE=\\$prefix.*")
+                     "GUILE_GLOBAL_SITE=\
+$prefix/share/guile/site/$GUILE_EFFECTIVE_VERSION\n"))
+                  #t))))
+    (inputs (list guile-3.0))))
+
 (define-public mes
   (package
     (name "mes")
