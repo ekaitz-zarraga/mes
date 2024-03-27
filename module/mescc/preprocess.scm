@@ -1,5 +1,5 @@
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2020,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2020,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -114,19 +114,23 @@
                    (cons (ast-strip-comment h) (ast-strip-comment t))))
     (_  o)))
 
+(define (qual-const? qual)
+  (or (equal? qual "const")             ;Nyacc <  1.04.0
+      (equal? qual '(const))))          ;Nyacc >= 1.04.0
+
 (define (ast-strip-const o)
   (pmatch o
-    ((type-qual ,qual) (if (equal? qual "const") #f o))
+    ((type-qual ,qual) (if (qual-const? qual) #f o))
     ((pointer (type-qual-list (type-qual ,qual)) . ,rest)
-     (if (equal? qual "const") `(pointer ,@rest) o))
+     (if (qual-const? qual) `(pointer ,@rest) o))
     ((decl-spec-list (type-qual ,qual))
-     (if (equal? qual "const") #f
+     (if (qual-const? qual) #f
          `(decl-spec-list (type-qual ,qual))))
     ((decl-spec-list (type-qual ,qual) . ,rest)
-     (if (equal? qual "const") `(decl-spec-list ,@rest)
+     (if (qual-const? qual) `(decl-spec-list ,@rest)
          `(decl-spec-list (type-qual ,qual) ,@(map ast-strip-const rest))))
     ((decl-spec-list (type-qual-list (type-qual ,qual)) . ,rest)
-     (if (equal? qual "const") `(decl-spec-list ,@rest)
+     (if (qual-const? qual) `(decl-spec-list ,@rest)
          `(decl-spec-list (type-qual-list (type-qual ,qual)) ,@(map ast-strip-const rest))))
     ((,h . ,t) (if (list? o) (filter-map ast-strip-const o)
                    (cons (ast-strip-const h) (ast-strip-const t))))
