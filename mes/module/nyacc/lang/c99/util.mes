@@ -31,14 +31,6 @@
 (mes-use-module (srfi srfi-9))
 (mes-use-module (sxml xpath))
 
-;; FIXME: Nyacc 0.93.0:
-;; FIXME: (mes-use-module (srfi srfi-2))
-;; FIXME: (mes-use-module (sxml fold))
-;; FIXME: (ice-9 popen)
-;; FIXME: (ice-9 rdelim)
-(define (export . rest) #t)
-(define (close-port port) #t)
-
 (mes-use-module (nyacc lang util))
 (mes-use-module (nyacc lang sx-util))
 

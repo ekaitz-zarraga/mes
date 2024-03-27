@@ -1,7 +1,7 @@
 ;;; -*-scheme-*-
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2019,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -59,6 +59,7 @@
 (mes-use-module (mes display))
 (mes-use-module (mes simple-format))
 
+(define %host-type (string-append %arch "-linux-gnu"))
 (define %load-path (or (and=> (getenv "GUILE_LOAD_PATH") (lambda (x) (string-split x #\:))) '()))
 
 (define (drain-input port) (read-string))
@@ -165,3 +166,13 @@
 
 (define (file-exists? o)
   (access? o R_OK))
+
+
+;;;
+;;; Nyacc 1.04.0
+;;;
+(define (close-port port)
+  #t)
+
+(define (export . rest)
+  #t)
