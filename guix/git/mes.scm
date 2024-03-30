@@ -278,7 +278,7 @@ $prefix/share/guile/site/$GUILE_EFFECTIVE_VERSION\n"))
     (build-system gnu-build-system)
     (supported-systems '("aarch64-linux" "armhf-linux" "i686-linux"
                          "x86_64-linux" "riscv64-linux"))
-    (propagated-inputs (list mescc-tools nyacc-1.04.0))
+    (propagated-inputs (list mescc-tools nyacc-1.05.1))
     (native-inputs
      (append
       (list guile-3.0)
