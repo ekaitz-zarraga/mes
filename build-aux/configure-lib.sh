@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2019,2020,2021,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2019,2020,2021,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 # Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 # Copyright © 2024 Andrius Štikonas <andrius@stikonas.eu>
 #
@@ -58,6 +58,7 @@ lib/gnu/_write.c
 lib/gnu/hurd-start.c
 lib/gnu/proc-mark-exit.c
 lib/gnu/syscall.c
+lib/gnu/syscall-internal.c
 lib/gnu/task-get-special-port.c
 lib/gnu/task-terminate.c
 lib/gnu/vm-statistics.c
@@ -83,8 +84,13 @@ fi
 
 libmescc_SOURCES="
 lib/mes/globals.c
-lib/linux/$mes_cpu-mes-$compiler/syscall-internal.c
 "
+
+if test $mes_kernel = linux; then
+    libmescc_SOURCES="$libmescc_SOURCES
+lib/$mes_kernel/$mes_cpu-mes-$compiler/syscall-internal.c
+"
+fi
 
 if test $mes_cpu = arm; then
     libmescc_SOURCES="$libmescc_SOURCES

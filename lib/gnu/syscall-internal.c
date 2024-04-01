@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2019,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -22,7 +22,7 @@
 
 #include <mach/mach_traps.h>
 
-static mach_msg_type_t mach_msg_type_int32 =
+mach_msg_type_t mach_msg_type_int32 =
   {
    .msgt_name = (unsigned char) MACH_MSG_TYPE_INTEGER_32, // msgt_name
    .msgt_size = 32,       // msgt_size
@@ -33,7 +33,7 @@ static mach_msg_type_t mach_msg_type_int32 =
    .msgt_unused = 0       // msgt_unused
   };
 
-static mach_msg_type_long_t mach_msg_type_pointer =
+mach_msg_type_long_t mach_msg_type_pointer =
   {
    {
     0, // msgt_name
@@ -49,7 +49,7 @@ static mach_msg_type_long_t mach_msg_type_pointer =
    2048, // msgtl_number
   };
 
-static mach_msg_type_t mach_msg_type_int64 =
+mach_msg_type_t mach_msg_type_int64 =
   {
    (unsigned char) MACH_MSG_TYPE_INTEGER_64, // msgt_name
    64, // msgt_size
