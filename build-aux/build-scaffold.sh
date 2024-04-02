@@ -2,6 +2,7 @@
 
 # GNU Mes --- Maxwell Equations of Software
 # Copyright © 2017,2018,2019,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2024 Michael Forney <mforney@mforney.org>
 #
 # This file is part of GNU Mes.
 #
@@ -43,10 +44,10 @@ else
     }
 fi
 
-trace "CCLD       ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/exit-42.S" $CC\
-      -nostdlib\
-      -g\
-      ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/exit-42.S\
+trace "CCLD       ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/exit-42.S" $CC $LDFLAGS \
+      -nostdlib                                                                            \
+      -g                                                                                   \
+      ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/exit-42.S                           \
       -o exit-42
 
 trace "TEST       exit-42"
@@ -82,7 +83,7 @@ trace "TEST       body-exit-42"
 [ $r = 42 ]
 
 ### FIXME: c&p from exit-42
-trace "CCLD       ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/hello-mes.S" $CC\
+trace "CCLD       ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/hello-mes.S" $CC $LDFLAGS\
       -nostdlib\
       -g\
       ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/hello-mes.S\
