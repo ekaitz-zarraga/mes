@@ -1479,6 +1479,11 @@
                                            (min size (max reg-size size-b))))
                        (info (free-register info)))
                   info)))))
+
+        ;; Nyacc 1.08.1
+        ((asm-expr ,gnuc (string ,arg0))
+         (append-text info (wrap-as (asm->m1 arg0))))
+
         (_ (error "expr->register: not supported: " o))))
 
     (let ((info (helper)))
