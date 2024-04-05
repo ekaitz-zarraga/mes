@@ -303,17 +303,17 @@ $prefix/share/guile/site/$GUILE_EFFECTIVE_VERSION\n")))))
 $prefix/share/guile/site/$GUILE_EFFECTIVE_VERSION\n")))))
     (inputs (list guile-3.0))))
 
-(define-public nyacc-1.07.4
+(define-public nyacc-1.08.1
   (package
     (inherit nyacc-0.99)
-    (version "1.07.4")
+    (version "1.08.1")
     (source (origin
               (method url-fetch)
               (uri (string-append "mirror://savannah/nyacc/nyacc-"
                                   version ".tar.gz"))
               (sha256
                (base32
-                "1kr3b88sx0g9zy52algxqpvnkjm76qdyld7pasbbajkph2zhcj92"))
+                "1vrz3pnlr3njwk6ksz85slcwawi8ngiqbw94wd9x3mgv85vsfmys"))
               (modules '((guix build utils)))
               (snippet
                '(substitute* "configure"
