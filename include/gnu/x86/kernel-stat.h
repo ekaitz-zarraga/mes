@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2022,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -21,5 +21,10 @@
 #define __MES_GNU_X86_KERNEL_STAT_H 1
 
 #include <arch/syscall.h>
+
+struct stat
+{
+  mode_t st_mode;
+};
 
 #endif // __MES_GNU_X86_KERNEL_STAT_H

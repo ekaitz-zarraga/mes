@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2022 Dor Askayo <dor.askayo@gmail.com>
  *
  * This file is part of GNU Mes.
@@ -29,12 +29,13 @@
 
 #include <time.h>
 #include <sys/types.h>
-#include <arch/kernel-stat.h>
 
 #ifndef __MES_MODE_T
 #define __MES_MODE_T
 typedef int mode_t;
 #endif
+
+#include <arch/kernel-stat.h>
 
 int chmod (char const *file_name, mode_t mode);
 int fstat (int filedes, struct stat *buf);
