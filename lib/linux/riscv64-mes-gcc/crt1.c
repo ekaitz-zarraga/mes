@@ -34,6 +34,9 @@ int main (int argc, char *argv[], char *envp[]);
 void
 _start ()
 {
+  int argc, retval;
+  char ** argv;
+  char ** envp;
   asm (
        ".option push\n\t"
        ".option norelax\n\t"
@@ -50,17 +53,20 @@ _start ()
        "slli  t0, t0, 3\n\t"
        "add   t0, t1, t0\n\t"
 
-       "lw    a0, 0(s0)\n\t"  // a0 argc
-       "addi  a1, s0, 8\n\t"  // a1 argv
-       "mv    a2, t0\n\t"     // a2 envp
-       "jal   __init_io\n\t"
-       "jal   main\n\t"
-
+       "lw    %[a0], 0(s0)\n\t"  // a0 argc
+       "addi  %[a1], s0, 8\n\t"  // a1 argv
+       "mv    %[a2], t0\n\t"     // a2 envp
+       : [a0] "r" (argc), [a1] "r" (argv), [a2] "r" (envp)
+       : "r" (environ)
+      );
+  __init_io();
+  retval = main(argc, argv, envp);
+  asm (
+       "mv    a0, %1\n\t"
        "li    a7, 93\n\t"     // SYS_exit
        "ecall\n\t"            // exit(return value from main)
-
        "ebreak\n\t"
        : //no outputs ""
-       : "r" (environ)
-       );
+       : "r" (environ), "r" (retval)
+      );
 }
