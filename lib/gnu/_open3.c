@@ -1,7 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+ * Copyright © 2019,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -35,7 +35,7 @@ int
 _open3 (char const *file_name, int flags, int mode)
 {
   mach_port_t port;
-  int do_retry;
+  enum retry_type do_retry;
   char retry_name[1024];
   int start_dir = (file_name[0] == '/') ? INIT_PORT_CRDIR : INIT_PORT_CWDIR;
   mach_port_t start_port = _hurd_startup_data.portarray[start_dir];
@@ -48,7 +48,8 @@ _open3 (char const *file_name, int flags, int mode)
 
   while (file_name[0] == '/')
     file_name++;
-  error_t e = __dir_lookup (start_port, file_name, flags, mode, &do_retry, retry_name, &port);
+  error_t e = __dir_lookup (start_port, (char*)file_name, flags, mode,
+                            &do_retry, retry_name, &port);
   if (e)
     return -1;
   int fd = _hurd_dtable_count++;

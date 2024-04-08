@@ -1,6 +1,6 @@
 /*
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2019,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -80,5 +80,11 @@ extern char *__envv[_HURD_ENVV_MAX];
 mach_port_t fd_get (int filedes);
 error_t fd_write (mach_port_t port, void const *buffer, size_t *size, loff_t offset);
 error_t fd_read (mach_port_t port, void *buffer, size_t *size, loff_t offset);
+
+#include <sys/stat.h>
+#include <gnu/hurd-types.h>
+
+kern_return_t __dir_lookup (file_t start_dir, string_t file_name, int flags, mode_t mode, retry_type *do_retry, string_t retry_name, mach_port_t *port);
+mach_port_t __mach_reply_port ();
 
 #endif // __MES_GNU_HURD_H
