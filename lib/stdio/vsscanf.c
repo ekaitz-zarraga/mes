@@ -41,6 +41,15 @@ vsscanf (char const *s, char const *template, va_list ap)
       {
         t++;
         char c = *t;
+        int skip_p = 0;
+        int length = -1;
+        if (c == '*')
+          skip_p = 1;
+        if (c >= '0' && c <= '9')
+          {
+            length = abtol (&t, 10);
+            c = *t;
+          }
         if (c == 'l')
           c = *++t;
         switch (c)
@@ -52,18 +61,27 @@ vsscanf (char const *s, char const *template, va_list ap)
             }
           case 'c':
             {
-              char *c = va_arg (ap, char *);
-              *c = *p++;
-              count++;
+              char r = *p++;
+              if (!skip_p)
+                {
+                  char *c = va_arg (ap, char *);
+                  *c = r;
+                  count++;
+                }
               break;
             }
           case 'd':
           case 'i':
           case 'u':
             {
-              int *d = va_arg (ap, int *);
-              *d = abtol ((char const **)&p, 10);
-              count++;
+              if (skip_p)
+                abtol ((char const **) &p, 10);
+              else
+                {
+                  int *d = va_arg (ap, int *);
+                  *d = abtol ((char const **) &p, 10);
+                  count++;
+                }
               break;
             }
           case 'e':
@@ -72,9 +90,76 @@ vsscanf (char const *s, char const *template, va_list ap)
           case 'E':
           case 'G':
             {
-              float *f = va_arg (ap, float *);
-              *f = strtod (p, &p);
-              count++;
+              if (skip_p)
+                strtod (p, &p);
+              else
+                {
+                  float *f = va_arg (ap, float *);
+                  *f = strtod (p, &p);
+                  count++;
+                }
+              break;
+            }
+          case 's':
+            {
+              char *s = skip_p ? 0 : va_arg (ap, char *);
+              char r = *p;
+              while (r && !isspace (r) && (length == -1 || length--))
+                {
+                  if (!skip_p)
+                    *s++ = r;
+                  r = *++p;
+                }
+              if (!skip_p)
+                {
+                  count++;
+                  *s = 0;
+                }
+              break;
+            }
+          case '[':
+            {
+              char *s = skip_p ? 0 : va_arg (ap, char *);
+              char set[1024];
+              int i = 0;
+              int not_in_set_p = 0;
+              t++;
+              if (*t == '^')
+                {
+                  not_in_set_p = 1;
+                  t++;
+                }
+              if (*t == ']' || *t == '-')
+                set[i++] = *t++;
+              while (*t && *t != ']')
+                {
+                  if (*t == '-')
+                    {
+                      char end = *t++;
+                      for (char x = set[i - 1] + 1; x < end; x++)
+                        set[i++] = x;
+                    }
+                  else
+                    set[i++] = *t++;
+                }
+              set[i] = 0;
+              char r = *p;
+              while (r && (length == -1 || length--))
+                {
+                  int match = (int) (long) strchr (set, r);
+                  if (not_in_set_p)
+                    match = !match;
+                  if (!match)
+                    break;
+                  if (!skip_p)
+                    *s++ = r;
+                  r = *++p;
+                }
+              if (!skip_p)
+                {
+                  count++;
+                  *s = 0;
+                }
               break;
             }
           default:

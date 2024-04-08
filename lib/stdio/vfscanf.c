@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017,2018,2019,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2018,2019,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -23,62 +23,80 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int
 vfscanf (FILE * stream, char const *template, va_list ap)
 {
-  char p = fgetc (stream);
+  char r = fgetc (stream);
   char const *t = template;
   int count = 0;
-  while (*t && p != EOF)
+  while (*t && r != EOF)
     if (*t != '%')
       {
         t++;
-        p = fgetc (stream);
+        r = fgetc (stream);
       }
     else
       {
         t++;
         char c = *t;
+        int skip_p = 0;
+        int length = -1;
+        if (c == '*')
+          skip_p = 1;
+        if (c >= '0' && c <= '9')
+          {
+            length = abtol (&t, 10);
+            c = *t;
+          }
         if (c == 'l')
           c = *++t;
         switch (c)
           {
           case '%':
             {
-              p = fgetc (stream);
+              r = fgetc (stream);
               break;
             }
           case 'c':
             {
-              char *c = va_arg (ap, char *);
-              *c = p;
-              p = fgetc (stream);
-              count++;
+              r = fgetc (stream);
+              if (!skip_p)
+                {
+                  char *c = va_arg (ap, char *);
+                  *c = r;
+                  count++;
+                }
               break;
             }
           case 'd':
           case 'i':
           case 'u':
             {
-              int *d = va_arg (ap, int *);
+              int *d = skip_p ? 0 : va_arg (ap, int *);
               char buf[20];
               char *q = buf;
-              if (p == '+' || p == '-')
+              if (r == '+' || r == '-')
                 {
-                  *q++ = p;
-                  p = fgetc (stream);
+                  *q++ = r;
+                  r = fgetc (stream);
                 }
-              while (isdigit (p))
+              while (isdigit (r))
                 {
-                  *q++ = p;
-                  p = fgetc (stream);
+                  *q++ = r;
+                  r = fgetc (stream);
                 }
-              ungetc (p, stream);
+              ungetc (r, stream);
               *q = 0;
               q = buf;
-              *d = abtol ((char const**)&q, 10);
-              count++;
+              if (skip_p)
+                abtol ((char const **) &q, 10);
+              else
+                {
+                  *d = abtol ((char const **) &q, 10);
+                  count++;
+                }
               break;
             }
           case 'e':
@@ -87,24 +105,89 @@ vfscanf (FILE * stream, char const *template, va_list ap)
           case 'E':
           case 'G':
             {
-              float *f = va_arg (ap, float *);
+              float *f = skip_p ? 0 : va_arg (ap, float *);
               char buf[20];
               char *q = buf;
-              if (p == '+' || p == '-')
+              if (r == '+' || r == '-')
                 {
-                  *q++ = p;
-                  p = fgetc (stream);
+                  *q++ = r;
+                  r = fgetc (stream);
                 }
-              while (isdigit (p))
+              while (isdigit (r))
                 {
-                  *q++ = p;
-                  p = fgetc (stream);
+                  *q++ = r;
+                  r = fgetc (stream);
                 }
-              ungetc (p, stream);
+              ungetc (r, stream);
               *q = 0;
               q = buf;
-              *f = strtod (q, &q);
-              count++;
+              if (skip_p)
+                strtod (q, &q);
+              else
+                {
+                  *f = strtod (q, &q);
+                  count++;
+                }
+              break;
+            }
+          case 's':
+            {
+              char *s = skip_p ? 0 : va_arg (ap, char *);
+              while (r && !isspace (r) && (length == -1 || length--))
+                {
+                  if (!skip_p)
+                    *s++ = r;
+                  r = fgetc (stream);
+                }
+              if (!skip_p)
+                {
+                  count++;
+                  *s = 0;
+                }
+              break;
+            }
+          case '[':
+            {
+              char *s = skip_p ? 0 : va_arg (ap, char *);
+              char set[1024];
+              int i = 0;
+              int not_in_set_p = 0;
+              t++;
+              if (*t == '^')
+                {
+                  not_in_set_p = 1;
+                  t++;
+                }
+              if (*t == ']' || *t == '-')
+                set[i++] = *t++;
+              while (*t && *t != ']')
+                {
+                  if (*t == '-')
+                    {
+                      char end = *t++;
+                      for (char x = set[i - 1] + 1; x < end; x++)
+                        set[i++] = x;
+                    }
+                  else
+                    set[i++] = *t++;
+                }
+              set[i] = 0;
+              while (r && (length == -1 || length--))
+                {
+                  int match = (int) (long) strchr (set, r);
+                  if (not_in_set_p)
+                    match = !match;
+                  if (!match)
+                    break;
+                  if (!skip_p)
+                    *s++ = r;
+                  r = fgetc (stream);
+                }
+              if (!skip_p)
+                {
+                  count++;
+                  *s = 0;
+                }
               break;
             }
           default:
@@ -115,7 +198,7 @@ vfscanf (FILE * stream, char const *template, va_list ap)
               eputs (template);
               eputs ("\n");
               t++;
-              p = fgetc (stream);
+              r = fgetc (stream);
             }
           }
         t++;
