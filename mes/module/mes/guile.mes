@@ -169,10 +169,14 @@
 
 
 ;;;
-;;; Nyacc 1.04.0
+;;; Nyacc 1.04.0, 1.08.0
 ;;;
 (define (close-port port)
   #t)
 
 (define (export . rest)
   #t)
+
+(define (noop . rest)
+  (and (pair? rest)
+       (car rest)))
