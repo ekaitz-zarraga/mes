@@ -70,26 +70,39 @@
 ;;
 (cond-expand-provide (current-module) '(srfi-39))
 
-(define make-parameter
-  (case-lambda
-    ((val) (make-parameter/helper val (lambda (x) x)))
-    ((val conv) (make-parameter/helper val conv))))
+;; (define make-parameter
+;;   (case-lambda
+;;     ((val) (make-parameter/helper val (lambda (x) x)))
+;;     ((val conv) (make-parameter/helper val conv))))
 
 (define get-fluid-tag (lambda () 'get-fluid)) ;; arbitrary unique (as per eq?) value
 (define get-conv-tag (lambda () 'get-conv)) ;; arbitrary unique (as per eq?) value
 
-(define (make-parameter/helper val conv)
-  (let ((value (make-fluid))
-        (conv conv))
-    (begin
-      (fluid-set! value (conv val))
-      (lambda new-value
-        (cond
-         ((null? new-value) (fluid-ref value))
-         ((eq? (car new-value) get-fluid-tag) value)
-         ((eq? (car new-value) get-conv-tag) conv)
-         ((null? (cdr new-value)) (fluid-set! value (conv (car new-value))))
-         (else (error "make-parameter expects 0 or 1 arguments" new-value)))))))
+;; (define (make-parameter/helper val conv)
+;;   (pke "PARAM"(let ((value (make-fluid))
+;;          (conv conv))
+;;      (begin
+;;        (fluid-set! value (conv val))
+;;        (lambda new-value
+;;          (cond
+;;           ((null? new-value) (fluid-ref value))
+;;           ((eq? (car new-value) get-fluid-tag) value)
+;;           ((eq? (car new-value) get-conv-tag) conv)
+;;           ((null? (cdr new-value)) (fluid-set! value (conv (car new-value))))
+;;           (else (error "make-parameter expects 0 or 1 arguments" new-value))))))))
+
+;; FIXME Mes (unique) fluids must be created at toplevel
+(define-macro (make-parameter value . conv)
+  (let ((conv (if (pair? conv) (car conv) identity)))
+    `(let ((fluid (make-fluid)))
+       (fluid-set! fluid ,value)
+       (lambda new-value
+         (cond
+          ((null? new-value) (fluid-ref fluid))
+          ((eq? (car new-value) get-fluid-tag) fluid)
+          ((eq? (car new-value) get-conv-tag) ,conv)
+          ((null? (cdr new-value)) (fluid-set! fluid (,conv (car new-value))))
+          (else (error "make-parameter expects 0 or 1 arguments" new-value)))))))
 
 (define-syntax parameterize
   (syntax-rules ()
