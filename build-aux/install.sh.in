@@ -109,13 +109,15 @@ else
 fi
 tar -cf- -C ${srcdest}mes module | tar -${v}xf- -C $DESTDIR$pkgdatadir
 if test -d gcc-lib/$mes_cpu-mes; then
-    tar -cf- -C gcc-lib/$mes_cpu-mes . | tar -${v}xf- -C $DESTDIR$libdir
+    mkdir -p $DESTDIR$libdir/gcc
+    tar -cf- -C gcc-lib/$mes_cpu-mes . | tar -${v}xf- -C $DESTDIR$libdir/gcc
 fi
 if test -d mescc-lib/$mes_cpu-mes; then
     tar -cf- -C mescc-lib $mes_cpu-mes | tar -${v}xf- -C $DESTDIR$libdir
 fi
 if test -d tcc-lib/$mes_cpu-mes; then
-    tar -cf- -C tcc-lib/$mes_cpu-mes . | tar -${v}xf- -C $DESTDIR$libdir
+    mkdir -p $DESTDIR$libdir/tcc
+    tar -cf- -C tcc-lib/$mes_cpu-mes . | tar -${v}xf- -C $DESTDIR$libdir/tcc
 fi
 
 mkdir -p ${DESTDIR}${guile_site_dir}
