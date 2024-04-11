@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2019,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -138,7 +138,7 @@ kern_return_t __proc_mark_exit (mach_port_t process, int one, int two);
 kern_return_t __exec_startup_get_data (mach_port_t bootstrap, struct hurd_startup_data *data);
 
 // io.c
-kern_return_t __io_write (io_t io_object, data_t data, mach_msg_type_number_t size, loff_t offset, vm_size_t *wrote);
 kern_return_t __io_read (io_t io, data_t *data, mach_msg_type_number_t *read, loff_t offset, vm_size_t size);
+kern_return_t __io_write (io_t io_object, const_data_t data, size_t size, loff_t offset, vm_size_t *wrote);
 
 #endif // __MES_GNU_SYSCALL_H

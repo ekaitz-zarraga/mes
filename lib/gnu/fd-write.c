@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2019,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -32,9 +32,9 @@
 error_t
 fd_write (mach_port_t port, void const *buffer, size_t *size, loff_t offset)
 {
-  mach_msg_type_number_t wrote = 0;
+  unsigned long wrote = 0;
   error_t err = __io_write (port, buffer, *size, 0, &wrote);
-  if (! err)
+  if (!err)
     *size = wrote;
 
   return err;

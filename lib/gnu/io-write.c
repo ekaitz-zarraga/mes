@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2019,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -28,12 +28,12 @@ struct mach_msg_pointer_loff
 };
 
 kern_return_t
-__io_write (io_t io, data_t data, mach_msg_type_number_t size, loff_t offset, vm_size_t *wrote)
+__io_write (io_t io, const_data_t data, size_t size, loff_t offset, vm_size_t *wrote)
 {
   struct mach_msg_pointer_loff message = {0};
   message.header.msgh_size = sizeof (struct mach_msg_pointer_loff);
   message.type_one = mach_msg_type_pointer;
-  message.one = data;
+  message.one = (data_t)data;
   message.type_two = mach_msg_type_int64;
   message.two = offset;
 
