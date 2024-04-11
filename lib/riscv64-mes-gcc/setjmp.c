@@ -78,7 +78,6 @@ setjmp (jmp_buf env)
     "sd sp,   96(a0)\n\t"
     "sd ra,   104(a0)\n\t"
 #if HAVE_FLOAT_ASM && HAVE_FLOAT && ! __riscv_float_abi_soft
-    "fld fs0,  112(a0)\n\t"
     "fsd fs0,  112(a0)\n\t"
     "fsd fs1,  120(a0)\n\t"
     "fsd fs2,  128(a0)\n\t"
