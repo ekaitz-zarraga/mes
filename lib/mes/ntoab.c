@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2016,2017,2018,2019,2020,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2024 Michael Forney <mforney@mforney.org>
  *
  * This file is part of GNU Mes.
  *
@@ -50,12 +51,10 @@ char *
 ntoab (long x, unsigned base, int signed_p)
 {
   if (__itoa_buf == 0)
-    __itoa_buf = malloc (20);
-  char *p = __itoa_buf + 11;
+    __itoa_buf = malloc (24);
+  char *p = __itoa_buf + 23;
 
-  p[0] = 0;
-  p = p - 1;
-  assert_msg (base > 0, "base > 0");
+  assert_msg (base >= 8, "base >= 8");
 
   int sign_p = 0;
   size_t i;
@@ -71,22 +70,23 @@ ntoab (long x, unsigned base, int signed_p)
   else
     u = x;
 
+  p[0] = 0;
   do
     {
+      p = p - 1;
       u = __mesabi_uldiv (u, b, &i);
       if (i > 9)
         p[0] = 'a' + i - 10;
       else
         p[0] = '0' + i;
-      p = p - 1;
     }
   while (u != 0);
 
-  if (sign_p && p[1] != '0')
+  if (sign_p && p[0] != '0')
     {
-      p[0] = '-';
       p = p - 1;
+      p[0] = '-';
     }
 
-  return p + 1;
+  return p;
 }
