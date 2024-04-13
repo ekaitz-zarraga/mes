@@ -3,6 +3,7 @@
 ;;; Copyright © 2023, 2024 Andrius Štikonas <andrius@stikonas.eu>
 ;;; Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
 ;;; Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
+;;; Copyright © 2024 Michael Forney <mforney@mforney.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -250,6 +251,8 @@
       ((assn-expr ,a ,op ,b) (ast->type a info))
 
       ((cond-expr _ ,a ,b) (ast->type a info))
+
+      ((comma-expr _ ,a) (ast->type a info))
 
       (_ (get-type o info))))
 

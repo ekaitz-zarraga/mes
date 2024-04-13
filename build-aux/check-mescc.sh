@@ -4,6 +4,7 @@
 # Copyright © 2017,2018,2019,2020,2022,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 # Copyright © 2023, 2024 Andrius Štikonas <andrius@stikonas.eu>
 # Copyright © 2023, 2024 Ekaitz Zarraga <ekaitz@elenq.tech>
+# Copyright © 2024 Michael Forney <mforney@mforney.org>
 #
 # This file is part of GNU Mes.
 #
@@ -248,7 +249,6 @@ lib/tests/scaffold/a1-global-no-clobber.c
 "
 
 xfail_tests="
-lib/tests/scaffold/86-comma-operator-types.c
 lib/tests/stdio/90-sprintf.c
 "
 
