@@ -2402,7 +2402,7 @@
      (let* ((strings (init->strings init info))
             (info (if (null? strings) info
                       (clone info #:globals (append (.globals info) strings))))
-            (count (length (cadar init)))
+            (count (length (cdadar init)))
             (type (make-c-array type count)))
        (if (.function info) (local->info type name o init info)
            (global->info storage type name o init info))))
