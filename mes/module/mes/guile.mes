@@ -180,3 +180,34 @@
 (define (noop . rest)
   (and (pair? rest)
        (car rest)))
+
+
+;;;
+;;; Source-property stubs for Nyacc-1.08.1
+;;;
+(define (supports-source-properties? o)
+  #f)
+
+(define (close-port port)
+  #t)
+
+(define (export . rest)
+  #t)
+
+(define (set-source-property! o key datum)
+  #f)
+
+(define (set-source-properties! o alist)
+  #f)
+
+(define (source-properties o)
+  '())
+
+(define (source-property o key)
+  #f)
+
+(define (cons-source xorig car cdr)
+  (cons car cdr))
+
+(define (set-port-filename! port file-name)
+  #t)

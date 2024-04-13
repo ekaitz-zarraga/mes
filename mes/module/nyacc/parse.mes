@@ -1,7 +1,7 @@
 ;;; -*-scheme-*-
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -24,6 +24,7 @@
 
 (mes-use-module (mes guile))
 (mes-use-module (mes optargs))
+(mes-use-module (srfi srfi-39))
 (mes-use-module (srfi srfi-43))
 (mes-use-module (nyacc util))
 (include-from-path "nyacc/parse.scm")
