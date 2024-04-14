@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2017,2018,2019,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2017,2018,2019,2022,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 # Copyright © 2024 Michael Forney <mforney@mforney.org>
 #
 # This file is part of GNU Mes.
@@ -55,12 +55,12 @@ trace "TEST       exit-42"
 [ $r != 42 ] && echo "  => $r"
 [ $r = 42 ]
 
-trace "HEX2       ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0exit-42.hex2" $HEX2\
-      --little-endian\
-      --architecture $stage0_cpu\
-      --base-address 0x1000000\
-      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0header.hex2\
-      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0exit-42.hex2\
+trace "HEX2       ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0exit-42.hex2" $HEX2 \
+      --little-endian                                                                      \
+      --architecture $stage0_cpu                                                           \
+      --base-address 0x1000000                                                             \
+      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0header.hex2                  \
+      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0exit-42.hex2                 \
       -o 0exit-42
 
 trace "TEST       0exit-42"
@@ -68,13 +68,13 @@ trace "TEST       0exit-42"
 [ $r != 42 ] && echo "  => $r"
 [ $r = 42 ]
 
-trace "HEX2       ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-body-exit-42.hex2" $HEX2\
-      --little-endian\
-      --architecture $stage0_cpu\
-      --base-address 0x1000000\
-      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-header.hex2\
-      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-body-exit-42.hex2\
-      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-footer-single-main.hex2\
+trace "HEX2       ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-body-exit-42.hex2" $HEX2  \
+      --little-endian                                                                           \
+      --architecture $stage0_cpu                                                                \
+      --base-address 0x1000000                                                                  \
+      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-header.hex2                        \
+      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-body-exit-42.hex2                  \
+      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-footer-single-main.hex2            \
       -o body-exit-42
 
 trace "TEST       body-exit-42"
@@ -83,10 +83,10 @@ trace "TEST       body-exit-42"
 [ $r = 42 ]
 
 ### FIXME: c&p from exit-42
-trace "CCLD       ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/hello-mes.S" $CC $LDFLAGS\
-      -nostdlib\
-      -g\
-      ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/hello-mes.S\
+trace "CCLD       ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/hello-mes.S" $CC $LDFLAGS    \
+      -nostdlib                                                                                 \
+      -g                                                                                        \
+      ${srcdest}lib/$mes_kernel/$mes_cpu-mes-$compiler/hello-mes.S                              \
       -o hello-mes
 
 trace "TEST       hello-mes"
@@ -94,12 +94,12 @@ trace "TEST       hello-mes"
 [ $r != 0 ] && echo "  => $r"
 [ $r = 0 ]
 
-trace "HEX2       ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0hello-mes.hex2" $HEX2\
-      --little-endian\
-      --architecture $stage0_cpu\
-      --base-address 0x1000000\
-      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0header.hex2\
-      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0hello-mes.hex2\
+trace "HEX2       ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0hello-mes.hex2" $HEX2    \
+      --little-endian                                                                           \
+      --architecture $stage0_cpu                                                                \
+      --base-address 0x1000000                                                                  \
+      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0header.hex2                       \
+      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-0hello-mes.hex2                    \
       -o 0hello-mes
 
 trace "TEST       0hello-mes"
@@ -107,13 +107,13 @@ trace "TEST       0hello-mes"
 [ $r != 0 ] && echo "  => $r"
 [ $r = 0 ]
 
-trace "HEX2       ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-body-hello-mes.hex2" $HEX2\
-      --little-endian\
-      --architecture $stage0_cpu\
-      --base-address 0x1000000\
-      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-header.hex2\
-      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-body-hello-mes.hex2\
-      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-footer-single-main.hex2\
+trace "HEX2       ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-body-hello-mes.hex2" $HEX2        \
+      --little-endian                                                                                   \
+      --architecture $stage0_cpu                                                                        \
+      --base-address 0x1000000                                                                          \
+      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-header.hex2                                \
+      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-body-hello-mes.hex2                        \
+      -f ${srcdest}lib/$mes_kernel/$mes_cpu-mes/elf$mes_bits-footer-single-main.hex2                    \
       -o body-hello-mes
 
 trace "TEST       body-hello-mes"
