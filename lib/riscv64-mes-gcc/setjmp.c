@@ -42,7 +42,7 @@ longjmp (jmp_buf env, int val)
     "ld s11,   88(a0)\n\t"
     "ld sp,    96(a0)\n\t"
     "ld ra,    104(a0)\n\t"
-#ifndef __riscv_float_abi_soft
+#if HAVE_FLOAT_ASM && HAVE_FLOAT && ! __riscv_float_abi_soft
     "fld fs0,  112(a0)\n\t"
     "fld fs1,  120(a0)\n\t"
     "fld fs2,  128(a0)\n\t"
@@ -77,7 +77,7 @@ setjmp (jmp_buf env)
     "sd s11,  88(a0)\n\t"
     "sd sp,   96(a0)\n\t"
     "sd ra,   104(a0)\n\t"
-#ifndef __riscv_float_abi_soft
+#if HAVE_FLOAT_ASM && HAVE_FLOAT && ! __riscv_float_abi_soft
     "fsd fs0,  112(a0)\n\t"
     "fsd fs1,  120(a0)\n\t"
     "fsd fs2,  128(a0)\n\t"
