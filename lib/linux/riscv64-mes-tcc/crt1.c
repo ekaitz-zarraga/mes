@@ -45,21 +45,7 @@ _start ()
        "addi  a1, s0, 8\n\t"  // a1 argv
        "mv    a2, t0\n\t"     // a2 envp
 
-       // Push arguments to stack
-       "addi  sp, sp, -32\n\t"
-       "sd    sp, a0,   8\n\t" // argc
-       "sd    sp, a1,  16\n\t" // argv
-       "sd    sp, a2,  24\n\t" // envp
-
-
        "jal   ra, __init_io\n\t"
-
-       // Recover stack
-       "ld    a0, sp,  8\n\t"  // a0 argc
-       "ld    a1, sp, 16\n\t"  // a0 argc
-       "ld    a2, sp, 24\n\t"  // a0 argc
-       "addi  sp, sp, 32\n\t"
-
        "jal   ra, main\n\t"
 
        "li    a7, 93\n\t"     // SYS_exit
