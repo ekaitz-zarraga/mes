@@ -108,6 +108,30 @@ __sys_call4 (long sys_call, long one, long two, long three, long four)
        );
   return r;
 }
+
+long
+__sys_call6 (long sys_call, long one, long two, long three, long four, long five, long six)
+{
+  long r;
+  asm (
+       "mov     %2,%%rdi\n\t"
+       "mov     %3,%%rsi\n\t"
+       "mov     %4,%%rdx\n\t"
+       "mov     %5,%%r10\n\t"
+       "mov     %6,%%r8\n\t"
+       "mov     %7,%%r9\n\t"
+       "mov     %1,%%rax\n\t"
+  //      );
+  // asm (
+       "syscall \n\t"
+       "mov     %%rax,%0\n\t"
+       : "=r" (r)
+       : "rm" (sys_call), "rm" (one), "rm" (two), "rm" (three), "rm" (four), "rm" (five), "rm" (six)
+       : "rax", "rdi", "rsi", "rdx", "r10", "r8", "r9"
+       );
+  return r;
+}
+
 // *INDENT-ON*
 
 long
@@ -183,22 +207,13 @@ _sys_call4 (long sys_call, long one, long two, long three, long four)
 long
 _sys_call6 (long sys_call, long one, long two, long three, long four, long five, long six)
 {
-  long r;
-  asm (
-       "mov     %2,%%rdi\n\t"
-       "mov     %3,%%rsi\n\t"
-       "mov     %4,%%rdx\n\t"
-       "mov     %5,%%r10\n\t"
-       "mov     %6,%%r8\n\t"
-       "mov     %7,%%r9\n\t"
-       "mov     %1,%%rax\n\t"
-  //      );
-  // asm (
-       "syscall \n\t"
-       "mov     %%rax,%0\n\t"
-       : "=r" (r)
-       : "rm" (sys_call), "rm" (one), "rm" (two), "rm" (three), "rm" (four), "rm" (five), "rm" (six)
-       : "rax", "rdi", "rsi", "rdx", "r10", "r8", "r9"
-       );
+  long r = __sys_call6 (sys_call, one, two, three, four, five, six);
+  if (r < 0)
+    {
+      errno = -r;
+      r = -1;
+    }
+  else
+    errno = 0;
   return r;
 }

@@ -227,6 +227,7 @@ lib/tests/io/90-stat.c
 lib/tests/mes/90-abtod.c
 lib/tests/mes/90-dtoab.c
 lib/tests/posix/90-execlp.c
+lib/tests/posix/90-mmap.c
 lib/tests/posix/90-unsetenv.c
 lib/tests/signal/90-signal.c
 lib/tests/stdio/90-fopen.c
