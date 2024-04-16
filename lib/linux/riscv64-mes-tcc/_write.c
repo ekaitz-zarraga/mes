@@ -28,11 +28,14 @@
 ssize_t
 _write (int filedes, void const *buffer, size_t size)
 {
+  register long __a7 asm ("a7") = (long) SYS_write;
+  register long __a0 asm ("a0") = (long) filedes;
+  register long __a1 asm ("a1") = (long) buffer;
+  register long __a2 asm ("a2") = (long) size;
   asm volatile (
-       "addi a7, zero, 64\n\t"
-       "ld a0, s0, -24\n\t"
-       "ld a1, s0, -32\n\t"
-       "ld a2, s0, -40\n\t"
        "ecall\n\t"
+       : "+r" (__a0)
+       : "r" (__a7), "r" (__a1), "r" (__a2)
        );
+  return (ssize_t)__a0;
 }

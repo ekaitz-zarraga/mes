@@ -27,70 +27,89 @@
 long
 __sys_call (long sys_call)
 {
-    asm volatile (
-       "ld a7, s0, -24\n\t"
+  register long __a7 asm ("a7") = sys_call;
+  register long __a0 asm ("a0");
+  asm volatile (
        "ecall\n\t"
+       : "=r" (__a0)
+       : "r" (__a7)
        );
+  return __a0;
 }
 
 long
 __sys_call1 (long sys_call, long one)
 {
+  register long __a7 asm ("a7") = sys_call;
+  register long __a0 asm ("a0") = one;
   asm volatile (
-       "ld a7, s0, -24\n\t"
-       "ld a0, s0, -32\n\t"
        "ecall\n\t"
+       : "+r" (__a0)
+       : "r" (__a7)
        );
+  return __a0;
 }
 
 long
 __sys_call2 (long sys_call, long one, long two)
 {
+  register long __a7 asm ("a7") = sys_call;
+  register long __a0 asm ("a0") = one;
+  register long __a1 asm ("a1") = two;
   asm volatile (
-       "ld a7, s0, -24\n\t"
-       "ld a0, s0, -32\n\t"
-       "ld a1, s0, -40\n\t"
        "ecall\n\t"
+       : "+r" (__a0)
+       : "r" (__a7), "r" (__a1)
        );
+  return __a0;
 }
 
 long
 __sys_call3 (long sys_call, long one, long two, long three)
 {
+  register long __a7 asm ("a7") = sys_call;
+  register long __a0 asm ("a0") = one;
+  register long __a1 asm ("a1") = two;
+  register long __a2 asm ("a2") = three;
   asm volatile (
-       "ld a7, s0, -24\n\t"
-       "ld a0, s0, -32\n\t"
-       "ld a1, s0, -40\n\t"
-       "ld a2, s0, -48\n\t"
        "ecall\n\t"
+       : "+r" (__a0)
+       : "r" (__a7), "r" (__a1), "r" (__a2)
        );
+  return __a0;
 }
 
 long
 __sys_call4 (long sys_call, long one, long two, long three, long four)
 {
+  register long __a7 asm ("a7") = sys_call;
+  register long __a0 asm ("a0") = one;
+  register long __a1 asm ("a1") = two;
+  register long __a2 asm ("a2") = three;
+  register long __a3 asm ("a3") = four;
   asm volatile (
-       "ld a7, s0, -24\n\t"
-       "ld a0, s0, -32\n\t"
-       "ld a1, s0, -40\n\t"
-       "ld a2, s0, -48\n\t"
-       "ld a3, s0, -56\n\t"
        "ecall\n\t"
+       : "+r" (__a0)
+       : "r" (__a7), "r" (__a1), "r" (__a2), "r" (__a3)
        );
+  return __a0;
 }
 
 long
 __sys_call5 (long sys_call, long one, long two, long three, long four, long five)
 {
+  register long __a7 asm ("a7") = sys_call;
+  register long __a0 asm ("a0") = one;
+  register long __a1 asm ("a1") = two;
+  register long __a2 asm ("a2") = three;
+  register long __a3 asm ("a3") = four;
+  register long __a4 asm ("a4") = five;
   asm volatile (
-       "ld a7, s0, -24\n\t"
-       "ld a0, s0, -32\n\t"
-       "ld a1, s0, -40\n\t"
-       "ld a2, s0, -48\n\t"
-       "ld a3, s0, -56\n\t"
-       "ld a4, s0, -64\n\t"
        "ecall\n\t"
+       : "+r" (__a0)
+       : "r" (__a7), "r" (__a1), "r" (__a2), "r" (__a3), "r" (__a4)
        );
+  return __a0;
 }
 // *INDENT-ON*
 
