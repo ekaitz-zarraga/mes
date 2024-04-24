@@ -20,10 +20,11 @@
 
 #include <mes/lib.h>
 
+#include <stdlib.h>
 #include <string.h>
 
 int
-compare_int (void *a, void *b)
+compare_int (void const *a, void const *b)
 {
   eputs ("compare: ");
   eputs (itoa (*(int *) a));
