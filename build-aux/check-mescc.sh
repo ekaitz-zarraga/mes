@@ -212,6 +212,7 @@ lib/tests/setjmp/80-setjmp.c
 lib/tests/stdio/80-sscanf.c
 lib/tests/stdlib/80-qsort.c
 lib/tests/stdlib/80-qsort-dupes.c
+lib/tests/stdlib/80-qsort-stress.c
 lib/tests/string/80-strncpy.c
 lib/tests/string/80-strrchr.c
 lib/tests/scaffold/82-define.c
