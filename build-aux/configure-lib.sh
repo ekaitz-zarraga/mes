@@ -350,6 +350,7 @@ lib/ctype/iscntrl.c
 lib/ctype/isgraph.c
 lib/ctype/isprint.c
 lib/ctype/ispunct.c
+lib/locale/localeconv.c
 lib/math/ceil.c
 lib/math/fabs.c
 lib/math/floor.c
