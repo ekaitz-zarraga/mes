@@ -452,7 +452,7 @@ lib/linux/mmap.c
 lib/linux/munmap.c
 lib/linux/readlink.c
 lib/linux/setgid.c
-lib/linux/settimer.c
+lib/linux/setitimer.c
 lib/linux/setuid.c
 lib/linux/signal.c
 lib/linux/sigprogmask.c
