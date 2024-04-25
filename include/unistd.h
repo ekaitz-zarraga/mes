@@ -83,6 +83,7 @@ int setgid (gid_t newgid);
 int setuid (uid_t newuid);
 uid_t geteuid (void);
 gid_t getegid (void);
+int getpagesize (void);
 pid_t getpgrp (void);
 pid_t getpid (void);
 pid_t getppid (void);

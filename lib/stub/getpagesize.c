@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017,2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -17,26 +17,16 @@
  * You should have received a copy of the GNU General Public License
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef __MES_LIMITS_H
-#define __MES_LIMITS_H 1
 
-#if SYSTEM_LIBC
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE
-#endif
-#undef __MES_LIMITS_H
-#include_next <limits.h>
+#include <mes/lib.h>
+#include <limits.h>
 
-#else // ! SYSTEM_LIBC
-
-#include <stdint.h>
-
-#define MB_CUR_MAX 1
-#define NAME_MAX 255
-#define PAGE_SIZE 4096
-#define PATH_MAX 512
-#define _POSIX_OPEN_MAX 16
-
-#endif // ! SYSTEM_LIBC
-
-#endif // __MES_LIMITS_H
+int
+getpagesize (void)
+{
+  static int stub = 0;
+  if (__mes_debug () && !stub)
+    eputs ("getpagesize stub\n");
+  stub = 1;
+  return PAGE_SIZE;
+}

@@ -405,6 +405,7 @@ lib/stub/frexp.c
 lib/stub/getgrgid.c
 lib/stub/getgrnam.c
 lib/stub/getlogin.c
+lib/stub/getpagesize.c
 lib/stub/getpgid.c
 lib/stub/getpgrp.c
 lib/stub/getpwnam.c
