@@ -430,6 +430,7 @@ lib/stub/sigsetmask.c
 lib/stub/sin.c
 lib/stub/sqrt.c
 lib/stub/strftime.c
+lib/stub/strsignal.c
 lib/stub/sys_siglist.c
 lib/stub/sysconf.c
 lib/stub/system.c

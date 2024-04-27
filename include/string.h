@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -47,6 +47,7 @@ size_t strlen (char const *);
 char *strncpy (char *to, char const *from, size_t size);
 int strncmp (char const *, char const *, size_t);
 char *strrchr (char const *s, int c);
+char *strsignal (int signum);
 char *strstr (char const *haystack, char const *needle);
 char *strtok (char *new_string, char const *delimiters);
 char *strlwr (char *string);
