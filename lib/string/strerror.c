@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2019,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -77,5 +77,7 @@ strerror (int errnum)
     }
   if (errnum > 0 && errnum <= sys_nerr)
     return sys_errlist[errnum];
-  return "sterror: unknown error";
+  static char buf[40] = "strerror: unknown error: ";
+  strcat (buf, itoa (errnum));
+  return buf;
 }
