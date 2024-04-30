@@ -426,6 +426,7 @@ lib/stub/setvbuf.c
 lib/stub/sigaddset.c
 lib/stub/sigblock.c
 lib/stub/sigdelset.c
+lib/stub/sigfillset.c
 lib/stub/sigsetmask.c
 lib/stub/sin.c
 lib/stub/sqrt.c

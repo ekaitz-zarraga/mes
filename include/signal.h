@@ -178,6 +178,7 @@ int sigaction (int signum, struct sigaction const *act, struct sigaction *oldact
 int sigaddset (sigset_t *set, int signum);
 int sigdelset (sigset_t *set, int signum);
 int sigemptyset (sigset_t *set);
+int sigfillset (sigset_t *set);
 #if __MESC__
 void *signal (int signum, void *action);
 #else
