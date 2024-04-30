@@ -106,5 +106,7 @@
 /* gcc-4.6.4 */
 #define SYS_mmap           222
 #define SYS_munmap         215
+#define SYS_readv          65
+#define SYS_writev         66
 
 #endif // __MES_LINUX_RISCV_SYSCALL_H

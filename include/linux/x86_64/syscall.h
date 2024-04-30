@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2022,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2024 Andrius Štikonas <andrius@stikonas.eu>
  *
  * This file is part of GNU Mes.
@@ -104,5 +104,7 @@
 /* gcc-4.6.4 */
 #define SYS_mmap      0x09
 #define SYS_munmap    0x0b
+#define SYS_readv     0x13
+#define SYS_writev    0x14
 
 #endif // __MES_LINUX_X86_64_SYSCALL_H

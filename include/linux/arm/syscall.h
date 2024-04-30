@@ -103,6 +103,8 @@
 /* gcc-4.6.4 */
 #define SYS_mmap      0x5a
 #define SYS_munmap    0x5b
+#define SYS_readv     0x91
+#define SYS_writev    0x92
 
 #if __SIZEOF_LONG_LONG__ == 8
 

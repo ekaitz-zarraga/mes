@@ -452,11 +452,13 @@ lib/linux/mknod.c
 lib/linux/mmap.c
 lib/linux/munmap.c
 lib/linux/readlink.c
+lib/linux/readv.c
 lib/linux/setgid.c
 lib/linux/setitimer.c
 lib/linux/setuid.c
 lib/linux/signal.c
 lib/linux/sigprogmask.c
+lib/linux/writev.c
 "
 fi
 
