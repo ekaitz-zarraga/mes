@@ -175,13 +175,14 @@ struct sigaction
 int kill (pid_t pid, int signum);
 int raise (int);
 int sigaction (int signum, struct sigaction const *act, struct sigaction *oldact);
-int sigaddset (sigset_t * set, int signum);
+int sigaddset (sigset_t *set, int signum);
+int sigdelset (sigset_t *set, int signum);
+int sigemptyset (sigset_t *set);
 #if __MESC__
 void *signal (int signum, void *action);
 #else
 sighandler_t signal (int signum, sighandler_t action);
 #endif
-int sigemptyset (sigset_t * set);
 #ifndef SIG_BLOCK
 #define SIG_BLOCK 0
 #define SIG_UNBLOCK 1
