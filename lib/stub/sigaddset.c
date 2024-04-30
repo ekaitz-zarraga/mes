@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -22,7 +22,12 @@
 #include <signal.h>
 
 int
-sigaddset (sigset_t * set, int signum)
+sigaddset (sigset_t *set, int signum)
 {
+  static int stub = 0;
+  if (__mes_debug () && !stub)
+    eputs ("sigaddset stub\n");
+  stub = 1;
+  errno = 0;
   return 0;
 }

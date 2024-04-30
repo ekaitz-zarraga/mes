@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -24,5 +24,10 @@
 int
 sigblock (int mask)
 {
+  static int stub = 0;
+  if (__mes_debug () && !stub)
+    eputs ("sigblock stub\n");
+  stub = 1;
+  errno = 0;
   return 0;
 }
