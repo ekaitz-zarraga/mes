@@ -94,6 +94,9 @@ typedef long stack_t;
 #define SA_NOMASK  SA_NODEFER
 #define SA_ONESHOT SA_RESETHAND
 
+#define MINSIGSTKSZ 2048
+#define SIGSTKSZ 8192
+
 #if !__M2__ // lacks short, casts
 typedef struct siginfo_t
 {
