@@ -430,6 +430,7 @@ lib/stub/sigfillset.c
 lib/stub/sigsetmask.c
 lib/stub/sin.c
 lib/stub/sqrt.c
+lib/stub/strcoll.c
 lib/stub/strftime.c
 lib/stub/strsignal.c
 lib/stub/sys_siglist.c

@@ -42,6 +42,7 @@ char *strcat (char *dest, char const *src);
 char *strchr (char const *s, int c);
 int strcasecmp (char const *s1, char const *s2);
 int strcmp (char const *, char const *);
+int strcoll (char const *, char const *);
 char *strcpy (char *dest, char const *src);
 size_t strlen (char const *);
 char *strncpy (char *to, char const *from, size_t size);
