@@ -79,6 +79,7 @@ int puts (char const *s);
 int remove (char const *file_name);
 int rename (char const *old_name, char const *new_name);
 void rewind (FILE * stream);
+void setbuf (FILE *stream, char *buf);
 int setvbuf (FILE * stream, char *buf, int mode, size_t size);
 int ungetc (int c, FILE * stream);
 long ftell (FILE * stream);
