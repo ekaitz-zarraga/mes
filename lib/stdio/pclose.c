@@ -26,6 +26,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+extern int *__ungetc_buf;
+
 int
 pclose (FILE *stream)
 {

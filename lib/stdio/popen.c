@@ -23,6 +23,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -33,8 +34,6 @@
 #ifndef SHELL_COMMAND_NAME
 #define	SHELL_COMMAND_NAME "sh"
 #endif
-
-extern int *__ungetc_buf;
 
 FILE *
 popen (char const *command, char const *mode)
@@ -61,7 +60,7 @@ popen (char const *command, char const *mode)
       // child
       int dup = (*mode == 'w'
                  ? dup2 (pipedes[STDIN], STDIN)
-                 : dup2 (pipedes[STDOUT], STDOUT))
+                 : dup2 (pipedes[STDOUT], STDOUT));
       if (dup < 0)
 	_exit (127);
 
@@ -109,6 +108,6 @@ popen (char const *command, char const *mode)
   // XXX misuse ungetc buffer for PID
   // XXX TODO: make proper FILE struct
   __ungetc_init ();
-  __ungetc_set (filedes, pidchild);
+  __ungetc_set (filedes, pid);
   return stream;
 }
