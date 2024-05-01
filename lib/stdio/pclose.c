@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -20,14 +20,31 @@
 
 #include <mes/lib.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 int
-pclose (int x)
+pclose (FILE *stream)
 {
-  static int stub = 0;
-  if (__mes_debug () && !stub)
-    eputs ("pclose stub\n");
-  stub = 1;
-  errno = 0;
-  return 0;
+  int filedes = fileno (stream);
+  __ungetc_init ();
+  pid_t pid = __ungetc_buf[filedes];
+  if (!pid)
+    {
+      errno = EINVAL;
+      return -1;
+    }
+
+  if (fclose (stream))
+    return -1;
+
+  int status;
+  pid_t child_pid = waitpid (pid, &status, 0);
+  if (child_pid != pid)
+    return -1;
+
+  return status;
 }
