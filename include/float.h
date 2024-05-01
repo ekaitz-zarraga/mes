@@ -29,6 +29,19 @@
 #define DBL_MIN_EXP -1021
 #define LDBL_MIN_EXP -1021
 
+// gcc-4.6
+#define DBL_EPSILON 1
+#define DBL_MANT_DIG 1
+#define DBL_MAX INT_MAX
+#define DBL_MIN INT_MIN
+
+#define FLT_RADIX 10
+
+#define LDBL_EPSILON 1
+#define LDBL_MANT_DIG 1
+#define LDBL_MAX INT_MAX
+#define LDBL_MIN INT_MIN
+
 #endif // ! SYSTEM_LIBC
 
 #endif // __MES_FLOAT_H
