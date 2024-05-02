@@ -382,6 +382,7 @@ lib/stdlib/atexit.c
 lib/stdlib/atof.c
 lib/stdlib/atol.c
 lib/stdlib/mbstowcs.c
+lib/stdlib/system.c
 lib/string/bcmp.c
 lib/string/bcopy.c
 lib/string/bzero.c
@@ -435,7 +436,6 @@ lib/stub/strftime.c
 lib/stub/strsignal.c
 lib/stub/sys_siglist.c
 lib/stub/sysconf.c
-lib/stub/system.c
 lib/stub/times.c
 lib/stub/ttyname.c
 lib/stub/utime.c

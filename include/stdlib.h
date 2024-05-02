@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2018,2019,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2024 Andrius Štikonas <andrius@stikonas.eu>
  * Copyright © 2024 Ekaitz Zarraga <ekaitz@elenq.tech>
  *
@@ -60,6 +60,7 @@ long strtol (char const *string, char **tailptr, int base);
 long long strtoll (char const *string, char **tailptr, int base);
 unsigned long strtoul (char const *string, char **tailptr, int base);
 unsigned long long strtoull (char const *string, char **tailptr, int base);
+int system (char const *command);
 
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0

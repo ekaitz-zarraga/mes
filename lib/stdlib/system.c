@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -20,14 +20,40 @@
 
 #include <mes/lib.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+#ifndef SHELL_FILE_NAME
+#define	SHELL_FILE_NAME "/bin/sh"
+#endif
+#ifndef SHELL_COMMAND_NAME
+#define	SHELL_COMMAND_NAME "sh"
+#endif
 
 int
-system (int x)
+system (char const *command)
 {
-  static int stub = 0;
-  if (__mes_debug () && !stub)
-    eputs ("system stub\n");
-  stub = 1;
-  errno = 0;
-  return 0;
+  pid_t pid = fork ();
+  if (pid == -1)
+    return -1;
+  else if (pid == 0)
+    {
+      // child
+      char const *argv[4];
+      argv[0] = SHELL_COMMAND_NAME;
+      argv[1] = "-c";
+      argv[2] = command;
+      argv[3] = 0;
+      execve (SHELL_FILE_NAME, (char *const *) argv, environ);
+      _exit (127);
+    }
+
+  // parent
+  int status;
+  pid_t child_pid = waitpid (pid, &status, 0);
+  if (child_pid != pid)
+    return -1;
+
+  return status;
 }
