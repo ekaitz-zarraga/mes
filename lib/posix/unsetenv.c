@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -22,7 +22,7 @@
 #include <string.h>
 #include <unistd.h>
 
-void
+int
 unsetenv (char const *name)
 {
   int length = strlen (name);
@@ -38,4 +38,5 @@ unsetenv (char const *name)
         }
       p++;
     }
+  return 0;
 }
