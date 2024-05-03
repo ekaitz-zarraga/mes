@@ -35,7 +35,7 @@
 #define DBL_MAX INT_MAX
 #define DBL_MIN INT_MIN
 
-#define FLT_RADIX 10
+#define FLT_RADIX 2
 
 #define LDBL_EPSILON 1
 #define LDBL_MANT_DIG 1
