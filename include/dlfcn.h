@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -36,8 +36,10 @@
 #define RTLD_NODELETE	0x01000
 #define RTLD_DEFAULT    0
 
+#if BOOTSTRAP
 void *dlopen (char const *filename, int flags);
 int dlclose (void *handle);
+#endif
 
 #endif // ! SYSTEM_LIBC
 
