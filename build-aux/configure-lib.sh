@@ -3,6 +3,7 @@
 # GNU Mes --- Maxwell Equations of Software
 # Copyright © 2019,2020,2021,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
 # Copyright © 2023 Timothy Sample <samplet@ngyro.com>
+# Copyright © 2024 Andrius Štikonas <andrius@stikonas.eu>
 #
 # This file is part of GNU Mes.
 #
@@ -327,6 +328,7 @@ lib/stub/sigaction.c
 lib/stub/ldexp.c
 lib/stub/mprotect.c
 lib/stub/localtime.c
+lib/stub/realpath.c
 lib/stub/sigemptyset.c
 lib/$mes_cpu-mes-$compiler/setjmp.c
 "

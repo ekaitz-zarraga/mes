@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2024 Andrius Štikonas <andrius@stikonas.eu>
  *
  * This file is part of GNU Mes.
  *
@@ -51,6 +52,7 @@ void *malloc (size_t);
 void qsort (void *base, size_t nmemb, size_t size, int (*compar) (void const *, void const *));
 int rand (void);
 void *realloc (void *p, size_t size);
+char *realpath (char const *filename, char *resolved);
 double strtod (char const *string, char **tailptr);
 float strtof (char const *string, char **tailptr);
 long double strtold (char const *string, char **tailptr);
