@@ -94,6 +94,7 @@ long pathconf (char const *file_name, int parameter);
 int pipe (int filedes[2]);
 ssize_t read (int fd, void *buffer, size_t size);
 ssize_t readlink (char const *file_name, char *buffer, size_t size);
+char *realpath (char const *name, char *resolved);
 #if __SBRK_CHAR_PTRDIFF
 /* xmalloc in binutils <= 2.10.1 uses this old prototype */
 char *sbrk (ptrdiff_t delta);
