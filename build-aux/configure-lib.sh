@@ -298,6 +298,7 @@ lib/stdio/fclose.c
 lib/stdio/fdopen.c
 lib/stdio/ferror.c
 lib/stdio/fflush.c
+lib/stdio/fileno.c
 lib/stdio/fopen.c
 lib/stdio/fprintf.c
 lib/stdio/fread.c
@@ -365,7 +366,6 @@ lib/posix/unsetenv.c
 lib/stdio/clearerr.c
 lib/stdio/feof.c
 lib/stdio/fgets.c
-lib/stdio/fileno.c
 lib/stdio/freopen.c
 lib/stdio/fscanf.c
 lib/stdio/perror.c

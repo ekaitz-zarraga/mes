@@ -228,6 +228,11 @@ vsnprintf (char *str, size_t size, char const *format, va_list ap)
           case 'G':
             {
               double d = va_arg8 (ap, double);
+#if 1
+              *str++ = '0';
+              *str++ = '.';
+              *str++ = '0';
+#else
               char *s = dtoab (d, 10, 1);
               if (c == 'E' || c == 'G')
                 strupr (s);
@@ -268,6 +273,7 @@ vsnprintf (char *str, size_t size, char const *format, va_list ap)
                     *str++ = pad;
                   count++;
                 }
+#endif
               break;
             }
           case 'n':

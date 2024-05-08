@@ -65,6 +65,7 @@ int ferror (FILE * stream);
 int fflush (FILE * stream);
 int fgetc (FILE * stream);
 char *fgets (char *s, int size, FILE * stream);
+int fileno (FILE *);
 int fpurge (FILE * stream);
 int fputc (int c, FILE * stream);
 int fputs (char const *s, FILE * stream);

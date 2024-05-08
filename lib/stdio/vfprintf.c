@@ -26,7 +26,7 @@
 int
 vfprintf (FILE * f, char const *format, va_list ap)
 {
-  int fd = (long) f;
+  int fd = fileno (f);
   char const *p = format;
   int count = 0;
   while (*p)
@@ -212,6 +212,9 @@ vfprintf (FILE * f, char const *format, va_list ap)
           case 'G':
             {
               double d = va_arg8 (ap, double);
+#if 1
+              fputs ("0.0", f);
+#else
               char *s = dtoab (d, 10, 1);
               if (c == 'E' || c == 'G')
                 strupr (s);
@@ -247,6 +250,7 @@ vfprintf (FILE * f, char const *format, va_list ap)
                   fputc (pad, f);
                   count++;
                 }
+#endif
               break;
             }
           case 'n':
@@ -268,5 +272,5 @@ vfprintf (FILE * f, char const *format, va_list ap)
         p++;
       }
   va_end (ap);
-  return 0;
+  return count;
 }
