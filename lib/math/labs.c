@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2022 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -17,28 +17,13 @@
  * You should have received a copy of the GNU General Public License
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef __MES_MATH_H
-#define __MES_MATH_H 1
 
-#if SYSTEM_LIBC
-#undef __MES_MATH_H
-#include_next <math.h>
-#else // ! SYSTEM_LIBC
+#include <math.h>
 
-double atan2 (double y, double x);
-double ceil (double x);
-double cos (double x);
-double exp (double x);
-double fabs (double number);
-double floor (double x);
-long int labs (long int number);
-double ldexp (double value, int exponent);
-double log (double x);
-double modf (double value, double *integer_part);
-double pow (double base, double power);
-double sin (double x);
-double sqrt (double x);
-
-#endif // ! SYSTEM_LIBC
-
-#endif // __MES_MATH_H
+long int
+labs (long int number)
+{
+  if (number < 0)
+    return -number;
+  return number;
+}
