@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -18,16 +18,10 @@
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <mes/lib.h>
-#include <errno.h>
+#include <stdio.h>
 
-int
-rewind (int x)
+void
+rewind (FILE * stream)
 {
-  static int stub = 0;
-  if (__mes_debug () && !stub)
-    eputs ("rewind stub\n");
-  stub = 1;
-  errno = 0;
-  return 0;
+  fseek (stream, 0, SEEK_SET);
 }
