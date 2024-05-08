@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
  * Copyright © 2023 Andrius Štikonas <andrius@stikonas.eu>
  *
@@ -102,5 +102,9 @@
 /* gash */
 #define SYS_umask          166
 #define SYS_utimensat      88
+
+/* gcc-4.6.4 */
+#define SYS_mmap           222
+#define SYS_munmap         215
 
 #endif // __MES_LINUX_RISCV_SYSCALL_H

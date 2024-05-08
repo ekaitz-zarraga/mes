@@ -101,4 +101,8 @@
 #define SYS_umask     0x5f
 #define SYS_utimensat 0x118
 
+/* gcc-4.6.4 */
+#define SYS_mmap      0x09
+#define SYS_munmap    0x0b
+
 #endif // __MES_LINUX_X86_64_SYSCALL_H

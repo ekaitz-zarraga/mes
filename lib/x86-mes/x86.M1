@@ -163,6 +163,7 @@ DEFINE not____%ebx f7d3
 DEFINE or_____%ebx,%eax 09d8
 DEFINE pop____%eax 58
 DEFINE pop____%ebx 5b
+DEFINE pop____%ebp 5d
 DEFINE pop____%edx 5a
 DEFINE push___$i32 68
 DEFINE push___%eax 50

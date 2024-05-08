@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018,2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2019,2020,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -19,7 +19,7 @@
  */
 
 #include <errno.h>
-#include <linux/x86/syscall.h>
+#include <linux/arm/syscall.h>
 
 #if !__TINYC__
 // *INDENT-OFF*
@@ -187,7 +187,6 @@ __sys_call4 (long sys_call, long one, long two, long three, long four)
 }
 #endif //__TINYC__
 
-#if 0
 long
 __sys_call6 (long sys_call, long one, long two, long three, long four, long five, long six)
 {
@@ -208,7 +207,6 @@ __sys_call6 (long sys_call, long one, long two, long three, long four, long five
        );
   return r;
 }
-#endif
 
 // *INDENT-ON*
 
@@ -282,7 +280,6 @@ _sys_call4 (long sys_call, long one, long two, long three, long four)
   return r;
 }
 
-#if 0
 long
 _sys_call6 (long sys_call, long one, long two, long three, long four, long five, long six)
 {
@@ -296,4 +293,3 @@ _sys_call6 (long sys_call, long one, long two, long three, long four, long five,
     errno = 0;
   return r;
 }
-#endif

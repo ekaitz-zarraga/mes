@@ -100,6 +100,10 @@
 #define SYS_umask     0x3c
 #define SYS_utimensat 0x15c
 
+/* gcc-4.6.4 */
+#define SYS_mmap      0x5a
+#define SYS_munmap    0x5b
+
 #if __SIZEOF_LONG_LONG__ == 8
 
 #define SYS_stat64     0xc3

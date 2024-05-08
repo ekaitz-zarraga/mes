@@ -67,6 +67,15 @@ __sys_call4 (long sys_call, long one, long two, long three, long four)
 }
 
 long
+__sys_call6 (long sys_call, long one, long two, long three, long four, long five, long six)
+{
+  asm ("mov____0x8(%ebp),%eax !0x08");
+  asm ("mov____%ebp,%ebx");
+  asm ("add____$i8,%ebx !0x0c");
+  asm ("int____$0x80");
+}
+
+long
 _sys_call (long sys_call)
 {
   long r = __sys_call (sys_call);
@@ -134,4 +143,10 @@ _sys_call4 (long sys_call, long one, long two, long three, long four)
   else
     errno = 0;
   return r;
+}
+
+int
+_sys_call6 (int sys_call, int one, int two, int three, int four, int five, int six)
+{
+  return __sys_call6 (sys_call, one, two, three, four, five, six);
 }

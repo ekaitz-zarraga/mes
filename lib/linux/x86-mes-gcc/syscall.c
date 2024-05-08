@@ -177,3 +177,20 @@ _sys_call4 (long sys_call, long one, long two, long three, long four)
     errno = 0;
   return r;
 }
+
+long
+_sys_call6 (long sys_call, long one, long two, long three, long four, long five, long six)
+{
+  long r;
+  asm (
+       "mov    %1,%%eax\n\t"
+       "mov    %%ebp,%%ebx\n\t"
+       "add    $0x0c,%%ebx\n\t"
+       "int    $0x80\n\t"
+       "mov    %%eax,%0\n\t"
+       : "=r" (r)
+       : "rm" (sys_call)
+       : "eax", "ebx"
+       );
+  return r;
+}

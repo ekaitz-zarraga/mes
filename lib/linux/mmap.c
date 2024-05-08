@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -17,33 +17,13 @@
  * You should have received a copy of the GNU General Public License
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef __MES_SYS_MMAN_H
-#define __MES_SYS_MMAN_H 1
 
-#if SYSTEM_LIBC
-#undef __MES_SYS_MMAN_H
-#include_next <sys/mman.h>
-#else // ! SYSTEM_LIBC
+#include <linux/syscall.h>
+#include <arch/syscall.h>
+#include <sys/mman.h>
 
-#include <sys/types.h>
-
-#define MAP_SHARED    0x01
-#define MAP_PRIVATE   0x02
-#define MAP_ANONYMOUS 0x20
-#define MAP_POPULATE  0x08000
-
-#define MAP_ANON MAP_ANONYMOUS
-#define MAP_FAILED ((void*)-1)
-
-#define PROT_NONE 0
-#define PROT_READ 1
-#define PROT_WRITE 2
-#define PROT_EXEC 4
-
-void *mmap (void *address, size_t length, int protect, int flags, int filedes, off_t offset);
-int mprotect (void *addr, size_t len, int prot);
-int munmap (void *addr, size_t length);
-
-#endif // ! SYSTEM_LIBC
-
-#endif // __MES_SYS_MMAN_H
+void *
+mmap (void *addr, size_t len, int prot, int flags, int fd, off_t offset)
+{
+  return (void *)_sys_call6 (SYS_mmap, (long) addr, (long) len, (int) prot, (int) flags, (int) fd, (long) offset);
+}

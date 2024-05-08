@@ -152,6 +152,7 @@ DEFINE mov____0x32,%rdi 488b3c25
 DEFINE mov____0x8(%rbp),%eax 8b45
 DEFINE mov____0x8(%rbp),%r10 4c8b55
 DEFINE mov____0x8(%rbp),%r8 4c8b45
+DEFINE mov____0x8(%rbp),%r9 4c8b4d
 DEFINE mov____0x8(%rbp),%rax 488b45
 DEFINE mov____0x8(%rbp),%rbp 488b6d
 DEFINE mov____0x8(%rbp),%rbx 488b5d

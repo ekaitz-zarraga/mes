@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2016,2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2016,2017,2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
  *
  * This file is part of GNU Mes.
@@ -110,6 +110,26 @@ __sys_call5 (long sys_call, long one, long two, long three, long four, long five
        );
   return __a0;
 }
+
+long
+__sys_call6 (long sys_call, long one, long two, long three, long four, long five, long six)
+{
+  register long __a7 asm ("a7") = sys_call;
+  register long __a0 asm ("a0") = one;
+  register long __a1 asm ("a1") = two;
+  register long __a2 asm ("a2") = three;
+  register long __a3 asm ("a3") = four;
+  register long __a4 asm ("a4") = five;
+  register long __a5 asm ("a5") = six;
+  asm volatile (
+       "ecall\n\t"
+       : "+r" (__a0)
+       : "r" (__a7), "r" (__a1), "r" (__a2), "r" (__a3), "r" (__a4), "r" (__a5)
+       );
+  return __a0;
+}
+
+
 // *INDENT-ON*
 
 long
@@ -186,6 +206,20 @@ long
 _sys_call5 (long sys_call, long one, long two, long three, long four, long five)
 {
   long r = __sys_call5 (sys_call, one, two, three, four, five);
+  if (r < 0)
+    {
+      errno = -r;
+      r = -1;
+    }
+  else
+    errno = 0;
+  return r;
+}
+
+long
+_sys_call6 (long sys_call, long one, long two, long three, long four, long five, long six)
+{
+  long r = __sys_call6 (sys_call, one, two, three, four, five, six);
   if (r < 0)
     {
       errno = -r;
