@@ -56,6 +56,7 @@ struct timespec
 #endif // __MES_STRUCT_TIMESPEC
 
 #define CLOCK_PROCESS_CPUTIME_ID 2
+char *asctime (struct tm const *broken_time);
 int clock_gettime (clockid_t clk_id, struct timespec *tp);
 struct tm *localtime (time_t const *timep);
 struct tm *gmtime (time_t const *time);

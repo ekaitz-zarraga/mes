@@ -389,6 +389,7 @@ lib/string/strncat.c
 lib/string/strpbrk.c
 lib/string/strspn.c
 lib/stub/__cleanup.c
+lib/stub/asctime.c
 lib/stub/atan2.c
 lib/stub/bsearch.c
 lib/stub/chown.c
