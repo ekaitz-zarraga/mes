@@ -43,6 +43,7 @@ vsnprintf (char *str, size_t size, char const *format, va_list ap)
         c = *p;
         int left_p = 0;
         int precision = -1;
+        int prefix_p = 0;
         int width = -1;
         if (c == '-')
           {
@@ -53,12 +54,17 @@ vsnprintf (char *str, size_t size, char const *format, va_list ap)
         if (c == ' ')
           {
             pad = c;
-            c = *p++;
+            c = *++p;
+          }
+        if (c == '#')
+          {
+            prefix_p = 1;
+            c = *++p;
           }
         if (c == '0')
           {
             pad = c;
-            c = *p++;
+            c = *++p;
           }
         if (c >= '0' && c <= '9')
           {
@@ -141,6 +147,18 @@ vsnprintf (char *str, size_t size, char const *format, va_list ap)
                       width--;
                       count++;
                     }
+                }
+              if (prefix_p && *s && c == 'o')
+                {
+                  *s++ = '0';
+                  width--;
+                }
+              if (prefix_p && *s && (c == 'x' || c == 'X'))
+                {
+                  *s++ = '0';
+                  width--;
+                  *s++ = 'x';
+                  width--;
                 }
               while (*s)
                 {
@@ -262,6 +280,8 @@ vsnprintf (char *str, size_t size, char const *format, va_list ap)
             {
               eputs ("vsnprintf: not supported: %:");
               eputc (c);
+              eputs (", in format: ");
+              eputs (format);
               eputs ("\n");
               p++;
             }

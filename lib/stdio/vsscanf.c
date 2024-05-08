@@ -81,6 +81,8 @@ vsscanf (char const *s, char const *template, va_list ap)
             {
               eputs ("vsscanf: not supported: %:");
               eputc (c);
+              eputs (", in template: ");
+              eputs (template);
               eputs ("\n");
               t++;
               p++;

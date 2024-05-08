@@ -41,6 +41,7 @@ vfprintf (FILE * f, char const *format, va_list ap)
         char c = *p;
         int left_p = 0;
         int precision = -1;
+        int prefix_p = 0;
         int width = -1;
         if (c == '-')
           {
@@ -51,12 +52,17 @@ vfprintf (FILE * f, char const *format, va_list ap)
         if (c == ' ')
           {
             pad = c;
-            c = *p++;
+            c = *++p;
+          }
+        if (c == '#')
+          {
+            prefix_p = 1;
+            c = *++p;
           }
         if (c == '0')
           {
             pad = c;
-            c = *p++;
+            c = *++p;
           }
         if (c >= '0' && c <= '9')
           {
@@ -133,6 +139,18 @@ vfprintf (FILE * f, char const *format, va_list ap)
                       width--;
                       count++;
                     }
+                }
+              if (prefix_p && *s && c == 'o')
+                {
+                  fputc ('0', f);
+                  width--;
+                }
+              if (prefix_p && *s && (c == 'x' || c == 'X'))
+                {
+                  fputc ('0', f);
+                  width--;
+                  fputc ('x', f);
+                  width--;
                 }
               while (*s)
                 {
@@ -241,6 +259,8 @@ vfprintf (FILE * f, char const *format, va_list ap)
             {
               eputs ("vfprintf: not supported: %:");
               eputc (c);
+              eputs (", in format: ");
+              eputs (format);
               eputs ("\n");
               p++;
             }
