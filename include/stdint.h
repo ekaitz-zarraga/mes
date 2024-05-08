@@ -145,6 +145,8 @@ typedef unsigned long uintptr_t;
 #define SIZE_MAX UINT64_MAX
 #endif
 
+#define SSIZE_MAX LONG_MAX
+
 #endif // ! SYSTEM_LIBC
 
 #endif // __MES_STDINT_H
