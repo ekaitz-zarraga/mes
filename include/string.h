@@ -48,6 +48,7 @@ char *strncpy (char *to, char const *from, size_t size);
 int strncmp (char const *, char const *, size_t);
 char *strrchr (char const *s, int c);
 char *strstr (char const *haystack, char const *needle);
+char *strtok (char *new_string, char const *delimiters);
 char *strlwr (char *string);
 char *strupr (char *string);
 

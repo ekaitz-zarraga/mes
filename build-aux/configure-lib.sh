@@ -390,6 +390,7 @@ lib/string/strerror.c
 lib/string/strncat.c
 lib/string/strpbrk.c
 lib/string/strspn.c
+lib/string/strtok.c
 lib/stub/__cleanup.c
 lib/stub/asctime.c
 lib/stub/atan2.c
