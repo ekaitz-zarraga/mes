@@ -388,6 +388,7 @@ lib/string/bcopy.c
 lib/string/bzero.c
 lib/string/index.c
 lib/string/rindex.c
+lib/string/stpcpy.c
 lib/string/strcspn.c
 lib/string/strdup.c
 lib/string/strerror.c
