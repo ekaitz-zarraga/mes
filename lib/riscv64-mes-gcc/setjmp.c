@@ -3,6 +3,7 @@
  * Copyright © 2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
  * Copyright © 2023 Ekaitz Zarraga <ekaitz@elenq.tech>
+ * Copyright © 2024 Andrius Štikonas <andrius@stikonas.eu>
  *
  * This file is part of GNU Mes.
  *
@@ -28,35 +29,36 @@ longjmp (jmp_buf env, int val)
 {
     val = val == 0 ? 1 : val;
     asm(
-    "ld s0,    0(a0)\n\t"
-    "ld s1,    8(a0)\n\t"
-    "ld s2,    16(a0)\n\t"
-    "ld s3,    24(a0)\n\t"
-    "ld s4,    32(a0)\n\t"
-    "ld s5,    40(a0)\n\t"
-    "ld s6,    48(a0)\n\t"
-    "ld s7,    56(a0)\n\t"
-    "ld s8,    64(a0)\n\t"
-    "ld s9,    72(a0)\n\t"
-    "ld s10,   80(a0)\n\t"
-    "ld s11,   88(a0)\n\t"
-    "ld sp,    96(a0)\n\t"
-    "ld ra,    104(a0)\n\t"
+    "ld s0,    0(%0)\n\t"
+    "ld s1,    8(%0)\n\t"
+    "ld s2,    16(%0)\n\t"
+    "ld s3,    24(%0)\n\t"
+    "ld s4,    32(%0)\n\t"
+    "ld s5,    40(%0)\n\t"
+    "ld s6,    48(%0)\n\t"
+    "ld s7,    56(%0)\n\t"
+    "ld s8,    64(%0)\n\t"
+    "ld s9,    72(%0)\n\t"
+    "ld s10,   80(%0)\n\t"
+    "ld s11,   88(%0)\n\t"
+    "ld sp,    96(%0)\n\t"
+    "ld ra,    104(%0)\n\t"
 #if HAVE_FLOAT_ASM && HAVE_FLOAT && ! __riscv_float_abi_soft
-    "fld fs0,  112(a0)\n\t"
-    "fld fs1,  120(a0)\n\t"
-    "fld fs2,  128(a0)\n\t"
-    "fld fs3,  136(a0)\n\t"
-    "fld fs4,  144(a0)\n\t"
-    "fld fs5,  152(a0)\n\t"
-    "fld fs6,  160(a0)\n\t"
-    "fld fs7,  168(a0)\n\t"
-    "fld fs8,  176(a0)\n\t"
-    "fld fs9,  184(a0)\n\t"
-    "fld fs10, 192(a0)\n\t"
-    "fld fs11, 200(a0)\n\t"
+    "fld fs0,  112(%0)\n\t"
+    "fld fs1,  120(%0)\n\t"
+    "fld fs2,  128(%0)\n\t"
+    "fld fs3,  136(%0)\n\t"
+    "fld fs4,  144(%0)\n\t"
+    "fld fs5,  152(%0)\n\t"
+    "fld fs6,  160(%0)\n\t"
+    "fld fs7,  168(%0)\n\t"
+    "fld fs8,  176(%0)\n\t"
+    "fld fs9,  184(%0)\n\t"
+    "fld fs10, 192(%0)\n\t"
+    "fld fs11, 200(%0)\n\t"
 #endif
-    );
+    : : "r" (env) );
+    return val;
 }
 
 int
