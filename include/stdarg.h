@@ -34,8 +34,9 @@
 // these macros without the use of built-ins would be very involved.
 // TINYCC tries to be GCC compatible in this case.
 
-#if __TINYC__ < 928
-// Bootstrappable TINYCC (version < 928) needs some definitions in RISC-V
+#if __TINYC__
+// TINYCC needs some definitions in RISC-V in order to be built
+// without it's own code generation tool.
 typedef char *__builtin_va_list;
 #define __va_reg_size (__riscv_xlen >> 3)
 #define _tcc_align(addr, type)                          \
@@ -54,7 +55,7 @@ typedef char *__builtin_va_list;
 #if !defined (__builtin_va_copy)
 #define __builtin_va_copy(dest, src) (dest) = (src)
 #endif
-#endif // __TINYC__ < 928
+#endif // __TINYC__
 
 typedef __builtin_va_list va_list;
 
