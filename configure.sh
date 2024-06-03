@@ -21,7 +21,7 @@
 
 set -e
 
-VERSION=0.26
+VERSION=0.26.1
 srcdir=${srcdir-$(dirname $0)}
 srcdest=
 if test "$srcdir" != "."; then
