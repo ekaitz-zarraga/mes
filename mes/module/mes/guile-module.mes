@@ -3,7 +3,7 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright (C) 1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007
 ;;; Free Software Foundation, Inc.
-;;; Copyright (C) 2019,2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright (C) 2019,2020,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright (C) 2022 Timothy Smaple <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -1336,6 +1336,15 @@
 		   exports
 		   re-exports
 		   (append (cadr kws) replacements)))
+            ((#:version)
+	     (or (pair? (cdr kws))
+		 (unrecognized kws))
+             ;; TODO
+	     (loop (cddr kws)
+		   reversed-interfaces
+                   exports
+		   re-exports
+		   replacements))
 	    (else
 	     (unrecognized kws)))))
     (run-hook module-defined-hook module)
