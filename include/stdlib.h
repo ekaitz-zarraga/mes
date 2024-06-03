@@ -47,7 +47,6 @@ void _exit (int status);
 void exit (int status);
 void free (void *ptr);
 char *getenv (char const *s);
-int putenv (char *s);
 int setenv (char const *s, char const *v, int overwrite_p);
 int unsetenv (char const *name);
 void *malloc (size_t);

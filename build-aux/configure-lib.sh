@@ -335,7 +335,6 @@ lib/stub/sigaction.c
 lib/stub/ldexp.c
 lib/stub/mprotect.c
 lib/stub/localtime.c
-lib/stub/putenv.c
 lib/stub/realpath.c
 lib/stub/sigemptyset.c
 lib/$mes_cpu-mes-$compiler/setjmp.c
