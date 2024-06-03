@@ -2,13 +2,38 @@
 #+TITLE: GNU Mes NEWS – history of user-visible changes
 #+STARTUP: content hidestars
 
-Copyright © 2016,2017,2018,2019,2021,2022,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
+Copyright © 2016,2017,2018,2019,2021,2022,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 
   Copying and distribution of this file, with or without modification,
   are permitted in any medium without royalty provided the copyright
   notice and this notice are preserved.
 
 Please send Mes bug reports to bug-mes@gnu.org.
+
+* Changes in 0.26.1 since 0.26
+** Mes
+*** Running Gash is now fully supported.
+*** The REPL's ,use command now loads Guile-style modures.
+** MesCC
+*** The comma operator is now better supported.
+*** New type: ucontext_t.
+**** 1 new function
+pathconf.
+**** 2 new stubs
+putenv, realpath.
+** Noteworthy bug fixes
+*** A workaround was added to run Gash-Utils in the kaem bootstrap.
+*** A Guile-style module bug was fixed where MesCC would run twice.
+*** ./configure.sh can be run without using `--host' during bootstrap.
+*** srfi-43 vector-fold has been resurrected.
+*** The armhf build has been resurrected.
+*** On x86_64-linux, getdents64 is being used instead of getdents.
+*** MesCC now produces position-independent binaries for x86_64.
+*** Several RISCV-64 MesCC (signed) integer problems were fixed.
+*** Setjmp/longjmp for RISCV-64 on TinyCC has been fixed.
+*** CHAR_MAX is now depends on the signedness of char.
+*** intmax_t and uintmax_t were fixed for 64bit archtectures.
+*** A buffer-overflow for very large integers in ntoab was fixed.
 
 * Changes in 0.26 since 0.25.1
 ** Core
