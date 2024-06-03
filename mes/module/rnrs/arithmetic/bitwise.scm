@@ -1,7 +1,7 @@
 ;;; -*-scheme-*-
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -22,5 +22,12 @@
 
 ;;; Code:
 
-(mes-use-module (mes scm))
-(include-from-path "rnrs/arithmetic/bitwise.scm")
+(define-module (rnrs arithmetic bitwise)
+  #:export (bitwise-arithmetic-shift
+            bitwise-arithmetic-shift-left
+            bitwise-arithmetic-shift-right))
+
+(define bitwise-arithmetic-shift ash)
+(define bitwise-arithmetic-shift-left bitwise-arithmetic-shift)
+(define (bitwise-arithmetic-shift-right n count)
+  (bitwise-arithmetic-shift n (- count)))
