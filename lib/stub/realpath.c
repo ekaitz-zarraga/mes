@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2024 Andrius Štikonas <andrius@stikonas.eu>
+ * Copyright © 2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -20,15 +21,23 @@
 
 #include <mes/lib.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 char *
-realpath (char const *filename, char *resolved)
+realpath (char const *name, char *resolved)
 {
   static int stub = 0;
   if (__mes_debug () && !stub)
     eputs ("realpath stub\n");
   stub = 1;
   errno = 0;
-  return 0;
+
+  if (access (name, 0))
+    return 0;
+  char *p = resolved;
+  if (!p)
+    p = (char *)malloc (strlen (name) + 1);
+  return strcpy (p, name);
 }
