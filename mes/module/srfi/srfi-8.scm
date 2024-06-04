@@ -1,7 +1,7 @@
 ;;; -*-scheme-*-
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -22,6 +22,9 @@
 
 ;;; Code:
 
-(mes-use-module (mes psyntax))
-(define syntax-violation error)
-(include-from-path "mes/quasisyntax.scm")
+(define-module (srfi srfi-8)
+  #:export (receive))
+
+(define-macro (receive vars vals . body)
+  `(call-with-values (lambda () ,vals)
+     (lambda ,vars . ,body)))

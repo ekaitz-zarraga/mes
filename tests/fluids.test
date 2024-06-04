@@ -28,9 +28,6 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
   #:use-module (mes mes-0)
   #:use-module (mes test))
 
-(mes-use-module (mes fluids))
-(mes-use-module (mes test))
-
 (define a (make-fluid))
 (define b (make-fluid))
 (define c #f)

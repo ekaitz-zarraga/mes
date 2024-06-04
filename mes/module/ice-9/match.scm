@@ -1,5 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+;;; Copyright © 2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -23,4 +24,4 @@
             match-let
             match-let*))
 
-(include-from-path "mes/match.mes")
+(include-from-path "mes/match.scm")

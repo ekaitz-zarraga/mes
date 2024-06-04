@@ -28,12 +28,6 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
   #:use-module (mes mes-0)
   #:use-module (mes test))
 
-(cond-expand
- (mes
-  (mes-use-module (mes optargs))
-  (mes-use-module (mes test)))
- (else))
-
 (pass-if-equal "cond =>" 10
   (cond
    (5 => (lambda (p) (* p 2)))))

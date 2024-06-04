@@ -4,7 +4,7 @@ exec ${GUILE-guile} --no-auto-compile -L $(dirname $0) -C $(dirname $0) -e '(mes
 !#
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2019,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; mes-snarf.scm: This file is part of GNU Mes.
 ;;;
@@ -39,12 +39,6 @@ exec ${GUILE-guile} --no-auto-compile -L $(dirname $0) -C $(dirname $0) -e '(mes
   (use-modules (ice-9 syncase))
   (define %scheme "guile")
   (define-macro (mes-use-module . rest) #t)))
-
-(mes-use-module (mes guile))
-(mes-use-module (srfi srfi-1))
-(mes-use-module (srfi srfi-8))
-(mes-use-module (srfi srfi-9))
-(mes-use-module (srfi srfi-26))
 
 (when (and=> (getenv "V") (lambda (v) (> (string->number v) 1)))
   (format (current-error-port) "mes-snarf[~a]...\n" %scheme))

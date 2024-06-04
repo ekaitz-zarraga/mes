@@ -42,15 +42,11 @@ MES_ARENA=100000000 exec ${SCHEME-guile} -L . --no-auto-compile -e '(configure)'
 
 (cond-expand
  (guile)
- (mes (mes-use-module (srfi srfi-1))
-      (mes-use-module (srfi srfi-9))
-      (mes-use-module (srfi srfi-9 gnu))
-      (mes-use-module (srfi srfi-26))
-      (mes-use-module (mes getopt-long))
-      (mes-use-module (mes guile))
-      (mes-use-module (mes misc))
-      (mes-use-module (mes optargs))
-      (define %host-type "x86_64-unknown-linux-gnu")
+ (mes ;;(mes-use-module (mes guile))
+      ;;(mes-use-module (mes misc))
+  (use-modules (mes guile))
+  (use-modules (mes misc))
+  (define %host-type "x86_64-unknown-linux-gnu")
       (define OPEN_READ "r")
       (define (canonicalize-path o)
         (if (string-prefix? "/" o) o

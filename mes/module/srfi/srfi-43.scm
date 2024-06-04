@@ -1,5 +1,5 @@
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2020 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2018,2020 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2023, 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -17,6 +17,12 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
 
+;;; Commentary:
+
+;;; Minimal implementation of srfi-43, for nyacc.
+
+;;; Code:
+
 (define-module (srfi srfi-43)
   #:export (vector-map
             vector-for-each
@@ -24,7 +30,22 @@
             vector-copy!)
   #:re-export (vector-copy))
 
-(include-from-path "srfi/srfi-43.mes")
+(define (vector-map f v)
+  (let* ((k (vector-length v))
+         (n (make-vector k)))
+    (let loop ((i 0))
+      (if (= i k) n
+          (begin
+            (vector-set! n i (f i (vector-ref v i)))
+            (loop (+ i 1)))))))
+
+(define (vector-for-each f v)
+  (let ((k (vector-length v)))
+    (let loop ((i 0))
+      (if (< i k)
+          (begin
+            (f i (vector-ref v i))
+            (loop (+ i 1)))))))
 
 (define (vector-fold kons knil vec)
   (let loop ((k 0) (acc knil))

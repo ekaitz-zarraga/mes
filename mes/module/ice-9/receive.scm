@@ -1,5 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+;;; Copyright © 2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -17,6 +18,5 @@
 ;;; along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (ice-9 receive)
+  #:use-module (srfi srfi-8)
   #:export (receive))
-
-(include-from-path "srfi/srfi-8.mes")
