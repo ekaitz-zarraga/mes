@@ -1,7 +1,7 @@
 ;;; -*-scheme-*-
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2021 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2021, 2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -54,6 +54,7 @@
             lset-union
             lset-intersection
             lset-difference
+            pair-for-each
             take-while
 
             append-reverse!
@@ -109,3 +110,13 @@
         (loop (cdr lst) (cons (car lst) acc)))))
 
 (define alist-cons acons)
+
+(define (pair-for-each f lst . rest)
+  (if (null? rest) (let loop ((lst lst))
+                     (when (pair? lst)
+	               (f lst)
+	               (loop (cdr lst))))
+      (let loop ((lst (cons lst rest)))
+        (unless (any1 null? lst)
+	  (apply f lst)
+	  (loop (map cdr lst))))))
