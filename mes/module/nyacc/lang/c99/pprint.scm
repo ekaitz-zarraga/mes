@@ -1,5 +1,6 @@
 ;;; GNU Mes --- Maxwell Equations of Software
 ;;; Copyright © 2022 Timothy Sample <samplet@ngyro.com>
+;;; Copyright © 2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;;
 ;;; This file is part of GNU Mes.
 ;;;
@@ -19,4 +20,7 @@
 (define-module (nyacc lang c99 pprint)
   #:export (pretty-print-c99))
 
-(include-from-path "nyacc/lang/c99/pprint.mes")
+(define* (pretty-print-c99 tree
+			   #:optional (port (current-output-port))
+			   #:key ugly per-line-prefix (basic-offset 2))
+  (write tree port))
