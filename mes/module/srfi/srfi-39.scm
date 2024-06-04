@@ -58,7 +58,11 @@
   ;; #:use-module (ice-9 syncase)
   #:use-module (srfi srfi-16)
 
-  #:export (make-parameter parameterize with-parameters*)
+  #:export (get-conv-tag
+            get-fluid-tag
+            make-parameter
+            parameterize
+            with-parameters*)
   ;; #:export-syntax (parameterize)
 
   ;; helper procedure not in srfi-39.

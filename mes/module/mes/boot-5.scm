@@ -1,7 +1,7 @@
 ;;; -*-scheme-*-
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2016,2017,2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2016,2017,2018,2019,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2022,2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -201,6 +201,8 @@
 ;; Now that the module system is booted, we can add procedures to the
 ;; root module that we don't already have.
 
+(use-modules (srfi srfi-39))
+
 (let-syntax ((define-in-root (syntax-rules ()
                                ((_ (name . formals) . body)
                                 (module-define! the-root-module 'name
@@ -211,7 +213,14 @@
   (define-in-root (sort lst less)
     ((@ (srfi srfi-132) list-sort) less lst))
 
-  (define-in-root the-eof-object (integer->char -1)))
+  (define-in-root the-eof-object (integer->char -1))
+
+  (define-in-root get-conv-tag
+    (@ (srfi srfi-39) get-conv-tag))
+  (define-in-root get-fluid-tag
+    (@ (srfi srfi-39) get-fluid-tag))
+  (define-in-root with-parameters*
+    (@ (srfi srfi-39) with-parameters*)))
 
 (use-modules (mes main))
 
