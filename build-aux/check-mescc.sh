@@ -315,7 +315,7 @@ lib/tests/scaffold/70-extern.c
 fi
 
 # Allow for make check MESCC_TESTS=lib/tests/setjmp/80-setjmp.c
-if test -n "$bootstrap"; then
+if "$bootstrap" = "true"; then
     TESTS="${MESCC_TESTS-$mes_tests$tcc_tests}"
 else
     TESTS="${MESCC_TESTS-$mes_tests$tcc_tests$gnu_tests}"
