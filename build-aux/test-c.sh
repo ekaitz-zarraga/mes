@@ -38,6 +38,15 @@ fi
 
 rm -f "$o"
 CC=${CC-gcc}
+if test -z "$CPPFLAGS"; then
+    CPPFLAGS="
+-D HAVE_CONFIG_H=1
+-I ../include
+-I ${srcdir}/include
+-I ${srcdir}/include/$mes_kernel/$mes_cpu
+"
+    LDFLAGS=-nostdlib
+fi
 
 i=$(basename "$t" .c)
 
