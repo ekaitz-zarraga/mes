@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2017,2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2023 Timothy Sample <samplet@ngyro.com>
  *
  * This file is part of GNU Mes.
@@ -58,6 +58,13 @@
 #define R_OK 4
 #endif
 
+#ifndef _PC_NAME_MAX
+#define _PC_NAME_MAX 3
+#endif
+#ifndef _PC_PATH_MAX
+#define _PC_PATH_MAX 4
+#endif
+
 int access (char const *s, int mode);
 unsigned int alarm (unsigned int seconds);
 int chdir (char const *file_name);
@@ -83,6 +90,7 @@ int getpgid (pid_t pid);
 int isatty (int fd);
 int link (char const *old_name, char const *new_name);
 off_t lseek (int fd, off_t offset, int whence);
+long pathconf (char const *file_name, int parameter);
 int pipe (int filedes[2]);
 ssize_t read (int fd, void *buffer, size_t size);
 ssize_t readlink (char const *file_name, char *buffer, size_t size);

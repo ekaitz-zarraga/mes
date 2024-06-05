@@ -348,6 +348,7 @@ lib/posix/alarm.c
 lib/posix/execl.c
 lib/posix/execlp.c
 lib/posix/mktemp.c
+lib/posix/pathconf.c
 lib/posix/sbrk.c
 lib/posix/sleep.c
 lib/posix/unsetenv.c
