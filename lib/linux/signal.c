@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018,2019,2022,2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2019,2022,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -35,7 +35,7 @@ sighandler_t
 signal (int signum, sighandler_t action)
 {
 #if __i386__
-  return _sys_call2 (SYS_signal, signum, (long) action);
+  return (sighandler_t) _sys_call2 (SYS_signal, signum, (long) action);
 #elif defined (SYS_rt_sigaction)
   static struct sigaction setup_action = { 0 };
   static struct sigaction old = { 0 };
