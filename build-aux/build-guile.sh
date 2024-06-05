@@ -29,6 +29,7 @@ GUILE_AUTO_COMPILE=0
 SCM_FILES="
 module/mes/getopt-long.scm
 module/mes/guile.scm
+module/mes/mes-0.scm
 module/mes/misc.scm
 module/mes/test.scm
 module/mescc/M1.scm
