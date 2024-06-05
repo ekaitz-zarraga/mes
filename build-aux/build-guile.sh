@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2017,2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2017,2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 # Copyright © 2021 W. J. van der Laan <laanwj@protonmail.com>
 #
 # This file is part of GNU Mes.
@@ -33,7 +33,6 @@ module/mes/misc.scm
 module/mes/test.scm
 module/mescc/M1.scm
 module/mescc/as.scm
-module/mescc/bytevectors.scm
 module/mescc/compile.scm
 module/mescc/armv4/as.scm
 module/mescc/armv4/info.scm
