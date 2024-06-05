@@ -1,7 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright (C) 1991,92,93,94,95,96,97,99,2000 Free Software Foundation, Inc.
- * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -34,55 +34,41 @@
 
 int getdents (int filedes, char *buffer, size_t nbytes);
 
-/* Read a directory entry from DIRP.  */
 struct dirent *
-readdir (DIR * dirp)
+readdir (DIR *dir)
 {
-  struct dirent *dp;
+  struct dirent *entry;
   int saved_errno = errno;
 
   do
     {
-      size_t reclen;
-
-      if (dirp->offset >= dirp->size)
+      if (dir->offset >= dir->size)
         {
           /* We've emptied out our buffer.  Refill it.  */
-
-          size_t maxread;
-          ssize_t bytes;
-
-          maxread = dirp->allocation;
-
-#if 0
-          off_t base;
-          bytes = __getdirentries (dirp->fd, dirp->data, maxread, &base);
-#else
-          bytes = getdents (dirp->fd, dirp->data, maxread);
-#endif
+          size_t size = dir->allocation;
+          ssize_t bytes = getdents (dir->fd, dir->data, size);
           if (bytes <= 0)
             {
               /* Don't modifiy errno when reaching EOF.  */
               if (bytes == 0)
                 errno = saved_errno;
-              dp = 0;
+              entry = 0;
               break;
             }
-          dirp->size = (size_t) bytes;
+          dir->size = (size_t) bytes;
 
           /* Reset the offset into the buffer.  */
-          dirp->offset = 0;
+          dir->offset = 0;
         }
 
-      dp = (struct dirent *) &dirp->data[dirp->offset];
+      entry = (struct dirent *) &dir->data[dir->offset];
 
-      reclen = dp->d_reclen;
-      dirp->offset += reclen;
-      dirp->filepos = dp->d_off;
+      dir->offset += entry->d_reclen;
+      dir->filepos = entry->d_off;
 
       /* Skip deleted files.  */
     }
-  while (dp->d_ino == 0);
+  while (entry->d_ino == 0);
 
-  return dp;
+  return entry;
 }
