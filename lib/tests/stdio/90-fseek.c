@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -46,7 +46,7 @@ main ()
   eputs ("size=");
   eputs (itoa (pos));
   eputs ("\n");
-  if (pos != 35147)
+  if (pos != 35149)
     return 5;
   r = fseek (f, 0, SEEK_SET);
 
