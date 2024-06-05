@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -24,33 +24,6 @@
 #include <string.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-
-
-#if __i386__ || __arm__
-#define stat xstat
-
-struct stat
-{
-  unsigned long st_dev;
-  unsigned long st_ino;
-  unsigned short st_mode;
-  unsigned short st_nlink;
-  unsigned short st_uid;
-  unsigned short st_gid;
-  unsigned long st_rdev;
-  long st_size;
-  unsigned int st_blksize;
-  unsigned int st_blocks;
-  long st_atime;
-  unsigned long st_atime_usec;
-  long st_mtime;
-  unsigned long st_mtime_usec;
-  long st_ctime;
-  unsigned long st_ctime_usec;
-  unsigned int __foo0;
-  unsigned int __foo1;
-};
-#endif
 
 int
 main ()
