@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2018,2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2018,2019,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -50,8 +50,7 @@ fi
 
 i=$(basename "$t" .c)
 
-if [ -z "${MES_CHECKING_BUILTIN_LIBS}" ]
-then
+if [ -z "${MES_CHECKING_BUILTIN_LIBS}" ] && [ -z "$TCC" ]; then
     MES_CHECKING_BUILTIN_LIBS="`${CC} --print-libgcc-file-name`"
 fi
 

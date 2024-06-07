@@ -1,5 +1,5 @@
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 #
 # This file is part of GNU Mes.
 #
@@ -34,6 +34,7 @@ GUIX:=@GUIX@
 HELP2MAN:=@HELP2MAN@
 HEX2:=@HEX2@
 LDFLAGS:=@LDFLAGS@
+L_GCC:=@L_GCC@
 MAKEINFO:=@MAKEINFO@
 M1:=@M1@
 MES_FOR_BUILD:=@MES_FOR_BUILD@
@@ -44,6 +45,7 @@ PACKAGE_BUGREPORT:=@PACKAGE_BUGREPORT@
 PERL:=@PERL@
 SCHEME:=@SCHEME@
 SHELL:=@SHELL@
+TCC:=@TCC@
 VERSION:=@VERSION@
 V:=@V@
 colors:=@colors@

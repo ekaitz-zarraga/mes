@@ -45,7 +45,7 @@ then
   # Make it possible to resolve raise(), required by libgcc.a, provided in
   # libc.a.  The final command line has to have "-lc -lgcc -lc".
   # See <https://www.openwall.com/lists/musl/2018/05/09/1>.
-  LIBS="${LIBS} -lgcc -lc"
+  LIBS="${LIBS} $L_GCC -lc"
 fi
 if [ "$compiler" = "mescc" ]; then
    LIBS="${LIBS} -lc -lmescc"

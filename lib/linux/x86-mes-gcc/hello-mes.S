@@ -1,6 +1,6 @@
 /*
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2019 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2019,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -45,7 +45,11 @@ _start:
 	mov	$SYS_write,%eax	/* System call function: write, in %eax.  */
 	mov	$stdout,%ebx	/* 1st parameter: file descriptor, in %ebx. */
 	mov	$hello,%ecx	/* 2nd parameter: address, in %ecx. */
+#if __TINYC__
+	mov	$16,%edx	/* 3rd parameter: byte count %edx. */
+#else
 	mov	$(bye-hello),%edx	/* 3rd parameter: byte count %edx. */
+#endif
 	int	$0x80		/* Call system.  */
 
 	mov	$SYS_exit,%eax	/* System call function: exit, in %eax.  */

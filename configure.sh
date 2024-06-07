@@ -62,6 +62,8 @@ courageous=${courageous-false}
 BASH=${BASH-$(command -v bash || command -v sh)}
 BLOOD_ELF=${BLOOD_ELF-$(command -v blood-elf)}
 CC=${CC-$(command -v gcc)} || true
+CC=${CC-$(command -v tcc)} || true
+L_GCC=${L_GCC-"-lgcc"}
 CFLAGS=${CFLAGS-}
 CPPFLAGS=${CPPFLAGS-}
 DIFF=${DIFF-$(command -v diff || echo $PWD/pre-inst-env diff.scm)}
@@ -159,6 +161,7 @@ subst () {
     -e s,"@GUILE@,$GUILE,"\
     -e s,"@PERL@,$PERL,"\
     -e s,"@CFLAGS@,$CFLAGS,"\
+    -e s,"@L_GCC@,$L_GCC,"\
     -e s,"@HEX2@,$HEX2,"\
     -e s,"@HEX2FLAGS@,$HEX2FLAGS,"\
     -e s,"@M1@,$M1,"\
@@ -167,6 +170,7 @@ subst () {
     -e s,"@KAEM@,$KAEM,"\
     -e s,"@MES_FOR_BUILD@,$MES_FOR_BUILD,"\
     -e s,"@SHELL@,$SHELL,"\
+    -e s,"@TCC@,$TCC,"\
     $1 > $2
 }
 
