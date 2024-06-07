@@ -1,6 +1,6 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
- * Copyright © 2018,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2022,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2020 Danny Milosavljevic <dannym@scratchpost.org>
  *
  * This file is part of GNU Mes.
@@ -112,8 +112,7 @@
 #define SYS_lstat64    0xc4
 #define SYS_fstat64    0xc5
 #define SYS_fcntl64    0xdd
-// This breaks 90-readdir.c, on GCC and MESCC alike
-// #define SYS_getdents64 0xdc
+#define SYS_getdents64 0xdc
 
 #undef SYS_stat
 #define SYS_stat SYS_stat64

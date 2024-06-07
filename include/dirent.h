@@ -1,7 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright (C) 1991, 1992 Free Software Foundation, Inc.
- * Copyright © 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2018,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  * Copyright © 2024 Andrius Štikonas <andrius@stikonas.eu>
  *
  * This file is part of GNU Mes.
@@ -45,15 +45,24 @@
 
 int __getdirentries (int filedes, char *buffer, size_t nbytes, off_t * basep);
 
+// FIXME move to include/<kernel>/<arch>/dirent.h?
 struct dirent
 {
   ino_t d_ino;
+#if defined (SYS_getdents64) && (__SIZEOF_LONG__ == 4 || __arm__ || __i386__)
+  // FIXME: redefine ino_t to ino64_t instead?
+  int d_ino_h;
+#endif
   off_t d_off;
+#if defined (SYS_getdents64) && (__SIZEOF_LONG__ == 4 || __arm__ || __i386__)
+  // FIXME: redefine off_t to off64_t instead?
+  int d_off_h;
+#endif
   unsigned short int d_reclen;
 #if defined (SYS_getdents64)
   unsigned char d_type;
 #endif
-  char d_name[256];             /* We must not include limits.h! */
+  char d_name[256];
 };
 
 /* Open a directory stream on NAME.
