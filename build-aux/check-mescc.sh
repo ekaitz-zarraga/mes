@@ -273,7 +273,6 @@ lib/tests/scaffold/91-goto-array.c
 lib/tests/scaffold/16-cast.c
 lib/tests/scaffold/17-compare-unsigned-le.c
 lib/tests/scaffold/17-compare-rotated.c
-lib/tests/scaffold/a0-call-trunc-int.c
 "
     fi
 
