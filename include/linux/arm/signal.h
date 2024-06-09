@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2024 Ekaitz Zarraga <ekaitz@elenq.tech>
+ * Copyright © 2024 Janneke Nieuwenhuizen <janneke@gnu.org>
  *
  * This file is part of GNU Mes.
  *
@@ -20,7 +21,7 @@
 
 // Taken from musl libc (4a16ddf5)
 
-typedef int greg_t
+typedef int greg_t;
 typedef int gregset_t[18];
 typedef struct sigcontext
 {
