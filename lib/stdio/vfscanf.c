@@ -1,6 +1,7 @@
 /* -*-comment-start: "//";comment-end:""-*-
  * GNU Mes --- Maxwell Equations of Software
  * Copyright © 2017,2018,2019,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
+ * Copyright © 2022 Danny Milosavljevic <dannym@scratchpost.org>
  *
  * This file is part of GNU Mes.
  *
@@ -24,6 +25,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 int
 vfscanf (FILE * stream, char const *template, va_list ap)
