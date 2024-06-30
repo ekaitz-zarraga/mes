@@ -10,6 +10,11 @@ Copyright © 2016,2017,2018,2019,2021,2022,2023,2024 Janneke Nieuwenhuizen <jann
 
 Please send Mes bug reports to bug-mes@gnu.org.
 
+* Changes in 0.26.2 since 0.26.1
+** Build
+*** Make check now succeeds again for x86_64 and ARM.
+** Noteworthy bug fixes
+*** A typo was fixed in in the ARM signal.h header.
 * Changes in 0.26.1 since 0.26
 ** Mes
 *** Running Gash is now fully supported.
