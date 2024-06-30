@@ -1,0 +1,101 @@
+
+Subject: GNU Mes 0.26.2 released
+
+<#secure method=pgpmime mode=sign>
+Mes 0.26.2 is a bug-fix release.
+
+Enjoy!
+
+ABOUT
+
+GNU Mes is a Scheme interpreter and C compiler for bootstrapping the
+GNU System.  It has helped to decimate the number and size of binary
+seeds that were used in the bootstrap of GNU Guix 1.0.  Recently,
+version 0.24.2 has realized the first Full Source Bootstrap for Guix
+<https://guix.gnu.org/en/blog/2023/the-full-source-bootstrap-building-from-source-all-the-way-down/>.
+The final goal is to help create a full source bootstrap as part of
+the bootstrappable builds effort <https://bootstrappable.org> for any
+UNIX-like operating system.
+
+Mes + MesCC + Mes C Library can build a bootstrappable TinyCC
+<https://gitlab.com/janneke/tinycc> that is self-hosting.  Using this
+bootstrappable-tcc and the Mes C library we can build an ancient
+version of the GNU tools triplet: glibc-2.2.5, binutils-2.20.1,
+gcc-2.95.3.  This is enough to bootstrap Guix for i686-linux,
+x86_64-linux, armhf-linux and aarch64-linux.
+
+Mes was inspired by The Maxwell Equations of Software: LISP-1.5 --
+John McCarthy page 13, Guix's source/binary packaging transparency and
+Jeremiah Orians's Stage0 <https://github.com/oriansj/stage0>, a
+~500-byte self-hosting hex assembler.
+
+==================================================================
+
+DOWNLOAD
+
+  git clone git://git.savannah.gnu.org/mes.git
+
+Here is the GNU mes home page:
+    https://gnu.org/s/mes/
+
+For a summary of changes and contributors, see:
+  https://git.sv.gnu.org/gitweb/?p=mes.git;a=shortlog;h=v0.26.2
+or run this command from a git-cloned mes directory:
+  git shortlog v0.26..v0.26.2
+
+Here are the compressed sources and a GPG detached signature:
+  https://ftp.gnu.org/gnu/mes/mes-0.26.2.tar.gz
+  https://ftp.gnu.org/gnu/mes/mes-0.26.2.tar.gz.sig
+
+Use a mirror for higher download bandwidth:
+  https://ftpmirror.gnu.org/mes/mes-0.26.2.tar.gz
+  https://ftpmirror.gnu.org/mes/mes-0.26.2.tar.gz.sig
+
+Here are the SHA1 and SHA256 checksums:
+
+  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  mes-0.26.2.tar.gz
+  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  mes-0.26.2.tar.gz
+
+Use a .sig file to verify that the corresponding file (without the
+.sig suffix) is intact.  First, be sure to download both the .sig file
+and the corresponding tarball.  Then, run a command like this:
+
+  gpg --verify mes-0.26.2.tar.gz.sig
+
+The signature should match the fingerprint of the following key:
+
+  pub   rsa4096 2018-04-08 [SC]
+        1A85 8392 E331 EAFD B8C2  7FFB F3C1 A0D9 C1D6 5273
+  uid   Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+
+If that command fails because you don't have the required public key,
+or that public key has expired, try the following commands to retrieve
+or refresh it, and then rerun the 'gpg --verify' command.
+
+  gpg --recv-keys 1A858392E331EAFDB8C27FFBF3C1A0D9C1D65273
+
+As a last resort to find the key, you can try the official GNU
+keyring:
+
+  wget -q https://ftp.gnu.org/gnu/gnu-keyring.gpg
+  gpg --keyring gnu-keyring.gpg --verify mes-0.26.2.tar.gz.sig
+
+Alternatively, Mes can be installed using GNU Guix:
+
+  guix pull
+  guix install mes
+
+NEWS
+
+* Changes in 0.26.2 since 0.26.1
+** Build
+*** Make check now succeeds again for x86_64 and ARM.
+** Noteworthy bug fixes
+*** A typo was fixed in in the ARM signal.h header.
+
+See also <https://bootstrappable.org>.
+Join bug-mes@gnu.org and #bootstrappable on irc.libera.chat for
+discussions.
+
+Janneke
+ [on behalf of the mes maintainers]
