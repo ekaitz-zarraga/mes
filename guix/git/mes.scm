@@ -382,13 +382,13 @@ $prefix/share/guile/site/$GUILE_EFFECTIVE_VERSION\n")))))
 (define-public mes
   (package
     (name "mes")
-    (version #!mes!# "0.26.2")
+    (version #!mes!# "0.27")
     (source (origin
               (method url-fetch)
               (uri (string-append
                     "https://ftp.gnu.org/pub/gnu/mes/mes-" version ".tar.gz"))
               (sha256
-               (base32 #!mes!# "120a7ljnyi9127inaarlqv6cl98cmk72s3gmyad7cjrwy6cvzf1g"))))
+               (base32 #!mes!# "1a5ag8i303yhf76sg05rpcans9vadvnpxcpa4sl09z4cv5bfcgh3"))))
     (build-system gnu-build-system)
     (supported-systems '("aarch64-linux" "armhf-linux" "i686-linux"
                          "x86_64-linux" "riscv64-linux"))
@@ -438,7 +438,7 @@ Guile.")
     (license gpl3+)))
 
 (define-public mes.git
-  (let ((version #!mes!# "0.26.2")
+  (let ((version #!mes!# "0.27")
         (revision "0")
         (commit (read-string (open-pipe "git show HEAD | head -1 | cut -d ' ' -f 2" OPEN_READ))))
     (package
