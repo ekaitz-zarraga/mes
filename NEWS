@@ -10,6 +10,61 @@ Copyright © 2016,2017,2018,2019,2021,2022,2023,2024 Janneke Nieuwenhuizen <jann
 
 Please send Mes bug reports to bug-mes@gnu.org.
 
+* Changes in 0.28 since 0.27
+** Mes C Library
+*** 17 new macros:
+DBL_EPSILON,
+DBL_MANT_DIG,
+DBL_MAX,
+DBL_MIN,
+ENOTSUP,
+FLT_RADIX,
+LDBL_EPSILON,
+LDBL_MANT_DIG,
+LDBL_MAX,
+LDBL_MIN,
+MINSIGSTKSZ,
+SHRT_MAX,
+SHRT_MIN,
+SIGSTKSZ,
+SSIZE_MAX,
+USHRT_MAX,
+USHRT_MIN.
+*** new prototypes:
+pipe,
+setbuf,
+sigdelset.
+*** 5 stubs implemented:
+pclose,
+popen,
+putenv,
+rewind,
+system.
+*** 9 new functions:
+labs,
+localeconv,
+mmap,
+strtok,
+munmap,
+readv,
+setitimer,
+stpcpy,
+writev.
+*** 6 new stubs:
+asctime,
+getpagesize,
+sigfillset,
+strcoll,
+strsignal,
+sysconf.
+*** 2 new types:
+intmax_t, uintmax_t.
+** Noteworthy bug fixes
+*** uintptr_t is now actually unsigned.
+*** atexit now returns 0.
+*** vfprintf, vsnprintf now support #-type.
+*** vsscanf: Support *, [, s.
+*** Prototypes for dlopen, dlclose are only provided when BOOTSTRAP.
 * Changes in 0.27 since 0.26.2
 ** Core
 *** Support for running Mes on the Hurd has been resurrected.
