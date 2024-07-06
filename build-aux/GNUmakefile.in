@@ -1,5 +1,5 @@
 # GNU Mes --- Maxwell Equations of Software
-# Copyright © 2018,2019,2021,2022,2023 Janneke Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2018,2019,2021,2022,2023,2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 # Copyright © 2023 Vagrant Cascadian <vagrant@debian.org>
 #
 # This file is part of GNU Mes.
@@ -422,7 +422,7 @@ gen-announce:
 	$(GEN_ANNOUNCE)					\
 	    --release-type=beta				\
 	    --package-name=mes				\
-	    --previous-version='0.26.2'			\
+	    --previous-version='0.27'			\
             --current-version=$(VERSION)		\
 	    --gpg-key-id=$(GPG_KEY_ID)			\
 	    --url-directory=https://ftp.gnu.org/gnu/mes	\

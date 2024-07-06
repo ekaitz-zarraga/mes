@@ -64,8 +64,8 @@ Use a mirror for higher download bandwidth:
 
 Here are the SHA1 and SHA256 checksums:
 
-  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  mes-0.27.tar.gz
-  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  mes-0.27.tar.gz
+  273ad95203efe83d0b0e8bdbce5b41cfebb316e4  mes-0.27.tar.gz
+  033ee656d98cfc04a826eab27eed6e6a276d15bbb980a7cd71d00f30227aaaa8  mes-0.27.tar.gz
 
 Use a .sig file to verify that the corresponding file (without the
 .sig suffix) is intact.  First, be sure to download both the .sig file
