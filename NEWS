@@ -10,6 +10,23 @@ Copyright © 2016,2017,2018,2019,2021,2022,2023,2024 Janneke Nieuwenhuizen <jann
 
 Please send Mes bug reports to bug-mes@gnu.org.
 
+* Changes in 0.27 since 0.26.2
+** Core
+*** Support for running Mes on the Hurd has been resurrected.
+** Mes
+*** (ice-9 optargs) now supports lambda* #:optional with #:key.
+*** Define-module now handles #:version by ignoring it.
+*** 2 new functions:
+pair-for-each, with-fluids*.
+*** 2 new modules:
+(rnrs arithmetic bitwise), (srfi srfi-39).
+*** For Guile compatibility, (srfi srfi-39) is loaded by default.
+** Build
+*** When configuring using `--with-courage, mescc-tools are now optional.
+** MesCC
+*** MesCC now works with NYACC versions 0.99.0 to 1.09.4.
+*** Legacy mes-style module support was removed for NYACC.
+*** Legacy mes-style module support was removed for MesCC.
 * Changes in 0.26.2 since 0.26.1
 ** Build
 *** Make check now succeeds again for x86_64 and ARM.
