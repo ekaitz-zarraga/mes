@@ -1,7 +1,7 @@
 ;;; -*-scheme-*-
 
 ;;; GNU Mes --- Maxwell Equations of Software
-;;; Copyright © 2017, 2023 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+;;; Copyright © 2017, 2023, 2024 Janneke Nieuwenhuizen <janneke@gnu.org>
 ;;; Copyright © 2023 Timothy Sample <samplet@ngyro.com>
 ;;;
 ;;; This file is part of GNU Mes.
@@ -26,6 +26,9 @@
 (mes-use-module (srfi srfi-13))
 
 (define R_OK 4)
+(define W_OK 2)
+(define X_OK 1)
+(define F_OK 0)
 (define S_IRWXU #o700)
 
 (define (basename file-name . ext)
