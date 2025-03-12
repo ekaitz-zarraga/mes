@@ -457,34 +457,49 @@ reader_read_string ()
       if (c == '\\')
         {
           c = readchar ();
-          if (c == '\\' || c == '"')
-            0;
-          else if (c == '0')
-            c = '\0';
-          else if (c == 'a')
-            c = '\a';
-          else if (c == 'b')
-            c = '\b';
-          else if (c == 't')
-            c = '\t';
-          else if (c == 'n')
-            c = '\n';
-          else if (c == 'v')
-            c = '\v';
-          else if (c == 'f')
-            c = '\f';
-          else if (c == 'r')
-            /* Nyacc bug
-               c = '\r'; */
-            c = 13;
-          else if (c == 'e')
-            /* Nyacc bug
-               c = '\e'; */
-            c = 27;
-          else if (c == 'x')
+          switch (c)
             {
-              n = reader_read_hex ();
-              c = n->value;
+              case '\\':
+              case '"':
+                break;
+              case '0':
+                c = '\0';
+                break;
+              case 'a':
+                c = '\a';
+                break;
+              case 'b':
+                c = '\b';
+                break;
+              case 't':
+                c = '\t';
+                break;
+              case 'n':
+                c = '\n';
+                break;
+              case 'v':
+                c = '\v';
+                break;
+              case 'f':
+                c = '\f';
+                break;
+              case 'r':
+                /* Nyacc bug
+                   c = '\r'; */
+                c = 13;
+                break;
+              case 'e':
+                /* Nyacc bug
+                   c = '\e'; */
+                c = 27;
+                break;
+              case 'x':
+                n = reader_read_hex ();
+                c = n->value;
+                break;
+              default:
+                /* M2-Planet needs the default */
+                break;
             }
         }
       g_buf[i] = c;
