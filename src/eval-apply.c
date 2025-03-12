@@ -399,16 +399,21 @@ apply_builtin (struct scm *fn, struct scm *x)   /*:((internal)) */
           x = cons (a, cons (d->car->cdr->car, d));
     }
 
-  if (arity == 0)
-    return apply_builtin0 (fn);
-  if (arity == 1)
-    return apply_builtin1 (fn, x->car);
-  else if (arity == 2)
-    return apply_builtin2 (fn, x->car, x->cdr->car);
-  else if (arity == 3)
-    return apply_builtin3 (fn, x->car, x->cdr->car, x->cdr->cdr->car);
-  else if (arity == -1)
-    return apply_builtin1 (fn, x);
+  switch (arity)
+    {
+      case 0:
+        return apply_builtin0 (fn);
+      case 1:
+        return apply_builtin1 (fn, x->car);
+      case 2:
+        return apply_builtin2 (fn, x->car, x->cdr->car);
+      case 3:
+        return apply_builtin3 (fn, x->car, x->cdr->car, x->cdr->cdr->car);
+      case -1:
+        return apply_builtin1 (fn, x);
+      default:
+        assert_msg(0, "apply_builtin: unreachable arity");
+    }
 
   return cell_unspecified;
 }

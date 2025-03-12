@@ -381,31 +381,40 @@ gc_cellcpy (struct scm *dest, struct scm *src, size_t n)
       a = src->car_value;
       d = src->cdr_value;
       dest->type = t;
-      if (t == TBROKEN_HEART)
-        assert_msg (0, "gc_cellcpy: broken heart");
-      if (t == TMACRO
-          || t == TPAIR
-          || t == TREF
-          || t == TBINDING)
-        dest->car_value = a - dist;
-      else
-        dest->car_value = a;
-      if (t == TBYTES
-          || t == TCLOSURE
-          || t == TCONTINUATION
-          || t == TKEYWORD
-          || t == TMACRO
-          || t == TPAIR
-          || t == TPORT
-          || t == TSPECIAL
-          || t == TSTRING
-          || t == TSTRUCT
-          || t == TSYMBOL
-          || t == TVALUES
-          || t == TVECTOR)
-        dest->cdr_value = d - dist;
-      else
-        dest->cdr_value = d;
+      switch (t)
+        {
+          case TBROKEN_HEART:
+            assert_msg (0, "gc_cellcpy: broken heart");
+            break;
+          case TREF:
+          case TBINDING:
+            dest->car_value = a - dist;
+            dest->cdr_value = d;
+            break;
+          case TBYTES:
+          case TCLOSURE:
+          case TCONTINUATION:
+          case TKEYWORD:
+          case TPORT:
+          case TSPECIAL:
+          case TSTRING:
+          case TSTRUCT:
+          case TSYMBOL:
+          case TVALUES:
+          case TVECTOR:
+            dest->car_value = a;
+            dest->cdr_value = d - dist;
+            break;
+          case TMACRO:
+          case TPAIR:
+            dest->car_value = a - dist;
+            dest->cdr_value = d - dist;
+            break;
+          default:
+            dest->car_value = a;
+            dest->cdr_value = d;
+            break;
+        }
       if (t == TBYTES)
         {
           if (g_debug > 5)
@@ -478,39 +487,47 @@ gc_copy (struct scm *old)               /*:((internal)) */
   struct scm *new = g_free;
   g_free = g_free + M2_CELL_SIZE;
   copy_cell (new, old);
-  if (new->type == TSTRUCT || new->type == TVECTOR)
+  switch (new->type)
     {
-      new->vector = g_free;
-      long i;
-      for (i = 0; i < old->length; i = i + 1)
+      case TSTRUCT:
+      case TVECTOR:
         {
-          copy_cell (g_free, cell_ref (old->vector, i));
-          g_free = g_free + M2_CELL_SIZE;
+          new->vector = g_free;
+          long i;
+          for (i = 0; i < old->length; i = i + 1)
+            {
+              copy_cell (g_free, cell_ref (old->vector, i));
+              g_free = g_free + M2_CELL_SIZE;
+            }
+          break;
         }
-    }
-  else if (new->type == TBYTES)
-    {
-      char const *src = cell_bytes (old);
-      char *dest = cell_bytes (new);
-      size_t length = new->length;
-      memcpy (dest, src, length);
-      g_free = g_free + ((bytes_cells (length) - 1) * M2_CELL_SIZE);
+      case TBYTES:
+        {
+          char const *src = cell_bytes (old);
+          char *dest = cell_bytes (new);
+          size_t length = new->length;
+          memcpy (dest, src, length);
+          g_free = g_free + ((bytes_cells (length) - 1) * M2_CELL_SIZE);
 
-      if (g_debug > 4)
-        {
-          eputs ("gc copy bytes: ");
-          eputs (src);
-          eputs ("\n");
-          eputs ("    length: ");
-          eputs (ltoa (old->length));
-          eputs ("\n");
-          eputs ("    nlength: ");
-          eputs (ltoa (new->length));
-          eputs ("\n");
-          eputs ("        ==> ");
-          eputs (dest);
-          eputs ("\n");
+          if (g_debug > 4)
+            {
+              eputs ("gc copy bytes: ");
+              eputs (src);
+              eputs ("\n");
+              eputs ("    length: ");
+              eputs (ltoa (old->length));
+              eputs ("\n");
+              eputs ("    nlength: ");
+              eputs (ltoa (new->length));
+              eputs ("\n");
+              eputs ("        ==> ");
+              eputs (dest);
+              eputs ("\n");
+            }
+          break;
         }
+      default:
+        break;
     }
   old->type = TBROKEN_HEART;
   old->car = new;
@@ -540,41 +557,42 @@ gc_loop (struct scm *scan)
   while (scan < g_free)
     {
       t = scan->type;
-      if (t == TBROKEN_HEART)
-        assert_msg (0, "gc_loop: broken heart");
-      /* *INDENT-OFF* */
-      if (t == TMACRO
-          || t == TPAIR
-          || t == TREF
-          || t == TBINDING)
-        /* *INDENT-ON* */
+      switch (scan->type)
         {
-          car = gc_copy (scan->car);
-          gc_relocate_car (scan, car);
+          case TBROKEN_HEART:
+            assert_msg (0, "gc_loop: broken heart");
+            break;
+          case TMACRO:
+          case TPAIR:
+            car = gc_copy (scan->car);
+            gc_relocate_car (scan, car);
+            cdr = gc_copy (scan->cdr);
+            gc_relocate_cdr (scan, cdr);
+            break;
+          case TREF:
+          case TBINDING:
+            car = gc_copy (scan->car);
+            gc_relocate_car (scan, car);
+            break;
+          case TCLOSURE:
+          case TCONTINUATION:
+          case TKEYWORD:
+          case TPORT:
+          case TSPECIAL:
+          case TSTRING:
+          case TSYMBOL:
+          case TVALUES:
+            /* TSTRUCT and TVECTOR are handled by gc_copy */
+            cdr = gc_copy (scan->cdr);
+            gc_relocate_cdr (scan, cdr);
+            break;
+          case TBYTES:
+            scan = scan + ((bytes_cells (scan->length) - 1) * M2_CELL_SIZE);
+            break;
+          default:
+            break;
         }
-      /* *INDENT-OFF* */
-      if (t == TCLOSURE
-          || t == TCONTINUATION
-          || t == TKEYWORD
-          || t == TMACRO
-          || t == TPAIR
-          || t == TPORT
-          || t == TSPECIAL
-          || t == TSTRING
-          /*|| t == TSTRUCT handled by gc_copy */
-          || t == TSYMBOL
-          || t == TVALUES
-          /*|| t == TVECTOR handled by gc_copy */
-          )
-        /* *INDENT-ON* */
-        {
-          cdr = gc_copy (scan->cdr);
-          gc_relocate_cdr (scan, cdr);
-        }
-      if (t == TBYTES)
-        scan = scan + (bytes_cells (scan->length) * M2_CELL_SIZE);
-      else
-        scan = scan + M2_CELL_SIZE;
+      scan = scan + M2_CELL_SIZE;
     }
   gc_flip ();
 }
