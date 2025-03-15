@@ -25,9 +25,11 @@
 #include <sys/types.h>
 #include "mes/cc.h"
 
+#include "mes/constants.h"
+
 struct scm
 {
-  long type;
+  enum cell_type type;
   union
   {
     struct scm *car;
@@ -207,7 +209,6 @@ void init_symbols_ ();
 long seconds_and_nanoseconds_to_long (long s, long ns);
 
 #include "mes/builtins.h"
-#include "mes/constants.h"
 #include "mes/symbols.h"
 
 #endif /* __MES_MES_H */

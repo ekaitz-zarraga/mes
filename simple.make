@@ -200,9 +200,9 @@ M2_PLANET_INCLUDES =				\
  include/m2/types.h				\
  include/sys/types.h				\
  include/sys/utsname.h				\
+ include/mes/constants.h			\
  include/mes/mes.h				\
  include/mes/builtins.h				\
- include/mes/constants.h			\
  include/mes/symbols.h				\
  include/linux/m2/kernel-stat.h			\
  include/sys/stat.h				\
