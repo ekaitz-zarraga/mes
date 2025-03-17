@@ -451,6 +451,7 @@ reader_read_string ()
     {
       if (i > MAX_STRING)
         assert_max_string (i, "reader_read_string", g_buf);
+next:
       c = readchar ();
       if (c == '"')
         break;
@@ -497,6 +498,8 @@ reader_read_string ()
                 n = reader_read_hex ();
                 c = n->value;
                 break;
+              case '\n':
+                goto next;
               default:
                 /* M2-Planet needs the default */
                 break;
