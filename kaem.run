@@ -122,7 +122,6 @@ M2-Planet                                               \
     -f ${srcdest}lib/string/memcmp.c                    \
     -f ${srcdest}lib/linux/uname.c                      \
     -f ${srcdest}lib/linux/unlink.c                     \
-    -f ${srcdest}include/fcntl.h                        \
     -f ${srcdest}src/builtins.c                         \
     -f ${srcdest}src/core.c                             \
     -f ${srcdest}src/display.c                          \
@@ -134,7 +133,6 @@ M2-Planet                                               \
     -f ${srcdest}src/math.c                             \
     -f ${srcdest}src/mes.c                              \
     -f ${srcdest}src/module.c                           \
-    -f ${srcdest}include/signal.h                       \
     -f ${srcdest}src/posix.c                            \
     -f ${srcdest}src/reader.c                           \
     -f ${srcdest}src/stack.c                            \
