@@ -42,6 +42,7 @@
   #:use-module (gnu packages perl)
   #:use-module (gnu packages pkg-config)
   #:use-module (gnu packages texinfo)
+  #:use-module (gnu packages time)
   #:use-module (guix build-system gnu)
   #:use-module (guix build-system trivial)
   #:use-module (guix gexp)
@@ -450,4 +451,5 @@ Guile.")
                           #:select? (git-predicate %source-dir)))
       (native-inputs
        `(("gdb" ,gdb)
+         ("time" ,time)
          ,@(package-native-inputs mes))))))

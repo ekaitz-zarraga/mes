@@ -19,6 +19,7 @@
 # along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
 
 CC = gcc
+TIME = time
 MES_CPU=x86_64
 MES = bin/mes-gcc
 
@@ -271,6 +272,16 @@ check-mescc: $(MES)
 	LIBRARY_PATH=lib MES_DEBUG=1 MES_PREFIX=mes MES=$(MES) sh -x scripts/mescc -- -m 32 -I include -nostdlib lib/mes/globals.c lib/mes/__init_io.c lib/linux/$(MESCC_CPU)-mes-mescc/crt1.c scaffold/main.c
 	./a.out; r=$$?; if [ $$r != 42 ]; then exit 1; fi
 
+
+.PHONY: benchmark benchmark-gcc benchmark-m2
+benchmark-gcc:
+	$(MAKE) -f simple.make benchmark MES=bin/mes-gcc
+benchmark-m2:
+	$(MAKE) -f simple.make benchmark MES=bin/mes-m2
+benchmark: benchmark-fib
+
+benchmark-fib:
+	$(TIME) ./pre-inst-env $(MES) benchmarks/fib.scm
 
 # Directories
 bin:
