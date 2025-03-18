@@ -1,6 +1,7 @@
 # GNU Mes --- Maxwell Equations of Software
 # Copyright © 2019 Jeremiah Orians <jeremiah@pdp10.guru>
 # Copyright © 2018,2019,2020,2021,2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+# Copyright © 2025 Ekaitz Zarraga <ekaitz@elenq.tech>
 #
 # This file is part of GNU Mes.
 #
@@ -33,7 +34,7 @@ M2_PLANET_FUBAR = i386
 
 #M2_PLANET_ARCH = amd64
 #M2_PLANET_FUBAR = amd64
-M2_PLANET_FLAGS = --debug --architecture $(M2_PLANET_ARCH)
+M2_PLANET_FLAGS = --debug --architecture $(M2_PLANET_ARCH) -D __linux__=1 -D __$(M2_PLANET_FUBAR)__=1
 
 CFLAGS:=					\
   $(CFLAGS)					\
@@ -54,6 +55,7 @@ LIBMES_SOURCES =				\
  src/gc.c					\
  src/hash.c					\
  src/lib.c					\
+ src/m2.c					\
  src/math.c					\
  src/module.c					\
  src/posix.c					\
@@ -74,23 +76,21 @@ TEST_GC_SOURCES =				\
  src/test/gc.c
 
 M2_SOURCES =					\
- lib/linux/x86-mes-m2/crt1.c			\
- lib/linux/x86-mes-m2/_exit.c			\
- lib/linux/x86-mes-m2/_write.c			\
+ lib/linux/$(M2_PLANET_ARCH)-mes-m2/crt1.c	\
+ lib/mes/__init_io.c				\
+ lib/linux/$(M2_PLANET_ARCH)-mes-m2/_exit.c	\
+ lib/linux/$(M2_PLANET_ARCH)-mes-m2/_write.c	\
  lib/mes/globals.c				\
  lib/m2/cast.c					\
  lib/stdlib/exit.c				\
- lib/stub/__buffered_read.c			\
- lib/linux/x86-mes-m2/syscall.c			\
+ lib/mes/write.c				\
+ lib/linux/$(M2_PLANET_ARCH)-mes-m2/syscall.c	\
  lib/stub/__raise.c				\
  lib/linux/brk.c				\
  lib/linux/malloc.c				\
  lib/string/memset.c				\
  lib/linux/read.c				\
  lib/mes/fdgetc.c				\
- lib/linux/lseek.c				\
- lib/posix/write.c				\
-						\
  lib/stdio/getchar.c				\
  lib/stdio/putchar.c				\
  lib/stub/__buffered_read.c			\
@@ -101,11 +101,8 @@ M2_SOURCES =					\
  lib/mes/eputs.c				\
  lib/mes/fdputc.c				\
  lib/mes/eputc.c				\
-						\
  lib/mes/__assert_fail.c			\
  lib/mes/assert_msg.c				\
-						\
- lib/mes/fdputc.c				\
  lib/string/strncmp.c				\
  lib/posix/getenv.c				\
  lib/mes/fdputs.c				\
@@ -143,8 +140,7 @@ M2_SOURCES =					\
  lib/string/strcmp.c				\
  lib/string/memcmp.c				\
  lib/linux/uname.c				\
- lib/linux/unlink.c				\
- src/m2.c
+ lib/linux/unlink.c
 
 INCLUDES =					\
  include/mes/builtins.h				\
@@ -193,58 +189,60 @@ M2_PLANET_INCLUDES =				\
  include/mes/config.h				\
  include/mes/lib-mini.h				\
  include/mes/lib.h				\
- include/linux/x86/syscall.h			\
+ include/errno.h				\
+ include/fcntl.h				\
+ include/linux/$(M2_PLANET_ARCH)/syscall.h	\
  include/time.h					\
  include/sys/time.h				\
  include/m2/types.h				\
  include/sys/types.h				\
- include/stdio.h				\
- include/limits.h				\
- include/sys/stat.h				\
- include/fcntl.h				\
- include/signal.h				\
- include/sys/resource.h				\
+ include/sys/utsname.h				\
  include/mes/mes.h				\
  include/mes/builtins.h				\
  include/mes/constants.h			\
  include/mes/symbols.h				\
- include/linux/$(M2_PLANET_ARCH)/syscall.h
+ include/linux/m2/kernel-stat.h			\
+ include/sys/stat.h				\
+ include/sys/ioctl.h				\
+ include/signal.h				\
+ include/sys/resource.h				\
+ include/limits.h				\
 
 M2_PLANET_SOURCES =				\
  $(M2_PLANET_INCLUDES:%.h=%.h)			\
  $(M2_SOURCES)
 
-m2/mes-m2.M1: simple.make $(M2_PLANET_SOURCES) $(MES_SOURCES) $(M2_PLANET_INCLUDES) | m2
+m2/mes.M1: simple.make $(M2_PLANET_SOURCES) $(MES_SOURCES) $(M2_PLANET_INCLUDES) | m2
 	$(M2_PLANET) $(M2_PLANET_FLAGS) $(M2_PLANET_SOURCES:%=-f %)  $(MES_SOURCES:%.c=-f %.c) -o $@ || rm -f $@
 
-m2/mes-m2.blood-elf.M1: m2/mes-m2.M1 | m2
+m2/mes.blood-elf.M1: m2/mes.M1 | m2
 	blood-elf --little-endian -f $< -o $@
 
-m2/mes-m2.hex2: m2/mes-m2.blood-elf.M1
-	M1					\
-	    --architecture $(M2_PLANET_ARCH)	\
-	    --little-endian			\
-	    -f lib/m2/x86/x86_defs.M1		\
-	    -f lib/x86-mes/x86.M1		\
-	    -f lib/linux/x86-mes-m2/crt1.M1	\
-	    -f m2/mes-m2.M1			\
-	    -f m2/mes-m2.blood-elf.M1		\
+m2/mes.hex2: m2/mes.blood-elf.M1
+	M1								\
+	    --architecture $(M2_PLANET_ARCH)				\
+	    --little-endian						\
+	    -f lib/m2/$(M2_PLANET_ARCH)/$(M2_PLANET_ARCH)_defs.M1	\
+	    -f lib/$(M2_PLANET_ARCH)-mes/$(M2_PLANET_ARCH).M1		\
+	    -f lib/linux/$(M2_PLANET_ARCH)-mes-m2/crt1.M1		\
+	    -f m2/mes.M1						\
+	    -f m2/mes.blood-elf.M1					\
 	    -o $@
 
-bin/mes-m2: m2/mes-m2.hex2 | bin
-	hex2						\
-	    --architecture $(M2_PLANET_ARCH)		\
-	    --little-endian				\
-	    --base-address 0x1000000			\
-	    -f lib/linux/x86-mes/elf32-header.hex2	\
-	    -f m2/mes-m2.hex2				\
+bin/mes-m2: m2/mes.hex2 | bin
+	hex2								\
+	    --architecture $(M2_PLANET_ARCH)				\
+	    --little-endian						\
+	    --base-address 0x1000000					\
+	    -f lib/linux/$(M2_PLANET_ARCH)-mes/elf??-header.hex2	\
+	    -f m2/mes.hex2						\
 	    -o $@
 	cp -f $@ bin/mes
 
 # Clean up after ourselves
 .PHONY: clean
 clean:
-	rm -rf bin/
+	rm -rf bin/ m2/
 
 .PHONY: check check-gcc check-m2 check-hello check-base check-gc check-mescc
 check-gcc:
