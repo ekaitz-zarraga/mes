@@ -55,7 +55,6 @@ LIBMES_SOURCES =				\
  src/gc.c					\
  src/hash.c					\
  src/lib.c					\
- src/m2.c					\
  src/math.c					\
  src/module.c					\
  src/posix.c					\
