@@ -264,7 +264,7 @@ check-mescc: $(MES)
 	rm -f a.out
 # this already needs succesful GC
 #	LIBRARY_PATH=lib MES_DEBUG=1 MES_PREFIX=mes MES=$(MES) sh -x scripts/mescc -- -I include -nostdlib lib/mes/globals.c lib/string/strlen.c lib/mes/eputs.c scaffold/hello.c
-	LIBRARY_PATH=lib MES_DEBUG=1 MES_PREFIX=mes MES=$(MES) sh -x scripts/mescc -- -m 32 -I include -nostdlib lib/mes/globals.c lib/linux/$(MESCC_CPU)-mes-mescc/crt1.c scaffold/main.c
+	LIBRARY_PATH=lib MES_DEBUG=1 MES_PREFIX=mes MES=$(MES) sh -x scripts/mescc -- -m 32 -I include -nostdlib lib/mes/globals.c lib/mes/__init_io.c lib/linux/$(MESCC_CPU)-mes-mescc/crt1.c scaffold/main.c
 	./a.out; r=$$?; if [ $$r != 42 ]; then exit 1; fi
 
 
