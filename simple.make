@@ -70,6 +70,10 @@ MES_SOURCES =					\
  $(LIBMES_SOURCES)				\
  src/mes.c
 
+MES_SOURCES_M2 =				\
+ $(MES_SOURCES)					\
+ src/m2.c
+
 TEST_GC_SOURCES =				\
  $(LIBMES_SOURCES)				\
  src/test/gc.c
@@ -211,8 +215,8 @@ M2_PLANET_SOURCES =				\
  $(M2_PLANET_INCLUDES:%.h=%.h)			\
  $(M2_SOURCES)
 
-m2/mes.M1: simple.make $(M2_PLANET_SOURCES) $(MES_SOURCES) $(M2_PLANET_INCLUDES) | m2
-	$(M2_PLANET) $(M2_PLANET_FLAGS) $(M2_PLANET_SOURCES:%=-f %)  $(MES_SOURCES:%.c=-f %.c) -o $@ || rm -f $@
+m2/mes.M1: simple.make $(M2_PLANET_SOURCES) $(MES_SOURCES_M2) $(M2_PLANET_INCLUDES) | m2
+	$(M2_PLANET) $(M2_PLANET_FLAGS) $(M2_PLANET_SOURCES:%=-f %)  $(MES_SOURCES_M2:%.c=-f %.c) -o $@ || rm -f $@
 
 m2/mes.blood-elf.M1: m2/mes.M1 | m2
 	blood-elf --little-endian -f $< -o $@
