@@ -153,3 +153,6 @@
 core
 /.config
 a.out
+
+benchmarks/out
+benchmarks/tmp
