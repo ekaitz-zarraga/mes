@@ -773,7 +773,7 @@ seeds) are taken for granted
 bootstrap-guile
 @end example
 
-Our next priority is to eleminate the dependency on
+Our next priority is to eliminate the dependency on
 @code{bootstrap-guile} for @code{Gash} and @code{Gash-Utils}, and thus
 for @code{Mes}.
 
@@ -1176,7 +1176,7 @@ lives in the top build tree of Mes).
 
 Mes is supported for x86-linux and armhf-linux.  A 64 bit (x86_64-linux)
 is almost done, only a few bugs remain.  The Guix bootstrap for
-x86_64-linux uses mes for x86-lunix and that is not expected to change.
+x86_64-linux uses mes for x86-linux and that is not expected to change.
 Likewise, aarch64-linux uses mes for armhf-linux.
 
 A port to GNU/Hurd (x86-gnu) is underway.
