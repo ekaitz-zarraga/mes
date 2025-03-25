@@ -18,6 +18,8 @@
  * along with GNU Mes.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-int main (int argc, char* argv[]){
-    return 123;
+int
+main (int argc, char *argv[])
+{
+  return 123;
 }
