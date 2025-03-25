@@ -111,6 +111,7 @@ Contributing
 
 * Building from Git::           The latest and greatest.
 * Running Mes From the Source Tree::  Hacker tricks.
+* Working on Mes::              Getting your hands dirty.
 * Porting GNU Mes::             Teach Mes about your platform.
 * The Perfect Setup::           The right tools.
 * Coding Style::                Hygiene of the contributor.
@@ -1170,6 +1171,48 @@ First, you need to have an environment with all the dependencies
 available (@pxref{Building from Git}), and then simply prefix each
 command by @command{./pre-inst-env} (the @file{pre-inst-env} script
 lives in the top build tree of Mes).
+
+@node Working on Mes
+@section Working on Mes
+
+The code of the Mes interpreter can be found in the @code{src} folder,
+while the header files are stored in @code{include/mes}.
+
+@node Building the Mes interpreter
+@subsection Building the Mes interpreter
+
+Building Mes as described in @ref{Building from Git} runs the whole
+bootstrapping process which is quite lengthy.  If your goal is to work
+in the Mes interpreter, that may be frustrating.
+
+That's why Mes also provides a simplified @code{simple.make} file that
+can be used to build @code{mes} alone.
+
+@example
+make -f simple.make
+@end example
+
+Builds Mes using GCC so you can more easily test your work. You can also
+choose to build Mes using M2-Planet using the @code{mes-m2} target of
+the makefile.
+
+The makefile is also able to run minimal tests on your code and a simple
+benchmark.
+
+@node Benchmarking the interpreter
+@subsection Benchmarking the interpreter
+
+The whole bootstrapping process takes long time to run, that's why it's
+important for Mes to be as fast as possible, while still being simple.
+
+@example
+make -f simple.make benchmark
+@end example
+
+Runs a simple benchmark for the Mes interpreter and dump the results in
+@code{benchmark/out}.  That should be enough for testing if your changes
+affected its performance.  Make sure to run them before and after your
+change, and saving the results, as the makefile will overwrite them.
 
 @node Porting GNU Mes
 @section Porting GNU Mes
