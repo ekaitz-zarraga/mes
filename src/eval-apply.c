@@ -1068,7 +1068,7 @@ vm_return:
 struct scm *
 apply (struct scm *f, struct scm *x, struct scm *a)     /*:((internal)) */
 {
-  push_cc (cons (f, x), cell_unspecified, R0, cell_unspecified);
+  push_cc (cons (f, x), cell_unspecified, a, cell_unspecified);
   R3 = cell_vm_apply;
   return eval_apply ();
 }
