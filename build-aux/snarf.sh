@@ -42,6 +42,7 @@ trace "SNARF$snarf  struct.c"     ${srcdest}build-aux/mes-snarf.scm src/struct.c
 trace "SNARF$snarf  symbol.c"     ${srcdest}build-aux/mes-snarf.scm src/symbol.c
 trace "SNARF$snarf  variable.c"   ${srcdest}build-aux/mes-snarf.scm src/variable.c
 trace "SNARF$snarf  vector.c"     ${srcdest}build-aux/mes-snarf.scm src/vector.c
+trace "SNARF$snarf  bytecode.c"   ${srcdest}build-aux/mes-snarf.scm src/bytecode.c
 
 for i in src/*.symbols.h; do
     n=$(basename $i .symbols.h)

@@ -183,6 +183,8 @@ struct scm *vector_ref_ (struct scm *x, long i);
 struct scm *vector_set_x_ (struct scm *x, long i, struct scm *e);
 struct scm *vector_copy_x_ (struct scm *vec, long start, struct scm *source, long begin, long end);
 struct scm *vector_fill_x_ (struct scm *vec, struct scm *fill, long start, long end);
+struct scm *compile (struct scm *exp);
+struct scm *run (struct scm *vec);
 FUNCTION builtin_function (struct scm *builtin);
 void assert_num (long pos, struct scm *x);
 void assert_range (int assert, long x);

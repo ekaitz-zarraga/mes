@@ -141,6 +141,7 @@ M2-Planet                                               \
     -f ${srcdest}src/symbol.c                           \
     -f ${srcdest}src/variable.c                         \
     -f ${srcdest}src/vector.c                           \
+    -f ${srcdest}src/bytecode.c                         \
     -o m2/mes.M1
 
 blood-elf ${blood_elf_flag} --little-endian -f m2/mes.M1 -o m2/mes.blood-elf-M1

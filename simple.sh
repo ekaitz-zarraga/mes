@@ -81,7 +81,8 @@ gcc -g -D HAVE_CONFIG_H=1                       \
     src/struct.c                                \
     src/symbol.c                                \
     src/variable.c                              \
-    src/vector.c
+    src/vector.c                                \
+    src/bytecode.c
 
 ## Check ##
 
@@ -312,7 +313,8 @@ $CC -g -D HAVE_CONFIG_H=1                               \
     src/struct.c                                        \
     src/symbol.c                                        \
     src/variable.c                                      \
-    src/vector.c
+    src/vector.c                                        \
+    src/bytecode.c
 
 ## Check ##
 
