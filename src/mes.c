@@ -179,9 +179,9 @@ open_boot ()
 struct scm *
 read_boot ()                    /*:((internal)) */
 {
-  R2 = read_input_file_env (R0);
+  struct scm *program = read_input_file_env (cell_nil);
   __stdin = STDIN;
-  return R2;
+  return program;
 }
 
 void
@@ -220,7 +220,6 @@ main (int argc, char **argv)
   a = init_time (a);
   M0 = make_initial_module (a);
   M1 = cell_f;
-  R0 = cell_nil;
   g_macros = make_hash_table_ (0);
 
   if (g_debug > 5)
@@ -230,7 +229,8 @@ main (int argc, char **argv)
     }
 
   struct scm *program = read_boot ();
-  R0 = acons (cell_symbol_program, program, R0);
+  R0 = acons (cell_symbol_program, program, cell_nil);
+  R2 = program;
   push_cc (R2, cell_unspecified, R0, cell_unspecified);
 
   if (g_debug > 2)
