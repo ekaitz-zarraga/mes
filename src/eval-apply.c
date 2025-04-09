@@ -438,7 +438,6 @@ eval_apply ()
   struct scm *x;
   int global_p;
   int macro_p;
-  struct scm *a;
   struct scm *c;
   struct scm *d;
   int t;
@@ -528,8 +527,7 @@ evlis3:
 
 apply:
   g_stack_array[g_stack + GC_FRAME_PROCEDURE] = R1->car;
-  a = R1->car;
-  t = a->type;
+  t = R1->car->type;
   if (t == TSTRUCT && builtin_p (R1->car) == cell_t)
     {
       check_formals (R1->car, builtin_arity (R1->car), R1->cdr);
@@ -542,8 +540,7 @@ apply:
       body = cl->cdr->cdr;
       formals = cl->cdr->car;
       args = R1->cdr;
-      aa = cl->car->cdr;
-      aa = aa->cdr;
+      aa = cl->car->cdr->cdr;
       check_formals (R1->car, formals, R1->cdr);
       p = pairlis (formals, args, aa);
       call_lambda (body, p, aa, R0);
@@ -551,8 +548,7 @@ apply:
     }
   else if (t == TCONTINUATION)
     {
-      a = R1->car;
-      v = a->continuation;
+      v = R1->car->continuation;
       if (v->length != 0)
         {
           for (i = 0; i < v->length; i = i + 1)
@@ -851,15 +847,12 @@ macro_expand:
       goto vm_return;
     }
 
-  if (R1->type == TPAIR)
+  macro = get_macro (R1->car);
+  if (macro != cell_f)
     {
-      macro = get_macro (R1->car);
-      if (macro != cell_f)
-        {
-          R1 = cons (macro, R1->cdr);
-          push_cc (R1, cell_nil, R0, cell_vm_macro_expand);
-          goto apply;
-        }
+      R1 = cons (macro, R1->cdr);
+      push_cc (R1, cell_nil, R0, cell_vm_macro_expand);
+      goto apply;
     }
 
   if (R1->car == cell_symbol_define || R1->car == cell_symbol_define_macro)
@@ -889,27 +882,23 @@ macro_expand:
       goto vm_return;
     }
 
-  if (R1->type == TPAIR)
+  if (R1->car->type == TSYMBOL && R1->car != cell_symbol_begin)
     {
-      a = R1->car;
-      if (a->type == TSYMBOL && a != cell_symbol_begin)
+      macro = macro_get_handle (cell_symbol_portable_macro_expand);
+      if (macro != cell_f)
         {
-          macro = macro_get_handle (cell_symbol_portable_macro_expand);
-          if (macro != cell_f)
+          expanders = lookup_value (cell_symbol_sc_expander_alist);
+          if (expanders != cell_undefined)
             {
-              expanders = lookup_value (cell_symbol_sc_expander_alist);
-              if (expanders != cell_undefined)
+              macro = assq (R1->car, expanders);
+              if (macro != cell_f)
                 {
-                  macro = assq (R1->car, expanders);
-                  if (macro != cell_f)
+                  sc_expand = lookup_value (cell_symbol_macro_expand);
+                  R2 = R1;
+                  if (sc_expand != cell_undefined && sc_expand != cell_f)
                     {
-                      sc_expand = lookup_value (cell_symbol_macro_expand);
-                      R2 = R1;
-                      if (sc_expand != cell_undefined && sc_expand != cell_f)
-                        {
-                          R1 = cons (sc_expand, cons (R1, cell_nil));
-                          goto apply;
-                        }
+                      R1 = cons (sc_expand, cons (R1, cell_nil));
+                      goto apply;
                     }
                 }
             }
@@ -941,11 +930,10 @@ begin:
       gc_check ();
       if (R1->type == TPAIR)
         {
-          a = R1->car;
-          if (a->type == TPAIR)
+          if (R1->car->type == TPAIR)
             {
-              if (a->car == cell_symbol_begin)
-                R1 = append2 (a->cdr, R1->cdr);
+              if (R1->car->car == cell_symbol_begin)
+                R1 = append2 (R1->car->cdr, R1->cdr);
             }
         }
       if (R1->cdr == cell_nil)
@@ -972,8 +960,7 @@ begin_expand:
 
       if (R1->type == TPAIR)
         {
-          a = R1->car;
-          if (a->type == TPAIR)
+          if (R1->car->type == TPAIR)
             if (R1->car->car == cell_symbol_begin)
               R1 = append2 (R1->car->cdr, R1->cdr);
         }
