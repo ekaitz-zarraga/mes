@@ -26,8 +26,7 @@
 (define-module (srfi srfi-43)
   #:export (vector-map
             vector-for-each
-            vector-fold
-            vector-copy!)
+            vector-fold)
   #:re-export (vector-copy))
 
 (define (vector-map f v)
@@ -51,9 +50,3 @@
   (let loop ((k 0) (acc knil))
     (if (>= k (vector-length vec)) acc
         (loop (+ k 1) (kons k acc (vector-ref vec k))))))
-
-(define (vector-copy! target tstart source sstart send)
-  (let loop ((tk tstart) (sk sstart))
-    (when (< sk send)
-      (vector-set! target tk (vector-ref source sk))
-      (loop (+ tk 1) (+ sk 1)))))

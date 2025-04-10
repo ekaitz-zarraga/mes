@@ -198,6 +198,8 @@ struct scm *vector_entry (struct scm *x);
 struct scm *vector_set_x (struct scm *x, struct scm *i, struct scm *e);
 struct scm *list_to_vector (struct scm *x);
 struct scm *vector_to_list (struct scm *v);
+struct scm *vector_copy_x (struct scm *x);
+struct scm *vector_fill_x (struct scm *x);
 
 /* This is a conditional compilation hack for M2-Planet in bootstrap
    mode.  The following file will not be included in the M2-Planet build

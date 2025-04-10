@@ -246,7 +246,10 @@
 (define (vector . rest) (list->vector rest))
 
 (define (vector-copy x)
-  (list->vector (vector->list x)))
+  (let* ((l (vector-length x))
+         (o (make-vector l)))
+    (vector-copy! o 0 x 0 l)
+    o))
 
 
 ;;; Bytevectors
