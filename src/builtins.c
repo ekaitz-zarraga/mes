@@ -320,6 +320,8 @@ mes_builtins (struct scm *a)            /*:((internal)) */
   a = init_builtin (builtin_type, "vector-set!", 3, &vector_set_x, a);
   a = init_builtin (builtin_type, "list->vector", 1, &list_to_vector, a);
   a = init_builtin (builtin_type, "vector->list", 1, &vector_to_list, a);
+  a = init_builtin (builtin_type, "vector-copy!", -1, &vector_copy_x, a);
+  a = init_builtin (builtin_type, "vector-fill!", -1, &vector_fill_x, a);
 
   /* This is a conditional compilation hack for M2-Planet in bootstrap
      mode.  The following file will not be included in the M2-Planet
