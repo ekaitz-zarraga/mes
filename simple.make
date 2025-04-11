@@ -281,7 +281,7 @@ benchmark-m2:
 benchmark: benchmark-fib benchmark-mescc-hello benchmark-mescc-mes
 
 benchmark-fib: $(MES) benchmarks/out
-	$(TIME_FMT) -o benchmarks/out/fib  ./pre-inst-env $(MES) benchmarks/fib.scm > benchmarks/out/fib
+	$(TIME_FMT) -o benchmarks/out/fib  ./pre-inst-env $(MES) benchmarks/fib.scm > benchmarks/tmp/fib
 benchmark-mescc-hello: $(MES) benchmarks/out benchmarks/tmp
 	MES_PREFIX=mes MES=$(MES) $(TIME_FMT) -o benchmarks/out/mescc-hello sh scripts/mescc -S -m 32 -I include benchmarks/mescc-hello.c -o benchmarks/tmp/mescc-hello.M1
 benchmark-mescc-mes: $(MES) benchmarks/out benchmarks/tmp
