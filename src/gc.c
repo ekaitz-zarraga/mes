@@ -719,7 +719,6 @@ gc_peek_frame ()
   R2 = g_stack_array[g_stack + 1];
   R1 = g_stack_array[g_stack + 2];
   R0 = g_stack_array[g_stack + 3];
-  g_stack_array[g_stack + GC_FRAME_PROCEDURE];
 }
 
 void
