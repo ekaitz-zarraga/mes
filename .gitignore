@@ -155,4 +155,4 @@ core
 a.out
 
 benchmarks/out
-benchmarks/tmp
+benchmarks/log
