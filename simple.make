@@ -245,7 +245,7 @@ bin/mes-m2: m2/mes.hex2 | bin
 # Clean up after ourselves
 .PHONY: clean
 clean:
-	rm -rf bin/ m2/ benchmarks/out/ benchmarks/tmp/
+	rm -rf bin/ m2/ benchmarks/out/ benchmarks/log/
 
 .PHONY: check check-gcc check-m2 check-hello check-base check-gc check-mescc
 check-gcc:
@@ -284,12 +284,12 @@ benchmark-m2:
 	$(MAKE) -f simple.make benchmark MES=bin/mes-m2
 benchmark: benchmark-fib benchmark-mescc-hello benchmark-mescc-mes
 
-benchmark-fib: $(MES) benchmarks/out
-	$(TIME_FMT) -o benchmarks/out/fib  ./pre-inst-env $(MES) benchmarks/fib.scm > benchmarks/out/fib
-benchmark-mescc-hello: $(MES) benchmarks/out benchmarks/tmp
-	MES_PREFIX=mes MES=$(MES) $(TIME_FMT) -o benchmarks/out/mescc-hello sh scripts/mescc -S -m 32 -I include benchmarks/mescc-hello.c -o benchmarks/tmp/mescc-hello.M1
-benchmark-mescc-mes: $(MES) benchmarks/out benchmarks/tmp
-	MES_PREFIX=mes MES=$(MES) $(TIME_FMT) -o benchmarks/out/mescc-mes sh scripts/mescc -S -m 32 -I include $(MES_SOURCES) -o benchmarks/tmp/mescc-mes.M1
+benchmark-fib: $(MES) benchmarks/out benchmarks/log
+	$(TIME_FMT) -o benchmarks/out/fib  ./pre-inst-env $(MES) benchmarks/fib.scm > benchmarks/log/fib
+benchmark-mescc-hello: $(MES) benchmarks/out benchmarks/log
+	MES_PREFIX=mes MES=$(MES) $(TIME_FMT) -o benchmarks/out/mescc-hello sh scripts/mescc -S -m 32 -I include benchmarks/mescc-hello.c -o benchmarks/log/mescc-hello.M1
+benchmark-mescc-mes: $(MES) benchmarks/out benchmarks/log
+	MES_PREFIX=mes MES=$(MES) $(TIME_FMT) -o benchmarks/out/mescc-mes sh scripts/mescc -S -m 32 -I include $(MES_SOURCES) -o benchmarks/log/mescc-mes.M1
 
 
 # Directories
@@ -301,7 +301,7 @@ m2:
 
 benchmarks/out:
 	mkdir -p $@
-benchmarks/tmp:
+benchmarks/log:
 	mkdir -p $@
 
 TAGS:
