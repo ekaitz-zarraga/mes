@@ -108,8 +108,8 @@
     ((@ (comment . ,comment)) #f) ; Nyacc 0.90.2/0.93.0?
     ((comment . ,comment) #f)
     (((comment . ,comment) . ,t) (filter-map ast-strip-comment t))
-    (((comment . ,comment) . ,cdr) cdr)
-    ((,car . (comment . ,comment)) car)
+    (((comment . ,comment) . ,tail) tail)
+    ((,head . (comment . ,comment)) head)
     ((,h . ,t) (if (list? o) (filter-map ast-strip-comment o)
                    (cons (ast-strip-comment h) (ast-strip-comment t))))
     (_  o)))

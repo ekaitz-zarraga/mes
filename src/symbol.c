@@ -71,8 +71,6 @@ init_symbols_ ()                  /*:((internal)) */
   cell_vm_eval_define = init_symbol (g_symbol, TSPECIAL, "*vm-eval-define*");
   cell_vm_eval_macro_expand_eval = init_symbol (g_symbol, TSPECIAL, "*vm:eval-macro-expand-eval*");
   cell_vm_eval_macro_expand_expand = init_symbol (g_symbol, TSPECIAL, "*vm:eval-macro-expand-expand*");
-  cell_vm_eval_pmatch_car = init_symbol (g_symbol, TSPECIAL, "*vm-eval-pmatch-car*");
-  cell_vm_eval_pmatch_cdr = init_symbol (g_symbol, TSPECIAL, "*vm-eval-pmatch-cdr*");
   cell_vm_eval_set_x = init_symbol (g_symbol, TSPECIAL, "*vm-eval-set!*");
   cell_vm_evlis = init_symbol (g_symbol, TSPECIAL, "*vm-evlis*");
   cell_vm_evlis2 = init_symbol (g_symbol, TSPECIAL, "*vm-evlis2*");
@@ -133,8 +131,6 @@ init_symbols_ ()                  /*:((internal)) */
   cell_symbol_internal_time_units_per_second = init_symbol (g_symbol, TSYMBOL, "internal-time-units-per-second");
   cell_symbol_compiler = init_symbol (g_symbol, TSYMBOL, "%compiler");
   cell_symbol_arch = init_symbol (g_symbol, TSYMBOL, "%arch");
-  cell_symbol_pmatch_car = init_symbol (g_symbol, TSYMBOL, "pmatch-car");
-  cell_symbol_pmatch_cdr = init_symbol (g_symbol, TSYMBOL, "pmatch-cdr");
   cell_symbol_variable = init_symbol (g_symbol, TSYMBOL, "<variable>");
   cell_symbol_standard_eval_closure = init_symbol (g_symbol, TSYMBOL, "standard-eval-closure");
   cell_symbol_standard_interface_eval_closure = init_symbol (g_symbol, TSYMBOL, "standard-interface-eval-closure");

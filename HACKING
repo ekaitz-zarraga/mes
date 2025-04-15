@@ -76,7 +76,6 @@ test: number->string INT-MIN: fail
 expected: -2147483648
 actual: -./,),(-*,(
 ** tcc: tcc-built lib/libc+tcc.c segfaults with mes, with tcc.
-** mes: remove pmatch-car/pmatch-cdr hack.
 ** mescc: softcode stack frame size, now hardcoded and very large
 ** mes+mescc: parse tcc.c->tcc.E works, compile tcc.E -> tcc.M1 segfaults.
   time GUILE_LOAD_PATH=/home/janneke/src/nyacc/module:$GUILE_LOAD_PATH ../mes/scripts/mescc -E -o tcc.E -I . -I ../mes/lib -I ../mes/include -D 'CONFIG_TCCDIR="usr/lib/tcc"' -D 'CONFIG_TCC_CRTPREFIX="usr/lib:{B}/lib:."' -D 'CONFIG_TCC_ELFINTERP="/gnu/store/70jxsnpffkl7fdb7qv398n8yi1a3w5nx-glibc-2.26.105-g0890d5379c/lib/ld-linux.so.2"' -D 'CONFIG_TCC_LIBPATHS="/home/janneke/src/tinycc/usr/lib:{B}/lib:."' -D 'CONFIG_TCC_SYSINCLUDEPATHS="../mes/include:usr/include:{B}/include"' -D CONFIG_USE_LIBGCC=1 -D 'TCC_LIBGCC="/home/janneke/src/tinycc/usr/lib/libc+tcc-gcc.mlibc-o"' -D CONFIG_TCC_STATIC=1 -D ONE_SOURCE=yes -D TCC_TARGET_I386=1 -D BOOTSTRAP=1 tcc.c
