@@ -57,8 +57,6 @@ mes_environment (int argc, char **argv)
   a = acons (cell_symbol_current_environment,
              cell_symbol_current_environment, a);
   a = acons (cell_symbol_lambda, cell_symbol_lambda, a);
-  a = acons (cell_symbol_pmatch_car, cell_symbol_pmatch_car, a);
-  a = acons (cell_symbol_pmatch_cdr, cell_symbol_pmatch_cdr, a);
   a = acons (cell_symbol_quote, cell_symbol_quote, a);
   a = acons (cell_symbol_begin, cell_symbol_begin, a);
   a = acons (cell_symbol_if, cell_symbol_if, a);
