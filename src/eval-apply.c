@@ -555,10 +555,8 @@ apply:
             g_stack_array[STACK_SIZE - v->length + i] = vector_ref_ (v, i);
           g_stack = STACK_SIZE - v->length;
         }
-      x = R1;
-      gc_pop_frame ();
-      R1 = x->cdr->car;
-      goto eval_apply;
+      R1 = R1->cdr->car;
+      goto vm_return;
     }
   else if (t == TSPECIAL)
     {
@@ -646,27 +644,21 @@ eval:
           push_cc (R1->cdr->car, R1, R0, cell_vm_eval_pmatch_car);
           goto eval;
         eval_pmatch_car:
-          x = R1;
-          gc_pop_frame ();
-          R1 = x->car;
-          goto eval_apply;
+          R1 = R1->car;
+          goto vm_return;
         }
       else if (c == cell_symbol_pmatch_cdr)
         {
           push_cc (R1->cdr->car, R1, R0, cell_vm_eval_pmatch_cdr);
           goto eval;
         eval_pmatch_cdr:
-          x = R1;
-          gc_pop_frame ();
-          R1 = x->cdr;
-          goto eval_apply;
+          R1 = R1->cdr;
+          goto vm_return;
         }
       else if (c == cell_symbol_quote)
         {
-          x = R1;
-          gc_pop_frame ();
-          R1 = x->cdr->car;
-          goto eval_apply;
+          R1 = R1->cdr->car;
+          goto vm_return;
         }
       else if (c == cell_symbol_begin)
         goto begin;
