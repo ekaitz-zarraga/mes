@@ -468,8 +468,6 @@ eval_apply:
     goto macro_expand;
   else if (R3 == cell_vm_macro_expand_lambda)
     goto macro_expand_lambda;
-  else if (R3 == cell_vm_eval_pmatch_car)
-    goto eval_pmatch_car;
   else if (R3 == cell_vm_begin_expand_macro)
     goto begin_expand_macro;
   else if (R3 == cell_vm_macro_expand_define)
@@ -480,8 +478,16 @@ eval_apply:
     goto call_with_current_continuation2;
   else if (R3 == cell_vm_macro_expand_set_x)
     goto macro_expand_set_x;
+  else if (R3 == cell_vm_eval_pmatch_car)
+    {
+      R1 = R1->car;
+      goto vm_return;
+    }
   else if (R3 == cell_vm_eval_pmatch_cdr)
-    goto eval_pmatch_cdr;
+    {
+      R1 = R1->cdr;
+      goto vm_return;
+    }
   else if (R3 == cell_vm_macro_expand_define_macro)
     goto macro_expand_define_macro;
   else if (R3 == cell_vm_evlis)
@@ -642,17 +648,11 @@ eval:
         {
           push_cc (R1->cdr->car, R1, R0, cell_vm_eval_pmatch_car);
           goto eval;
-        eval_pmatch_car:
-          R1 = R1->car;
-          goto vm_return;
         }
       else if (c == cell_symbol_pmatch_cdr)
         {
           push_cc (R1->cdr->car, R1, R0, cell_vm_eval_pmatch_cdr);
           goto eval;
-        eval_pmatch_cdr:
-          R1 = R1->cdr;
-          goto vm_return;
         }
       else if (c == cell_symbol_quote)
         {
