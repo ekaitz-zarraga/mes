@@ -67,8 +67,8 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
       (_ 'bla))))
 
 ;; This test fail in Mes because syntax is not hygienic
-(let ((f (lambda (x) (list 1 2))))
-  (pass-if-equal "pmatch with hygiene"
+(let ((f '(foo bar baz) ))
+  (pass-if-equal "pmatch with hygiene" f
                  (let ((o (list f)))
                    (pmatch o
                            ((,cdr) cdr)))))
