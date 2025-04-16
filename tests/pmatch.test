@@ -73,4 +73,4 @@ exec ${MES-bin/mes} --no-auto-compile -L ${0%/*} -L module -C module -e '(tests 
                    (pmatch o
                            ((,cdr) cdr)))))
 
-(result 'report (if mes? 1 0))
+(result 'report)
