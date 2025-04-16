@@ -478,16 +478,6 @@ eval_apply:
     goto call_with_current_continuation2;
   else if (R3 == cell_vm_macro_expand_set_x)
     goto macro_expand_set_x;
-  else if (R3 == cell_vm_eval_pmatch_car)
-    {
-      R1 = R1->car;
-      goto vm_return;
-    }
-  else if (R3 == cell_vm_eval_pmatch_cdr)
-    {
-      R1 = R1->cdr;
-      goto vm_return;
-    }
   else if (R3 == cell_vm_macro_expand_define_macro)
     goto macro_expand_define_macro;
   else if (R3 == cell_vm_evlis)
@@ -643,18 +633,7 @@ eval:
         }
 
       c = R1->car;
-
-      if (c == cell_symbol_pmatch_car)
-        {
-          push_cc (R1->cdr->car, R1, R0, cell_vm_eval_pmatch_car);
-          goto eval;
-        }
-      else if (c == cell_symbol_pmatch_cdr)
-        {
-          push_cc (R1->cdr->car, R1, R0, cell_vm_eval_pmatch_cdr);
-          goto eval;
-        }
-      else if (c == cell_symbol_quote)
+      if (c == cell_symbol_quote)
         {
           R1 = R1->cdr->car;
           goto vm_return;
