@@ -39,8 +39,22 @@
          ((prefix) (string-append delimiter (car lst) (apply string-join (cdr lst) delimiter+grammar)))
          ((suffix) (string-append (car lst) delimiter (apply string-join (cdr lst) delimiter+grammar)))))))
 
-(define (string-copy s)
-  (list->string (string->list s)))
+(define (string-copy! target tstart s . rest)
+  (let* ((start (if (pair? rest) (car rest) 0))
+         (rest  (if (pair? rest) (cdr rest) '()))
+         (end   (if (pair? rest) (car rest) (string-length s))))
+    (let loop ((i 0))
+      (when (> end (+ i start))
+        (string-set! target (+ tstart i) (string-ref s (+ start i)))
+        (loop (+ i 1))))))
+
+(define (string-copy s . rest)
+  (let* ((start (if (pair? rest) (car rest) 0))
+         (rest  (if (pair? rest) (cdr rest) '()))
+         (end   (if (pair? rest) (car rest) (string-length s)))
+         (res   (make-string (- end start))))
+    (string-copy! res 0 s start end)
+    res))
 
 (define (string= a b . rest)
   (if (null? rest)
@@ -108,20 +122,17 @@
 
 (define (string-take s n)
   (cond ((zero? n) s)
-        ((> n 0) (list->string (list-head (string->list s) n)))
+        ((> n 0) (string-copy s 0 n))
         (else (error "string-take: not supported: n=" n))))
 
 (define (string-drop s n)
   (cond ((zero? n) s)
-        ((> n 0) (list->string (list-tail (string->list s) n)))
+        ((>= n 0) (string-copy s n))
         (else s (error "string-drop: not supported: (n s)=" (cons n s)))))
-
-(define (drop-right lst n)
-  (list-head lst (- (length lst) n)))
 
 (define (string-drop-right s n)
   (cond ((zero? n) s)
-        ((> n 0) ((compose list->string (lambda (o) (drop-right o n)) string->list) s))
+        ((> n 0) (string-copy s 0 (- (string-length s) n)))
         (else (error "string-drop-right: not supported: n=" n))))
 
 (define (string-delete char-pred s)
