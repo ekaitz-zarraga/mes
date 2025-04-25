@@ -186,7 +186,7 @@ vector_copy_x_ (struct scm *vec, long start, struct scm *source, long begin,
   long i;
   for (i = begin; i < end; i = i + 1)
     vector_set_x_ (vec, i - begin + start, vector_ref_ (source, i));
-  return cell_undefined;
+  return cell_unspecified;
 }
 
 struct scm *
