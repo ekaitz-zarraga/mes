@@ -179,6 +179,9 @@ struct scm *push_cc (struct scm *p1, struct scm *p2, struct scm *a, struct scm *
 struct scm *set_x (struct scm *x, struct scm *e, int define_p);
 struct scm *struct_ref_ (struct scm *x, long i);
 struct scm *struct_set_x_ (struct scm *x, long i, struct scm *e);
+struct scm *string_set_x_ (struct scm *str, long i, char c);
+char string_ref_ (struct scm *str, long i);
+struct scm *string_copy_x_ (struct scm *str, long start, struct scm *source, long begin, long end);
 struct scm *vector_ref_ (struct scm *x, long i);
 struct scm *vector_set_x_ (struct scm *x, long i, struct scm *e);
 struct scm *vector_copy_x_ (struct scm *vec, long start, struct scm *source, long begin, long end);

@@ -267,9 +267,9 @@
 
 (define (substring s start . rest)
   (let* ((end (if (pair? rest) (car rest) (string-length s)))
-         (lst (list-tail (string->list s) start)))
-    (list->string (if (not end) lst
-                      (list-head lst (- end start))))))
+         (res (make-string (- end start))))
+    (string-copy! res 0 s start end)
+    res))
 
 (define (string-prefix? prefix string . rest)
   (let* ((start (if (pair? rest) (car rest) 0))
