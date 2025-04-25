@@ -310,3 +310,32 @@ string_copy_x (struct scm *x)               /*:((arity . n)) */
 
   return string_copy_x_ (str, start->value, source, begin->value, end->value);
 }
+
+struct scm *
+make_string_init_ (long length, char c)
+{
+  assert_msg (length < MAX_STRING, "length < MAX_STRING");
+  struct scm *x = make_pointer_cell (TSTRING, length, 0);
+  struct scm *v = make_bytes (length + 1);
+  char *p = cell_bytes (v);
+  memset (p, c, length + 1);
+  x->cdr = v;
+  return x;
+}
+
+struct scm *
+make_string_init (struct scm *x)
+{
+  struct scm *k = x->car;
+  assert_number ("make-string", k);
+  long n = k->value;
+  char c = '\0';
+  if (x->cdr != cell_nil)
+    {
+      x = x->cdr->car;
+      assert_msg (x->type == TCHAR, "x->type == TCHAR");
+      c = x->value;
+    }
+
+  return make_string_init_ (n, c);
+}
