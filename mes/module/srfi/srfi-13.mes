@@ -39,15 +39,6 @@
          ((prefix) (string-append delimiter (car lst) (apply string-join (cdr lst) delimiter+grammar)))
          ((suffix) (string-append (car lst) delimiter (apply string-join (cdr lst) delimiter+grammar)))))))
 
-(define (string-copy! target tstart s . rest)
-  (let* ((start (if (pair? rest) (car rest) 0))
-         (rest  (if (pair? rest) (cdr rest) '()))
-         (end   (if (pair? rest) (car rest) (string-length s))))
-    (let loop ((i 0))
-      (when (> end (+ i start))
-        (string-set! target (+ tstart i) (string-ref s (+ start i)))
-        (loop (+ i 1))))))
-
 (define (string-copy s . rest)
   (let* ((start (if (pair? rest) (car rest) 0))
          (rest  (if (pair? rest) (cdr rest) '()))

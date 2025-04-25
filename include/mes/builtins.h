@@ -179,6 +179,7 @@ struct scm *string_append (struct scm *x);
 struct scm *string_length (struct scm *string);
 struct scm *string_ref (struct scm *str, struct scm *k);
 struct scm *string_set_x (struct scm *str, struct scm *k, struct scm *c);
+struct scm *string_copy_x (struct scm *x);
 /* src/struct.c */
 struct scm *make_struct (struct scm *type, struct scm *fields, struct scm *printer);
 struct scm *struct_length (struct scm *x);

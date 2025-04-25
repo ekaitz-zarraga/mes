@@ -223,17 +223,33 @@ string_length (struct scm *string)
   return make_number (string->length);
 }
 
+char
+string_ref_ (struct scm *str, long i)
+{
+  size_t size = str->length;
+  char const *p = cell_bytes (str->string);
+  if (i > size)
+    error (cell_symbol_system_error, cons (make_string0 ("value out of range"), make_number (i)));
+  return p[i];
+}
+
 struct scm *
 string_ref (struct scm *str, struct scm *k)
 {
   assert_msg (str->type == TSTRING, "str->type == TSTRING");
   assert_msg (k->type == TNUMBER, "k->type == TNUMBER");
+  return make_char (string_ref_ (str, k->value));
+}
+
+struct scm *
+string_set_x_ (struct scm *str, long i, char c)
+{
+  char *p = cell_bytes (str->string);
   size_t size = str->length;
-  size_t i = k->value;
   if (i > size)
-    error (cell_symbol_system_error, cons (make_string0 ("value out of range"), k));
-  char const *p = cell_bytes (str->string);
-  return make_char (p[i]);
+    error (cell_symbol_system_error, cons (make_string0 ("value out of range"), make_number (i)));
+  p[i] = c;
+  return cell_unspecified;
 }
 
 struct scm *
@@ -242,11 +258,55 @@ string_set_x (struct scm *str, struct scm *k, struct scm *c)
   assert_msg (str->type == TSTRING, "str->type == TSTRING");
   assert_msg (k->type == TNUMBER, "k->type == TNUMBER");
   assert_msg (c->type == TCHAR, "c->type == TCHAR");
-  size_t size = str->length;
-  size_t i = k->value;
-  if (i > size)
-    error (cell_symbol_system_error, cons (make_string0 ("value out of range"), k));
-  char *p = cell_bytes (str->string);
-  p[i] = c->value;
-  return cell_unspecified;
+  return string_set_x_ (str, k->value, c->value);
+}
+
+struct scm *
+string_copy_x_ (struct scm *str, long start, struct scm *source, long begin,
+              long end)
+{
+  assert_msg (str->length - start >= end - begin,
+              "str->length - start >= end - begin");
+  long i;
+  for (i = begin; i < end; i = i + 1)
+    string_set_x_ (str, i - begin + start, string_ref_ (source, i));
+  return cell_undefined;
+}
+
+struct scm *
+string_copy_x (struct scm *x)               /*:((arity . n)) */
+{
+  /* Arguments */
+  struct scm *str;
+  struct scm *start;
+  struct scm *source;
+  struct scm *begin; /* optional */
+  struct scm *end;   /* optional */
+
+  str = x->car;
+  assert_msg (str->type == TSTRING, "str->type == TSTRING");
+  x = x->cdr;
+
+  assert_msg (x->type == TPAIR, "x->type == TPAIR");
+  start = x->car;
+  assert_number("string_copy_x: start", start);
+  x = x->cdr;
+
+  assert_msg (x->type == TPAIR, "x->type == TPAIR");
+  source = x->car;
+  assert_msg (source->type == TSTRING, "source->type == TSTRING");
+  x = x->cdr;
+
+  if (x->type != TPAIR)
+    return string_copy_x_ (str, start->value, source, 0, source->length);
+  begin = x->car;
+  assert_number("string_copy_x: begin", begin);
+  x = x->cdr;
+
+  if (x->type != TPAIR)
+    return string_copy_x_ (str, start->value, source, begin->value, source->length);
+  end = x->car;
+  assert_number("string_copy_x: end", end);
+
+  return string_copy_x_ (str, start->value, source, begin->value, end->value);
 }
