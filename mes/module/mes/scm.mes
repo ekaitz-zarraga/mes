@@ -262,9 +262,6 @@
 
 
 ;;; Strings/srfi-13
-(define (make-string n . fill)
-  (list->string (apply make-list n fill)))
-
 (define (substring s start . rest)
   (let* ((end (if (pair? rest) (car rest) (string-length s)))
          (res (make-string (- end start))))

@@ -182,6 +182,7 @@ struct scm *struct_set_x_ (struct scm *x, long i, struct scm *e);
 struct scm *string_set_x_ (struct scm *str, long i, char c);
 char string_ref_ (struct scm *str, long i);
 struct scm *string_copy_x_ (struct scm *str, long start, struct scm *source, long begin, long end);
+struct scm *make_string_init_ (long length, char c);
 struct scm *vector_ref_ (struct scm *x, long i);
 struct scm *vector_set_x_ (struct scm *x, long i, struct scm *e);
 struct scm *vector_copy_x_ (struct scm *vec, long start, struct scm *source, long begin, long end);
