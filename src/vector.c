@@ -138,8 +138,8 @@ vector_to_list (struct scm *v)
 struct scm *
 vector_fill_x_ (struct scm *vec, struct scm *fill, long start, long end)
 {
+  assert_msg (start <= end, "start < end");
   assert_msg (vec->length >= end, "vec->length >= end");
-  struct scm *v = vec->vector;
   long i;
   for (i = start; i < end; i = i + 1)
     vector_set_x_ (vec, i, fill);
