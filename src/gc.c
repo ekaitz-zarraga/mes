@@ -62,7 +62,6 @@ gc_init ()
   JAM_SIZE = 10;
   MAX_ARENA_SIZE = 10000000;
   GC_SAFETY = 2000;
-  MAX_STRING = 524288;
 
   char *p;
   p = getenv ("MES_MAX_ARENA");
@@ -82,9 +81,6 @@ gc_init ()
   p = getenv ("MES_STACK");
   if (p != 0)
     STACK_SIZE = atoi (p);
-  p = getenv ("MES_MAX_STRING");
-  if (p != 0)
-    MAX_STRING = atoi (p);
 
   long arena_bytes = (ARENA_SIZE + JAM_SIZE) * sizeof (struct scm);
   long alloc_bytes = arena_bytes + (STACK_SIZE * sizeof (struct scm));
@@ -108,9 +104,6 @@ gc_init ()
   cell_zero->value = 'c';
 
   g_free = g_cells + M2_CELL_SIZE;
-
-  /* FIXME: remove MES_MAX_STRING, grow dynamically. */
-  g_buf = malloc (MAX_STRING);
 }
 
 long
@@ -282,8 +275,6 @@ make_ref (struct scm *x)                /*:((internal)) */
 struct scm *
 make_string (char const *s, size_t length)
 {
-  if (length > MAX_STRING)
-    assert_max_string (length, "make_string", s);
   struct scm *x = make_pointer_cell (TSTRING, length, 0);
   struct scm *v = make_bytes (length + 1);
   char *p = cell_bytes (v);

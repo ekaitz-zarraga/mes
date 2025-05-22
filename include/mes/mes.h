@@ -69,7 +69,6 @@ struct scm
 /* mes */
 extern char *g_datadir;
 extern int g_debug;
-extern char *g_buf;
 extern int g_continuations;
 extern struct scm *g_symbols;
 extern struct scm *g_symbol_max;
@@ -97,7 +96,6 @@ extern size_t MAX_ARENA_SIZE;
 extern size_t STACK_SIZE;
 extern size_t JAM_SIZE;
 extern size_t GC_SAFETY;
-extern size_t MAX_STRING;
 extern char *g_arena;
 extern struct scm *cell_arena;
 extern struct scm *cell_zero;
@@ -180,6 +178,7 @@ struct scm *set_x (struct scm *x, struct scm *e, int define_p);
 struct scm *struct_ref_ (struct scm *x, long i);
 struct scm *struct_set_x_ (struct scm *x, long i, struct scm *e);
 struct scm *string_set_x_ (struct scm *str, long i, char c);
+struct scm *string_resize (struct scm *x, size_t size);
 char string_ref_ (struct scm *str, long i);
 struct scm *string_copy_x_ (struct scm *str, long start, struct scm *source, long begin, long end);
 struct scm *make_string_init_ (long length, char c);

@@ -74,6 +74,7 @@ reader_read_identifier_or_number (int c)
   int i = 0;
   long n = 0;
   int negative_p = 0;
+  struct scm *res = make_string_init_ (256, '\0');
   if (c == '+')
     if (isdigit (peekchar ()) != 0)
       c = readchar ();
@@ -85,7 +86,8 @@ reader_read_identifier_or_number (int c)
       }
   while (isdigit (c) != 0)
     {
-      g_buf[i] = c;
+      // TODO: out of bounds check and resize?
+      string_set_x_ (res, i, c);
       i = i + 1;
       n = n * 10;
       n = n + c - '0';
@@ -101,13 +103,14 @@ reader_read_identifier_or_number (int c)
   /* Fallthrough: Note that `4a', `+1b' are identifiers */
   while (reader_end_of_word_p (c) == 0)
     {
-      g_buf[i] = c;
+      // TODO: out of bounds check and resize?
+      string_set_x_ (res, i, c);
       i = i + 1;
       c = readchar ();
     }
   unreadchar (c);
-  g_buf[i] = 0;
-  return cstring_to_symbol (g_buf);
+  res = string_resize (res, i);
+  return string_to_symbol (res);
 }
 
 struct scm *
@@ -444,13 +447,14 @@ reader_read_hex ()
 struct scm *
 reader_read_string ()
 {
+  struct scm *res = make_string_init_ (512, '\0');
   size_t i = 0;
   int c;
   struct scm *n;
   do
     {
-      if (i > MAX_STRING)
-        assert_max_string (i, "reader_read_string", g_buf);
+      if (i >= res->length)
+        res = string_resize (res, res->length * 2);
 next:
       c = readchar ();
       if (c == '"')
@@ -505,10 +509,9 @@ next:
                 break;
             }
         }
-      g_buf[i] = c;
+      string_set_x_ (res, i, c);
       i = i + 1;
     }
   while (1);
-  g_buf[i] = 0;
-  return make_string (g_buf, i);
+  return string_resize (res, i);
 }

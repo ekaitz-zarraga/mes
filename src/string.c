@@ -25,43 +25,6 @@
 #include <limits.h>
 #include <string.h>
 
-void
-assert_max_string (size_t i, char const *msg, char const *string)
-{
-  if (i > MAX_STRING)
-    {
-      eputs (msg);
-      eputs (":string too long[");
-      eputs (itoa (i));
-      eputs ("]:");
-      char *p = cast_voidp_to_charp (string);
-      p[MAX_STRING - 1] = 0;
-      eputs (p);
-      error (cell_symbol_system_error, cell_f);
-    }
-}
-
-char const *
-list_to_cstring (struct scm *list, size_t *size)
-{
-  size_t i = 0;
-  char *p = g_buf;
-  struct scm *x;
-  while (list != cell_nil)
-    {
-      if (i > MAX_STRING)
-        assert_max_string (i, "list_to_string", g_buf);
-      x = car (list);
-      g_buf[i] = x->value;
-      i = i + 1;
-      list = cdr (list);
-    }
-  g_buf[i] = 0;
-  size[0] = i;
-
-  return g_buf;
-}
-
 struct scm *
 string_equal_p (struct scm *a, struct scm *b)   /*:((name . "string=?")) */
 {
@@ -165,15 +128,25 @@ string_to_list (struct scm *string)
 struct scm *
 list_to_string (struct scm *list)
 {
-  size_t size;
-  char const *s = list_to_cstring (list, &size);
-  return make_string (s, size);
+  struct scm *res;
+  struct scm *x;
+  res = make_string_init_ (length__ (list), '\0');
+  size_t i = 0;
+  while (list != cell_nil)
+    {
+      x = car (list);
+      string_set_x_ (res, i, x->value);
+      i = i + 1;
+      list = cdr (list);
+    }
+  return res;
 }
 
 struct scm *
 read_string (struct scm *port)          /*:((arity . n)) */
 {
   int fd = __stdin;
+  struct scm *res = make_string_init_ (512, '\0');
   if (port->type == TPAIR)
     {
       struct scm *p = car (port);
@@ -184,36 +157,56 @@ read_string (struct scm *port)          /*:((arity . n)) */
   size_t i = 0;
   while (c != -1)
     {
-      if (i > MAX_STRING)
-        assert_max_string (i, "read_string", g_buf);
-      g_buf[i] = c;
+      if (i >= res->length)
+        res = string_resize (res, res->length * 2);
+
+      string_set_x_ (res, i, c);
       i = i + 1;
       c = readchar ();
     }
-  g_buf[i] = 0;
   __stdin = fd;
-  return make_string (g_buf, i);
+  return string_resize (res, i);
 }
 
 struct scm *
-string_append (struct scm *x)           /*:((arity . n)) */
+string_resize (struct scm *x, size_t size)
 {
-  char *p = g_buf;
-  g_buf[0] = 0;
+  // TODO: Optimization: make the string uninitialized?
+  struct scm *y = make_string_init_ (size, '\0');
+  size_t l;
+  if (x->length > size)
+    l = size;
+  else
+    l = x->length;
+  string_copy_x_ (y, 0, x, 0, l);
+  return y;
+}
+
+struct scm *
+string_append (struct scm *args)           /*:((arity . n)) */
+{
   size_t size = 0;
   struct scm *string;
+  struct scm *res;
+  struct scm *x = args;
+  while (x != cell_nil)
+    {
+      assert_msg (string->type == TSTRING, "string->type == TSTRING");
+      string = x->car;
+      size = size + string->length;
+      x = x->cdr;
+    }
+  res = make_string_init_ (size, '\0');
+  size = 0;
+  x = args;
   while (x != cell_nil)
     {
       string = x->car;
-      assert_msg (string->type == TSTRING, "string->type == TSTRING");
-      memcpy (p, cell_bytes (string->string), string->length + 1);
-      p = p + string->length;
+      string_copy_x_ (res, size, string, 0, string->length);
       size = size + string->length;
-      if (size > MAX_STRING)
-        assert_max_string (size, "string_append", g_buf);
       x = x->cdr;
     }
-  return make_string (g_buf, size);
+  return res;
 }
 
 struct scm *
@@ -269,6 +262,7 @@ string_copy_x_ (struct scm *str, long start, struct scm *source, long begin,
               "str->length - start >= end - begin");
   long i;
   for (i = begin; i < end; i = i + 1)
+    /* TODO: Optimization: Maybe copy the bytes with memcpy? Is that faster? */
     string_set_x_ (str, i - begin + start, string_ref_ (source, i));
   return cell_undefined;
 }
@@ -314,7 +308,6 @@ string_copy_x (struct scm *x)               /*:((arity . n)) */
 struct scm *
 make_string_init_ (long length, char c)
 {
-  assert_msg (length < MAX_STRING, "length < MAX_STRING");
   struct scm *x = make_pointer_cell (TSTRING, length, 0);
   struct scm *v = make_bytes (length + 1);
   char *p = cell_bytes (v);
